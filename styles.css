@@ -263,7 +263,7 @@ footer a {
 body.hobbit-mode {
   background-color: #0f2d1c;
   color: #c9a26c;
-  cursor: url('assets/hobbit-cursor.png') 16 16, auto;
+  cursor: url('assets/hobbit-cursor.png') 8 8, auto;
 }
 
 body.hobbit-mode .navbar {
