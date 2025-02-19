@@ -34,7 +34,7 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
   background-color: transparent;
   color: #fff; /* White text so it’s visible over video */
 }
@@ -55,17 +55,24 @@ a {
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.2rem;
 }
 
 /* TOGGLE SWITCH FOR HOBBIT MODE */
 /* Custom Theme Switch (Modern Toggle) */
 .theme-switch {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   cursor: pointer;
-  width: 50px;
-  height: 26px;
   position: relative;
+  margin: 0.5rem;
+}
+
+.toggle-label {
+  font-size: 0.8rem;
+  font-family: 'Uncial Antiqua', cursive;
+  color: inherit; /* Inherit color so it adapts to your mode */
 }
 
 /* Hide the actual checkbox */
@@ -78,12 +85,15 @@ a {
 
 /* The track */
 .switch-wrapper {
-  position: absolute;
+  position: relative;
+  width: 50px;
+  height: 24px;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: #fafafa;
+  border: solid 1px #e5e5e5;
   border-radius: 20px;
   transition: background-color 0.3s ease;
 }
@@ -91,19 +101,22 @@ a {
 /* The knob */
 .switch-handle {
   position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 20px;
-  height: 20px;
-  background-color: #fff;
+  top: -2px;
+  left: -2px;
+  width: 28px;
+  height: 28px;
+  /* background-color: #fff; */
+  background: url('assets/hobbit-hole.png') no-repeat center center;
+  background-size: cover;
   border-radius: 50%;
   transition: transform 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); */
 }
+
 
 /* When the checkbox is checked, change track color */
 .theme-switch input:checked + .switch-wrapper {
-  background-color: #66bb6a;
+  background-color: #136436;
 }
 
 /* Slide the knob to the right when checked */
@@ -111,45 +124,13 @@ a {
   transform: translateX(24px);
 }
 
-/* Optional: add icons using pseudo-elements */
-/* Uncomment and adjust if you want icons */
-/*
-.switch-wrapper::before,
-.switch-wrapper::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: "Font Awesome 5 Free"; 
-  font-weight: 900;
-  color: #fff;
-  font-size: 14px;
-}
-.switch-wrapper::before {
-  content: '\\f185'; // e.g., sun icon (check Font Awesome code)
-  left: 8px;
-}
-.switch-wrapper::after {
-  content: '\\f186'; // e.g., moon icon
-  right: 8px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.theme-switch input:checked + .switch-wrapper::before {
-  opacity: 0;
-}
-.theme-switch input:checked + .switch-wrapper::after {
-  opacity: 1;
-}
-*/
-
 
 /* ICON BUTTON */
 .icon-btn {
   background: none;
   border: none;
   color: #fff;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   cursor: pointer;
 }
 
@@ -329,5 +310,8 @@ body.hobbit-mode footer {
   }
   .hero-content h1 {
     font-size: 1.6rem;
+  }
+  .toggle-label {
+    display: none;
   }
 }
