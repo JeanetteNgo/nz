@@ -19,35 +19,15 @@ const normalAudio = document.getElementById("normalAudio");
 const hobbitAudio = document.getElementById("hobbitAudio");
 const nzTimeDisplay = document.getElementById("nzTime");
 
-// Track which mode is active
+// Track which mode is active and whether the user has enabled audio
 let isHobbitMode = false;
+let audioShouldPlay = false;
 
-// Toggle between Normal and Hobbit Mode
-hobbitToggle.addEventListener("change", () => {
-  isHobbitMode = hobbitToggle.checked;
-  document.body.classList.toggle("hobbit-mode", isHobbitMode);
-
-  // If the audio is already unmuted (user clicked unmute), switch playback accordingly
-  if (!normalAudio.muted && !hobbitAudio.muted) {
-    if (isHobbitMode) {
-      // Switch to Hobbit audio
-      normalAudio.pause();
-      normalAudio.currentTime = 0;
-      hobbitAudio.play().catch(() => {});
-    } else {
-      // Switch to Normal audio
-      hobbitAudio.pause();
-      hobbitAudio.currentTime = 0;
-      normalAudio.play().catch(() => {});
-    }
-  }
-});
-
-// Mute / Unmute Behavior (audio starts on unmute click)
+// Mute/Unmute Behavior with user-gesture flag
 muteToggle.addEventListener("click", () => {
-  // Check if audio is currently muted
+  // If both audio tracks are muted, unmute and start playing
   if (normalAudio.muted && hobbitAudio.muted) {
-    // Unmute both and play the active mode's audio
+    audioShouldPlay = true; // User wants audio to play
     normalAudio.muted = false;
     hobbitAudio.muted = false;
     if (isHobbitMode) {
@@ -62,7 +42,8 @@ muteToggle.addEventListener("click", () => {
     muteIcon.classList.remove("fa-volume-mute");
     muteIcon.classList.add("fa-volume-up");
   } else {
-    // Mute and pause both audio tracks
+    // Otherwise, mute and pause both audio tracks
+    audioShouldPlay = false;
     normalAudio.muted = true;
     hobbitAudio.muted = true;
     normalAudio.pause();
@@ -72,7 +53,40 @@ muteToggle.addEventListener("click", () => {
   }
 });
 
-// Update New Zealand Time in real time
+// Toggle between Normal and Hobbit Mode
+hobbitToggle.addEventListener("change", () => {
+  isHobbitMode = hobbitToggle.checked;
+  document.body.classList.toggle("hobbit-mode", isHobbitMode);
+  // If audio is playing, switch audio tracks accordingly
+  if (audioShouldPlay) {
+    if (isHobbitMode) {
+      normalAudio.pause();
+      normalAudio.currentTime = 0;
+      hobbitAudio.play().catch(() => {});
+    } else {
+      hobbitAudio.pause();
+      hobbitAudio.currentTime = 0;
+      normalAudio.play().catch(() => {});
+    }
+  }
+});
+
+// Use the Page Visibility API to pause audio when the page is hidden
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    // Pause audio on leaving the site and reset the flag so user must click unmute upon return
+    normalAudio.pause();
+    hobbitAudio.pause();
+    audioShouldPlay = false;
+    // Also update UI: set both audio elements to muted
+    normalAudio.muted = true;
+    hobbitAudio.muted = true;
+    muteIcon.classList.remove("fa-volume-up");
+    muteIcon.classList.add("fa-volume-mute");
+  }
+});
+
+// Update NZ Time every second
 function updateNZTime() {
   const now = new Date().toLocaleTimeString("en-NZ", {
     timeZone: "Pacific/Auckland",
