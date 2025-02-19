@@ -1,0 +1,332 @@
+/* RESET / BASE STYLES */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* FONTS:
+   - Body: Kanit
+   - Headings: Uncial Antiqua
+*/
+body {
+  font-family: 'Kanit', sans-serif;
+  background-color: #fafafa;
+  color: #4F4343;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Uncial Antiqua', cursive;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* NAVBAR (STICKY, TRANSPARENT OVER VIDEO) */
+.navbar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: transparent;
+  color: #fff; /* White text so it’s visible over video */
+}
+
+/* On scroll: apply a background */
+.navbar.scrolled {
+  background-color: rgba(85, 85, 85, 0.8); /* Light background for normal mode */
+  transition: background-color 0.3s ease;
+}
+
+/* NZ Time Display */
+#nzTime {
+  font-family: 'Uncial Antiqua', cursive;
+  font-size: 14px;
+}
+
+/* Right side icons & toggles */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* TOGGLE SWITCH FOR HOBBIT MODE */
+/* Custom Theme Switch (Modern Toggle) */
+.theme-switch {
+  display: inline-block;
+  cursor: pointer;
+  width: 50px;
+  height: 26px;
+  position: relative;
+}
+
+/* Hide the actual checkbox */
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+/* The track */
+.switch-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 20px;
+  transition: background-color 0.3s ease;
+}
+
+/* The knob */
+.switch-handle {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* When the checkbox is checked, change track color */
+.theme-switch input:checked + .switch-wrapper {
+  background-color: #66bb6a;
+}
+
+/* Slide the knob to the right when checked */
+.theme-switch input:checked + .switch-wrapper .switch-handle {
+  transform: translateX(24px);
+}
+
+/* Optional: add icons using pseudo-elements */
+/* Uncomment and adjust if you want icons */
+/*
+.switch-wrapper::before,
+.switch-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: "Font Awesome 5 Free"; 
+  font-weight: 900;
+  color: #fff;
+  font-size: 14px;
+}
+.switch-wrapper::before {
+  content: '\\f185'; // e.g., sun icon (check Font Awesome code)
+  left: 8px;
+}
+.switch-wrapper::after {
+  content: '\\f186'; // e.g., moon icon
+  right: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.theme-switch input:checked + .switch-wrapper::before {
+  opacity: 0;
+}
+.theme-switch input:checked + .switch-wrapper::after {
+  opacity: 1;
+}
+*/
+
+
+/* ICON BUTTON */
+.icon-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* HERO SECTION */
+.hero {
+  margin-top: 0;
+  padding-top: 0;
+  /* position: relative; */
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden;
+}
+
+.hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-image {
+  display: none; /* Hidden on desktop/tablet by default */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0; left: 0;
+}
+
+/* HERO CONTENT (overlay text) */
+.hero-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+.hero-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.date-range {
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* MAIN CONTENT */
+main {
+  width: 96%;
+  max-width: 1000px;
+  margin: 2rem auto;
+}
+
+/* SECTION TITLES */
+.featured-section h2,
+.island-section h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+}
+
+.featured-section,
+.island-section {
+  margin: 5rem 2rem ;
+}
+
+/* CARD GRID */
+.card-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  margin-bottom: 2rem;
+  justify-items: center;
+}
+
+/* CARD */
+.card {
+  background-color: #ffffff;
+  border: solid 1px #4f434320;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none; /* So the link text doesn't get underlined */
+}
+
+.card img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  display: block;
+}
+
+.card p {
+  padding: 0.5rem;
+  font-weight: 400;
+}
+
+.card:hover {
+  transform: translateY(-3px) scale(1.05);
+  transition: transform 0.5s ease;
+  box-shadow: 0 4px 20px #4f434340;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  margin-top: 2rem;
+}
+
+footer a {
+  text-decoration: underline;
+}
+
+/*------------------------------------*/
+/* HOBBIT MODE (body.hobbit-mode)     */
+/*------------------------------------*/
+body.hobbit-mode {
+  background-color: #0f2d1c;
+  color: #c9a26c;
+}
+
+body.hobbit-mode .navbar {
+  background-color: rgba(15, 45, 28, 0.1);
+}
+
+.hobbit-mode .navbar.scrolled {
+  background-color: rgba(15, 45, 28, 0.9); /* Darker, themed background for hobbit mode */
+  transition: background-color 0.3s ease;
+}
+
+body.hobbit-mode .hero-content {
+  color: #c9a26c;
+  text-shadow: none;
+}
+
+body.hobbit-mode .card {
+  background-color: #222;
+  color: #c9a26c;
+  border: 1px solid #c9a26c;
+}
+
+body.hobbit-mode footer {
+  background-color: #0f2d1c;
+}
+
+/*------------------------------------*/
+/* RESPONSIVE QUERIES                 */
+/*------------------------------------*/
+/* For tablets and below */
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+}
+
+/* For mobile (example: max-width: 480px) */
+@media (max-width: 480px) {
+  /* Hide the video, show the fallback image */
+  .hero-video {
+    display: none;
+  }
+  .hero-image {
+    display: block;
+  }
+  .hero-content h1 {
+    font-size: 1.6rem;
+  }
+}

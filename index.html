@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>J's Adventure in Aotearoa</title>
+  
+  <!-- Google Fonts: Kanit for body, Uncial Antiqua for headings -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&family=Uncial+Antiqua&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Font Awesome (for mute/unmute icons) -->
+  <script
+    src="https://kit.fontawesome.com/4bab21cbed.js"
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- NAVBAR (sticky, transparent) -->
+  <header>
+    <nav class="navbar">
+      <!-- Left: Real-time NZ time -->
+      <div class="nav-left">
+        <span id="nzTime">NZDT 00:00:00</span>
+      </div>
+
+
+      <!-- Right: Mode toggle & Mute button -->
+      <div class="nav-right">
+        <!-- Toggle Switch for Hobbit Mode -->
+
+        <label class="theme-switch" for="hobbitToggle">
+          <input type="checkbox" id="hobbitToggle" />
+          <div class="switch-wrapper">
+            <div class="switch-handle"></div>
+          </div>
+        </label>
+        <!-- Mute/Unmute Button with Font Awesome Icon -->
+        <button id="muteToggle" class="icon-btn">
+          <i id="muteIcon" class="fas fa-volume-mute"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO SECTION (video for desktop/tablet, image for mobile) -->
+  <section class="hero">
+    <video 
+      class="hero-video" 
+      autoplay 
+      loop 
+      muted 
+      playsinline 
+      poster="fallback.jpg"
+      id="heroVideo"
+    >
+      <source src="assets/Kaikoura Highlights.mp4" type="video/mp4" />
+      <!-- Add more <source> for different formats if needed -->
+      Your browser does not support the video tag.
+    </video>
+    <img 
+      src="assets/west-coast-thumbnail.png" 
+      alt="Hero Fallback" 
+      class="hero-image"
+    />
+
+    <!-- Hero text overlay -->
+    <div class="hero-content">
+      <h1>J's Adventure<br>in Aotearoa</h1>
+      <p class="date-range">Mar 2024 - 2025</p>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <!-- Featured Section -->
+    <section class="featured-section">
+      <h2>Featured</h2>
+      <div class="card-grid">
+        <a href="activities.html" class="card">
+          <img src="assets/activities-thumbnail.png" alt="Activities" />
+          <p>Activities</p>
+        </a>
+        <a href="hikes.html" class="card">
+          <img src="assets/whanganui-thumbnail.png" alt="Hikes" />
+          <p>Hikes</p>
+        </a>
+        <a href="food.html" class="card">
+          <img src="assets/food-thumbnail.png" alt="Food" />
+          <p>Food</p>
+        </a>
+        <a href="work.html" class="card">
+          <img src="Work.jpg" alt="Work" />
+          <p>Work</p>
+        </a>
+        <a href="guide.html" class="card">
+          <img src="Guide.jpg" alt="Guide" />
+          <p>Work Holiday Guide</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- South Island Section -->
+    <section class="island-section">
+      <h2>South Island</h2>
+      <div class="card-grid">
+        <a href="canterbury.html" class="card">
+          <img src="assets/canterbury-thumbnail.png" alt="Canterbury" />
+          <p>Canterbury</p>
+        </a>
+        <a href="tasman.html" class="card">
+          <img src="assets/tasman-thumbnail.png" alt="Tasman" />
+          <p>Tasman</p>
+        </a>
+        <a href="mackenzie.html" class="card">
+          <img src="assets/mackenzie-thumbnail.png" alt="Mackenzie Country" />
+          <p>Mackenzie</p>
+        </a>
+        <a href="otago.html" class="card">
+          <img src="assets/otago-thumbnail.png" alt="Otago" />
+          <p>Otago</p>
+        </a>
+        <a href="catlins.html" class="card">
+          <img src="assets/catlins-thumbnail.png" alt="The Catlins" />
+          <p>The Catlins</p>
+        </a>
+        <a href="westcoast.html" class="card">
+          <img src="assets/west-coast-thumbnail.png" alt="West Coast" />
+          <p>West Coast</p>
+        </a>
+        <a href="southland.html" class="card">
+          <img src="assets/southland-thumbnail.png" alt="Southland" />
+          <p>Southland</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- North Island Section -->
+    <section class="island-section">
+      <h2>North Island</h2>
+      <div class="card-grid">
+        <a href="northland.html" class="card">
+          <img src="assets/northland-thumbnail.png" alt="Northland" />
+          <p>Northland</p>
+        </a>
+        <a href="auckland.html" class="card">
+          <img src="assets/auckland-thumbnail.png" alt="Auckland" />
+          <p>Auckland</p>
+        </a>
+        <a href="coromandel.html" class="card">
+          <img src="assets/coromandel-thumbnail.png" alt="Coromandel" />
+          <p>Coromandel</p>
+        </a>
+        <a href="bop.html" class="card">
+          <img src="assets/bop-thumbnail.png" alt="Bay of Plenty" />
+          <p>Bay of Plenty</p>
+        </a>
+        <a href="waikato.html" class="card">
+          <img src="assets/waikato-thumbnail.png" alt="Waikato" />
+          <p>Waikato</p>
+        </a>
+        <a href="whanganui.html" class="card">
+          <img src="assets/whanganui-thumbnail.png" alt="Manawatu-Whanganui" />
+          <p>Whanganui</p>
+        </a>
+        <a href="wellington.html" class="card">
+          <img src="assets/wellington-thumbnail.png" alt="Wellington" />
+          <p>Wellington</p>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© Jeanette Ngo, 2025.</p>
+    <!-- <p><a href="#">See full details here</a></p> -->
+  </footer>
+
+  <!-- AUDIO ELEMENTS FOR NORMAL / HOBBIT MODE (muted by default)-->
+  <!-- Normal Mode Audio -->
+  <audio id="normalAudio" loop muted>
+    <source src="assets/late-summer-vibes.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Hobbit Mode Audio -->
+  <audio id="hobbitAudio" loop muted>
+    <source src="assets/fairy-tale.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+
+  <!-- SCRIPT -->
+  <script src="script.js"></script>
+</body>
+</html>
