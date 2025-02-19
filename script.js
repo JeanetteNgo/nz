@@ -4,7 +4,7 @@ const navbar = document.querySelector('.navbar');
 // Listen for the scroll event
 window.addEventListener('scroll', () => {
   // Check if the scroll position is greater than 0 (or your desired threshold)
-  if (window.scrollY > 80) {
+  if (window.scrollY > 50) {
     navbar.classList.add('scrolled');
   } else {
     navbar.classList.remove('scrolled');

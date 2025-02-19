@@ -41,7 +41,7 @@ a {
 
 /* On scroll: apply a background */
 .navbar.scrolled {
-  background-color: rgba(85, 85, 85, 0.8); /* Light background for normal mode */
+  background-color: rgba(65, 65, 65, 0.9); /* Light background for normal mode */
   transition: background-color 0.3s ease;
 }
 
@@ -206,7 +206,7 @@ main {
 /* CARD GRID */
 .card-grid {
   display: grid;
-  gap: 1rem;
+  gap: 1.2rem;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   margin-bottom: 2rem;
   justify-items: center;
@@ -217,7 +217,7 @@ main {
   background-color: #ffffff;
   border: solid 1px #4f434320;
   width: 100%;
-  min-width: 180px;
+  min-width: 160px;
   max-width: 400px;
   border-radius: 8px;
   overflow: hidden;
@@ -266,7 +266,7 @@ body.hobbit-mode {
 }
 
 body.hobbit-mode .navbar {
-  background-color: rgba(15, 45, 28, 0.1);
+  background-color: rgba(15, 45, 28, 0);
 }
 
 .hobbit-mode .navbar.scrolled {
