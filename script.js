@@ -18,6 +18,9 @@ const muteIcon = document.getElementById("muteIcon");
 const normalAudio = document.getElementById("normalAudio");
 const hobbitAudio = document.getElementById("hobbitAudio");
 const nzTimeDisplay = document.getElementById("nzTime");
+const heroVideo = document.getElementById("heroVideo");
+const heroPlayPauseButton = document.getElementById("heroPlayPause");
+const heroPlayPauseIcon = document.getElementById("heroPlayPauseIcon");
 
 // Track which mode is active and whether the user has enabled audio
 let isHobbitMode = false;
@@ -57,7 +60,8 @@ muteToggle.addEventListener("click", () => {
 hobbitToggle.addEventListener("change", () => {
   isHobbitMode = hobbitToggle.checked;
   document.body.classList.toggle("hobbit-mode", isHobbitMode);
-  // If audio is playing, switch audio tracks accordingly
+
+  // Switch audio tracks if audio is playing
   if (audioShouldPlay) {
     if (isHobbitMode) {
       normalAudio.pause();
@@ -69,7 +73,35 @@ hobbitToggle.addEventListener("change", () => {
       normalAudio.play().catch(() => {});
     }
   }
+
+  // Switch hero video source depending on mode
+  heroVideo.pause();
+  heroVideo.src = isHobbitMode
+    ? "assets/hobbit-mode-video.mp4"
+    : "assets/normal-mode-video.mp4";
+  heroVideo.load();
+  heroVideo.play().catch(() => {});
+
+  // Reset play/pause button to "pause" state
+  heroPlayPauseIcon.classList.remove("fa-play");
+  heroPlayPauseIcon.classList.add("fa-pause");
 });
+
+
+// Play/Pause button event listener
+heroPlayPauseButton.addEventListener("click", () => {
+  if (heroVideo.paused) {
+    heroVideo.play().then(() => {
+      heroPlayPauseIcon.classList.remove("fa-play");
+      heroPlayPauseIcon.classList.add("fa-pause");
+    }).catch(() => {});
+  } else {
+    heroVideo.pause();
+    heroPlayPauseIcon.classList.remove("fa-pause");
+    heroPlayPauseIcon.classList.add("fa-play");
+  }
+});
+
 
 // Use the Page Visibility API to pause audio when the page is hidden
 document.addEventListener("visibilitychange", () => {
