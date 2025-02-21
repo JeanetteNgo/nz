@@ -277,17 +277,17 @@ body.hobbit-mode {
 }
 
 /* Parchment/stone texture overlay */
-body.hobbit-mode .hero::before {
+body.hobbit-mode::before {
   content: "";
-  position: absolute;
+  position: fixed;  /* Fixed so it covers the viewport even if scrolling */
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  /* background: url('assets/parchment.jpg') repeat; */
-  opacity: 0.2;
-  z-index: 1;
-  pointer-events: none;
+  width: 100vw;
+  height: 100vh;
+  background: url('assets/textured-background.jpg') repeat;
+  opacity: 0.15; /* Adjust opacity as needed */
+  pointer-events: none; /* Ensure it doesn't interfere with interactions */
+  z-index: -1; /* Place it behind your content */
 }
 
 /* Vignette/darkening effect */
@@ -317,15 +317,16 @@ body.hobbit-mode h6 {
     to bottom,
     #ffeca9 15%,
     #f5d49c 25%,
-    #d37e23 60%,
+    #c6751d 60%,
     #e4a022 70%,
     #FCD445 90%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  /* -webkit-text-stroke: 0.05px #f6ce95; */
   
   text-shadow:
-  0 0px 2px rgba(255, 236, 128, 0.4),
+  0 0px 1px rgba(255, 240, 153, 0.5),
   0 0 12px rgba(219, 134, 16, 0.2),
   0 0 32px rgba(50, 30, 4, 0.15);
 }
@@ -345,7 +346,7 @@ body.hobbit-mode .card {
 }
 
 body.hobbit-mode footer {
-  background-color: #0f2d1c;
+  border-top: solid 1px #e6a44820;
 }
 
 /*------------------------------------*/
