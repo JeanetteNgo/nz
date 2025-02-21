@@ -326,9 +326,9 @@ body.hobbit-mode h6 {
   /* -webkit-text-stroke: 0.05px #f6ce95; */
   
   text-shadow:
-  0 0px 1px rgba(255, 240, 153, 0.5),
-  0 0 12px rgba(219, 134, 16, 0.2),
-  0 0 32px rgba(50, 30, 4, 0.15);
+  0 0px 1px rgba(255, 240, 153, 0.6),
+  0 0 12px rgba(219, 134, 16, 0.5),
+  0 0 20px rgba(50, 30, 4, 0.4);
 }
 
 body.hobbit-mode .navbar {
