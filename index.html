@@ -6,10 +6,8 @@
   <title>J's Adventure in Aotearoa</title>
   
   <!-- Google Fonts: Kanit for body, Uncial Antiqua for headings -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&family=Uncial+Antiqua&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&family=Uncial+Antiqua&display=swap" rel="stylesheet">
+
 
   <!-- Font Awesome (for mute/unmute icons) -->
   <script
@@ -71,15 +69,21 @@
       class="hero-image"
     />
 
+    <div class="video-overlay"></div>
+
     <!-- Hero text overlay -->
     <div class="hero-content">
-      <h1>Jeanette's Adventure<br>in Aotearoa</h1>
+      <h1>Jeanette's Adventure</h1>
+      <h2>in Aotearoa</h2>
       <p class="date-range">Mar 2024 - 2025</p>
-      
-      <!-- Play/Pause Button -->
-      <button id="heroPlayPause" class="hero-play-pause">
-        <i id="heroPlayPauseIcon" class="fas fa-pause"></i>
-      </button>
+    </div>
+
+      <!-- Ambient Animation Container (only visible in Hobbit Mode) -->
+    <div class="ambient-animation">
+      <!-- Example drifting particles -->
+      <div class="particle" style="top: 10%; left: 20%; animation-duration: 12s;"></div>
+      <div class="particle" style="top: 50%; left: 70%; animation-duration: 15s;"></div>
+      <div class="particle" style="top: 30%; left: 40%; animation-duration: 18s;"></div>
     </div>
   </section>
 

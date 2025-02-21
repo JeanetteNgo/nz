@@ -5,10 +5,7 @@
   box-sizing: border-box;
 }
 
-/* FONTS:
-   - Body: Kanit
-   - Headings: Uncial Antiqua
-*/
+
 body {
   font-family: 'Kanit', sans-serif;
   background-color: #fafafa;
@@ -16,6 +13,7 @@ body {
   line-height: 1.5;
 }
 
+/* Use Uncial Antiqua for all headers regardless of mode */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Uncial Antiqua', cursive;
 }
@@ -36,12 +34,12 @@ a {
   align-items: center;
   padding: 1rem 1.5rem;
   background-color: transparent;
-  color: #fff; /* White text so it’s visible over video */
+  color: #fff; 
 }
 
 /* On scroll: apply a background */
 .navbar.scrolled {
-  background-color: rgba(65, 65, 65, 0.9); /* Light background for normal mode */
+  background-color: rgba(65, 65, 65, 0.9); 
   transition: background-color 0.3s ease;
 }
 
@@ -59,7 +57,6 @@ a {
 }
 
 /* TOGGLE SWITCH FOR HOBBIT MODE */
-/* Custom Theme Switch (Modern Toggle) */
 .theme-switch {
   display: inline-flex;
   align-items: center;
@@ -110,7 +107,6 @@ a {
   background-size: cover;
   border-radius: 50%;
   transition: transform 0.3s ease;
-  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); */
 }
 
 
@@ -138,19 +134,27 @@ a {
 .hero {
   margin-top: 0;
   padding-top: 0;
-  /* position: relative; */
+  position: relative;
   width: 100%;
   height: 100vh; /* Full viewport height */
   overflow: hidden;
 }
 
-.hero-video {
+/* The video and any overlay take full space */
+.hero-video,
+.video-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* Video overlay (if you want an additional uniform tint in all modes) */
+.video-overlay {
+  background: rgba(0, 0, 0, 0.1);
+  pointer-events: none;
 }
 
 .hero-image {
@@ -164,41 +168,28 @@ a {
 
 /* HERO CONTENT (overlay text) */
 .hero-content {
-  position: absolute;
+  position: relative;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 3; 
   text-align: center;
+  padding: 2rem;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.3);
   color: #fff;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
 }
 
 .hero-content h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 2.4rem;
+}
+.hero-content h2 {
+  font-size: 2rem;
 }
 
 .date-range {
   font-style: italic;
   font-weight: 500;
-}
-
-.hero-play-pause {
-  width: 48px;
-  height: 48px;
-  background: rgba(255, 255, 255, 0.1);
-  border: solid 2px #ffffff80;
-  color: #ffffffd0;
-  font-size: 1rem;
-  cursor: pointer;
-  border-radius: 100px;
-  margin-top: 1.5rem;
-  text-shadow: 0 2px 20px rgba(0,0,0,0.3);
-  transition: background 0.5s ease;
-}
-
-.hero-play-pause:hover {
-  background: rgba(90, 90, 90, 0.3);
+  padding: 0.5rem;
 }
 
 
@@ -259,7 +250,7 @@ main {
 }
 
 .card:hover {
-  transform: translateY(-3px) scale(1.05);
+  transform: translateY(-5px) scale(1.02);
   transition: transform 0.5s ease;
   box-shadow: 0 4px 20px #4f434340;
 }
@@ -268,7 +259,7 @@ main {
 footer {
   text-align: center;
   padding: 1.5rem;
-  background-color: #ffffff;
+  border-top: solid 1px #4f434310;
   margin-top: 2rem;
 }
 
@@ -281,8 +272,62 @@ footer a {
 /*------------------------------------*/
 body.hobbit-mode {
   background-color: #0f2d1c;
-  color: #c9a26c;
+  color: #f4bc6e;
   cursor: url('assets/hobbit-cursor.png') 8 8, auto;
+}
+
+/* Parchment/stone texture overlay */
+body.hobbit-mode .hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background: url('assets/parchment.jpg') repeat; */
+  opacity: 0.2;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Vignette/darkening effect */
+body.hobbit-mode .hero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Adjust gradient stops as needed */
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 40%, rgba(25, 30, 25, 0.6) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+
+/* For headers in Hobbit Mode (when body has .hobbit-mode) */
+body.hobbit-mode h1,
+body.hobbit-mode h2,
+body.hobbit-mode h3,
+body.hobbit-mode h4,
+body.hobbit-mode h5,
+body.hobbit-mode h6 {
+  font-family: 'Uncial Antiqua', cursive;
+  background: linear-gradient(
+    to bottom,
+    #ffeca9 15%,
+    #f5d49c 25%,
+    #d37e23 60%,
+    #e4a022 70%,
+    #FCD445 90%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+  text-shadow:
+  0 0px 2px rgba(255, 236, 128, 0.6),
+  0 0 16px rgba(219, 134, 16, 0.25),
+  0 0 40px rgba(50, 30, 4, 0.2);
 }
 
 body.hobbit-mode .navbar {
@@ -294,15 +339,9 @@ body.hobbit-mode .navbar {
   transition: background-color 0.3s ease;
 }
 
-body.hobbit-mode .hero-content {
-  color: #c9a26c;
-  text-shadow: none;
-}
-
 body.hobbit-mode .card {
   background-color: #222;
-  color: #c9a26c;
-  border: 1px solid #c9a26c;
+  border: 1px solid #e6a448;
 }
 
 body.hobbit-mode footer {

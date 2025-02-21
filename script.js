@@ -18,9 +18,7 @@ const muteIcon = document.getElementById("muteIcon");
 const normalAudio = document.getElementById("normalAudio");
 const hobbitAudio = document.getElementById("hobbitAudio");
 const nzTimeDisplay = document.getElementById("nzTime");
-const heroVideo = document.getElementById("heroVideo");
-const heroPlayPauseButton = document.getElementById("heroPlayPause");
-const heroPlayPauseIcon = document.getElementById("heroPlayPauseIcon");
+const heroVideo = document.getElementById("heroVideo")
 
 // Track which mode is active and whether the user has enabled audio
 let isHobbitMode = false;
@@ -81,25 +79,6 @@ hobbitToggle.addEventListener("change", () => {
     : "assets/normal-mode-video.mp4";
   heroVideo.load();
   heroVideo.play().catch(() => {});
-
-  // Reset play/pause button to "pause" state
-  heroPlayPauseIcon.classList.remove("fa-play");
-  heroPlayPauseIcon.classList.add("fa-pause");
-});
-
-
-// Play/Pause button event listener
-heroPlayPauseButton.addEventListener("click", () => {
-  if (heroVideo.paused) {
-    heroVideo.play().then(() => {
-      heroPlayPauseIcon.classList.remove("fa-play");
-      heroPlayPauseIcon.classList.add("fa-pause");
-    }).catch(() => {});
-  } else {
-    heroVideo.pause();
-    heroPlayPauseIcon.classList.remove("fa-pause");
-    heroPlayPauseIcon.classList.add("fa-play");
-  }
 });
 
 
