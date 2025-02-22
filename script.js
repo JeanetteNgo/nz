@@ -154,37 +154,45 @@ function initFilterPills() {
 }
 
 /* ----------------------- Filter Pills Chevrons ----------------------- */
-function initFilterPillsChevrons() {
-  const wrapper = document.querySelector(".filter-pills-wrapper");
-  if (!wrapper) return;
-  const pillsContainer = wrapper.querySelector(".filter-pills");
-  const leftBtn = wrapper.querySelector(".left-btn.filter-chevron");
-  const rightBtn = wrapper.querySelector(".right-btn.filter-chevron");
-
-  function updateChevrons() {
-    if (pillsContainer.scrollWidth <= pillsContainer.clientWidth) {
-      leftBtn.style.display = "none";
-      rightBtn.style.display = "none";
-      return;
-    }
-    leftBtn.style.display = pillsContainer.scrollLeft > 0 ? "block" : "none";
-    rightBtn.style.display =
-      pillsContainer.scrollLeft + pillsContainer.clientWidth < pillsContainer.scrollWidth
-        ? "block"
-        : "none";
+function initFilterPills() {
+  const filterPills = document.querySelectorAll(".filter-pill");
+  const posts = document.querySelectorAll(".post");
+  if (!filterPills || filterPills.length === 0) return;
+  
+  // "All" pill active by default.
+  const allPill = document.querySelector('.filter-pill[data-location="all"]');
+  if (allPill) {
+    allPill.classList.add("active");
   }
-
-  pillsContainer.addEventListener("scroll", updateChevrons);
-  window.addEventListener("resize", updateChevrons);
-  window.addEventListener("load", updateChevrons);
-  updateChevrons();
-
-  leftBtn.addEventListener("click", () => {
-    pillsContainer.scrollBy({ left: -200, behavior: "smooth" });
+  
+  filterPills.forEach((pill) => {
+    pill.addEventListener("click", () => {
+      // Remove active class from all pills and activate the clicked one.
+      filterPills.forEach((p) => p.classList.remove("active"));
+      pill.classList.add("active");
+      filterPosts();
+    });
   });
-  rightBtn.addEventListener("click", () => {
-    pillsContainer.scrollBy({ left: 200, behavior: "smooth" });
-  });
+  
+  function filterPosts() {
+    const activePill = document.querySelector(".filter-pill.active");
+    if (!activePill) return;
+    const selectedLocation = activePill.getAttribute("data-location").trim();
+    if (selectedLocation === "all") {
+      posts.forEach((post) => (post.style.display = "block"));
+    } else {
+      posts.forEach((post) => {
+        const postLocations = post.getAttribute("data-locations")
+          .split(" ")
+          .map((loc) => loc.trim());
+        post.style.display = postLocations.includes(selectedLocation)
+          ? "block"
+          : "none";
+      });
+    }
+  }
+  // Run filter on initial load.
+  filterPosts();
 }
 
 /* ----------------------- Carousel Chevrons ----------------------- */

@@ -281,7 +281,7 @@ footer a {
 /*------------------------------------*/
 .small-hero {
   width: 100%;
-  padding: 6rem 2rem 2.5rem;
+  padding: 6rem 0rem 2.5rem;
   text-align: center;
   background-color: #1b3922;
   color: white;
@@ -292,11 +292,11 @@ footer a {
 }
 
 /* Filter Pills Container */
-/* Wrapper for filter pills and chevrons */
 .filter-pills-wrapper {
   position: relative;
   width: 100%;
-  margin: 1rem auto;
+  margin: 1rem 0;
+  padding: 0.5rem 0;
 }
 
 /* Filter Pills Container */
@@ -306,9 +306,10 @@ footer a {
   justify-content: center;
   overflow-x: auto;
   scroll-behavior: smooth;
-  padding: 0 1rem;  /* Reduced padding */
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  
+  /* Hide scrollbar for WebKit */
+  scrollbar-width: none;          /* Firefox */
 }
 .filter-pills::-webkit-scrollbar {
   display: none;
