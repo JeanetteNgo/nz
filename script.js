@@ -74,24 +74,30 @@ function initPageVisibility() {
 function initHobbitMode() {
   const hobbitToggle = document.getElementById("hobbitToggle");
   if (!hobbitToggle) return;
+  
   hobbitToggle.addEventListener("change", () => {
     const isHobbitMode = hobbitToggle.checked;
     document.body.classList.toggle("hobbit-mode", isHobbitMode);
-    // Switch audio if available and not muted
+    
+    // Switch audio only if one of the audio elements is currently playing.
     const normalAudio = document.getElementById("normalAudio");
     const hobbitAudio = document.getElementById("hobbitAudio");
-    if (normalAudio && hobbitAudio && !normalAudio.muted && !hobbitAudio.muted) {
-      if (isHobbitMode) {
-        normalAudio.pause();
-        normalAudio.currentTime = 0;
-        hobbitAudio.play().catch(() => {});
-      } else {
-        hobbitAudio.pause();
-        hobbitAudio.currentTime = 0;
-        normalAudio.play().catch(() => {});
+    if (normalAudio && hobbitAudio) {
+      // Only toggle if either audio is currently playing (not paused)
+      if (!normalAudio.paused || !hobbitAudio.paused) {
+        if (isHobbitMode) {
+          normalAudio.pause();
+          normalAudio.currentTime = 0;
+          hobbitAudio.play().catch(() => {});
+        } else {
+          hobbitAudio.pause();
+          hobbitAudio.currentTime = 0;
+          normalAudio.play().catch(() => {});
+        }
       }
     }
-    // Switch hero video if present
+    
+    // Switch hero video if present (this part remains unchanged)
     const heroVideo = document.getElementById("heroVideo");
     if (heroVideo) {
       heroVideo.pause();
