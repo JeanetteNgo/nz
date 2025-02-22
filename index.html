@@ -5,11 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>J's Adventure in Aotearoa</title>
   
-  <!-- Google Fonts: Kanit for body, Uncial Antiqua for headings -->
+  <!-- Google Fonts: Uncial Antiqua for headings, Kanit for body -->
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&family=Uncial+Antiqua&display=swap" rel="stylesheet">
 
-
-  <!-- Font Awesome (for mute/unmute icons) -->
+  <!-- Font Awesome -->
   <script
     src="https://kit.fontawesome.com/4bab21cbed.js"
     crossorigin="anonymous"
@@ -18,15 +17,14 @@
   <!-- CSS -->
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
-  <!-- NAVBAR (sticky, transparent) -->
   <header>
     <nav class="navbar">
       <!-- Left: Real-time NZ time -->
       <div class="nav-left">
         <span id="nzTime">NZDT 00:00:00</span>
       </div>
-
 
       <!-- Right: Mode toggle & Mute button -->
       <div class="nav-right">
@@ -37,10 +35,9 @@
           <div class="switch-wrapper">
             <div class="switch-handle"></div>
           </div>
-        </label>
-        
+        </label>      
 
-        <!-- Mute/Unmute Button with Font Awesome Icon -->
+        <!-- Mute/Unmute Button -->
         <button id="muteToggle" class="icon-btn">
           <i id="muteIcon" class="fas fa-volume-mute"></i>
         </button>
@@ -60,8 +57,6 @@
       id="heroVideo"
     >
       <source src="assets/normal-mode-video.mp4" type="video/mp4" />
-      <!-- Add more <source> for different formats if needed -->
-      Your browser does not support the video tag.
     </video>
     <img 
       src="assets/west-coast-thumbnail.png" 
@@ -76,14 +71,6 @@
       <h1>Jeanette's Adventure</h1>
       <h2>in Aotearoa</h2>
       <p class="date-range">Mar 2024 - 2025</p>
-    </div>
-
-      <!-- Ambient Animation Container (only visible in Hobbit Mode) -->
-    <div class="ambient-animation">
-      <!-- Example drifting particles -->
-      <div class="particle" style="top: 10%; left: 20%; animation-duration: 12s;"></div>
-      <div class="particle" style="top: 50%; left: 70%; animation-duration: 15s;"></div>
-      <div class="particle" style="top: 30%; left: 40%; animation-duration: 18s;"></div>
     </div>
   </section>
 
@@ -120,13 +107,13 @@
     <section class="island-section">
       <h2>South Island</h2>
       <div class="card-grid">
-        <a href="canterbury.html" class="card">
+        <a href="canterbury/canterbury.html" class="card">
           <img src="assets/canterbury-thumbnail.png" alt="Canterbury" />
           <p>Canterbury</p>
         </a>
-        <a href="tasman.html" class="card">
+        <a href="nelson-tasman.html" class="card">
           <img src="assets/tasman-thumbnail.png" alt="Tasman" />
-          <p>Tasman</p>
+          <p>Nelson Tasman</p>
         </a>
         <a href="mackenzie.html" class="card">
           <img src="assets/mackenzie-thumbnail.png" alt="Mackenzie Country" />
@@ -197,13 +184,11 @@
   <!-- Normal Mode Audio -->
   <audio id="normalAudio" loop muted>
     <source src="assets/late-summer-vibes.mp3" type="audio/mpeg" />
-    Your browser does not support the audio element.
   </audio>
 
   <!-- Hobbit Mode Audio -->
   <audio id="hobbitAudio" loop muted>
     <source src="assets/misty-mountains-leyna.mp3" type="audio/mpeg" />
-    Your browser does not support the audio element.
   </audio>
 
 

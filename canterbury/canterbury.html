@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>J's Adventure in Aotearoa</title>
+        
+        <!-- Google Fonts: Uncial Antiqua for headings, Kanit for body -->
+        <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Uncial+Antiqua&display=swap" rel="stylesheet">
+      
+        <!-- Font Awesome -->
+        <script
+          src="https://kit.fontawesome.com/4bab21cbed.js"
+          crossorigin="anonymous"
+        ></script>
+      
+        <!-- CSS -->
+        <link rel="stylesheet" href="../styles.css" />
+      </head>
+      
+      <body>
+        <header>
+          <nav class="navbar">
+            <div class="nav-left">
+                <a href="../index.html" class="home-icon">
+                    <i class="fas fa-home"></i> <!-- If using Font Awesome -->
+                </a>
+            </div>
+      
+            <!-- Right: Mode toggle & Mute button -->
+            <div class="nav-right">
+              <!-- Toggle Switch for Hobbit Mode -->
+              <label class="theme-switch" for="hobbitToggle">
+                <span class="toggle-label">Hobbit Mode</span>
+                <input type="checkbox" id="hobbitToggle" />
+                <div class="switch-wrapper">
+                  <div class="switch-handle"></div>
+                </div>
+              </label>      
+            </div>
+          </nav>
+        </header>
+
+        <!-- Region Header -->
+        <section class="small-hero">
+            <h1>Canterbury</h1>
+            <!-- Filter Pills Section -->
+            <section class="filter-pills">
+            <button class="filter-pill" data-location="all">All</button>
+            <button class="filter-pill" data-location="christchurch">Christchurch</button>
+            <button class="filter-pill" data-location="kaikoura">Kaikoura</button>
+            <button class="filter-pill" data-location="hanmer">Hanmer Springs</button>
+            <button class="filter-pill" data-location="methven">Methven</button>
+            <button class="filter-pill" data-location="kaiapoi">Kaiapoi</button>
+            <button class="filter-pill" data-location="akaroa">Akaroa</button>
+            </section>
+        </section>
+
+        <!-- MAIN CONTENT -->
+        <main>
+            <!-- Christchurch -->
+            <section class="post" data-locations="christchurch">
+            <div class="post-header">
+                <h2>March 13, 2024</h2>
+                <div class="weather-info">
+                <img src="weather-icon.png" alt="Weather Icon" class="weather-icon" />
+                <span class="temperature">18°C</span>
+                </div>
+            </div>
+            <div class="post-body">
+                <div class="carousel-container">
+                    <button class="carousel-btn left-btn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="post-images">
+                        <!-- Example images -->
+                        <img src="../assets/canterbury-thumbnail.png" alt="Christchurch" />
+                        <img src="../assets/catlins-thumbnail.png" alt="Christchurch" />
+                        <img src="../assets/bop-thumbnail.png" alt="Christchurch" />
+                     </div>
+                     <button class="carousel-btn right-btn">
+                        <i class="fas fa-chevron-right"></i>
+                      </button>
+                </div>
+
+                <h3>Landing in Christchurch</h3>
+                <p>
+                Spent the day exploring the city center and visiting the botanical gardens...
+                </p>
+            </div>
+            </section>
+
+            <section class="post" data-locations="kaikoura">
+            <div class="post-header">
+                <h2>March 16, 2024</h2>
+                <div class="weather-info">
+                <img src="weather-icon.png" alt="Weather Icon" class="weather-icon" />
+                <span class="temperature">16°C</span>
+                </div>
+            </div>
+            <div class="post-body">
+                <div class="post-images">
+                <img src="../assets/northland-thumbnail.png" alt="Kaikoura" />
+                </div>
+                <h3>Whale Watching in Kaikoura</h3>
+                <p>
+                Went on a whale-watching tour and saw sperm whales up close...
+                </p>
+            </div>
+            </section>
+
+            <!-- POST 3: Example for Methven -->
+            <section class="post" data-locations="methven">
+            <div class="post-header">
+                <h2>March 17, 2024</h2>
+                <div class="weather-info">
+                <img src="weather-icon.png" alt="Weather Icon" class="weather-icon" />
+                <span class="temperature">12°C</span>
+                </div>
+            </div>
+            <div class="post-body">
+                <div class="post-images">
+                <img src="../assets/west-coast-thumbnail.png" alt="Methven" />
+                </div>
+                <h3>Skiing at Mt. Hutt</h3>
+                <p>
+                A fantastic day hitting the slopes at Mt. Hutt...
+                </p>
+            </div>
+            </section>
+        </main>
+        
+
+        <!-- FOOTER -->
+        <footer>
+            <p>Simple Footer</p>
+            <a href="#">Credits</a>
+        </footer>
+
+        <script src="../script.js"></script>
+    </body>
+</html>

@@ -110,3 +110,120 @@ setInterval(updateNZTime, 1000);
 updateNZTime();
 
 
+//----------------------------------------------------------//
+//                       FILTER PILLS                       //
+//----------------------------------------------------------//
+
+document.addEventListener("DOMContentLoaded", () => {
+  const filterPills = document.querySelectorAll(".filter-pill");
+  const posts = document.querySelectorAll(".post");
+
+  // Set "All" as active on load
+  const allPill = document.querySelector('.filter-pill[data-location="all"]');
+  if (allPill) {
+    allPill.classList.add("active");
+  }
+
+  // Attach event listeners
+  filterPills.forEach(pill => {
+    pill.addEventListener("click", () => {
+      // For multiple selection, toggle active state (except for "all")
+      if (pill.getAttribute("data-location") === "all") {
+        // If "all" is clicked, clear others and set only "all"
+        filterPills.forEach(p => p.classList.remove("active"));
+        pill.classList.add("active");
+      } else {
+        // If any non-"all" pill is clicked, toggle its active state
+        pill.classList.toggle("active");
+        // Also remove active from "all" if it is active
+        allPill && allPill.classList.remove("active");
+        // If no filter is active, default back to "all"
+        if (![...filterPills].some(p => p.classList.contains("active"))) {
+          allPill && allPill.classList.add("active");
+        }
+      }
+      filterPosts();
+    });
+  });
+
+  function filterPosts() {
+    // Get all active filters (ignore "all" if other filters are selected)
+    let activeFilters = [...filterPills]
+      .filter(p => p.classList.contains("active"))
+      .map(p => p.getAttribute("data-location").trim());
+
+    console.log("Active Filters:", activeFilters);
+
+    // If "all" is active (or if it's the only one) show all posts
+    if (activeFilters.includes("all") || activeFilters.length === 0) {
+      posts.forEach(post => post.style.display = "block");
+    } else {
+      posts.forEach(post => {
+        const postLocations = post.getAttribute("data-locations").split(" ").map(loc => loc.trim());
+        // Show post if it matches any active filter
+        const show = activeFilters.some(filter => postLocations.includes(filter));
+        post.style.display = show ? "block" : "none";
+      });
+    }
+  }
+
+  // Initial filter on load
+  filterPosts();
+});
+
+
+
+//----------------------------------------------------------//
+//                         CAROUSEL                         //
+//----------------------------------------------------------//
+
+document.addEventListener('DOMContentLoaded', () => {
+  const carouselContainer = document.querySelector('.carousel-container');
+  const postImages = document.querySelector('.post-images');
+  const leftBtn = document.querySelector('.carousel-btn.left-btn');
+  const rightBtn = document.querySelector('.carousel-btn.right-btn');
+
+  // Update chevron visibility based on scroll position
+  function updateCarouselButtons() {
+    // Check if container overflows horizontally
+    if (postImages.scrollWidth <= carouselContainer.clientWidth) {
+      leftBtn.style.display = 'none';
+      rightBtn.style.display = 'none';
+      return;
+    }
+    
+    // Show/hide left button
+    if (postImages.scrollLeft === 0) {
+      leftBtn.style.display = 'none';
+    } else {
+      leftBtn.style.display = 'block';
+    }
+    
+    // Show/hide right button
+    if (postImages.scrollLeft + carouselContainer.clientWidth >= postImages.scrollWidth - 1) {
+      rightBtn.style.display = 'none';
+    } else {
+      rightBtn.style.display = 'block';
+    }
+  }
+
+  // Attach scroll event to update buttons as the user scrolls
+  postImages.addEventListener('scroll', updateCarouselButtons);
+  window.addEventListener('resize', updateCarouselButtons);
+  updateCarouselButtons();
+
+  // Chevron button event listeners to scroll the images
+  leftBtn.addEventListener('click', () => {
+    postImages.scrollBy({
+      left: -200,  // Adjust scroll amount as needed
+      behavior: 'smooth'
+    });
+  });
+
+  rightBtn.addEventListener('click', () => {
+    postImages.scrollBy({
+      left: 200,  // Adjust scroll amount as needed
+      behavior: 'smooth'
+    });
+  });
+});

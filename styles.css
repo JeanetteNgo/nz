@@ -274,6 +274,174 @@ footer a {
 
 
 /*------------------------------------*/
+/* REGION SUBPAGE                     */
+/*------------------------------------*/
+/* Hero (sub-page) */
+.small-hero {
+  width: 100%;
+  padding: 6rem 2rem 2.5rem;
+  text-align: center;
+  background-color: #1b3922;
+  color: white;
+}
+
+.small-hero h1 {
+  font-size: 2.2rem; /* Adjust as needed */
+}
+
+/* Filter Pills Container */
+.filter-pills {
+  display: flex;
+  flex-wrap: nowrap; /* Keep pills in one row */
+  justify-content: center; 
+  gap: 0.5rem;
+  margin-top: 1rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  
+  /* Hide default scrollbar (Firefox & IE) */
+  scrollbar-width: none;       
+  -ms-overflow-style: none;
+}
+
+/* Individual Pills */
+.filter-pill {
+  flex: 0 0 auto;
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+
+.filter-pill.active {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+/* Posts */
+.post {
+  max-width: 96%;
+  margin: 0 auto;
+  background-color: #fff;
+  color: #333;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px #4f434310;
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.post-header h2 {
+  font-family: 'Kanit', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.weather-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.weather-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.temperature {
+  font-weight: bold;
+}
+
+
+/* Carousel Container */
+.carousel-container {
+  position: relative;
+  overflow: hidden;
+}
+
+/* The image container */
+.post-images {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 0.5rem;
+}
+
+/* Hide the default scrollbar (WebKit) */
+.post-images::-webkit-scrollbar {
+  display: none;
+}
+
+/* Chevrons */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: #fff;
+  padding: 0.5rem;
+  cursor: pointer;
+  z-index: 2;
+  display: none; /* Hidden by default, shown via JS */
+  border-radius: 50%;
+}
+
+.carousel-btn.left-btn {
+  left: 10px;
+}
+
+.carousel-btn.right-btn {
+  right: 10px;
+}
+
+/* Optional: Hover state for chevrons */
+.carousel-btn:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* Ensure images don't shrink */
+.post-images img {
+  flex: 0 0 auto;
+  max-height: 300px; /* Adjust as needed */
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+
+.post-body h3 {
+  font-family: 'Kanit', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.post-body p {
+  color: #565656;
+  font-weight: 400;
+  line-height: 1.2rem;
+  padding: 4px 0;
+}
+
+
+
+
+
+
+
+/*------------------------------------*/
 /* HOBBIT MODE (body.hobbit-mode)     */
 /*------------------------------------*/
 body.hobbit-mode {
@@ -332,9 +500,9 @@ body.hobbit-mode h6 {
   /* -webkit-text-stroke: 0.05px #f6ce95; */
   
   text-shadow:
-  0 0px 1px rgba(255, 250, 224, 0.65),
-  0 0 12px rgba(215, 125, 0, 0.5),
-  0 0 20px rgba(50, 30, 4, 0.4);
+  0 0px 1px rgba(255, 250, 224, 0.6),
+  0 0 12px rgba(215, 125, 0, 0.4),
+  0 0 20px rgba(50, 30, 4, 0.3);
 }
 
 body.hobbit-mode .navbar {
