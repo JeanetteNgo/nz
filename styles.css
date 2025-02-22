@@ -264,8 +264,14 @@ footer {
 }
 
 footer a {
-  text-decoration: underline;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 500;
+  text-decoration: none;
+  color: #968d8d;
+  padding: 4px;
 }
+
 
 /*------------------------------------*/
 /* HOBBIT MODE (body.hobbit-mode)     */
@@ -326,8 +332,8 @@ body.hobbit-mode h6 {
   /* -webkit-text-stroke: 0.05px #f6ce95; */
   
   text-shadow:
-  0 0px 1px rgba(255, 240, 153, 0.6),
-  0 0 12px rgba(219, 134, 16, 0.5),
+  0 0px 1px rgba(255, 250, 224, 0.65),
+  0 0 12px rgba(215, 125, 0, 0.5),
   0 0 20px rgba(50, 30, 4, 0.4);
 }
 
