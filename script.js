@@ -169,10 +169,10 @@ function initCarouselChevrons() {
     window.addEventListener("load", updateCarouselButtons);
     updateCarouselButtons();
     leftBtn.addEventListener("click", () => {
-      postImages.scrollBy({ left: -200, behavior: "smooth" });
+      postImages.scrollBy({ left: -100, behavior: "smooth" });
     });
     rightBtn.addEventListener("click", () => {
-      postImages.scrollBy({ left: 200, behavior: "smooth" });
+      postImages.scrollBy({ left: 100, behavior: "smooth" });
     });
   });
 }
