@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initMuteToggle();
   initHobbitMode();
   initFilterPills();
+  initFilterPillsChevrons();
   initCarouselChevrons();
   initPageVisibility();
   initNavbarScroll();
@@ -59,13 +60,8 @@ function initPageVisibility() {
     if (document.hidden) {
       const normalAudio = document.getElementById("normalAudio");
       const hobbitAudio = document.getElementById("hobbitAudio");
-      const muteIcon = document.getElementById("muteIcon");
       if (normalAudio) normalAudio.pause();
       if (hobbitAudio) hobbitAudio.pause();
-      if (muteIcon) {
-        muteIcon.classList.remove("fa-volume-up");
-        muteIcon.classList.add("fa-volume-mute");
-      }
     }
   });
 }
@@ -74,30 +70,24 @@ function initPageVisibility() {
 function initHobbitMode() {
   const hobbitToggle = document.getElementById("hobbitToggle");
   if (!hobbitToggle) return;
-  
   hobbitToggle.addEventListener("change", () => {
     const isHobbitMode = hobbitToggle.checked;
     document.body.classList.toggle("hobbit-mode", isHobbitMode);
-    
-    // Switch audio only if one of the audio elements is currently playing.
+    // Switch audio only if not muted
     const normalAudio = document.getElementById("normalAudio");
     const hobbitAudio = document.getElementById("hobbitAudio");
-    if (normalAudio && hobbitAudio) {
-      // Only toggle if either audio is currently playing (not paused)
-      if (!normalAudio.paused || !hobbitAudio.paused) {
-        if (isHobbitMode) {
-          normalAudio.pause();
-          normalAudio.currentTime = 0;
-          hobbitAudio.play().catch(() => {});
-        } else {
-          hobbitAudio.pause();
-          hobbitAudio.currentTime = 0;
-          normalAudio.play().catch(() => {});
-        }
+    if (normalAudio && hobbitAudio && !normalAudio.muted && !hobbitAudio.muted) {
+      if (isHobbitMode) {
+        normalAudio.pause();
+        normalAudio.currentTime = 0;
+        hobbitAudio.play().catch(() => {});
+      } else {
+        hobbitAudio.pause();
+        hobbitAudio.currentTime = 0;
+        normalAudio.play().catch(() => {});
       }
     }
-    
-    // Switch hero video if present (this part remains unchanged)
+    // Switch hero video if present
     const heroVideo = document.getElementById("heroVideo");
     if (heroVideo) {
       heroVideo.pause();
@@ -124,23 +114,27 @@ function initFilterPills() {
   const filterPills = document.querySelectorAll(".filter-pill");
   const posts = document.querySelectorAll(".post");
   if (!filterPills || filterPills.length === 0) return;
-  // "All" pill is active by default.
+  
+  // Set "All" pill as active by default.
   const allPill = document.querySelector('.filter-pill[data-location="all"]');
   if (allPill) {
     allPill.classList.add("active");
   }
+  
   filterPills.forEach((pill) => {
     pill.addEventListener("click", () => {
-      // Remove active class from all pills and activate the clicked one.
+      // Remove active from all and set clicked pill as active.
       filterPills.forEach((p) => p.classList.remove("active"));
       pill.classList.add("active");
       filterPosts();
     });
   });
+  
   function filterPosts() {
     const activePill = document.querySelector(".filter-pill.active");
     if (!activePill) return;
     const selectedLocation = activePill.getAttribute("data-location").trim();
+    const posts = document.querySelectorAll(".post");
     if (selectedLocation === "all") {
       posts.forEach((post) => (post.style.display = "block"));
     } else {
@@ -155,8 +149,42 @@ function initFilterPills() {
       });
     }
   }
-  // Run filter on initial load
+  // Run filter on initial load.
   filterPosts();
+}
+
+/* ----------------------- Filter Pills Chevrons ----------------------- */
+function initFilterPillsChevrons() {
+  const wrapper = document.querySelector(".filter-pills-wrapper");
+  if (!wrapper) return;
+  const pillsContainer = wrapper.querySelector(".filter-pills");
+  const leftBtn = wrapper.querySelector(".left-btn.filter-chevron");
+  const rightBtn = wrapper.querySelector(".right-btn.filter-chevron");
+
+  function updateChevrons() {
+    if (pillsContainer.scrollWidth <= pillsContainer.clientWidth) {
+      leftBtn.style.display = "none";
+      rightBtn.style.display = "none";
+      return;
+    }
+    leftBtn.style.display = pillsContainer.scrollLeft > 0 ? "block" : "none";
+    rightBtn.style.display =
+      pillsContainer.scrollLeft + pillsContainer.clientWidth < pillsContainer.scrollWidth
+        ? "block"
+        : "none";
+  }
+
+  pillsContainer.addEventListener("scroll", updateChevrons);
+  window.addEventListener("resize", updateChevrons);
+  window.addEventListener("load", updateChevrons);
+  updateChevrons();
+
+  leftBtn.addEventListener("click", () => {
+    pillsContainer.scrollBy({ left: -200, behavior: "smooth" });
+  });
+  rightBtn.addEventListener("click", () => {
+    pillsContainer.scrollBy({ left: 200, behavior: "smooth" });
+  });
 }
 
 /* ----------------------- Carousel Chevrons ----------------------- */
@@ -192,5 +220,7 @@ function initCarouselChevrons() {
     });
   });
 }
+
+
 
 

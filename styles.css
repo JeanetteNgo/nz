@@ -5,12 +5,16 @@
   box-sizing: border-box;
 }
 
+/* Your footer styling remains, e.g.: */
+footer {
+  background: #fafafa;
+  padding: 1rem;
+  text-align: center;
+}
 
 body {
   font-family: 'Kanit', sans-serif;
   background-color: #fafafa;
-  color: #4F4343;
-  line-height: 1.5;
 }
 
 /* Use Uncial Antiqua for all headers regardless of mode */
@@ -23,7 +27,6 @@ a {
   text-decoration: none;
 }
 
-/* NAVBAR (STICKY, TRANSPARENT OVER VIDEO) */
 .navbar {
   position: fixed;
   width: 100%;
@@ -276,7 +279,6 @@ footer a {
 /*------------------------------------*/
 /* REGION SUBPAGE                     */
 /*------------------------------------*/
-/* Hero (sub-page) */
 .small-hero {
   width: 100%;
   padding: 6rem 2rem 2.5rem;
@@ -290,39 +292,47 @@ footer a {
 }
 
 /* Filter Pills Container */
+/* Wrapper for filter pills and chevrons */
+.filter-pills-wrapper {
+  position: relative;
+  width: 100%;
+  margin: 1rem auto;
+}
+
+/* Filter Pills Container */
 .filter-pills {
   display: flex;
-  flex-wrap: nowrap; /* Keep pills in one row */
-  justify-content: center; 
-  gap: 0.5rem;
-  margin-top: 1rem;
+  flex-wrap: nowrap;
+  justify-content: center;
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-  
-  /* Hide default scrollbar (Firefox & IE) */
-  scrollbar-width: none;       
-  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  padding: 0 1rem;  /* Reduced padding */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.filter-pills::-webkit-scrollbar {
+  display: none;
 }
 
-/* Individual Pills */
+/* Individual Filter Pills */
 .filter-pill {
   flex: 0 0 auto;
-  background-color: #fff;
-  color: #333;
+  background-color: #ffffff20;
+  color: #fff;
   border: 1px solid #ccc;
   padding: 0.5rem 1rem;
-  border-radius: 4px;
-  font-weight: bold;
+  border-radius: 100px;
+  font-weight: 600;
   cursor: pointer;
   transition: background 0.3s ease;
+  margin: 0 0.25rem;
 }
-
-
 .filter-pill.active {
-  background-color: #333;
-  color: #fff;
+  background-color: #fff;
+  color: #333;
   border-color: #333;
 }
+
 
 /* Posts */
 .post {
@@ -387,30 +397,32 @@ footer a {
 
 /* Chevrons */
 .carousel-btn {
+  width: 24px;
+  height: 32px;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.3);
   border: none;
   color: #fff;
-  padding: 0.5rem;
   cursor: pointer;
   z-index: 2;
   display: none; /* Hidden by default, shown via JS */
-  border-radius: 50%;
+  border-radius: 8px;
+  padding: 0.5rem ;
 }
 
 .carousel-btn.left-btn {
-  left: 10px;
+  left: 4px;
 }
 
 .carousel-btn.right-btn {
-  right: 10px;
+  right: 4px;
 }
 
 /* Optional: Hover state for chevrons */
 .carousel-btn:hover {
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.5);
 }
 
 /* Ensure images don't shrink */

@@ -8,13 +8,11 @@
         <!-- Google Fonts: Uncial Antiqua for headings, Kanit for body -->
         <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Uncial+Antiqua&display=swap" rel="stylesheet">
       
-        <!-- Font Awesome -->
         <script
           src="https://kit.fontawesome.com/4bab21cbed.js"
           crossorigin="anonymous"
         ></script>
       
-        <!-- CSS -->
         <link rel="stylesheet" href="../styles.css" />
       </head>
       
@@ -22,17 +20,12 @@
         <header>
           <nav class="navbar">
             <div class="nav-left">
-              <!-- <div class="nav-left">
-                <span id="nzTime">NZDT 00:00:00</span>
-              </div> -->
               <a href="../index.html" class="home-icon">
-                  <i class="fas fa-home"></i> <!-- If using Font Awesome -->
+                  <i class="fas fa-home"></i>
               </a>
             </div>
       
-            <!-- Right: Mode toggle & Mute button -->
             <div class="nav-right">
-              <!-- Toggle Switch for Hobbit Mode -->
               <label class="theme-switch" for="hobbitToggle">
                 <span class="toggle-label">Hobbit Mode</span>
                 <input type="checkbox" id="hobbitToggle" />
@@ -41,9 +34,6 @@
                 </div>
               </label>      
 
-            <!-- <button id="muteToggle" class="icon-btn">
-              <i id="muteIcon" class="fas fa-volume-mute"></i>
-            </button> -->
             </div>
           </nav>
         </header>
@@ -52,16 +42,23 @@
         <!-- Region Header -->
         <section class="small-hero">
             <h1>Canterbury</h1>
-            <!-- Filter Pills Section -->
-            <section class="filter-pills">
-            <button class="filter-pill" data-location="all">All</button>
-            <button class="filter-pill" data-location="christchurch">Christchurch</button>
-            <button class="filter-pill" data-location="kaikoura">Kaikoura</button>
-            <button class="filter-pill" data-location="hanmer">Hanmer Springs</button>
-            <button class="filter-pill" data-location="methven">Methven</button>
-            <button class="filter-pill" data-location="kaiapoi">Kaiapoi</button>
-            <button class="filter-pill" data-location="akaroa">Akaroa</button>
-            </section>
+            <div class="filter-pills-wrapper">
+              <button class="carousel-btn left-btn filter-chevron">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <div class="filter-pills">
+                <button class="filter-pill" data-location="all">All</button>
+                <button class="filter-pill" data-location="christchurch">Christchurch</button>
+                <button class="filter-pill" data-location="kaikoura">Kaikoura</button>
+                <button class="filter-pill" data-location="hanmer">Hanmer Springs</button>
+                <button class="filter-pill" data-location="methven">Methven</button>
+                <button class="filter-pill" data-location="kaiapoi">Kaiapoi</button>
+                <button class="filter-pill" data-location="kaikoura">Akaroa</button>
+              </div>
+              <button class="carousel-btn right-btn filter-chevron">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>            
         </section>
 
         <!-- MAIN CONTENT -->
