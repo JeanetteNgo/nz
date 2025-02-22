@@ -1,229 +1,190 @@
-// Select the navbar element
-const navbar = document.querySelector('.navbar');
-
-// Listen for the scroll event
-window.addEventListener('scroll', () => {
-  // Check if the scroll position is greater than 0 (or your desired threshold)
-  if (window.scrollY > 50) {
-    navbar.classList.add('scrolled');
-  } else {
-    navbar.classList.remove('scrolled');
-  }
+document.addEventListener("DOMContentLoaded", () => {
+  initNZTime();
+  initMuteToggle();
+  initHobbitMode();
+  initFilterPills();
+  initCarouselChevrons();
+  initPageVisibility();
+  initNavbarScroll();
 });
 
-// Grab elements
-const hobbitToggle = document.getElementById("hobbitToggle");
-const muteToggle = document.getElementById("muteToggle");
-const muteIcon = document.getElementById("muteIcon");
-const normalAudio = document.getElementById("normalAudio");
-const hobbitAudio = document.getElementById("hobbitAudio");
-const nzTimeDisplay = document.getElementById("nzTime");
-const heroVideo = document.getElementById("heroVideo")
-
-// Track which mode is active and whether the user has enabled audio
-let isHobbitMode = false;
-let audioShouldPlay = false;
-
-// Mute/Unmute Behavior with user-gesture flag
-muteToggle.addEventListener("click", () => {
-  // If both audio tracks are muted, unmute and start playing
-  if (normalAudio.muted && hobbitAudio.muted) {
-    audioShouldPlay = true; // User wants audio to play
-    normalAudio.muted = false;
-    hobbitAudio.muted = false;
-    if (isHobbitMode) {
-      hobbitAudio.play().catch(() => {});
-      normalAudio.pause();
-      normalAudio.currentTime = 0;
-    } else {
-      normalAudio.play().catch(() => {});
-      hobbitAudio.pause();
-      hobbitAudio.currentTime = 0;
-    }
-    muteIcon.classList.remove("fa-volume-mute");
-    muteIcon.classList.add("fa-volume-up");
-  } else {
-    // Otherwise, mute and pause both audio tracks
-    audioShouldPlay = false;
-    normalAudio.muted = true;
-    hobbitAudio.muted = true;
-    normalAudio.pause();
-    hobbitAudio.pause();
-    muteIcon.classList.remove("fa-volume-up");
-    muteIcon.classList.add("fa-volume-mute");
+/* ----------------------- NZ Time ----------------------- */
+function initNZTime() {
+  const nzTimeDisplay = document.getElementById("nzTime");
+  if (!nzTimeDisplay) return;
+  function updateNZTime() {
+    const now = new Date().toLocaleTimeString("en-NZ", {
+      timeZone: "Pacific/Auckland",
+      hour12: false,
+    });
+    nzTimeDisplay.textContent = "NZDT " + now;
   }
-});
-
-// Toggle between Normal and Hobbit Mode
-hobbitToggle.addEventListener("change", () => {
-  isHobbitMode = hobbitToggle.checked;
-  document.body.classList.toggle("hobbit-mode", isHobbitMode);
-
-  // Switch audio tracks if audio is playing
-  if (audioShouldPlay) {
-    if (isHobbitMode) {
-      normalAudio.pause();
-      normalAudio.currentTime = 0;
-      hobbitAudio.play().catch(() => {});
-    } else {
-      hobbitAudio.pause();
-      hobbitAudio.currentTime = 0;
-      normalAudio.play().catch(() => {});
-    }
-  }
-
-  // Switch hero video source depending on mode
-  heroVideo.pause();
-  heroVideo.src = isHobbitMode
-    ? "assets/hobbit-mode-video.mp4"
-    : "assets/normal-mode-video.mp4";
-  heroVideo.load();
-  heroVideo.play().catch(() => {});
-});
-
-
-// Use the Page Visibility API to pause audio when the page is hidden
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) {
-    // Pause audio on leaving the site and reset the flag so user must click unmute upon return
-    normalAudio.pause();
-    hobbitAudio.pause();
-    audioShouldPlay = false;
-    // Also update UI: set both audio elements to muted
-    normalAudio.muted = true;
-    hobbitAudio.muted = true;
-    muteIcon.classList.remove("fa-volume-up");
-    muteIcon.classList.add("fa-volume-mute");
-  }
-});
-
-// Update NZ Time every second
-function updateNZTime() {
-  const now = new Date().toLocaleTimeString("en-NZ", {
-    timeZone: "Pacific/Auckland",
-    hour12: false
-  });
-  nzTimeDisplay.textContent = "NZDT " + now;
+  setInterval(updateNZTime, 1000);
+  updateNZTime();
 }
 
-setInterval(updateNZTime, 1000);
-updateNZTime();
+/* ----------------------- Mute Toggle ----------------------- */
+function initMuteToggle() {
+  const muteToggle = document.getElementById("muteToggle");
+  const muteIcon = document.getElementById("muteIcon");
+  const normalAudio = document.getElementById("normalAudio");
+  const hobbitAudio = document.getElementById("hobbitAudio");
+  if (!muteToggle || !muteIcon || !normalAudio || !hobbitAudio) return;
+  muteToggle.addEventListener("click", () => {
+    const isMuted = normalAudio.muted && hobbitAudio.muted;
+    if (isMuted) {
+      normalAudio.muted = hobbitAudio.muted = false;
+      if (document.body.classList.contains("hobbit-mode")) {
+        hobbitAudio.play().catch(() => {});
+        normalAudio.pause();
+        normalAudio.currentTime = 0;
+      } else {
+        normalAudio.play().catch(() => {});
+        hobbitAudio.pause();
+        hobbitAudio.currentTime = 0;
+      }
+      muteIcon.classList.replace("fa-volume-mute", "fa-volume-up");
+    } else {
+      normalAudio.muted = hobbitAudio.muted = true;
+      normalAudio.pause();
+      hobbitAudio.pause();
+      muteIcon.classList.replace("fa-volume-up", "fa-volume-mute");
+    }
+  });
+}
 
+/* ----------------------- Page Visibility ----------------------- */
+function initPageVisibility() {
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      const normalAudio = document.getElementById("normalAudio");
+      const hobbitAudio = document.getElementById("hobbitAudio");
+      const muteIcon = document.getElementById("muteIcon");
+      if (normalAudio) normalAudio.pause();
+      if (hobbitAudio) hobbitAudio.pause();
+      if (muteIcon) {
+        muteIcon.classList.remove("fa-volume-up");
+        muteIcon.classList.add("fa-volume-mute");
+      }
+    }
+  });
+}
 
-//----------------------------------------------------------//
-//                       FILTER PILLS                       //
-//----------------------------------------------------------//
+/* ----------------------- Hobbit Mode Toggle ----------------------- */
+function initHobbitMode() {
+  const hobbitToggle = document.getElementById("hobbitToggle");
+  if (!hobbitToggle) return;
+  hobbitToggle.addEventListener("change", () => {
+    const isHobbitMode = hobbitToggle.checked;
+    document.body.classList.toggle("hobbit-mode", isHobbitMode);
+    // Switch audio if available and not muted
+    const normalAudio = document.getElementById("normalAudio");
+    const hobbitAudio = document.getElementById("hobbitAudio");
+    if (normalAudio && hobbitAudio && !normalAudio.muted && !hobbitAudio.muted) {
+      if (isHobbitMode) {
+        normalAudio.pause();
+        normalAudio.currentTime = 0;
+        hobbitAudio.play().catch(() => {});
+      } else {
+        hobbitAudio.pause();
+        hobbitAudio.currentTime = 0;
+        normalAudio.play().catch(() => {});
+      }
+    }
+    // Switch hero video if present
+    const heroVideo = document.getElementById("heroVideo");
+    if (heroVideo) {
+      heroVideo.pause();
+      heroVideo.src = isHobbitMode
+        ? "assets/hobbit-mode-video.mp4"
+        : "assets/normal-mode-video.mp4";
+      heroVideo.load();
+      heroVideo.play().catch(() => {});
+    }
+  });
+}
 
-document.addEventListener("DOMContentLoaded", () => {
+/* ----------------------- Navbar Scroll Background ----------------------- */
+function initNavbarScroll() {
+  const navbar = document.querySelector(".navbar");
+  if (!navbar) return;
+  window.addEventListener("scroll", () => {
+    navbar.classList.toggle("scrolled", window.scrollY > 50);
+  });
+}
+
+/* ----------------------- Filter Pills (Single Active) ----------------------- */
+function initFilterPills() {
   const filterPills = document.querySelectorAll(".filter-pill");
   const posts = document.querySelectorAll(".post");
-
-  // Set "All" as active on load
+  if (!filterPills || filterPills.length === 0) return;
+  // "All" pill is active by default.
   const allPill = document.querySelector('.filter-pill[data-location="all"]');
   if (allPill) {
     allPill.classList.add("active");
   }
-
-  // Attach event listeners
-  filterPills.forEach(pill => {
+  filterPills.forEach((pill) => {
     pill.addEventListener("click", () => {
-      // For multiple selection, toggle active state (except for "all")
-      if (pill.getAttribute("data-location") === "all") {
-        // If "all" is clicked, clear others and set only "all"
-        filterPills.forEach(p => p.classList.remove("active"));
-        pill.classList.add("active");
-      } else {
-        // If any non-"all" pill is clicked, toggle its active state
-        pill.classList.toggle("active");
-        // Also remove active from "all" if it is active
-        allPill && allPill.classList.remove("active");
-        // If no filter is active, default back to "all"
-        if (![...filterPills].some(p => p.classList.contains("active"))) {
-          allPill && allPill.classList.add("active");
-        }
-      }
+      // Remove active class from all pills and activate the clicked one.
+      filterPills.forEach((p) => p.classList.remove("active"));
+      pill.classList.add("active");
       filterPosts();
     });
   });
-
   function filterPosts() {
-    // Get all active filters (ignore "all" if other filters are selected)
-    let activeFilters = [...filterPills]
-      .filter(p => p.classList.contains("active"))
-      .map(p => p.getAttribute("data-location").trim());
-
-    console.log("Active Filters:", activeFilters);
-
-    // If "all" is active (or if it's the only one) show all posts
-    if (activeFilters.includes("all") || activeFilters.length === 0) {
-      posts.forEach(post => post.style.display = "block");
+    const activePill = document.querySelector(".filter-pill.active");
+    if (!activePill) return;
+    const selectedLocation = activePill.getAttribute("data-location").trim();
+    if (selectedLocation === "all") {
+      posts.forEach((post) => (post.style.display = "block"));
     } else {
-      posts.forEach(post => {
-        const postLocations = post.getAttribute("data-locations").split(" ").map(loc => loc.trim());
-        // Show post if it matches any active filter
-        const show = activeFilters.some(filter => postLocations.includes(filter));
-        post.style.display = show ? "block" : "none";
+      posts.forEach((post) => {
+        const postLocations = post
+          .getAttribute("data-locations")
+          .split(" ")
+          .map((loc) => loc.trim());
+        post.style.display = postLocations.includes(selectedLocation)
+          ? "block"
+          : "none";
       });
     }
   }
-
-  // Initial filter on load
+  // Run filter on initial load
   filterPosts();
-});
+}
 
-
-
-//----------------------------------------------------------//
-//                         CAROUSEL                         //
-//----------------------------------------------------------//
-
-document.addEventListener('DOMContentLoaded', () => {
-  const carouselContainer = document.querySelector('.carousel-container');
-  const postImages = document.querySelector('.post-images');
-  const leftBtn = document.querySelector('.carousel-btn.left-btn');
-  const rightBtn = document.querySelector('.carousel-btn.right-btn');
-
-  // Update chevron visibility based on scroll position
-  function updateCarouselButtons() {
-    // Check if container overflows horizontally
-    if (postImages.scrollWidth <= carouselContainer.clientWidth) {
-      leftBtn.style.display = 'none';
-      rightBtn.style.display = 'none';
-      return;
+/* ----------------------- Carousel Chevrons ----------------------- */
+function initCarouselChevrons() {
+  const carouselContainers = document.querySelectorAll(".carousel-container");
+  if (!carouselContainers || carouselContainers.length === 0) return;
+  carouselContainers.forEach((container) => {
+    const postImages = container.querySelector(".post-images");
+    const leftBtn = container.querySelector(".carousel-btn.left-btn");
+    const rightBtn = container.querySelector(".carousel-btn.right-btn");
+    if (!postImages || !leftBtn || !rightBtn) return;
+    function updateCarouselButtons() {
+      if (postImages.scrollWidth <= container.clientWidth) {
+        leftBtn.style.display = "none";
+        rightBtn.style.display = "none";
+        return;
+      }
+      leftBtn.style.display = postImages.scrollLeft === 0 ? "none" : "block";
+      rightBtn.style.display =
+        postImages.scrollLeft + container.clientWidth >= postImages.scrollWidth - 1
+          ? "none"
+          : "block";
     }
-    
-    // Show/hide left button
-    if (postImages.scrollLeft === 0) {
-      leftBtn.style.display = 'none';
-    } else {
-      leftBtn.style.display = 'block';
-    }
-    
-    // Show/hide right button
-    if (postImages.scrollLeft + carouselContainer.clientWidth >= postImages.scrollWidth - 1) {
-      rightBtn.style.display = 'none';
-    } else {
-      rightBtn.style.display = 'block';
-    }
-  }
-
-  // Attach scroll event to update buttons as the user scrolls
-  postImages.addEventListener('scroll', updateCarouselButtons);
-  window.addEventListener('resize', updateCarouselButtons);
-  updateCarouselButtons();
-
-  // Chevron button event listeners to scroll the images
-  leftBtn.addEventListener('click', () => {
-    postImages.scrollBy({
-      left: -200,  // Adjust scroll amount as needed
-      behavior: 'smooth'
+    postImages.addEventListener("scroll", updateCarouselButtons);
+    window.addEventListener("resize", updateCarouselButtons);
+    window.addEventListener("load", updateCarouselButtons);
+    updateCarouselButtons();
+    leftBtn.addEventListener("click", () => {
+      postImages.scrollBy({ left: -200, behavior: "smooth" });
+    });
+    rightBtn.addEventListener("click", () => {
+      postImages.scrollBy({ left: 200, behavior: "smooth" });
     });
   });
+}
 
-  rightBtn.addEventListener('click', () => {
-    postImages.scrollBy({
-      left: 200,  // Adjust scroll amount as needed
-      behavior: 'smooth'
-    });
-  });
-});
+
