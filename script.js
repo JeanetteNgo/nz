@@ -100,15 +100,6 @@ function initHobbitMode() {
   });
 }
 
-/* ----------------------- Navbar Scroll Background ----------------------- */
-function initNavbarScroll() {
-  const navbar = document.querySelector(".navbar");
-  if (!navbar) return;
-  window.addEventListener("scroll", () => {
-    navbar.classList.toggle("scrolled", window.scrollY > 50);
-  });
-}
-
 /* ----------------------- Filter Pills (Single Active) ----------------------- */
 function initFilterPills() {
   const filterPills = document.querySelectorAll(".filter-pill");
@@ -229,6 +220,17 @@ function initCarouselChevrons() {
   });
 }
 
+/* ----------------------- Navbar Scroll Background ----------------------- */
+function initNavbarScroll() {
+  const navbar = document.querySelector(".navbar");
+  if (!navbar) return;
+  window.addEventListener("scroll", () => {
+    navbar.classList.toggle("scrolled", window.scrollY > 50);
+  });
+}
 
+document.addEventListener("DOMContentLoaded", () => {
+  initNavbarScroll();
+});
 
 
