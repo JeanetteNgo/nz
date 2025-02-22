@@ -260,6 +260,7 @@ main {
 
 /* FOOTER */
 footer {
+  background-color: transparent;
   text-align: center;
   padding: 1.5rem;
   border-top: solid 1px #4f434310;
@@ -457,20 +458,6 @@ body.hobbit-mode {
   background-color: #0f2d1c;
   color: #f4bc6e;
   cursor: url('assets/hobbit-cursor.png') 8 8, auto;
-}
-
-/* Parchment/stone texture overlay */
-body.hobbit-mode::before {
-  content: "";
-  position: fixed;  /* Fixed so it covers the viewport even if scrolling */
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: url('assets/textured-background.jpg') repeat;
-  opacity: 0.15; /* Adjust opacity as needed */
-  pointer-events: none; /* Ensure it doesn't interfere with interactions */
-  z-index: -1; /* Place it behind your content */
 }
 
 /* Vignette/darkening effect */
