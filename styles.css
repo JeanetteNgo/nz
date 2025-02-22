@@ -295,8 +295,8 @@ footer a {
 .filter-pills-wrapper {
   position: relative;
   width: 100%;
-  margin: 1rem 0 0;
-  padding: 0.5rem 0 0 1rem;
+  margin: 1rem 0 0.5rem;
+  padding: 0.5rem 0 0.5rem;
 }
 
 /* Filter Pills Container */
@@ -375,7 +375,6 @@ footer a {
   font-weight: bold;
 }
 
-
 /* Carousel Container */
 .carousel-container {
   position: relative;
@@ -429,7 +428,7 @@ footer a {
 /* Ensure images don't shrink */
 .post-images img {
   flex: 0 0 auto;
-  max-height: 300px; /* Adjust as needed */
+  max-height: 270px;
   object-fit: cover;
   border-radius: 4px;
 }
@@ -447,9 +446,6 @@ footer a {
   line-height: 1.2rem;
   padding: 4px 0;
 }
-
-
-
 
 
 
@@ -494,11 +490,7 @@ body.hobbit-mode .hero::after {
 
 /* For headers in Hobbit Mode (when body has .hobbit-mode) */
 body.hobbit-mode h1,
-body.hobbit-mode h2,
-body.hobbit-mode h3,
-body.hobbit-mode h4,
-body.hobbit-mode h5,
-body.hobbit-mode h6 {
+body.hobbit-mode h2 {
   font-family: 'Uncial Antiqua', cursive;
   background: linear-gradient(
     to bottom,
@@ -535,6 +527,17 @@ body.hobbit-mode .card {
 body.hobbit-mode footer {
   border-top: solid 1px #e6a44820;
 }
+
+body.hobbit-mode .post {
+  background-color: #00000020;
+  color: #f5f5f5;
+}
+
+body.hobbit-mode .post-body p {
+  color: #f5f5f5;
+  font-weight: 300;
+}
+
 
 /*------------------------------------*/
 /* RESPONSIVE QUERIES                 */

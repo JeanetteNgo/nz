@@ -70,14 +70,26 @@ function initPageVisibility() {
 function initHobbitMode() {
   const hobbitToggle = document.getElementById("hobbitToggle");
   if (!hobbitToggle) return;
+  
+  // On load, check localStorage for hobbit mode state
+  const storedHobbitMode = localStorage.getItem("hobbitMode");
+  const isHobbitMode = storedHobbitMode === "true";
+  // Set the toggle state and body class accordingly
+  hobbitToggle.checked = isHobbitMode;
+  document.body.classList.toggle("hobbit-mode", isHobbitMode);
+  
+  // Attach event listener to update state on toggle change
   hobbitToggle.addEventListener("change", () => {
-    const isHobbitMode = hobbitToggle.checked;
-    document.body.classList.toggle("hobbit-mode", isHobbitMode);
-    // Switch audio only if not muted
+    const currentMode = hobbitToggle.checked;
+    document.body.classList.toggle("hobbit-mode", currentMode);
+    // Save the current state to localStorage
+    localStorage.setItem("hobbitMode", currentMode);
+    
+    // Optionally: Switch audio if available and not muted.
     const normalAudio = document.getElementById("normalAudio");
     const hobbitAudio = document.getElementById("hobbitAudio");
     if (normalAudio && hobbitAudio && !normalAudio.muted && !hobbitAudio.muted) {
-      if (isHobbitMode) {
+      if (currentMode) {
         normalAudio.pause();
         normalAudio.currentTime = 0;
         hobbitAudio.play().catch(() => {});
@@ -87,11 +99,12 @@ function initHobbitMode() {
         normalAudio.play().catch(() => {});
       }
     }
-    // Switch hero video if present
+    
+    // Optionally: Switch hero video source if available
     const heroVideo = document.getElementById("heroVideo");
     if (heroVideo) {
       heroVideo.pause();
-      heroVideo.src = isHobbitMode
+      heroVideo.src = currentMode
         ? "assets/hobbit-mode-video.mp4"
         : "assets/normal-mode-video.mp4";
       heroVideo.load();
