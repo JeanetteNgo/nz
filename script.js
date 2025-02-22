@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initMuteToggle();
   initHobbitMode();
   initFilterPills();
-  initFilterPillsChevrons();
   initCarouselChevrons();
   initPageVisibility();
   initNavbarScroll();
@@ -31,10 +30,20 @@ function initMuteToggle() {
   const normalAudio = document.getElementById("normalAudio");
   const hobbitAudio = document.getElementById("hobbitAudio");
   if (!muteToggle || !muteIcon || !normalAudio || !hobbitAudio) return;
+  
+  // On load, ensure the audio icon shows muted (and audio remains paused/muted)
+  muteIcon.classList.remove("fa-volume-up");
+  muteIcon.classList.add("fa-volume-mute");
+  normalAudio.pause();
+  hobbitAudio.pause();
+  normalAudio.muted = true;
+  hobbitAudio.muted = true;
+  
   muteToggle.addEventListener("click", () => {
     const isMuted = normalAudio.muted && hobbitAudio.muted;
     if (isMuted) {
       normalAudio.muted = hobbitAudio.muted = false;
+      // Play the appropriate audio only if already playing was active before toggle (if not, leave paused)
       if (document.body.classList.contains("hobbit-mode")) {
         hobbitAudio.play().catch(() => {});
         normalAudio.pause();
@@ -54,42 +63,28 @@ function initMuteToggle() {
   });
 }
 
-/* ----------------------- Page Visibility ----------------------- */
-function initPageVisibility() {
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      const normalAudio = document.getElementById("normalAudio");
-      const hobbitAudio = document.getElementById("hobbitAudio");
-      if (normalAudio) normalAudio.pause();
-      if (hobbitAudio) hobbitAudio.pause();
-    }
-  });
-}
-
 /* ----------------------- Hobbit Mode Toggle ----------------------- */
 function initHobbitMode() {
   const hobbitToggle = document.getElementById("hobbitToggle");
   if (!hobbitToggle) return;
   
-  // On load, check localStorage for hobbit mode state
+  // Retrieve saved mode from localStorage
   const storedHobbitMode = localStorage.getItem("hobbitMode");
-  const isHobbitMode = storedHobbitMode === "true";
-  // Set the toggle state and body class accordingly
-  hobbitToggle.checked = isHobbitMode;
-  document.body.classList.toggle("hobbit-mode", isHobbitMode);
+  const isHobbit = storedHobbitMode === "true";
+  hobbitToggle.checked = isHobbit;
+  document.body.classList.toggle("hobbit-mode", isHobbit);
   
-  // Attach event listener to update state on toggle change
   hobbitToggle.addEventListener("change", () => {
-    const currentMode = hobbitToggle.checked;
-    document.body.classList.toggle("hobbit-mode", currentMode);
-    // Save the current state to localStorage
-    localStorage.setItem("hobbitMode", currentMode);
+    const isHobbitMode = hobbitToggle.checked;
+    document.body.classList.toggle("hobbit-mode", isHobbitMode);
+    // Save current state to localStorage
+    localStorage.setItem("hobbitMode", isHobbitMode);
     
-    // Optionally: Switch audio if available and not muted.
+    // Switch audio only if audio is currently playing (not paused)
     const normalAudio = document.getElementById("normalAudio");
     const hobbitAudio = document.getElementById("hobbitAudio");
     if (normalAudio && hobbitAudio && !normalAudio.muted && !hobbitAudio.muted) {
-      if (currentMode) {
+      if (isHobbitMode) {
         normalAudio.pause();
         normalAudio.currentTime = 0;
         hobbitAudio.play().catch(() => {});
@@ -100,11 +95,11 @@ function initHobbitMode() {
       }
     }
     
-    // Optionally: Switch hero video source if available
+    // Switch hero video if present
     const heroVideo = document.getElementById("heroVideo");
     if (heroVideo) {
       heroVideo.pause();
-      heroVideo.src = currentMode
+      heroVideo.src = isHobbitMode
         ? "assets/hobbit-mode-video.mp4"
         : "assets/normal-mode-video.mp4";
       heroVideo.load();
@@ -115,95 +110,44 @@ function initHobbitMode() {
 
 /* ----------------------- Filter Pills (Single Active) ----------------------- */
 function initFilterPills() {
-  const filterPills = document.querySelectorAll(".filter-pill");
-  const posts = document.querySelectorAll(".post");
-  if (!filterPills || filterPills.length === 0) return;
+  const filterPills = [...document.querySelectorAll(".filter-pill")];
+  const posts = [...document.querySelectorAll(".post")];
+  if (!filterPills.length) return;
   
-  // Set "All" pill as active by default.
-  const allPill = document.querySelector('.filter-pill[data-location="all"]');
-  if (allPill) {
-    allPill.classList.add("active");
-  }
-  
-  filterPills.forEach((pill) => {
-    pill.addEventListener("click", () => {
-      // Remove active from all and set clicked pill as active.
-      filterPills.forEach((p) => p.classList.remove("active"));
-      pill.classList.add("active");
-      filterPosts();
-    });
-  });
-  
-  function filterPosts() {
-    const activePill = document.querySelector(".filter-pill.active");
-    if (!activePill) return;
-    const selectedLocation = activePill.getAttribute("data-location").trim();
-    const posts = document.querySelectorAll(".post");
-    if (selectedLocation === "all") {
-      posts.forEach((post) => (post.style.display = "block"));
-    } else {
-      posts.forEach((post) => {
-        const postLocations = post
-          .getAttribute("data-locations")
-          .split(" ")
-          .map((loc) => loc.trim());
-        post.style.display = postLocations.includes(selectedLocation)
-          ? "block"
-          : "none";
-      });
-    }
-  }
-  // Run filter on initial load.
-  filterPosts();
-}
+  // Activate "all" pill by default.
+  const allPill = filterPills.find(pill => pill.dataset.location.trim() === "all");
+  if (allPill) allPill.classList.add("active");
 
-/* ----------------------- Filter Pills Chevrons ----------------------- */
-function initFilterPills() {
-  const filterPills = document.querySelectorAll(".filter-pill");
-  const posts = document.querySelectorAll(".post");
-  if (!filterPills || filterPills.length === 0) return;
-  
-  // "All" pill active by default.
-  const allPill = document.querySelector('.filter-pill[data-location="all"]');
-  if (allPill) {
-    allPill.classList.add("active");
-  }
-  
-  filterPills.forEach((pill) => {
+  filterPills.forEach(pill =>
     pill.addEventListener("click", () => {
-      // Remove active class from all pills and activate the clicked one.
-      filterPills.forEach((p) => p.classList.remove("active"));
+      // Make only the clicked pill active.
+      filterPills.forEach(p => p.classList.remove("active"));
       pill.classList.add("active");
-      filterPosts();
-    });
-  });
-  
-  function filterPosts() {
-    const activePill = document.querySelector(".filter-pill.active");
-    if (!activePill) return;
-    const selectedLocation = activePill.getAttribute("data-location").trim();
-    if (selectedLocation === "all") {
-      posts.forEach((post) => (post.style.display = "block"));
+      applyFilter();
+    })
+  );
+
+  const applyFilter = () => {
+    const selectedLocation = document.querySelector(".filter-pill.active")?.dataset.location.trim();
+    if (!selectedLocation || selectedLocation === "all") {
+      posts.forEach(post => post.style.display = "block");
     } else {
-      posts.forEach((post) => {
-        const postLocations = post.getAttribute("data-locations")
-          .split(" ")
-          .map((loc) => loc.trim());
-        post.style.display = postLocations.includes(selectedLocation)
-          ? "block"
-          : "none";
+      posts.forEach(post => {
+        const locations = post.dataset.locations.split(" ").map(loc => loc.trim());
+        post.style.display = locations.includes(selectedLocation) ? "block" : "none";
       });
     }
-  }
-  // Run filter on initial load.
-  filterPosts();
+  };
+
+  // Run initial filter
+  applyFilter();
 }
 
 /* ----------------------- Carousel Chevrons ----------------------- */
 function initCarouselChevrons() {
   const carouselContainers = document.querySelectorAll(".carousel-container");
-  if (!carouselContainers || carouselContainers.length === 0) return;
-  carouselContainers.forEach((container) => {
+  if (!carouselContainers.length) return;
+  carouselContainers.forEach(container => {
     const postImages = container.querySelector(".post-images");
     const leftBtn = container.querySelector(".carousel-btn.left-btn");
     const rightBtn = container.querySelector(".carousel-btn.right-btn");
@@ -233,6 +177,25 @@ function initCarouselChevrons() {
   });
 }
 
+/* ----------------------- Page Visibility ----------------------- */
+function initPageVisibility() {
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      const normalAudio = document.getElementById("normalAudio");
+      const hobbitAudio = document.getElementById("hobbitAudio");
+      if (normalAudio) normalAudio.pause();
+      if (hobbitAudio) hobbitAudio.pause();
+      
+      // Update mute icon to muted state on return.
+      const muteIcon = document.getElementById("muteIcon");
+      if (muteIcon) {
+        muteIcon.classList.remove("fa-volume-up");
+        muteIcon.classList.add("fa-volume-mute");
+      }
+    }
+  });
+}
+
 /* ----------------------- Navbar Scroll Background ----------------------- */
 function initNavbarScroll() {
   const navbar = document.querySelector(".navbar");
@@ -241,9 +204,3 @@ function initNavbarScroll() {
     navbar.classList.toggle("scrolled", window.scrollY > 50);
   });
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  initNavbarScroll();
-});
-
-
