@@ -427,7 +427,7 @@ footer a {
 }
 
 /* Ensure images don't shrink */
-.post-images img, video {
+.post-images img, .post-images video {
   flex: 0 0 auto;
   max-height: 270px;
   object-fit: cover;
