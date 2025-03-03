@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initCarouselChevrons();
   initPageVisibility();
   initNavbarScroll();
+  initVideosOnLeave();
 });
 
 /* ----------------------- NZ Time ----------------------- */
@@ -202,5 +203,21 @@ function initNavbarScroll() {
   if (!navbar) return;
   window.addEventListener("scroll", () => {
     navbar.classList.toggle("scrolled", window.scrollY > 50);
+  });
+}
+
+/* ----------------------- Videos on Leave ----------------------- */
+function initVideosOnLeave() {
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      // Grab all videos in posts
+      const allVideos = document.querySelectorAll(".post-images video");
+      allVideos.forEach(video => {
+        // If it's playing unmuted, let's mute it
+        if (!video.paused && !video.muted) {
+          video.muted = true;
+        }
+      });
+    }
   });
 }
