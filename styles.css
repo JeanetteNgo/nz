@@ -333,7 +333,7 @@ footer a {
 .small-hero {
   position: relative;
   width: 100%;
-  height: 320px;
+  height: 280px;
   background-size: cover;
   background-position: center;
   padding: 6rem 0rem 2.5rem;
@@ -354,10 +354,8 @@ footer a {
 }
 
 .small-hero-content {
-  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center; 
   color: white;
   z-index: 2;
@@ -365,20 +363,14 @@ footer a {
 
 .small-hero.scrolled {
   display: flex;
+  align-items: center;
+  justify-contents: center;
   height: 60px; 
   background: #ffffff;
   position: sticky;
   top: 60px; 
   z-index: 100; 
-  padding: 0 1rem; 
-}
-
-.small-hero.scrolled .small-hero-content {
-  display: flex;
-  flex-direction: row;  
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
+  padding: 0; 
 }
 
 .small-hero h1 {
@@ -387,11 +379,8 @@ footer a {
 }
 
 .small-hero.scrolled h1 {
-  font-size: 1rem;
-  margin: 0;
-  text-align: left;
+  display: none;
 }
-
 
 .canterbury-hero {
   background-image: url('canterbury/assets/canterbury-hero.png');
@@ -410,20 +399,19 @@ footer a {
 /* Filter Pills Container */
 .filter-pills {
   display: flex;
-  flex-wrap: nowrap;
   justify-content: center;
+  flex-wrap: nowrap;
   overflow-x: auto;
   scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-
-  /* Hide scrollbar for WebKit */
-  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;   /* Hide scrollbar for WebKit */
+  box-sizing: border-box;
+  padding: 0 1rem;
 }
 
-
-/* .filter-pills::-webkit-scrollbar {
+.filter-pills::-webkit-scrollbar {
   display: none;
-} */
+}
 
 /* Individual Filter Pills */
 .filter-pill {
@@ -445,18 +433,15 @@ footer a {
   border: 1px solid #333;
 }
 
-
 .small-hero.scrolled .filter-pills {
   display: flex;
-  gap: 0.2rem;
-  scroll-behavior: smooth;
-  justify-content: flex-end;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .small-hero.scrolled .filter-pill {
   font-size: 0.8rem;
   padding: 0.4rem 0.8rem;
-  border-radius: 100px;
   font-weight: 500;
 }
 
@@ -671,7 +656,7 @@ body.hobbit-mode .post-body p {
   }
   .filter-pills {
     justify-content: flex-start;
-    padding: 0 1rem; /* adjust as needed */
+    padding: 0 1rem;
   }
 }
 
