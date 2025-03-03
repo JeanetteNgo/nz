@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initPageVisibility();
   initNavbarScroll();
   initVideosOnLeave();
+  initSmallHeroScroll();
 });
 
 /* ----------------------- NZ Time ----------------------- */
@@ -202,7 +203,7 @@ function initNavbarScroll() {
   const navbar = document.querySelector(".navbar");
   if (!navbar) return;
   window.addEventListener("scroll", () => {
-    navbar.classList.toggle("scrolled", window.scrollY > 50);
+    navbar.classList.toggle("scrolled", window.scrollY > 20);
   });
 }
 
@@ -218,6 +219,21 @@ function initVideosOnLeave() {
           video.muted = true;
         }
       });
+    }
+  });
+}
+
+/* ----------------------- Small Hero on Scroll ----------------------- */
+function initSmallHeroScroll() {
+  const smallHero = document.querySelector(".small-hero");
+  const threshold = 0;
+  if (!smallHero) return;
+  
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > threshold) {
+      smallHero.classList.add("scrolled");
+    } else {
+      smallHero.classList.remove("scrolled");
     }
   });
 }
