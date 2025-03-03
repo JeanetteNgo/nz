@@ -610,6 +610,9 @@ body.hobbit-mode .post-body p {
   .hero-content h1 {
     font-size: 1.6rem;
   }
+  .small-hero h1 {
+    font-size: 1.6rem;
+  }
   .toggle-label {
     display: none;
   }
