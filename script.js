@@ -203,7 +203,7 @@ function initNavbarScroll() {
   const navbar = document.querySelector(".navbar");
   if (!navbar) return;
   window.addEventListener("scroll", () => {
-    navbar.classList.toggle("scrolled", window.scrollY > 20);
+    navbar.classList.toggle("scrolled", window.scrollY > 50);
   });
 }
 
@@ -226,7 +226,7 @@ function initVideosOnLeave() {
 /* ----------------------- Small Hero on Scroll ----------------------- */
 function initSmallHeroScroll() {
   const smallHero = document.querySelector(".small-hero");
-  const threshold = 0;
+  const threshold = 50;
   if (!smallHero) return;
   
   window.addEventListener("scroll", () => {
