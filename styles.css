@@ -5,21 +5,15 @@
   box-sizing: border-box;
 }
 
-/* Your footer styling remains, e.g.: */
-footer {
-  background: #fafafa;
-  padding: 1rem;
-  text-align: center;
-}
-
 body {
   font-family: 'Kanit', sans-serif;
   background-color: #fafafa;
+  color: #4E3E3E;
   overflow-x: hidden;
 }
 
-/* Use Uncial Antiqua for all headers regardless of mode */
-h1, h2, h3, h4, h5, h6 {
+/* Use Uncial Antiqua for headers */
+h1, h2, h3, h4 {
   font-family: 'Uncial Antiqua', cursive;
 }
 

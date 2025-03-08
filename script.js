@@ -69,22 +69,60 @@ function initMuteToggle() {
 function initHobbitMode() {
   const hobbitToggle = document.getElementById("hobbitToggle");
   if (!hobbitToggle) return;
-  
-  // Retrieve saved mode from localStorage
+
+  // Retrieve stored Hobbit mode state from localStorage
   const storedHobbitMode = localStorage.getItem("hobbitMode");
   const isHobbit = storedHobbitMode === "true";
+  
+  // Set the toggle state and body class accordingly
   hobbitToggle.checked = isHobbit;
   document.body.classList.toggle("hobbit-mode", isHobbit);
   
+  // Update hero video based on stored mode
+  const heroVideo = document.getElementById("heroVideo");
+  if (heroVideo) {
+    heroVideo.src = isHobbit
+      ? "assets/hobbit-mode-video.mp4"
+      : "assets/normal-mode-video.mp4";
+    heroVideo.load();
+    heroVideo.play().catch(() => {});
+  }
+  
+  // Audio switching logic
+  const normalAudio = document.getElementById("normalAudio");
+  const hobbitAudio = document.getElementById("hobbitAudio");
+  if (normalAudio && hobbitAudio) {
+    // On page load, if audio is playing (i.e. not muted), switch audio based on the stored mode.
+    if (!normalAudio.muted && !hobbitAudio.muted) {
+      if (isHobbit) {
+        normalAudio.pause();
+        normalAudio.currentTime = 0;
+        hobbitAudio.play().catch(() => {});
+      } else {
+        hobbitAudio.pause();
+        hobbitAudio.currentTime = 0;
+        normalAudio.play().catch(() => {});
+      }
+    }
+  }
+  
+  // Listen for toggle changes
   hobbitToggle.addEventListener("change", () => {
     const isHobbitMode = hobbitToggle.checked;
     document.body.classList.toggle("hobbit-mode", isHobbitMode);
-    // Save current state to localStorage
     localStorage.setItem("hobbitMode", isHobbitMode);
     
-    // Switch audio only if audio is currently playing (not paused)
-    const normalAudio = document.getElementById("normalAudio");
-    const hobbitAudio = document.getElementById("hobbitAudio");
+    // Switch hero video if present
+    if (heroVideo) {
+      heroVideo.pause();
+      heroVideo.src = isHobbitMode
+        ? "assets/hobbit-mode-video.mp4"
+        : "assets/normal-mode-video.mp4";
+      heroVideo.load();
+      heroVideo.play().catch(() => {});
+    }
+    
+    // Switch audio if audio is currently active (not muted)
     if (normalAudio && hobbitAudio && !normalAudio.muted && !hobbitAudio.muted) {
       if (isHobbitMode) {
         normalAudio.pause();
@@ -95,17 +133,6 @@ function initHobbitMode() {
         hobbitAudio.currentTime = 0;
         normalAudio.play().catch(() => {});
       }
-    }
-    
-    // Switch hero video if present
-    const heroVideo = document.getElementById("heroVideo");
-    if (heroVideo) {
-      heroVideo.pause();
-      heroVideo.src = isHobbitMode
-        ? "assets/hobbit-mode-video.mp4"
-        : "assets/normal-mode-video.mp4";
-      heroVideo.load();
-      heroVideo.play().catch(() => {});
     }
   });
 }
