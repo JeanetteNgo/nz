@@ -368,7 +368,7 @@ footer a {
   align-items: center;
   justify-contents: center;
   background-image: none;
-  background: #ffffff20;
+  background: #ffffff80;
   backdrop-filter: blur(4px);
   position: sticky;
   top: 60px; 
@@ -381,7 +381,7 @@ footer a {
 
 .small-hero h1 {
   position: relative;
-  font-size: 2.2rem;
+  font-size: 2rem;
   transition: all 0.5s ease;
 }
 
@@ -423,12 +423,13 @@ footer a {
 /* Individual Filter Pills */
 .filter-pill {
   flex: 0 0 auto;
-  background-color: #ffffff;
-  color: #677468;
+  background-color: #00000010;
+  backdrop-filter: blur(2px);
+  color: #fff;
   padding: 0.4rem 0.8rem;
-  border: 1px solid #E5E5E5;
+  border: 1px solid #e5e5e5;
   border-radius: 1rem;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
   transition: background 0.3s ease;
@@ -436,9 +437,9 @@ footer a {
 }
 
 .filter-pill.active {
-  color: #677468;
+  color: #fff;
   font-weight: 600;
-  border: 1.5px solid #677468;
+  border: 1px solid #ffff;
 }
 
 .small-hero.scrolled .filter-pills {
@@ -448,12 +449,15 @@ footer a {
 }
 
 .small-hero.scrolled .filter-pill {
+  background-color: #fff;
+  color: #333;
   font-size: 0.8rem;
   padding: 0.4rem 0.8rem;
   font-weight: 500;
 }
 
 .small-hero.scrolled .filter-pill.active {
+  border: 1px solid #333;
   font-weight: 600;
 }
 
@@ -687,7 +691,7 @@ body.hobbit-mode .post-body p {
     height: 100%;
   }
   .small-hero h1 {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
   }
   .toggle-label {
     display: none;
