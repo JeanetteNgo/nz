@@ -380,8 +380,10 @@ footer a {
 
 
 .small-hero h1 {
+  font-family: 'Kanit', sans-serif;
+  font-weight: 600;
   position: relative;
-  font-size: 2rem;
+  font-size: 2.4rem;
   transition: all 0.5s ease;
 }
 
