@@ -253,9 +253,9 @@ function initVideosOnLeave() {
 /* ----------------------- Small Hero on Scroll ----------------------- */
 function initSmallHeroScroll() {
   const smallHero = document.querySelector(".small-hero");
-  const threshold = 50;
   if (!smallHero) return;
-  
+  const threshold = 50; // Adjust as needed
+
   window.addEventListener("scroll", () => {
     if (window.scrollY > threshold) {
       smallHero.classList.add("scrolled");

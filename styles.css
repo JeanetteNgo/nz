@@ -306,11 +306,6 @@ footer a {
   border-radius: 8px; 
 }
 
-/* .credit-details {
-  display: flex;
-  flex-direction: column; 
-} */
-
 .credit-details a {
   color: #333;
   text-decoration: none;
@@ -328,33 +323,29 @@ footer a {
 .small-hero {
   position: relative;
   width: 100%;
-  height: 240px;
-  background: #4f4343;
-  background-size: cover;
-  background-position: center;
+  background-color: #635a5a;
+  text-align: center;
   padding: 5rem 0rem 2rem;
   margin: 0 auto;
   transition: all 0.5s ease;
 }
 
-/* .small-hero::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.1);
-  pointer-events: none;
-  z-index: 1;
-} */
+.region-photo img {
+  width: 120px;     
+  height: 100px;     
+  object-fit: cover; 
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
 
-.small-hero-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center; 
-  color: white;
-  z-index: 2;
+
+.small-hero h1 {
+  color: #4E3E3E;
+  font-family: 'Kanit', sans-serif;
+  font-weight: 600;
+  position: relative;
+  font-size: 2.4rem;
+  transition: all 0.5s ease;
 }
 
 .small-hero.scrolled {
@@ -372,22 +363,25 @@ footer a {
   box-shadow: 0 4px 20px #4f434310;
 }
 
-
-.small-hero h1 {
-  font-family: 'Kanit', sans-serif;
-  font-weight: 600;
-  position: relative;
-  font-size: 2.4rem;
-  transition: all 0.5s ease;
+.small-hero.scrolled img {
+  display: none;
 }
 
 .small-hero.scrolled h1 {
   display: none;
 }
 
+
+
+/* .small-hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  color: white;
+} */
+
 .canterbury-hero {
-  background-image: url('canterbury/assets/canterbury-hero.png');
-  background-size: cover;
+  background-color: #F5F2EC;
 }
 
 
@@ -396,7 +390,6 @@ footer a {
   position: relative;
   width: 100%;
   margin: 1rem 0 0.5rem;
-  padding: 0.5rem 0 0.5rem;
 }
 
 /* Filter Pills Container */
@@ -419,9 +412,9 @@ footer a {
 /* Individual Filter Pills */
 .filter-pill {
   flex: 0 0 auto;
-  background-color: #00000010;
+  background-color: #fff;
   backdrop-filter: blur(2px);
-  color: #fff;
+  color: #4E3E3E;
   padding: 0.4rem 0.8rem;
   border: 1px solid #e5e5e5;
   border-radius: 1rem;
@@ -433,9 +426,10 @@ footer a {
 }
 
 .filter-pill.active {
-  color: #fff;
+  background-color: #fff;
+  color: #4E3E3E;
   font-weight: 600;
-  border: 1px solid #ffff;
+  border: 1px solid #4E3E3E;
 }
 
 .small-hero.scrolled .filter-pills {
