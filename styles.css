@@ -331,19 +331,21 @@ footer a {
 }
 
 .region-photo img {
-  width: 120px;     
+  width: 100px;     
   height: 100px;     
   object-fit: cover; 
   border-radius: 8px;
   margin-bottom: 1rem;
 }
 
+.small-hero-content {
+  gap: 0;
+}
 
 .small-hero h1 {
   color: #4E3E3E;
   font-family: 'Kanit', sans-serif;
   font-weight: 600;
-  position: relative;
   font-size: 2.4rem;
   transition: all 0.5s ease;
 }
@@ -353,14 +355,14 @@ footer a {
   align-items: center;
   justify-contents: center;
   background-image: none;
-  background: #ffffff80;
+  background: #ffffff;
   backdrop-filter: blur(4px);
   position: sticky;
   top: 60px; 
   height: 60px; 
   z-index: 100; 
   padding: 0; 
-  box-shadow: 0 4px 20px #4f434310;
+  box-shadow: 0 4px 20px #4f434320;
 }
 
 .small-hero.scrolled img {
@@ -384,6 +386,13 @@ footer a {
   background-color: #F5F2EC;
 }
 
+.otago-hero {
+  background-color: #EAEFF8;
+}
+
+.tasman-hero {
+  background-color: #FCF8E6;
+}
 
 /* Filter Pills Container */
 .filter-pills-wrapper {
@@ -414,9 +423,9 @@ footer a {
   flex: 0 0 auto;
   background-color: #fff;
   backdrop-filter: blur(2px);
-  color: #4E3E3E;
+  color: #837878;
   padding: 0.4rem 0.8rem;
-  border: 1px solid #e5e5e5;
+  border: 1.5px solid #dcd8d8;
   border-radius: 1rem;
   font-size: 0.75rem;
   font-weight: 500;
@@ -429,7 +438,7 @@ footer a {
   background-color: #fff;
   color: #4E3E3E;
   font-weight: 600;
-  border: 1px solid #4E3E3E;
+  border: 2px solid #4E3E3E;
 }
 
 .small-hero.scrolled .filter-pills {
@@ -440,14 +449,13 @@ footer a {
 
 .small-hero.scrolled .filter-pill {
   background-color: #fff;
-  color: #333;
+  color: #4E3E3E;
   font-size: 0.8rem;
   padding: 0.4rem 0.8rem;
   font-weight: 500;
 }
 
 .small-hero.scrolled .filter-pill.active {
-  border: 1px solid #333;
   font-weight: 600;
 }
 
