@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>J's Adventure in Aotearoa</title>
+        
+        <!-- Google Fonts: Uncial Antiqua for headings, Kanit for body -->
+        <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Uncial+Antiqua&display=swap" rel="stylesheet">
+      
+        <script
+          src="https://kit.fontawesome.com/4bab21cbed.js"
+          crossorigin="anonymous"
+        ></script>
+      
+        <link rel="stylesheet" href="../styles.css" />
+      </head>
+      
+      <body>
+        <header>
+          <nav class="navbar">
+            <div class="nav-left">
+              <a href="../index.html" class="home-icon">
+                  <i class="fas fa-home"></i>
+              </a>
+            </div>
+      
+            <div class="nav-right">
+              <label class="theme-switch" for="hobbitToggle">
+                <span class="toggle-label">Hobbit Mode</span>
+                <input type="checkbox" id="hobbitToggle" />
+                <div class="switch-wrapper">
+                  <div class="switch-handle"></div>
+                </div>
+              </label>      
+
+            </div>
+          </nav>
+        </header>
+        
+
+        <!-- Region Header -->
+        <section class="small-hero otago-hero">
+          <div class="region-photo">
+            <img src="../assets/mackenzie-thumbnail.png" alt="Mackenzie Display"  />
+          </div>
+
+          <div class="small-hero-content">
+            <h1>Mackenzie District</h1>
+            <div class="filter-pills-wrapper">
+              <div class="filter-pills">
+                <button class="filter-pill" data-location="all">All</button>
+                <button class="filter-pill" data-location="lake-tekapo">Lake Tekapo</button>
+                <button class="filter-pill" data-location="aoraki">Aoraki Mount Cook</button>
+                <button class="filter-pill" data-location="twizel">Twizel</button>
+                <button class="filter-pill" data-location="fairlie">Fairlie</button>
+              </div>
+            </div> 
+          </div>
+        </section>
+
+        <!-- MAIN CONTENT -->
+        <main>
+            <!-- Lake Tekapo -->
+            <section class="post" data-locations="lake-tekapo">
+                <div class="post-header">
+                    <h2>Fri, 28 Feb 2025</h2>
+                    <div class="weather-info">
+                    <i class="fas fa-sun"></i> 
+                    <span class="temperature">11°C - 20°C</span>
+                    </div>
+                </div>
+                <div class="post-body">
+                    <div class="carousel-container">
+                        <button class="carousel-btn left-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="post-images">
+
+                            <div class="post-image-container">
+                                <img src="assets/tekapo-28.2-1.png" data-highres="assets/tekapo-28.2-1.webp" alt="Mt John Walkway 1" class="post-image" />
+                                <i class="fas fa-expand expand-icon" onclick="openFullScreen(this)"></i>
+                            </div>
+                              
+                            <img src="assets/tekapo-28.2-2.png" alt="Mt John Walkway 2" />
+                            <img src="assets/tekapo-28.2-3.png" alt="Mt John Walkway 3" />
+                            <img src="assets/tekapo-28.2-4.png" alt="Mt John Walkway 4" />
+                            <img src="assets/tekapo-28.2-5.png" alt="Mt John Walkway 5" />
+                            <img src="assets/tekapo-28.2-6.png" alt="Mt John Walkway 6" />
+                            <img src="assets/tekapo-28.2-7.png" alt="Mt John Walkway 7" />
+                            <img src="assets/tekapo-28.2-8.png" alt="Mt John Walkway 8" />
+                         </div>
+                         <button class="carousel-btn right-btn">
+                            <i class="fas fa-chevron-right"></i>
+                          </button>
+                    </div>
+                    <h3>Mount John Walkway</h3>
+                    <p>
+                    As always, beautiful views. We were unable to catch the sunset at Church of the Good Sheperd, but we did see lotsa stars :)
+                    </p>
+                </div>
+            </section>
+
+            <section class="post" data-locations="lake-tekapo">
+                <div class="post-header">
+                    <h2>Fri, 28 Feb 2025</h2>
+                    <div class="weather-info">
+                    <i class="fas fa-sun"></i> 
+                    <span class="temperature">11°C - 20°C</span>
+                    </div>
+                </div>
+                <div class="post-body">
+                    <div class="carousel-container">
+                        <button class="carousel-btn left-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="post-images">
+                            <img src="assets/tekapo-28.2-9.png" alt="Church of the Good Sheperd 1" />
+                         </div>
+                         <button class="carousel-btn right-btn">
+                            <i class="fas fa-chevron-right"></i>
+                          </button>
+                    </div>
+                    <h3>Mount John Walkway</h3>
+                    <p>
+                    As always, beautiful views. We were unable to catch the sunset at Church of the Good Sheperd, but we did see lotsa stars :)
+                    </p>
+                </div>
+            </section>
+
+            
+              
+
+            <!-- Aoraki Mount Cook -->
+            <section class="post" data-locations="aoraki">
+                <div class="post-header">
+                    <h2>Wed, 5 Mar 2025</h2>
+                    <div class="weather-info">
+                    <i class="fas fa-sun"></i>
+                    <span class="temperature">9°C - 17°C</span>
+                    </div>
+                </div>
+                <div class="post-body">
+                    <div class="carousel-container">
+                        <button class="carousel-btn left-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="post-images">
+                            <img src="../assets/canterbury-thumbnail.png" alt="Christchurch" />
+                            <img src="../assets/catlins-thumbnail.png" alt="Christchurch" />
+                            <img src="../assets/bop-thumbnail.png" alt="Christchurch" />
+                         </div>
+                         <button class="carousel-btn right-btn">
+                            <i class="fas fa-chevron-right"></i>
+                          </button>
+                    </div>
+                    <h3>Roy's Peak</h3>
+                    <p>
+                    I must have gotten fitter because this is supposed to be comparable difficulty to Mt Fyffe but I didn't find this too difficult at all :) Yay!
+                    </p>
+                </div>
+            </section>
+
+ 
+        </main>
+        
+          
+
+        <footer>
+            <p>© Jeanette Ngo, 2025.</p>
+            <div class="footer-links">
+              <a href="https://www.instagram.com/daily.jynx/" target="_blank">Instagram</a>
+              <p class="dot-divider"> &#8226; </p>
+              <a href="https://www.youtube.com/@Jynxe" target="_blank">Youtube</a>
+              <p class="dot-divider"> &#8226; </p>
+              <a href="../credits.html">Credits</a>
+            </div>
+        </footer>
+
+        <script src="../script.js"></script>
+        
+        <!-- Fullscreen Modal -->
+        <div id="fullscreenModal" class="fullscreen-modal">
+            <span class="modal-close" onclick="closeFullScreen()">&times;</span>
+            <img id="modalImg" />
+        </div>
+    </body>
+</html>

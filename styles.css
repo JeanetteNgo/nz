@@ -259,7 +259,7 @@ main {
 footer {
   background-color: transparent;
   text-align: center;
-  padding: 1.5rem;
+  padding: 4rem;
   border-top: solid 1px #4f434310;
   margin-top: 2rem;
 }
@@ -270,7 +270,24 @@ footer a {
   font-weight: 500;
   text-decoration: none;
   color: #968d8d;
-  padding: 4px;
+  padding: 8px;
+}
+
+footer a:hover {
+  color: #837878;
+  letter-spacing: 2px;
+  transition: 0.5s;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.dot-divider {
+  color: #968d8d80;
 }
 
 /*------------------------------------*/
@@ -459,6 +476,16 @@ footer a {
   font-weight: 600;
 }
 
+/* Weather Icons */
+.fa-sun {
+color: #ffbf00;
+}
+
+.fa-cloud {
+  color: #a1a3c1;
+}
+
+
 /* Posts */
 .post {
   max-width: 96%;
@@ -544,7 +571,7 @@ footer a {
   right: 4px;
 }
 
-/* Optional: Hover state for chevrons */
+/* Hover state for chevrons */
 .carousel-btn:hover {
   background: rgba(0, 0, 0, 0.5);
 }
@@ -573,6 +600,57 @@ footer a {
   padding: 2px 4px;
 }
 
+
+/*------------------------------------*/
+/* Post Image Modal                   */
+/*------------------------------------*/
+.post-image-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* Expand icon */
+.expand-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 14px;
+  color: white;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.expand-icon:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Fullscreen modal */
+.fullscreen-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.fullscreen-modal img {
+  max-width: 90%;
+  max-height: 90%;
+}
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 40px;
+  color: white;
+  cursor: pointer;
+}
 
 
 

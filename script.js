@@ -264,3 +264,21 @@ function initSmallHeroScroll() {
     }
   });
 }
+
+/* ----------------------- Post Image Modal ----------------------- */
+function openFullScreen(icon) {
+  const highResImg = icon.previousElementSibling.dataset.highres;
+  const modal = document.getElementById("fullscreenModal");
+  const modalImg = document.getElementById("modalImg");
+
+  modal.style.display = "flex";
+  modalImg.src = highResImg;
+}
+
+function closeFullScreen() {
+  document.getElementById("fullscreenModal").style.display = "none";
+}
+
+// Close modal when clicking outside the image
+document.getElementById("fullscreenModal").addEventListener("click", closeFullScreen);
+
