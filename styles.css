@@ -486,6 +486,10 @@ color: #ffbf00;
   color: #a1a3c1;
 }
 
+.fa-rainbow {
+  color: #ff75b8;
+}
+
 
 /* Posts */
 .post {
@@ -776,6 +780,11 @@ body.hobbit-mode .post-body p {
 /* For mobile (example: max-width: 480px) */
 @media (max-width: 480px) {
   /* Hide the video, show the fallback image */
+  
+  footer {
+    padding: 2rem;
+  }
+  
   .hero-video {
     display: none;
   }
