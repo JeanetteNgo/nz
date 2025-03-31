@@ -267,12 +267,21 @@ function initSmallHeroScroll() {
 
 /* ----------------------- Post Image Modal ----------------------- */
 function openFullScreen(icon) {
-  const highResImg = icon.previousElementSibling.dataset.highres;
-  const modal = document.getElementById("fullscreenModal");
-  const modalImg = document.getElementById("modalImg");
+  const image = icon.previousElementSibling;
+  const highResImg = image.getAttribute("data-highres"); // Ensure correct attribute retrieval
+  const captionText = image.getAttribute("data-caption") || "No caption available"; // Default fallback
 
-  modal.style.display = "flex";
-  modalImg.src = highResImg;
+  const modal = document.getElementById("fullscreenModal");
+  const modalImg = document.getElementById("modalImage");
+  const modalCaption = document.getElementById("modalCaption");
+
+  if (highResImg) {
+    modalImg.src = highResImg;
+    modalCaption.textContent = captionText; 
+    modal.style.display = "flex"; // Ensure modal is shown
+  } else {
+    console.error("High-resolution image not found.");
+  }
 }
 
 function closeFullScreen() {
@@ -280,5 +289,11 @@ function closeFullScreen() {
 }
 
 // Close modal when clicking outside the image
-document.getElementById("fullscreenModal").addEventListener("click", closeFullScreen);
+document.getElementById("fullscreenModal").addEventListener("click", function(event) {
+  if (!event.target.closest("figure")) { 
+    closeFullScreen();
+  }
+});
 
+
+/* ----------------------- Divider ----------------------- */

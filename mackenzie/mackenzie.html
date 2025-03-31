@@ -50,8 +50,8 @@
             <div class="filter-pills-wrapper">
               <div class="filter-pills">
                 <button class="filter-pill" data-location="all">All</button>
-                <button class="filter-pill" data-location="lake-tekapo">Lake Tekapo</button>
-                <button class="filter-pill" data-location="aoraki">Aoraki Mount Cook</button>
+                <button class="filter-pill" data-location="tekapo">Lake Tekapo</button>
+                <button class="filter-pill" data-location="mt-cook">Aoraki Mount Cook</button>
                 <button class="filter-pill" data-location="twizel">Twizel</button>
                 <button class="filter-pill" data-location="fairlie">Fairlie</button>
               </div>
@@ -62,7 +62,7 @@
         <!-- MAIN CONTENT -->
         <main>
             <!-- Lake Tekapo -->
-            <section class="post" data-locations="lake-tekapo">
+            <section class="post" data-locations="tekapo">
                 <div class="post-header">
                     <h2>Fri, 28 Feb 2025</h2>
                     <div class="weather-info">
@@ -78,7 +78,13 @@
                         <div class="post-images">
 
                             <div class="post-image-container">
-                                <img src="assets/tekapo-28.2-1.png" data-highres="assets/tekapo-28.2-1.webp" alt="Mt John Walkway 1" class="post-image" />
+                                <img 
+                                src="assets/tekapo-28.2-1.png" 
+                                data-highres="assets/tekapo-28.2-1.webp" 
+                                alt="Mt John Walkway 1" 
+                                data-caption="A peaceful walk." 
+                                class="post-image" 
+                                />
                                 <i class="fas fa-expand expand-icon" onclick="openFullScreen(this)"></i>
                             </div>
                               
@@ -101,7 +107,7 @@
                 </div>
             </section>
 
-            <section class="post" data-locations="lake-tekapo">
+            <section class="post" data-locations="tekapo">
                 <div class="post-header">
                     <h2>Fri, 28 Feb 2025</h2>
                     <div class="weather-info">
@@ -132,12 +138,12 @@
               
 
             <!-- Aoraki Mount Cook -->
-            <section class="post" data-locations="aoraki">
+            <section class="post" data-locations="mt-cook">
                 <div class="post-header">
-                    <h2>Wed, 5 Mar 2025</h2>
+                    <h2>Sat, 1 Mar 2025</h2>
                     <div class="weather-info">
-                    <i class="fas fa-sun"></i>
-                    <span class="temperature">9°C - 17°C</span>
+                    <i class="fas fa-cloud"></i>
+                    <span class="temperature">5°C - 9°C</span>
                     </div>
                 </div>
                 <div class="post-body">
@@ -146,9 +152,74 @@
                             <i class="fas fa-chevron-left"></i>
                         </button>
                         <div class="post-images">
-                            <img src="../assets/canterbury-thumbnail.png" alt="Christchurch" />
-                            <img src="../assets/catlins-thumbnail.png" alt="Christchurch" />
-                            <img src="../assets/bop-thumbnail.png" alt="Christchurch" />
+
+                            <div class="post-image-container">
+                                <img 
+                                src="assets/mt-cook-1.3-1.png" 
+                                data-highres="assets/mt-cook-1.3-1.webp" 
+                                alt="Hooker Valley 1" 
+                                data-caption="Start of trail!" 
+                                class="post-image" 
+                                />
+                                <i class="fas fa-expand expand-icon" onclick="openFullScreen(this)"></i>
+                            </div>
+
+                            <div class="post-image-container">
+                                <img 
+                                src="assets/mt-cook-1.3-2.png" 
+                                data-highres="assets/mt-cook-1.3-2.webp" 
+                                alt="Hooker Valley 2" 
+                                data-caption=" ''I know a spot'' " 
+                                class="post-image" 
+                                />
+                                <i class="fas fa-expand expand-icon" onclick="openFullScreen(this)"></i>
+                            </div>
+
+                            <div class="post-image-container">
+                                <img 
+                                src="assets/mt-cook-1.3-3.png" 
+                                data-highres="assets/mt-cook-1.3-3.webp" 
+                                alt="Hooker Valley 3" 
+                                data-caption="Tuffy the Conqueror" 
+                                class="post-image" 
+                                />
+                                <i class="fas fa-expand expand-icon" onclick="openFullScreen(this)"></i>
+                            </div>
+
+                            <div class="post-image-container">
+                                <img 
+                                src="assets/mt-cook-1.3-4.png" 
+                                data-highres="assets/mt-cook-1.3-4.webp" 
+                                alt="Hooker Valley 4" 
+                                data-caption="Views are breathtaking as always" 
+                                class="post-image" 
+                                />
+                                <i class="fas fa-expand expand-icon" onclick="openFullScreen(this)"></i>
+                            </div>
+
+                            <div class="post-image-container">
+                                <img 
+                                src="assets/mt-cook-1.3-5.png" 
+                                data-highres="assets/mt-cook-1.3-5.webp" 
+                                alt="Hooker Valley 5" 
+                                data-caption="Look Ma! We made it :)" 
+                                class="post-image" 
+                                />
+                                <i class="fas fa-expand expand-icon" onclick="openFullScreen(this)"></i>
+                            </div>
+
+                            <div class="post-image-container">
+                                <img 
+                                src="assets/mt-cook-1.3-6.png" 
+                                data-highres="assets/mt-cook-1.3-6.webp" 
+                                alt="Hooker Valley 6" 
+                                data-caption="Another adventure concludes." 
+                                class="post-image" 
+                                />
+                                <i class="fas fa-expand expand-icon" onclick="openFullScreen(this)"></i>
+                            </div>
+
+                            <video src="assets/mt-cook-1.3-1.mp4" controls autoplay loop muted playsinline></video>
                          </div>
                          <button class="carousel-btn right-btn">
                             <i class="fas fa-chevron-right"></i>
@@ -164,7 +235,14 @@
  
         </main>
         
-          
+        <!-- Fullscreen Modal -->
+        <div id="fullscreenModal" class="fullscreen-modal">
+            <span class="modal-close" onclick="closeFullScreen()">&times;</span>
+            <figure class="modal-content">
+                <img id="modalImage" />
+                <figcaption id="modalCaption"></figcaption> 
+            </figure>      
+        </div>   
 
         <footer>
             <p>© Jeanette Ngo, 2025.</p>
@@ -177,11 +255,7 @@
             </div>
         </footer>
 
-        <!-- Fullscreen Modal -->
-        <div id="fullscreenModal" class="fullscreen-modal">
-            <span class="modal-close" onclick="closeFullScreen()">&times;</span>
-            <img id="modalImg" />
-        </div>
+
 
         <script src="../script.js"></script>
 
