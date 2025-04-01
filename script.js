@@ -8,7 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
   initNavbarScroll();
   initVideosOnLeave();
   initSmallHeroScroll();
+  initImageModal();
 });
+
+let isHobbitMode = false;
+let audioShouldPlay = false;
 
 /* ----------------------- NZ Time ----------------------- */
 function initNZTime() {
@@ -29,40 +33,30 @@ function initNZTime() {
 function initMuteToggle() {
   const muteToggle = document.getElementById("muteToggle");
   const muteIcon = document.getElementById("muteIcon");
-  const normalAudio = document.getElementById("normalAudio");
-  const hobbitAudio = document.getElementById("hobbitAudio");
-  if (!muteToggle || !muteIcon || !normalAudio || !hobbitAudio) return;
-  
-  // On load, ensure the audio icon shows muted (and audio remains paused/muted)
-  muteIcon.classList.remove("fa-volume-up");
-  muteIcon.classList.add("fa-volume-mute");
-  normalAudio.pause();
-  hobbitAudio.pause();
-  normalAudio.muted = true;
-  hobbitAudio.muted = true;
-  
+  const heroVideo = document.getElementById("heroVideo");
+  if (!muteToggle || !muteIcon || !heroVideo) return;
+
+  heroVideo.muted = true;
+  audioShouldPlay = false;
+  updateMuteIcon(true);
+
   muteToggle.addEventListener("click", () => {
-    const isMuted = normalAudio.muted && hobbitAudio.muted;
-    if (isMuted) {
-      normalAudio.muted = hobbitAudio.muted = false;
-      // Play the appropriate audio only if already playing was active before toggle (if not, leave paused)
-      if (document.body.classList.contains("hobbit-mode")) {
-        hobbitAudio.play().catch(() => {});
-        normalAudio.pause();
-        normalAudio.currentTime = 0;
-      } else {
-        normalAudio.play().catch(() => {});
-        hobbitAudio.pause();
-        hobbitAudio.currentTime = 0;
-      }
-      muteIcon.classList.replace("fa-volume-mute", "fa-volume-up");
-    } else {
-      normalAudio.muted = hobbitAudio.muted = true;
-      normalAudio.pause();
-      hobbitAudio.pause();
-      muteIcon.classList.replace("fa-volume-up", "fa-volume-mute");
+    const isMuted = heroVideo.muted;
+    heroVideo.muted = !isMuted;
+    audioShouldPlay = !heroVideo.muted;
+    updateMuteIcon(heroVideo.muted);
+
+    if (!heroVideo.muted) {
+      heroVideo.play().catch(() => {});
     }
   });
+}
+
+function updateMuteIcon(isMuted) {
+  const muteIcon = document.getElementById("muteIcon");
+  if (!muteIcon) return;
+  muteIcon.classList.toggle("fa-volume-up", !isMuted);
+  muteIcon.classList.toggle("fa-volume-mute", isMuted);
 }
 
 /* ----------------------- Hobbit Mode Toggle ----------------------- */
@@ -70,86 +64,56 @@ function initHobbitMode() {
   const hobbitToggle = document.getElementById("hobbitToggle");
   if (!hobbitToggle) return;
 
-  // Retrieve stored Hobbit mode state from localStorage
   const storedHobbitMode = localStorage.getItem("hobbitMode");
-  const isHobbit = storedHobbitMode === "true";
-  
-  // Set the toggle state and body class accordingly
-  hobbitToggle.checked = isHobbit;
-  document.body.classList.toggle("hobbit-mode", isHobbit);
-  
-  // Update hero video based on stored mode
-  const heroVideo = document.getElementById("heroVideo");
-  if (heroVideo) {
-    heroVideo.src = isHobbit
-      ? "assets/hobbit-mode-video.mp4"
-      : "assets/normal-mode-video.mp4";
-    heroVideo.load();
-    heroVideo.play().catch(() => {});
-  }
-  
-  // Audio switching logic
-  const normalAudio = document.getElementById("normalAudio");
-  const hobbitAudio = document.getElementById("hobbitAudio");
-  if (normalAudio && hobbitAudio) {
-    // On page load, if audio is playing (i.e. not muted), switch audio based on the stored mode.
-    if (!normalAudio.muted && !hobbitAudio.muted) {
-      if (isHobbit) {
-        normalAudio.pause();
-        normalAudio.currentTime = 0;
-        hobbitAudio.play().catch(() => {});
-      } else {
-        hobbitAudio.pause();
-        hobbitAudio.currentTime = 0;
-        normalAudio.play().catch(() => {});
-      }
-    }
-  }
-  
-  // Listen for toggle changes
+  isHobbitMode = storedHobbitMode === "true";
+  hobbitToggle.checked = isHobbitMode;
+  document.body.classList.toggle("hobbit-mode", isHobbitMode);
+
+  updateHeroVideo();
+
   hobbitToggle.addEventListener("change", () => {
-    const isHobbitMode = hobbitToggle.checked;
-    document.body.classList.toggle("hobbit-mode", isHobbitMode);
+    isHobbitMode = hobbitToggle.checked;
     localStorage.setItem("hobbitMode", isHobbitMode);
-    
-    // Switch hero video if present
-    if (heroVideo) {
-      heroVideo.pause();
-      heroVideo.src = isHobbitMode
-        ? "assets/hobbit-mode-video.mp4"
-        : "assets/normal-mode-video.mp4";
-      heroVideo.load();
-      heroVideo.play().catch(() => {});
-    }
-    
-    // Switch audio if audio is currently active (not muted)
-    if (normalAudio && hobbitAudio && !normalAudio.muted && !hobbitAudio.muted) {
-      if (isHobbitMode) {
-        normalAudio.pause();
-        normalAudio.currentTime = 0;
-        hobbitAudio.play().catch(() => {});
-      } else {
-        hobbitAudio.pause();
-        hobbitAudio.currentTime = 0;
-        normalAudio.play().catch(() => {});
-      }
-    }
+    document.body.classList.toggle("hobbit-mode", isHobbitMode);
+    updateHeroVideo();
   });
 }
+
+function updateHeroVideo() {
+  const heroVideo = document.getElementById("heroVideo");
+  if (!heroVideo) return;
+
+  const currentTime = heroVideo.currentTime;
+  const wasMuted = heroVideo.muted;
+
+  heroVideo.pause();
+  heroVideo.src = isHobbitMode
+    ? "assets/hobbit-mode-video.mp4"
+    : "assets/normal-mode-video.mp4";
+  heroVideo.load();
+
+  heroVideo.addEventListener("loadedmetadata", function restoreTimeOnce() {
+    heroVideo.currentTime = currentTime;
+    heroVideo.muted = !audioShouldPlay || wasMuted;
+    updateMuteIcon(heroVideo.muted);
+    heroVideo.play().catch(() => {});
+    heroVideo.removeEventListener("loadedmetadata", restoreTimeOnce);
+  });
+}
+
+
 
 /* ----------------------- Filter Pills (Single Active) ----------------------- */
 function initFilterPills() {
   const filterPills = [...document.querySelectorAll(".filter-pill")];
   const posts = [...document.querySelectorAll(".post")];
   if (!filterPills.length) return;
-  
-  // Activate "all" pill by default.
+
   const allPill = filterPills.find(pill => pill.dataset.location.trim() === "all");
   if (allPill) allPill.classList.add("active");
 
   filterPills.forEach(pill =>
     pill.addEventListener("click", () => {
-      // Make only the clicked pill active.
       filterPills.forEach(p => p.classList.remove("active"));
       pill.classList.add("active");
       applyFilter();
@@ -168,7 +132,6 @@ function initFilterPills() {
     }
   };
 
-  // Run initial filter
   applyFilter();
 }
 
@@ -210,17 +173,12 @@ function initCarouselChevrons() {
 function initPageVisibility() {
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
-      const normalAudio = document.getElementById("normalAudio");
-      const hobbitAudio = document.getElementById("hobbitAudio");
-      if (normalAudio) normalAudio.pause();
-      if (hobbitAudio) hobbitAudio.pause();
-      
-      // Update mute icon to muted state on return.
-      const muteIcon = document.getElementById("muteIcon");
-      if (muteIcon) {
-        muteIcon.classList.remove("fa-volume-up");
-        muteIcon.classList.add("fa-volume-mute");
+      const heroVideo = document.getElementById("heroVideo");
+      if (heroVideo) {
+        heroVideo.muted = true;
+        audioShouldPlay = false;
       }
+      updateMuteIcon(true);
     }
   });
 }
@@ -238,10 +196,8 @@ function initNavbarScroll() {
 function initVideosOnLeave() {
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
-      // Grab all videos in posts
       const allVideos = document.querySelectorAll(".post-images video");
       allVideos.forEach(video => {
-        // If it's playing unmuted, let's mute it
         if (!video.paused && !video.muted) {
           video.muted = true;
         }
@@ -254,8 +210,7 @@ function initVideosOnLeave() {
 function initSmallHeroScroll() {
   const smallHero = document.querySelector(".small-hero");
   if (!smallHero) return;
-  const threshold = 50; // Adjust as needed
-
+  const threshold = 50;
   window.addEventListener("scroll", () => {
     if (window.scrollY > threshold) {
       smallHero.classList.add("scrolled");
@@ -266,34 +221,23 @@ function initSmallHeroScroll() {
 }
 
 /* ----------------------- Post Image Modal ----------------------- */
-function openFullScreen(icon) {
-  const image = icon.previousElementSibling;
-  const highResImg = image.getAttribute("data-highres"); // Ensure correct attribute retrieval
-  const captionText = image.getAttribute("data-caption") || "No caption available"; // Default fallback
-
+function initImageModal() {
   const modal = document.getElementById("fullscreenModal");
   const modalImg = document.getElementById("modalImage");
   const modalCaption = document.getElementById("modalCaption");
+  if (!modal || !modalImg || !modalCaption) return;
 
-  if (highResImg) {
-    modalImg.src = highResImg;
-    modalCaption.textContent = captionText; 
-    modal.style.display = "flex"; // Ensure modal is shown
-  } else {
-    console.error("High-resolution image not found.");
-  }
+  window.openFullScreen = (icon) => {
+    const image = icon?.previousElementSibling;
+    if (!image || !image.dataset.highres) return;
+    modalImg.src = image.dataset.highres;
+    modalCaption.textContent = image.dataset.caption || "";
+    modal.style.display = "flex";
+  };
+
+  modal.addEventListener("click", (e) => {
+    if (!e.target.closest("figure")) modal.style.display = "none";
+  });
 }
-
-function closeFullScreen() {
-  document.getElementById("fullscreenModal").style.display = "none";
-}
-
-// Close modal when clicking outside the image
-document.getElementById("fullscreenModal").addEventListener("click", function(event) {
-  if (!event.target.closest("figure")) { 
-    closeFullScreen();
-  }
-});
-
 
 /* ----------------------- Divider ----------------------- */
