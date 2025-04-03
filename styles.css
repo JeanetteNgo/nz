@@ -356,16 +356,25 @@ footer a:hover {
   margin-bottom: 1rem;
 }
 
-.small-hero-content {
-  gap: 0;
-}
-
 .small-hero h1 {
   color: #4E3E3E;
   font-family: 'Kanit', sans-serif;
   font-weight: 600;
   font-size: 2.4rem;
   transition: all 0.5s ease;
+}
+
+.region-description {
+  font-family: 'Kanit', sans-serif;
+  font-size: 1rem;
+  color: #4E3E3E;
+  margin-top: 0.5rem;
+}
+
+.small-hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .small-hero.scrolled {
@@ -383,22 +392,11 @@ footer a:hover {
   box-shadow: 0 4px 20px #4f434320;
 }
 
-.small-hero.scrolled img {
+.small-hero.scrolled img,
+.small-hero.scrolled h1,
+.small-hero.scrolled .region-description {
   display: none;
 }
-
-.small-hero.scrolled h1 {
-  display: none;
-}
-
-
-
-/* .small-hero-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center; 
-  color: white;
-} */
 
 .canterbury-hero {
   background-color: #F5F2EC;
@@ -412,24 +410,36 @@ footer a:hover {
   background-color: #FCF8E6;
 }
 
-/* Filter Pills Container */
-.filter-pills-wrapper {
-  position: relative;
-  width: 100%;
-  margin: 1rem 0 0.5rem;
+.mackenzie-hero {
+  background-color: #eaf0f7;
 }
 
 /* Filter Pills Container */
-.filter-pills {
+.filter-pills-wrapper {
   display: flex;
   justify-content: center;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;  
-  box-sizing: border-box;
-  padding: 0 1rem;
+}
+
+.sticky-pills {
+  position: sticky;
+  top: 60px; 
+  z-index: 10;
+  padding: 0.8rem 0;
+  background-color: #ffffff; 
+  border-bottom: 1px solid #edecec;
+  transition: top 0.3s ease-in-out;
+}
+
+.filter-pills {
+  display: flex;
+  flex-wrap: nowrap; 
+  justify-content: flex-start; 
+  overflow-x: auto; 
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS devices */
+  padding: 0; 
+  gap: 0.5rem;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
 }
 
 .filter-pills::-webkit-scrollbar {
@@ -449,7 +459,6 @@ footer a:hover {
   font-weight: 500;
   cursor: pointer;
   transition: background 0.3s ease;
-  margin: 0 0.25rem;
 }
 
 .filter-pill.active {
@@ -459,23 +468,6 @@ footer a:hover {
   border: 2px solid #4E3E3E;
 }
 
-.small-hero.scrolled .filter-pills {
-  display: flex;
-  width: 100%;
-  margin: 0 auto;
-}
-
-.small-hero.scrolled .filter-pill {
-  background-color: #fff;
-  color: #4E3E3E;
-  font-size: 0.8rem;
-  padding: 0.4rem 0.8rem;
-  font-weight: 500;
-}
-
-.small-hero.scrolled .filter-pill.active {
-  font-weight: 600;
-}
 
 /* Weather Icons */
 .fa-sun {
@@ -772,8 +764,12 @@ body.hobbit-mode .post-body p {
     font-size: 2rem;
   }
   .filter-pills {
-    justify-content: flex-start;
-    padding: 0 1rem;
+    /* justify-content: flex-start; */
+    flex-direction: row;
+    white-space: nowrap;
+    padding: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -807,4 +803,5 @@ body.hobbit-mode .post-body p {
     justify-content: flex-start;
     padding: 0 1rem;
   }
+
 }

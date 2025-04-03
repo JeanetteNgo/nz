@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initPageVisibility();
   initNavbarScroll();
   initVideosOnLeave();
-  initSmallHeroScroll();
+  initFilterPillsScroll();
   initImageModal();
 });
 
@@ -101,7 +101,22 @@ function updateHeroVideo() {
   });
 }
 
+/* ----------------------- Filter Pills Scroll Behavior ----------------------- */
+function initFilterPillsScroll() {
+  const filterPills = document.querySelector(".filter-pills"); // Assuming this is the class for your pills
+  const navbarHeight = document.querySelector(".navbar").offsetHeight; // Get navbar height dynamically
+  if (!filterPills) return;
 
+  const threshold = navbarHeight; // When you scroll past the navbar
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > threshold) {
+      filterPills.classList.add("sticky");  // Make pills sticky below navbar
+    } else {
+      filterPills.classList.remove("sticky");
+    }
+  });
+}
 
 /* ----------------------- Filter Pills (Single Active) ----------------------- */
 function initFilterPills() {
@@ -202,20 +217,6 @@ function initVideosOnLeave() {
           video.muted = true;
         }
       });
-    }
-  });
-}
-
-/* ----------------------- Small Hero on Scroll ----------------------- */
-function initSmallHeroScroll() {
-  const smallHero = document.querySelector(".small-hero");
-  if (!smallHero) return;
-  const threshold = 50;
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > threshold) {
-      smallHero.classList.add("scrolled");
-    } else {
-      smallHero.classList.remove("scrolled");
     }
   });
 }
