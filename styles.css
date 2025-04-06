@@ -581,7 +581,7 @@ color: #ffbf00;
 /* Ensure images don't shrink */
 .post-images img, .post-images video {
   flex: 0 0 auto;
-  max-height: 270px;
+  max-height: 320px;
   object-fit: cover;
   border-radius: 4px;
 }
@@ -769,12 +769,7 @@ body.hobbit-mode .post-body p {
     font-size: 2rem;
   }
   .filter-pills {
-    /* justify-content: flex-start; */
-    flex-direction: row;
-    white-space: nowrap;
-    padding: 0;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    padding: 0 1rem;
   }
 }
 
@@ -803,10 +798,6 @@ body.hobbit-mode .post-body p {
   }
   .toggle-label {
     display: none;
-  }
-  .filter-pills {
-    justify-content: flex-start;
-    padding: 0 1rem;
   }
 
 }
