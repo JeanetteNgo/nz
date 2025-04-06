@@ -780,7 +780,9 @@ body.hobbit-mode .post-body p {
   footer {
     padding: 2rem;
   }
-
+  .toggle-label {
+    display: none;
+  }
   .hero-video {
     display: none;
   }
@@ -796,8 +798,8 @@ body.hobbit-mode .post-body p {
   .small-hero h1 {
     font-size: 1.4rem;
   }
-  .toggle-label {
-    display: none;
+  .post-images img, .post-images video {
+    max-height: 270px;
   }
 
 }
