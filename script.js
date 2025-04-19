@@ -102,21 +102,21 @@ function updateHeroVideo() {
 }
 
 /* ----------------------- Filter Pills Scroll Behavior ----------------------- */
-function initFilterPillsScroll() {
-  const filterPills = document.querySelector(".filter-pills"); // Assuming this is the class for your pills
-  const navbarHeight = document.querySelector(".navbar").offsetHeight; // Get navbar height dynamically
-  if (!filterPills) return;
+// function initFilterPillsScroll() {
+//   const filterPills = document.querySelector(".filter-pills"); // Assuming this is the class for your pills
+//   const navbarHeight = document.querySelector(".navbar").offsetHeight; // Get navbar height dynamically
+//   if (!filterPills) return;
 
-  const threshold = navbarHeight; // When you scroll past the navbar
+//   const threshold = navbarHeight; // When you scroll past the navbar
 
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > threshold) {
-      filterPills.classList.add("sticky");  // Make pills sticky below navbar
-    } else {
-      filterPills.classList.remove("sticky");
-    }
-  });
-}
+//   window.addEventListener("scroll", () => {
+//     if (window.scrollY > threshold) {
+//       filterPills.classList.add("sticky");  // Make pills sticky below navbar
+//     } else {
+//       filterPills.classList.remove("sticky");
+//     }
+//   });
+// }
 
 /* ----------------------- Filter Pills (Single Active) ----------------------- */
 function initFilterPills() {

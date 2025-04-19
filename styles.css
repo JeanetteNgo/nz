@@ -15,6 +15,7 @@ body {
 
 h1, h2, h3, h4 {
   font-family: 'Uncial Antiqua', cursive;
+  margin: 0.2rem 0;
 }
 
 a {
@@ -402,6 +403,13 @@ footer a:hover {
   display: none;
 }
 
+.work-hero {
+  background-image: url('../assets/work-thumbnail.png');
+  background-size: cover; 
+  background-position: center center; 
+  background-attachment: fixed;
+}
+
 .canterbury-hero {
   background-color: #F5F2EC;
 }
@@ -673,7 +681,38 @@ color: #ffbf00;
 }
 
 
+/*------------------------------------*/
+/* BLOG POST LAYOUT                   */
+/*------------------------------------*/
+.blog-hero {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  padding: 8rem 0rem 4rem;
+  margin: 0 auto;
+}
 
+.blog-hero img {
+  max-width: 90%;
+}
+
+.blog-container {
+  width: 820px;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.blog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin: 2rem;
+}
+
+.blog-content p {
+  font-weight: 300;
+}
 
 /*------------------------------------*/
 /* HOBBIT MODE (body.hobbit-mode)     */
@@ -681,7 +720,6 @@ color: #ffbf00;
 body.hobbit-mode {
   background-color: #11301e;
   background-image: url('assets/middle-earth-map.png');
-  /* background-blend-mode: multiply; */
   background-size: cover; 
   background-position: center center; 
   background-attachment: fixed;
@@ -766,6 +804,7 @@ body.hobbit-mode .post-body p {
   color: #f5f5f5;
 }
 
+
 body.hobbit-mode .sticky-pills {
   background-color: rgba(3, 24, 12, 0.8);
 }
@@ -814,9 +853,7 @@ body.hobbit-mode .filter-pill.active {
   .hero-content h1 {
     font-size: 1.6rem;
   }
-  .small-hero {
-    height: 100%;
-  }
+ 
   .small-hero h1 {
     font-size: 1.4rem;
   }
