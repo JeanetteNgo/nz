@@ -1,30 +1,72 @@
-/* RESET / BASE STYLES */
-* {
+:root {
+
+  /* Font family */
+  --font-primary: 'Kanit', sans-serif;
+  --font-hobbit: 'Uncial Antiqua', cursive;
+
+  /* General Colors */
+  --neutral-0: #FFFFFF;
+  --neutral-100: #F5F5F5;
+  --neutral-200: #E5E5E5; 
+  --neutral-300: #C4C4C4;
+  --neutral-400: #68696E;
+  --neutral-500: #333333;
+
+  --brown-0: #EDECEC;
+  --brown-100: #DCD8D8;
+  --brown-200: #837878;
+  --brown-300: #4E3E3E;
+  --brown-400: #3B2E2E;
+
+  --green-0: #E7EAE9;
+  --green-100: #CFD6D2;
+  --green-200: #41594B;
+  --green-300: #1C4C2D;
+  --green-400: #0B2616;
+  --green-500: #111B15;
+
+  /* Default Mode Colors */
+  --text-color-primary: var(--brown-300);
+  --text-color-secondary: var(--neutral-400);
+  --text-color-accent: #F6CE95;
+
+  --text-color-hobbit-primary: var(--neutral-0);
+  --text-color-hobbit-secondary: var(--neutral-200);
+  --text-color-hobbit-accent: #F4BC6E;
+
+
+
+
+  --background-color: #FAFAFA;
+  --background-color-hobbit: #11301E;
+  --background-image-hobbit: url('assets/middle-earth-map.png');
+}
+
+/*------------------------------------*/
+*, *::after, *::before {
+  border: 0;  
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  background-color: #fafafa;
-  font-family: 'Kanit', sans-serif;
-  color: #4E3E3E;
+  background-color: var(--background-color);
+  font-family: var(--font-primary);
+  color: var(--text-color-primary);
   overflow-x: hidden;
   transition: background-color 0.3s ease, background-image 0.3s ease;
 }
 
 h1, h2, h3, h4 {
-  font-family: 'Uncial Antiqua', cursive;
+  font-family: var(--font-hobbit);
   margin: 0.2rem 0;
 }
 
-p {
-  font-weight: 300;
-}
-
 a {
-  color: inherit;
   text-decoration: none;
+  color: var(--text-color-primary);
+  transition: color 0.3s ease;
 }
 
 .navbar {
@@ -37,7 +79,7 @@ a {
   align-items: center;
   padding: 1rem 1.5rem;
   background-color: transparent;
-  color: #fff; 
+  color: var(--neutral-0);
 }
 
 /* On scroll: apply a background */
@@ -50,8 +92,27 @@ a {
 
 /* NZ Time Display */
 #nzTime {
-  font-family: 'Uncial Antiqua', cursive;
+  font-family: var(--font-hobbit);
+  color: var(--neutral-0);
   font-size: 14px;
+}
+
+.home-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-hobbit);
+  color: var(--text-color-primary);
+  font-size: 0.8rem;
+}
+
+.home-icon i {
+  font-size: 1rem;
+  color: inherit;
+}
+
+.navbar.scrolled .home-icon {
+  color: var(--neutral-0);
 }
 
 /* Right side icons & toggles */
@@ -73,8 +134,12 @@ a {
 
 .toggle-label {
   font-size: 0.8rem;
-  font-family: 'Uncial Antiqua', cursive;
-  color: inherit; /* Inherit color so it adapts to your mode */
+  font-family: var(--font-hobbit);
+  color: var(--text-color-primary);
+}
+
+.navbar.scrolled .toggle-label {
+  color: var(--neutral-0); 
 }
 
 /* Hide the actual checkbox */
@@ -94,8 +159,8 @@ a {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #fafafa;
-  border: solid 1px #e5e5e5;
+  background-color: var(--background-color);
+  border: solid 1px var(--neutral-200);
   border-radius: 20px;
   transition: background-color 0.3s ease;
 }
@@ -129,7 +194,7 @@ a {
 .icon-btn {
   background: none;
   border: none;
-  color: #fff;
+  color: #FFFFFF;
   font-size: 1.5rem;
   cursor: pointer;
 }
@@ -180,7 +245,7 @@ a {
   text-align: center;
   padding: 2rem;
   text-shadow: 0 2px 12px rgba(0,0,0,0.3);
-  color: #fff;
+  color: #FFFFFF;
 }
 
 .hero-content h1 {
@@ -229,8 +294,9 @@ main {
 
 /* CARD */
 .card {
-  background-color: #ffffff;
-  border: solid 1px #4f434320;
+  color: var(--text-color-primary);
+  background-color: var(--neutral-0);
+  border: solid 1px var(--neutral-200);
   width: 100%;
   min-width: 160px;
   max-width: 400px;
@@ -257,7 +323,7 @@ main {
 .card:hover {
   transform: translateY(-5px) scale(1.02);
   transition: transform 0.5s ease;
-  box-shadow: 0 4px 20px #4f434340;
+  box-shadow: 0 4px 20px var(--neutral-300);
 }
 
 /* FOOTER */
@@ -265,7 +331,7 @@ footer {
   background-color: transparent;
   text-align: center;
   padding: 4rem;
-  border-top: solid 1px #4f434310;
+  border-top: solid 1px var(--neutral-200);
   margin-top: 2rem;
 }
 
@@ -274,12 +340,12 @@ footer a {
   font-style: italic;
   font-weight: 400;
   text-decoration: none;
-  color: #968d8d;
+  color: var(--neutral-300);
   padding: 8px;
 }
 
 footer a:hover {
-  color: #837878;
+  color: var(--neutral-400);
   letter-spacing: 2px;
   transition: 0.5s;
 }
@@ -292,7 +358,7 @@ footer a:hover {
 }
 
 .dot-divider {
-  color: #968d8d80;
+  color: var(--neutral-300);
 }
 
 /*------------------------------------*/
@@ -369,7 +435,7 @@ footer a:hover {
 }
 
 .small-hero h1 {
-  color: #4E3E3E;
+  color: var(--text-color-primary);
   font-family: 'Kanit', sans-serif;
   font-weight: 600;
   font-size: 2.4rem;
@@ -441,7 +507,7 @@ footer a:hover {
   top: 60px; 
   z-index: 10;
   padding: 0.8rem 0;
-  background-color: #f5f5f5;
+  background-color: var(--neutral-100);
   transition: top 0.3s ease-in-out;
 }
 
@@ -463,24 +529,23 @@ footer a:hover {
 
 /* Individual Filter Pills */
 .filter-pill {
-  flex: 0 0 auto;
-  background-color: #fff;
-  backdrop-filter: blur(2px);
-  color: #837878;
-  padding: 0.4rem 0.8rem;
-  border: 1.5px solid #dcd8d8;
-  border-radius: 1rem;
   font-size: 0.75rem;
   font-weight: 500;
+  flex: 0 0 auto;
+  padding: 0.4rem 0.8rem;
+  color: var(--brown-200);
+  background-color: var(--neutral-0);
+  border: 1.5px solid var(--brown-100);
+  border-radius: 1rem;
   cursor: pointer;
   transition: background 0.3s ease;
 }
 
 .filter-pill.active {
-  background-color: #fff;
-  color: #4E3E3E;
+  background-color: var(--neutral-0);
+  color: var(--text-color-primary);
   font-weight: 600;
-  border: 2px solid #4E3E3E;
+  border: 2px solid var(--brown-400);
 }
 
 
@@ -502,10 +567,11 @@ color: #ffbf00;
 .post {
   max-width: 96%;
   margin: 0 auto;
-  background-color: #fff;
-  color: #333;
+  background-color: var(--neutral-0);
+  color: var(--neutral-500);
   margin-bottom: 2rem;
   padding: 1rem;
+  border: solid 1px var(--neutral-100);
   border-radius: 8px;
   box-shadow: 0 4px 20px #4f434310;
 }
@@ -567,7 +633,7 @@ color: #ffbf00;
   transform: translateY(-50%);
   background: rgba(0, 0, 0, 0.3);
   border: none;
-  color: #fff;
+  color: var(--neutral-0);
   cursor: pointer;
   z-index: 2;
   display: none; /* Hidden by default, shown via JS */
@@ -598,6 +664,7 @@ color: #ffbf00;
 
 
 .post-body h3 {
+  color: var(--neutral-500);
   font-family: 'Kanit', sans-serif;
   font-size: 1.05rem;
   font-weight: 500;
@@ -605,7 +672,8 @@ color: #ffbf00;
 }
 
 .post-body p {
-  color: #565656;
+  color: var(--neutral-400);
+  font-weight: 300;
   line-height: 1.2rem;
   padding: 2px 4px;
 }
@@ -625,7 +693,7 @@ color: #ffbf00;
   top: 8px;
   right: 8px;
   font-size: 14px;
-  color: white;
+  color: var(--neutral-0);
   background: rgba(0, 0, 0, 0.3);
   padding: 8px;
   border-radius: 50%;
@@ -665,10 +733,9 @@ color: #ffbf00;
 }
 
 #modalCaption {
-  color: #fff;
+  color: var(--neutral-0);
   font-size: 1rem;
   text-align: center;
-  font-family: 'Kanit', sans-serif;
   font-weight: 300;
 }
 
@@ -677,7 +744,7 @@ color: #ffbf00;
   top: 1rem;
   right: 1rem;
   font-size: 2.5rem;
-  color: #fff;
+  color: var(--neutral-0);
   cursor: pointer;
   z-index: 1001;
 }
@@ -694,7 +761,7 @@ color: #ffbf00;
   justify-content: center;
   align-items: center;
   text-align: center;
-  background-color: #f5f5f5;
+  background-color: var(--neutral-100);
   padding: 8rem 0rem 4rem;
   margin: 0 auto;
   gap: 2rem;
@@ -719,6 +786,17 @@ color: #ffbf00;
 
 .blog-content p {
   text-align: justify;
+}
+
+.blog-content a {
+  font-weight: 500;
+  text-decoration: underline;
+  transition: 0.3s ease;
+}
+
+.blog-content a:hover {
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .blog-image-container {
@@ -773,7 +851,7 @@ body.hobbit-mode .hero::after {
 
 
 /* For headers in Hobbit Mode (when body has .hobbit-mode) */
-body.hobbit-mode h1,
+/* body.hobbit-mode h1,
 body.hobbit-mode h2 {
   font-family: 'Uncial Antiqua', cursive;
   background: linear-gradient(
@@ -786,25 +864,20 @@ body.hobbit-mode h2 {
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  /* -webkit-text-stroke: 0.05px #f6ce95; */
-  
-  /* text-shadow:
-  0 0px 1px rgba(255, 250, 224, 0.5),
-  0 0 12px rgba(215, 125, 0, 0.4),
-  0 0 20px rgba(50, 30, 4, 0.3); */
-}
+} */
 
-body.hobbit-mode p {
-  color: #f5f5f5;
-}
 
 body.hobbit-mode .navbar {
   background-color: rgba(15, 45, 28, 0);
 }
 
-.hobbit-mode .navbar.scrolled {
+body.hobbit-mode .navbar.scrolled {
   background-color: rgba(15, 45, 28, 0.9); /* Darker, themed background for hobbit mode */
   transition: background-color 0.3s ease;
+}
+
+body.hobbit-mode .navbar.scrolled .home-icon {
+  color: var(--text-color-hobbit-primary);
 }
 
 .hero-content {
@@ -815,41 +888,56 @@ body.hobbit-mode .navbar {
 }
 
 body.hobbit-mode .card {
-  background-color: #222;
-  border: 1px solid #e6a448;
+  background-color: var(--green-500);
+  border: 1px solid var(--green-200);
+}
+
+body.hobbit-mode .card p {
+  color: var(--text-color-hobbit-secondary);
 }
 
 body.hobbit-mode footer {
-  border-top: solid 1px #e6a44820;
+  border-top: solid 1px var(--green-200);
 }
 
+
 body.hobbit-mode .post {
-  background-color: rgba(15, 45, 28, 0.9);
-  color: #f5f5f5;
+  background-color: var(--green-500);
+  border: solid 1px var(--green-200);
+  color: var(--neutral-100);
 }
 body.hobbit-mode .post-header h2 {
-  font-family: 'Kanit', sans-serif;
+  font-family: var(--font-primary);
+  color: var(--text-color-hobbit-primary);
+}
+
+body.hobbit-mode .post-body h3 {
+  color: var(--text-color-hobbit-primary);
 }
 
 body.hobbit-mode .post-body p {
-  color: #f5f5f5;
+  color: var(--neutral-100);
 }
 
 
 body.hobbit-mode .sticky-pills {
-  background-color: rgba(3, 24, 12, 0.8);
+  background-color: var(--green-500);
+}
+
+body.hobbit-mode .filter-pill {
+  color: var(--neutral-0);
+  background-color: var(--green-200);
+  border: 1.5px solid var(--green-200);
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 body.hobbit-mode .filter-pill.active {
-  background: linear-gradient(
-    to bottom,
-    #ffeca9 15%,
-    #ecd3a8 25%,
-    #FCD445 90%
-  );
-  color: #744a16;
+  background-color: var(--green-200);
+  color: var(--neutral-200);
   font-weight: 600;
-  border: 2px solid #fff;
+  border: 2px solid var(--green-100);
 }
 
 /*------------------------------------*/
