@@ -267,15 +267,13 @@ main {
 }
 
 /* SECTION TITLES */
-.featured-section h2,
-.island-section h2 {
+.featured-section h2 {
   text-align: center;
   margin-bottom: 1.5rem;
   font-size: 1.4rem;
 }
 
-.featured-section,
-.island-section {
+.featured-section {
   margin: 5rem 2rem ;
 }
 
@@ -407,7 +405,7 @@ footer a:hover {
 .small-hero {
   position: relative;
   width: 100%;
-  background-color: #635a5a;
+  background-color: var(--neutral-200);
   text-align: center;
   padding: 8rem 0rem 4rem;
   margin: 0 auto;
@@ -432,17 +430,15 @@ footer a:hover {
 
 .small-hero h1 {
   color: var(--text-color-primary);
-  font-family: 'Kanit', sans-serif;
   font-weight: 600;
-  font-size: 2.4rem;
+  font-size: 2.2rem;
   transition: all 0.5s ease;
 }
 
 .region-description {
-  font-family: 'Kanit', sans-serif;
   font-size: 1rem;
   font-weight: 400;
-  color: #645353;
+  color: var(--text-color-primary);
   margin-top: 0.5rem;
 }
 
@@ -661,7 +657,7 @@ color: #ffbf00;
 
 .post-body h3 {
   color: var(--neutral-500);
-  font-family: 'Kanit', sans-serif;
+  font-family: var(--font-primary);
   font-size: 1.05rem;
   font-weight: 500;
   padding: 2px 4px;
@@ -757,7 +753,7 @@ color: #ffbf00;
   justify-content: center;
   align-items: center;
   text-align: center;
-  background-color: var(--neutral-100);
+  /* background-color: var(--neutral-100); */
   padding: 8rem 0rem 4rem;
   margin: 0 auto;
   gap: 2rem;
@@ -781,17 +777,18 @@ color: #ffbf00;
 }
 
 .blog-content p {
+  font-weight: 300;
   text-align: justify;
 }
 
 .blog-content a {
-  font-weight: 500;
+  font-weight: 400;
   text-decoration: underline;
   transition: 0.3s ease;
 }
 
 .blog-content a:hover {
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.5px;
 }
 
@@ -819,15 +816,14 @@ color: #ffbf00;
 /* HOBBIT MODE (body.hobbit-mode)     */
 /*------------------------------------*/
 body.hobbit-mode {
-  background-color: #11301e;
+  background-color: var(--background-color-hobbit);
   background-image: url('assets/middle-earth-map.png');
   background-size: cover; 
   background-position: center center; 
   background-attachment: fixed;
   background-repeat: no-repeat;
-  height: 100vh;
   width: 100%;
-  color: #f4bc6e;
+  color: var(--text-color-hobbit-primary);
   cursor: url('assets/hobbit-cursor.png') 8 8, auto;
   transition: background-color 0.3s ease, background-image 0.3s ease;
 }
@@ -845,11 +841,27 @@ body.hobbit-mode .hero::after {
   pointer-events: none;
 }
 
+body.hobbit-mode .navbar {
+  background-color: rgba(15, 45, 28, 0);
+}
 
-/* For headers in Hobbit Mode (when body has .hobbit-mode) */
-/* body.hobbit-mode h1,
-body.hobbit-mode h2 {
-  font-family: 'Uncial Antiqua', cursive;
+body.hobbit-mode .navbar.scrolled {
+  background-color: rgba(15, 45, 28, 0.9);
+  transition: background-color 0.3s ease;
+}
+
+body.hobbit-mode .navbar.scrolled .home-icon {
+  color: var(--text-color-hobbit-primary);
+}
+
+body.hobbit-mode .hero-content {
+  text-shadow:
+  0 0px 1px rgba(255, 250, 224, 0.5),
+  0 0 12px rgba(215, 125, 0, 0.4),
+  0 0 20px rgba(50, 30, 4, 0.3);
+}
+
+body.hobbit-mode .featured-section h2 {
   background: linear-gradient(
     to bottom,
     #ffeca9 15%,
@@ -860,27 +872,6 @@ body.hobbit-mode h2 {
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-} */
-
-
-body.hobbit-mode .navbar {
-  background-color: rgba(15, 45, 28, 0);
-}
-
-body.hobbit-mode .navbar.scrolled {
-  background-color: rgba(15, 45, 28, 0.9); /* Darker, themed background for hobbit mode */
-  transition: background-color 0.3s ease;
-}
-
-body.hobbit-mode .navbar.scrolled .home-icon {
-  color: var(--text-color-hobbit-primary);
-}
-
-.hero-content {
-  text-shadow:
-  0 0px 1px rgba(255, 250, 224, 0.5),
-  0 0 12px rgba(215, 125, 0, 0.4),
-  0 0 20px rgba(50, 30, 4, 0.3);
 }
 
 body.hobbit-mode .card {
@@ -968,10 +959,18 @@ body.hobbit-mode .filter-pill.active {
   .hero-content h1 {
     font-size: 1.6rem;
   }
+
+  .small-hero {
+    padding: 8rem 0rem 2.5rem;
+    margin: 0 auto;
+}
  
   .small-hero h1 {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
   }
+  .region-description {
+    font-size: 0.95rem;
+}
   .post-images img, .post-images video {
     max-height: 270px;
   }
