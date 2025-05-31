@@ -22,10 +22,10 @@
   --green-100: #CFD6D2;
   --green-200: #41594B;
   --green-300: #1C4C2D;
-  --green-400: #0B2616;
+  --green-400: #123F25;
   --green-500: #111B15;
 
-  /* Default Mode Colors */
+  /* Theme Colors */
   --text-color-primary: var(--brown-300);
   --text-color-secondary: var(--neutral-400);
   --text-color-accent: #F6CE95;
@@ -33,9 +33,6 @@
   --text-color-hobbit-primary: var(--neutral-0);
   --text-color-hobbit-secondary: var(--neutral-200);
   --text-color-hobbit-accent: #F4BC6E;
-
-
-
 
   --background-color: #FAFAFA;
   --background-color-hobbit: #11301E;
@@ -82,7 +79,6 @@ a {
   color: var(--neutral-0);
 }
 
-/* On scroll: apply a background */
 .navbar.scrolled {
   height: 60px;
   background-color: rgba(65, 65, 65, 0.9); 
@@ -457,7 +453,7 @@ footer a:hover {
   align-items: center;
   justify-contents: center;
   background-image: none;
-  background: #ffffff;
+  background: var(--neutral-0);
   backdrop-filter: blur(4px);
   position: sticky;
   top: 60px; 
@@ -903,7 +899,7 @@ body.hobbit-mode footer {
 
 body.hobbit-mode .post {
   background-color: var(--green-500);
-  border: solid 1px var(--green-200);
+  border: solid 1px var(--green-300);
   color: var(--neutral-100);
 }
 body.hobbit-mode .post-header h2 {
@@ -934,7 +930,7 @@ body.hobbit-mode .filter-pill {
 }
 
 body.hobbit-mode .filter-pill.active {
-  background-color: var(--green-200);
+  background-color: var(--green-400);
   color: var(--neutral-200);
   font-weight: 600;
   border: 2px solid var(--green-100);

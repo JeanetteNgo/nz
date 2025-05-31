@@ -14,425 +14,467 @@
         ></script>
       
         <link rel="stylesheet" href="../styles.css" />
-      </head>
+    </head>
       
-      <body>
+    <body>
         <header>
-          <nav class="navbar">
-            <div class="nav-left">
-              <a href="../index.html" class="home-icon">
-                  <i class="fas fa-home"></i>
-              </a>
-            </div>
-      
-            <div class="nav-right">
-              <label class="theme-switch" for="hobbitToggle">
-                <span class="toggle-label">Hobbit Mode</span>
-                <input type="checkbox" id="hobbitToggle" />
-                <div class="switch-wrapper">
-                  <div class="switch-handle"></div>
+            <nav class="navbar">
+                <div class="nav-left">
+                    <a href="../index.html" class="home-icon">
+                        <i class="fas fa-home"></i>
+                    </a>
                 </div>
-              </label>      
-
-            </div>
-          </nav>
+      
+                <div class="nav-right">
+                    <label class="theme-switch" for="hobbitToggle">
+                        <span class="toggle-label">Hobbit Mode</span>
+                        <input type="checkbox" id="hobbitToggle" />
+                        <div class="switch-wrapper">
+                            <div class="switch-handle"></div>
+                        </div>
+                    </label>      
+                </div>
+            </nav>
         </header>
         
 
         <!-- Region Header -->
         <section class="small-hero canterbury-hero">
-          <div class="region-photo">
-            <img src="../assets/canterbury-thumbnail.png" alt="Canterbury Display"  />
-          </div>
-          <div class="small-hero-content">
-            <h1>Canterbury</h1>
-            <p class="region-description">A vibrant heart of the South Island, with sprawling plains, majestic mountains, and charming towns.</p>
-          </div>
+            <div class="region-photo">
+                <img src="../assets/canterbury-thumbnail.png" alt="Canterbury Display"  />
+            </div>
+            <div class="small-hero-content">
+                <h1>Canterbury</h1>
+                <p class="region-description">A vibrant heart of the South Island, with sprawling plains, majestic mountains, and charming towns.</p>
+            </div>
         </section>
         
         <section class="filter-pills-wrapper sticky-pills">
             <div class="filter-pills">
-              <button class="filter-pill" data-location="all">All</button>
-              <button class="filter-pill" data-location="christchurch">Christchurch</button>
-              <button class="filter-pill" data-location="kaikoura">Kaikoura</button>
-              <button class="filter-pill" data-location="hanmer">Hanmer Springs</button>
-              <button class="filter-pill" data-location="methven">Methven</button>
-              <button class="filter-pill" data-location="kaiapoi">Kaiapoi</button>
-              <button class="filter-pill" data-location="mount-somers">Mount Somers</button>
+                <button class="filter-pill" data-location="all">All</button>
+                <button class="filter-pill" data-location="christchurch">Christchurch</button>
+                <button class="filter-pill" data-location="kaikoura">Kaikoura</button>
+                <button class="filter-pill" data-location="hanmer">Hanmer Springs</button>
+                <button class="filter-pill" data-location="methven">Methven</button>
+                <button class="filter-pill" data-location="kaiapoi">Kaiapoi</button>
+                <button class="filter-pill" data-location="arthurs-pass">Arthur's Pass</button>
+                <button class="filter-pill" data-location="castle-hill">Castle Hill</button>
+                <button class="filter-pill" data-location="mount-somers">Mount Somers</button>
             </div>
         </section>
 
         <!-- MAIN CONTENT -->
         <main>
-            <!-- Christchurch -->
+
+            <!-- Christchurch -->             
+            <section class="post" data-locations="christchurch">
+                <div class="post-header">
+                    <h2>Mon, 18 Mar 2025</h2>
+                    <div class="weather-info">
+                        <i class="fas fa-sun"></i> 
+                        <!-- <span class="temperature">11°C - 20°C</span> -->
+                    </div>
+                </div>                
+                <div class="post-body">
+                    <div class="carousel-container">
+                        <button class="carousel-btn left-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>                     
+                        <div class="post-images">
+                            <img src="assets/christchurch-18.3-1.png" alt="Honda Fit 1" />
+                            
+                            <div class="post-image-container">
+                                <img 
+                                src="assets/christchurch-18.3-2.png" 
+                                data-highres="assets/christchurch-18.3-2.webp" 
+                                alt="Honda Fit 2" 
+                                data-caption="Signing the papers at Darshana's Garage" 
+                                class="post-image" 
+                                />
+                                <i class="fas fa-expand expand-icon" onclick="openFullScreen(this)"></i>
+                            </div>
+
+                            <div class="post-image-container">
+                                <img 
+                                src="assets/christchurch-18.3-3.png" 
+                                data-highres="assets/christchurch-18.3-3.webp" 
+                                alt="Honda Fit 3" 
+                                data-caption="I may have taken 10 minutes to parallel park but at least I'm a happy girl!!" 
+                                class="post-image" 
+                                />
+                                <i class="fas fa-expand expand-icon" onclick="openFullScreen(this)"></i>
+                            </div>
+
+                            <img src="assets/christchurch-18.3-4.png" alt="Honda Fit 4" />
+                            <img src="assets/christchurch-18.3-5.png" alt="Honda Fit 5" />
+                            <video src="assets/christchurch-18.3-1.mp4" controls autoplay loop muted playsinline></video>                              
+                        </div>
+                        <button class="carousel-btn right-btn">
+                          <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <h3>Car viewings + our first car 🚗💨</h3>
+                    <p>
+                    We went for 3 car viewings in total, all of which were Honda Fits because that was what we practiced with
+                    at BBDC haha. Settled on the 3rd one since it was the most well maintained of the lot, even though it was
+                    a little more expensive than the others at 4500nzd.
+
+                    The seller himself was a mechanic which turned out superrr handy as we had a reliable contact when we ran into 
+                    car problems 😂 Shoutout to Darshana (recommended him to the YMM chat as well and many people gave him
+                    glowing reviews)!!
+                    </p>
+                </div>
+            </section>
 
             <section class="post" data-locations="christchurch">
-              <div class="post-header">
-                  <h2>Mon, 18 Mar 2025</h2>
-                  <div class="weather-info">
-                  <i class="fas fa-sun"></i> 
-                  <!-- <span class="temperature">11°C - 20°C</span> -->
-                  </div>
-              </div>
-              <div class="post-body">
-                  <div class="carousel-container">
-                      <button class="carousel-btn left-btn">
-                          <i class="fas fa-chevron-left"></i>
-                      </button>
-                      <div class="post-images">
-
-                        <img src="assets/christchurch-18.3-1.png" alt="Honda Fit 1" />
-                        <div class="post-image-container">
-                            <img 
-                            src="assets/christchurch-18.3-2.png" 
-                            data-highres="assets/christchurch-18.3-2.webp" 
-                            alt="Honda Fit 2" 
-                            data-caption="Signing the papers at Darshana's Garage" 
-                            class="post-image" 
-                            />
-                            <i class="fas fa-expand expand-icon" onclick="openFullScreen(this)"></i>
-                        </div>
-
-                        <div class="post-image-container">
-                          <img 
-                          src="assets/christchurch-18.3-3.png" 
-                          data-highres="assets/christchurch-18.3-3.webp" 
-                          alt="Honda Fit 3" 
-                          data-caption="I may have taken 10 minutes to parallel park but at least I'm a happy girl!!" 
-                          class="post-image" 
-                          />
-                          <i class="fas fa-expand expand-icon" onclick="openFullScreen(this)"></i>
-                        </div>
-
-                      <img src="assets/christchurch-18.3-4.png" alt="Honda Fit 4" />
-                      <img src="assets/christchurch-18.3-5.png" alt="Honda Fit 5" />
-                      <video src="assets/christchurch-18.3-1.mp4" controls autoplay loop muted playsinline></video>
-                            
+                <div class="post-header">
+                    <h2>Sat, 23 Mar 2025</h2>
+                    <div class="weather-info">
+                        <i class="fas fa-sun"></i> 
+                        <!-- <span class="temperature">11°C - 20°C</span> -->
                     </div>
-                    <button class="carousel-btn right-btn">
-                      <i class="fas fa-chevron-right"></i>
-                    </button>
-                  </div>
-                  <h3>Bought our first car! 🚗💨</h3>
-                  <p>
-                  After going for 3 car viewings (all of which were Honda Fits), we finally settled on this cutie patootie!!
-                  Despite being a little more expensive than the others at 4500nzd, it was the most well maintained of the lot due to the seller himself being a mechanic so we didn't mind.
-                  And I can confidently say I absolutely loved this car till the very end ❤️
-                  </p>
-              </div>
+                </div>                
+                <div class="post-body">
+                    <div class="carousel-container">
+                        <button class="carousel-btn left-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>                     
+                        <div class="post-images">
+                            <img src="assets/christchurch-23.3-1.png" alt="Botanic Gardens 1" />
+                            <img src="assets/christchurch-23.3-2.png" alt="Botanic Gardens 2" />
+                            <img src="assets/christchurch-23.3-3.png" alt="Happy Parkgoer 1" />
+                            <img src="assets/christchurch-23.3-4.png" alt="Happy Parkgoer 2" />
+                            <img src="assets/christchurch-23.3-5.png" alt="Happy Feet" />
+                            <img src="assets/christchurch-23.3-6.png" alt="Monster Chicken" />
+                            <img src="assets/christchurch-23.3-7.png" alt="Honda Fit" />
+                            <video src="assets/christchurch-23.3-1.mp4" controls autoplay loop muted playsinline></video>                              
+                        </div>
+                        <button class="carousel-btn right-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <h3>Hagley Park 🌳 + Monster Chicken</h3>
+                    <p>
+                    Loved the park :) Chicken was decent but a little too salty for my liking.
+                    </p>
+                </div>
             </section>
               
 
             <!-- Kaikoura -->
             <section class="post" data-locations="kaikoura">
-              <div class="post-header">
-                  <h2>Tue, 28 May 2024</h2>
-                  <div class="weather-info">
-                  <!-- <img src="weather-icon.png" alt="Weather Icon" class="weather-icon" /> -->
-                  <span class="temperature">6°C - 12°C</span>
-                  </div>
-              </div>
-              <div class="post-body">
-                  <div class="carousel-container">
-                    <button class="carousel-btn left-btn">
-                      <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <div class="post-images">
-                      <img src="assets/kaikoura-28.5-1.png" alt="Before our flight" />
-                      <video src="assets/kaikoura-28.5-1.mp4" controls autoplay loop muted playsinline></video>
-                      <img src="assets/kaikoura-28.5-2.png" alt="In the air" />
-                      <video src="assets/kaikoura-28.5-2.mp4" controls autoplay loop muted playsinline></video>
-                      <img src="assets/kaikoura-28.5-3.png" alt="Whale spotted" />
-                      </div>
-                    <button class="carousel-btn right-btn">
-                      <i class="fas fa-chevron-right"></i>
-                    </button>
-                  </div>
+                <div class="post-header">
+                    <h2>Tue, 28 May 2024</h2>
+                    <div class="weather-info">
+                        <i class="fas fa-sun"></i> 
+                        <span class="temperature">6°C - 12°C</span>
+                    </div>
+                </div>
+                <div class="post-body">
+                    <div class="carousel-container">
+                        <button class="carousel-btn left-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="post-images">
+                            <img src="assets/kaikoura-28.5-1.png" alt="Before our flight" />
+                            <video src="assets/kaikoura-28.5-1.mp4" controls autoplay loop muted playsinline></video>
+                            <img src="assets/kaikoura-28.5-2.png" alt="In the air" />
+                            <video src="assets/kaikoura-28.5-2.mp4" controls autoplay loop muted playsinline></video>
+                            <img src="assets/kaikoura-28.5-3.png" alt="Whale spotted" />
+                        </div>
+                        <button class="carousel-btn right-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
 
-                  <h3>Wings over Whales</h3>
-                  <p>
-                  Absolutely phenomenal experience! Got recommended WingsoverWhales by Alistair who knew someone here (Jo) and we were able to get a slot pretty quick!
-                  <br><br> We spent most of the flight trying to catch wind of where the whales might be and thought we'd return with just memories of the nice scenery... but on the return leg this big boy popped up and made our day 😁
-                  </p>
-              </div>
+                    <h3>Wings over Whales</h3>
+                    <p>
+                    Absolutely phenomenal experience! Got recommended WingsoverWhales by Alistair who knew someone here (Jo) and we were able to get a slot pretty quick!
+                    <br><br> We spent most of the flight trying to catch wind of where the whales might be and thought we'd return with just memories of the nice scenery... but on the return leg this big boy popped up and made our day 😁
+                    </p>
+                </div>
             </section>
 
             <section class="post" data-locations="kaikoura">
-              <div class="post-header">
-                  <h2>Thu, 30 May 2024</h2>
-                  <div class="weather-info">
-                  <!-- <img src="weather-icon.png" alt="Weather Icon" class="weather-icon" /> -->
-                  <span class="temperature">6°C - 15°C</span>
-                  </div>
-              </div>
-              <div class="post-body">
-                  <div class="carousel-container">
-                    <button class="carousel-btn left-btn">
-                      <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <div class="post-images">
-                      <img src="assets/kaikoura-30.5-1.png" alt="Pedal kayaks" />
-                      <video src="assets/kaikoura-30.5-1.mp4" controls autoplay loop muted playsinline></video>
-                      <img src="assets/kaikoura-30.5-2.png" alt="Tubby seal" />
-                      <video src="assets/kaikoura-30.5-2.mp4" controls autoplay loop muted playsinline></video>
-                      <img src="assets/kaikoura-30.5-3.png" alt="Us in kayak" />
-                      </div>
-                    <button class="carousel-btn right-btn">
-                      <i class="fas fa-chevron-right"></i>
-                    </button>
-                  </div>
+                <div class="post-header">
+                    <h2>Thu, 30 May 2024</h2>
+                    <div class="weather-info">
+                        <i class="fas fa-sun"></i> 
+                        <span class="temperature">6°C - 15°C</span>
+                    </div>
+                </div>
+                <div class="post-body">
+                    <div class="carousel-container">
+                        <button class="carousel-btn left-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="post-images">
+                            <img src="assets/kaikoura-30.5-1.png" alt="Pedal kayaks" />
+                            <video src="assets/kaikoura-30.5-1.mp4" controls autoplay loop muted playsinline></video>
+                            <img src="assets/kaikoura-30.5-2.png" alt="Tubby seal" />
+                            <video src="assets/kaikoura-30.5-2.mp4" controls autoplay loop muted playsinline></video>
+                            <img src="assets/kaikoura-30.5-3.png" alt="Us in kayak" />
+                        </div>
+                        <button class="carousel-btn right-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
 
-                  <h3>Seal Kayaking</h3>
-                  <p>
-                  Signed up for seals and got dolphins too! What a sweet deal 🥹 Guide was a real chill guy.
-                  </p>
-              </div>
+                    <h3>Seal Kayaking</h3>
+                    <p>
+                    Signed up for seals and got dolphins too! What a sweet deal 🥹 Guide was a real chill guy.
+                    </p>
+                </div>
             </section>
 
             <section class="post" data-locations="kaikoura">
-              <div class="post-header">
-                  <h2>Sat, 1 Jun 2024</h2>
-                  <div class="weather-info">
-                  <!-- <img src="weather-icon.png" alt="Weather Icon" class="weather-icon" /> -->
-                  <span class="temperature">6°C - 15°C</span>
-                  </div>
-              </div>
-              <div class="post-body">
-                  <div class="carousel-container">
-                    <button class="carousel-btn left-btn">
-                      <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <div class="post-images">
-                      <img src="assets/kaikoura-1.6-2.png" alt="View of Kaikoura Ranges 1" />
-                      <!-- <img src="assets/kaikoura-1.6-3.png" alt="View of Kaikoura Ranges 2" /> -->
-                      <!-- <img src="assets/kaikoura-1.6-4.png" alt="View of Kaikoura Ranges 3" /> -->
-                      <img src="assets/kaikoura-1.6-1.gif" alt="Kaikoura Ranges 2" />
-                      <img src="assets/kaikoura-1.6-1.png" alt="Kaikoura from above" />
-                      <img src="assets/kaikoura-1.6-5.png" alt="Somewhere on Mt Fyffe" />
-                      <img src="assets/kaikoura-1.6-6.png" alt="Ice" />
-                      <video src="assets/kaikoura-1.6-2.mp4" controls autoplay loop muted playsinline></video>
-                      <img src="assets/kaikoura-1.6-7.png" alt="Me with Signpost" />
-                      <video src="assets/kaikoura-1.6-3.mp4" controls autoplay loop muted playsinline></video>
-                      <video src="assets/kaikoura-1.6-4.mp4" controls autoplay loop muted playsinline></video>
-                      <img src="assets/kaikoura-1.6-8.png" alt="Visitor Log Book" />
-                      <!-- <video src="assets/kaikoura-1.6-5.mp4" controls autoplay loop muted playsinline></video> -->
-                      <video src="assets/kaikoura-1.6-6.mp4" controls autoplay loop muted playsinline></video>
-                      </div>
-                    <button class="carousel-btn right-btn">
-                      <i class="fas fa-chevron-right"></i>
-                    </button>
-                  </div>
+                <div class="post-header">
+                    <h2>Sat, 1 Jun 2024</h2>
+                    <div class="weather-info">
+                        <i class="fas fa-cloud"></i>
+                        <span class="temperature">6°C - 15°C</span>
+                    </div>
+                </div>
+                <div class="post-body">
+                    <div class="carousel-container">
+                        <button class="carousel-btn left-btn">
+                           <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="post-images">
+                            <img src="assets/kaikoura-1.6-2.png" alt="View of Kaikoura Ranges 1" />
+                            <!-- <img src="assets/kaikoura-1.6-3.png" alt="View of Kaikoura Ranges 2" /> -->
+                            <!-- <img src="assets/kaikoura-1.6-4.png" alt="View of Kaikoura Ranges 3" /> -->
+                            <img src="assets/kaikoura-1.6-1.gif" alt="Kaikoura Ranges 2" />
+                            <img src="assets/kaikoura-1.6-1.png" alt="Kaikoura from above" />
+                            <img src="assets/kaikoura-1.6-5.png" alt="Somewhere on Mt Fyffe" />
+                            <img src="assets/kaikoura-1.6-6.png" alt="Ice" />
+                            <video src="assets/kaikoura-1.6-2.mp4" controls autoplay loop muted playsinline></video>
+                            <img src="assets/kaikoura-1.6-7.png" alt="Me with Signpost" />
+                            <video src="assets/kaikoura-1.6-3.mp4" controls autoplay loop muted playsinline></video>
+                            <video src="assets/kaikoura-1.6-4.mp4" controls autoplay loop muted playsinline></video>
+                            <img src="assets/kaikoura-1.6-8.png" alt="Visitor Log Book" />
+                            <!-- <video src="assets/kaikoura-1.6-5.mp4" controls autoplay loop muted playsinline></video> -->
+                            <video src="assets/kaikoura-1.6-6.mp4" controls autoplay loop muted playsinline></video>
+                        </div>
+                        <button class="carousel-btn right-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
 
-                  <h3>Mt Fyffe</h3>
-                  <p>
-                  First mountain climb in NZ and this really got me questioning my life decisions.
-                  <br><br> Couldn't reach the peak due to ice but I think I made a pretty valiant attempt for a couch potato...
-                  Est made it up to ~1300m/1600m
-                  </p>
-              </div>
+                    <h3>Mt Fyffe</h3>
+                    <p>
+                    First mountain climb in NZ and this really got me questioning my life decisions.
+                    <br><br> Couldn't reach the peak due to ice but I think I made a pretty valiant attempt for a couch potato...
+                    Est made it up to ~1300m/1600m
+                    </p>
+                </div>
             </section>
 
             <!-- Methven -->
             <section class="post" data-locations="methven">
-              <div class="post-header">
-                  <h2>Sun, 22 Sep 2024</h2>
-                  <div class="weather-info">
-                  <i class="fas fa-cloud"></i>
-                  <span class="temperature">6°C - 16°C</span>
-                  </div>
-              </div>
-              <div class="post-body">
-                <div class="carousel-container">
-                  <button class="carousel-btn left-btn">
-                    <i class="fas fa-chevron-left"></i>
-                  </button>
-                  <div class="post-images">
-                  <img src="assets/methven-22.9-1.png" alt="Waiting for ski bus" />
-                  <img src="assets/methven-22.9-2.png" alt="Ski bus ticket" />
-                  <img src="assets/methven-22.9-3.png" alt="Selfie on the slopes" />
-                  <img src="assets/methven-22.9-4.png" alt="Selfie on the slopes" />
-                  </div>
-                  <button class="carousel-btn right-btn">
-                    <i class="fas fa-chevron-right"></i>
-                  </button>
-                </div>
-
-                  <h3>Skiing at Mt. Hutt - Day 1</h3>
-                  <p>
-                  First day on the slopes! Forgot how much of a PITA ski boots are 😪
-                  <br><br> My instructor was Luis, tbh I can't sing his praises but at the same time I'm not exactly the most well-coordinated person around...
-                  Out of an entire class of noobs, I can confidently say I was the noobest, so that's an achievement in itself for the day.
-                  </p>
-              </div>
-            </section>
-
-            <section class="post" data-locations="methven">
-              <div class="post-header">
-                  <h2>Tue, 24 Sep 2024</h2>
-                  <div class="weather-info">
-                  <i class="fas fa-sun"></i>
-                  <span class="temperature">4°C - 15°C</span>
-                  </div>
-              </div>
-              <div class="post-body">
-                <div class="carousel-container">
-                  <button class="carousel-btn left-btn">
-                    <i class="fas fa-chevron-left"></i>
-                  </button>
-                  <div class="post-images">
-                  <img src="assets/methven-24.9-1.png" alt="Enchanted Forest post" />
-                  <img src="assets/methven-24.9-2.png" alt="Gnomes and bunnies" />
-                  <img src="assets/methven-24.9-3.png" alt="Me" />
-                  <img src="assets/methven-24.9-4.png" alt="Sheeps" />
-                  </div>
-                  <button class="carousel-btn right-btn">
-                    <i class="fas fa-chevron-right"></i>
-                  </button>
-                </div>
-
-                  <h3>Enchanted Forest</h3>
-                  <p>
-                  A very nice Tuesday morning spent with the gnomes, bunnies, toadstools, and fluffy mehmehs.
-                  </p>
-              </div>
-            </section>
-
-            <section class="post" data-locations="methven">
-              <div class="post-header">
-                  <h2>Wed, 25 Sep 2024</h2>
-                  <div class="weather-info">
-                  <i class="fas fa-sun"></i>
-                  <span class="temperature">4°C - 15°C</span>
-                  </div>
-              </div>
-              <div class="post-body">
-                <div class="carousel-container">
-                  <button class="carousel-btn left-btn">
-                    <i class="fas fa-chevron-left"></i>
-                  </button>
-                  <div class="post-images">
-                  <img src="assets/methven-25.9-1.png" alt="Lower gorge lookout" />
-                  <img src="assets/methven-25.9-2.png" alt="Rakaia Gorge" />
-                  <img src="assets/methven-25.9-3.png" alt="Doggo" />
-                  <img src="assets/methven-25.9-4.png" alt="The Fantail Trust" />
-                  </div>
-                  <button class="carousel-btn right-btn">
-                    <i class="fas fa-chevron-right"></i>
-                  </button>
-                </div>
-
-                  <h3>Rakaia Gorge</h3>
-                  <p>
-                  Really stunning milky blue reminiscent of the Hokitika Gorge, but with Mt Hutt looming in the background! Gorgeous, gorgeous.
-                  </p>
-              </div>
-            </section>
-
-            <section class="post" data-locations="methven">
-              <div class="post-header">
-                  <h2>Sat, 28 Sep 2024</h2>
-                  <div class="weather-info">
-                  <!-- <img src="weather-icon.png" alt="Weather Icon" class="weather-icon" /> -->
-                  <span class="temperature">0°C - 15°C</span>
-                  </div>
-              </div>
-              <div class="post-body">
-                  <div class="carousel-container">
-                    <button class="carousel-btn left-btn">
-                      <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <div class="post-images">
-                    <img src="../assets/activities-thumbnail.png" alt="Methven" />
-                    <img src="assets/methven-28.9-2.png" alt="Methven" />
+                <div class="post-header">
+                    <h2>Sun, 22 Sep 2024</h2>
+                    <div class="weather-info">
+                        <i class="fas fa-cloud"></i>
+                        <span class="temperature">6°C - 16°C</span>
                     </div>
-                    <button class="carousel-btn right-btn">
-                      <i class="fas fa-chevron-right"></i>
-                    </button>
-                  </div>
-
-                  <h3>Skiing at Mt. Hutt - Day 2</h3>
-                  <p>
-                  Got an amazing instructor! Improved so much and upgraded from carpet to green slope :)
-                  </p>
-              </div>
-            </section>
-
-            <section class="post" data-locations="methven">
-              <div class="post-header">
-                  <h2>Sun, 29 Sep 2024</h2>
-                  <div class="weather-info">
-                  <!-- <img src="weather-icon.png" alt="Weather Icon" class="weather-icon" /> -->
-                  <span class="temperature">3°C - 18°C</span>
-                  </div>
-              </div>
+                </div>
                 <div class="post-body">
-                  <div class="carousel-container">
-                    <button class="carousel-btn left-btn">
-                      <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <div class="post-images">
-                    <img src="assets/methven-29.9-1.png" alt="Methven" />
-                    <img src="assets/methven-29.9-3.png" alt="Methven" />
+                    <div class="carousel-container">
+                        <button class="carousel-btn left-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="post-images">
+                            <img src="assets/methven-22.9-1.png" alt="Waiting for ski bus" />
+                            <img src="assets/methven-22.9-2.png" alt="Ski bus ticket" />
+                            <img src="assets/methven-22.9-3.png" alt="Selfie on the slopes" />
+                            <img src="assets/methven-22.9-4.png" alt="Selfie on the slopes" />
+                        </div>
+                        <button class="carousel-btn right-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
                     </div>
-                    <button class="carousel-btn right-btn">
-                      <i class="fas fa-chevron-right"></i>
-                    </button>
-                  </div>
-                  <h3>Skiing at Mt. Hutt - Day 3</h3>
-                  <p>
-                  Another great instructor today. I finally managed to stop faceplanting the ground 🥹🙌
-                  </p>
-              </div>
+
+                    <h3>Skiing at Mt. Hutt - Day 1</h3>
+                    <p>
+                    First day on the slopes! Forgot how much of a PITA ski boots are 😪
+                    <br><br> My instructor was Luis, tbh I can't sing his praises but at the same time I'm not exactly the most well-coordinated person around...
+                    Out of an entire class of noobs, I can confidently say I was the noobest, so that's an achievement in itself for the day.
+                    </p>
+                </div>
             </section>
 
             <section class="post" data-locations="methven">
-              <div class="post-header">
-                  <h2>Sat, 5 Oct 2024</h2>
-                  <div class="weather-info">
-                  <!-- <img src="weather-icon.png" alt="Weather Icon" class="weather-icon" /> -->
-                  <span class="temperature">3°C - 18°C</span>
-                  </div>
-              </div>
-                <div class="post-body">
-                  <div class="carousel-container">
-                    <button class="carousel-btn left-btn">
-                      <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <div class="post-images">
-                    <video src="assets/methven-5.10-1.mp4" controls autoplay loop muted playsinline></video>
-                    <img src="assets/methven-5.10-3.png" alt="Methven" />
+                <div class="post-header">
+                    <h2>Tue, 24 Sep 2024</h2>
+                    <div class="weather-info">
+                        <i class="fas fa-sun"></i>
+                        <span class="temperature">4°C - 15°C</span>
                     </div>
-                    <button class="carousel-btn right-btn">
-                      <i class="fas fa-chevron-right"></i>
-                    </button>
-                  </div>
-                  <h3>Skiing at Mt. Hutt - Day 4</h3>
-                  <p>
-                  Graduated from ski class and flying solo today! Went down the usual Highway 72, but also tried Back Paddock and Broadway (first blue slope!) under very intense peer pressure courtesy of the bro 😒
-                  <br><br> Was seriously scared at Back Paddock (harder green) and thought I wouldn't survive Broadway, but Broadway's actually easier because of well, how broad it is.
-                  </p>
-              </div>
+                </div>
+                <div class="post-body">
+                    <div class="carousel-container">
+                        <button class="carousel-btn left-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="post-images">
+                            <img src="assets/methven-24.9-1.png" alt="Enchanted Forest post" />
+                            <img src="assets/methven-24.9-2.png" alt="Gnomes and bunnies" />
+                            <img src="assets/methven-24.9-3.png" alt="Me" />
+                            <img src="assets/methven-24.9-4.png" alt="Sheeps" />
+                        </div>
+                        <button class="carousel-btn right-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <h3>Enchanted Forest</h3>
+                    <p>
+                    A very nice Tuesday morning spent with the gnomes, bunnies, toadstools, and fluffy mehmehs.
+                    </p>
+                </div>
+            </section>
+
+            <section class="post" data-locations="methven">
+                <div class="post-header">
+                    <h2>Wed, 25 Sep 2024</h2>
+                    <div class="weather-info">
+                        <i class="fas fa-sun"></i>
+                        <span class="temperature">4°C - 15°C</span>
+                    </div>
+                </div>
+                <div class="post-body">
+                    <div class="carousel-container">
+                        <button class="carousel-btn left-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="post-images">
+                            <img src="assets/methven-25.9-1.png" alt="Lower gorge lookout" />
+                            <img src="assets/methven-25.9-2.png" alt="Rakaia Gorge" />
+                            <img src="assets/methven-25.9-3.png" alt="Doggo" />
+                            <img src="assets/methven-25.9-4.png" alt="The Fantail Trust" />
+                        </div>
+                        <button class="carousel-btn right-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <h3>Rakaia Gorge</h3>
+                    <p>
+                    Really stunning milky blue reminiscent of the Hokitika Gorge, but with Mt Hutt looming in the background! Gorgeous, gorgeous.
+                    </p>
+                </div>
+            </section>
+
+            <section class="post" data-locations="methven">
+                <div class="post-header">
+                    <h2>Sat, 28 Sep 2024</h2>
+                    <div class="weather-info">
+                        <i class="fas fa-sun"></i>
+                        <span class="temperature">0°C - 15°C</span>
+                    </div>
+                </div>
+                <div class="post-body">
+                    <div class="carousel-container">
+                        <button class="carousel-btn left-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="post-images">
+                            <img src="../assets/activities-thumbnail.png" alt="Methven" />
+                            <img src="assets/methven-28.9-2.png" alt="Methven" />
+                        </div>
+                        <button class="carousel-btn right-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <h3>Skiing at Mt. Hutt - Day 2</h3>
+                    <p>
+                    Got an amazing instructor! Improved so much and upgraded from carpet to green slope :)
+                    </p>
+                </div>
+            </section>
+
+            <section class="post" data-locations="methven">
+                <div class="post-header">
+                    <h2>Sun, 29 Sep 2024</h2>
+                    <div class="weather-info">
+                        <i class="fas fa-sun"></i>
+                        <span class="temperature">3°C - 18°C</span>
+                    </div>
+                </div>
+                <div class="post-body">
+                    <div class="carousel-container">
+                        <button class="carousel-btn left-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="post-images">
+                            <img src="assets/methven-29.9-1.png" alt="Methven" />
+                            <img src="assets/methven-29.9-3.png" alt="Methven" />
+                        </div>
+                        <button class="carousel-btn right-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <h3>Skiing at Mt. Hutt - Day 3</h3>
+                    <p>
+                    Another great instructor today. I finally managed to stop faceplanting the ground 🥹🙌
+                    </p>
+                </div>
+            </section>
+
+            <section class="post" data-locations="methven">
+                <div class="post-header">
+                    <h2>Sat, 5 Oct 2024</h2>
+                    <div class="weather-info">
+                        <i class="fas fa-sun"></i>
+                        <span class="temperature">3°C - 18°C</span>
+                    </div>
+                </div>
+                <div class="post-body">
+                    <div class="carousel-container">
+                        <button class="carousel-btn left-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="post-images">
+                            <video src="assets/methven-5.10-1.mp4" controls autoplay loop muted playsinline></video>
+                            <img src="assets/methven-5.10-3.png" alt="Methven" />
+                        </div>
+                        <button class="carousel-btn right-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <h3>Skiing at Mt. Hutt - Day 4</h3>
+                    <p>
+                    Graduated from ski class and flying solo today! Went down the usual Highway 72, but also tried Back Paddock and Broadway (first blue slope!) under very intense peer pressure courtesy of the bro 😒
+                    <br><br> Was seriously scared at Back Paddock (harder green) and thought I wouldn't survive Broadway, but Broadway's actually easier because of well, how broad it is.
+                    </p>
+                </div>
             </section>
         </main>
         
         <!-- Fullscreen Modal -->
         <div id="fullscreenModal" class="fullscreen-modal">
-          <span class="modal-close" onclick="closeFullScreen()">&times;</span>
-          <figure class="modal-content">
-              <img id="modalImage" />
-              <figcaption id="modalCaption"></figcaption> 
-          </figure>      
+            <span class="modal-close" onclick="closeFullScreen()">&times;</span>
+            <figure class="modal-content">
+                <img id="modalImage" />
+                <figcaption id="modalCaption"></figcaption> 
+            </figure>      
         </div>  
 
         <footer>
-          <p>© Jeanette Ngo, 2025.</p>
-          <!-- <div class="footer-links">
-            <a href="https://www.instagram.com/daily.jynx/" target="_blank">Instagram</a>
-            <p class="dot-divider"> &#8226; </p>
-            <a href="https://www.youtube.com/@Jynxe" target="_blank">Youtube</a>
-            <p class="dot-divider"> &#8226; </p>
-            <a href="../credits.html">Credits</a> -->
-          </div>
+            <p>© Jeanette Ngo, 2025.</p>
+            <!-- <div class="footer-links">
+                <a href="https://www.instagram.com/daily.jynx/" target="_blank">Instagram</a>
+                <p class="dot-divider"> &#8226; </p>
+                <a href="https://www.youtube.com/@Jynxe" target="_blank">Youtube</a>
+                <p class="dot-divider"> &#8226; </p>
+                <a href="../credits.html">Credits</a>
+            </div> -->
         </footer>
 
         <script src="../script.js"></script>
