@@ -3,61 +3,69 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>J's Adventure in Aotearoa</title>
-        
-        <!-- Google Fonts: Uncial Antiqua for headings, Kanit for body -->
-        <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Uncial+Antiqua&display=swap" rel="stylesheet">
-      
+        <title>J's Adventure in Aotearoa</title>        
+        <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Uncial+Antiqua&display=swap" rel="stylesheet">      
         <script
           src="https://kit.fontawesome.com/4bab21cbed.js"
           crossorigin="anonymous"
-        ></script>
-      
+        ></script>      
         <link rel="stylesheet" href="../styles.css" />
-      </head>
+    </head>
       
-      <body>
+    <body>
         <header>
-          <nav class="navbar">
-            <div class="nav-left">
-              <a href="../index.html" class="home-icon">
-                  <i class="fas fa-home"></i>
-              </a>
-            </div>
-      
-            <div class="nav-right">
-              <label class="theme-switch" for="hobbitToggle">
-                <span class="toggle-label">Hobbit Mode</span>
-                <input type="checkbox" id="hobbitToggle" />
-                <div class="switch-wrapper">
-                  <div class="switch-handle"></div>
+            <nav class="navbar">
+                <div class="nav-left">
+                    <a href="../index.html" class="home-icon">
+                        <i class="fas fa-home"></i>
+                    </a>
                 </div>
-              </label>      
-
-            </div>
-          </nav>
+      
+                <div class="nav-right">
+                    <label class="theme-switch" for="hobbitToggle">
+                        <span class="toggle-label">Hobbit Mode</span>
+                        <input type="checkbox" id="hobbitToggle" />
+                        <div class="switch-wrapper">
+                            <div class="switch-handle"></div>
+                        </div>
+                    </label>      
+                </div>
+            </nav>
         </header>
         
 
         <!-- Region Header -->
         <section class="small-hero mackenzie-hero">
             <div class="region-photo">
-              <img src="../assets/mackenzie-thumbnail.png" alt="Mackenzie Display" />
+                <img src="../assets/mackenzie-thumbnail.png" alt="Mackenzie Display" />
             </div>
             <div class="small-hero-content">
-              <h1>Mackenzie District</h1>
-              <p class="region-description">A peaceful high-country region in the heart of the South Island, home to starry skies and stunning lakes.</p>
+                <h1>Mackenzie District</h1>
+                <p class="region-description">A peaceful high-country region in the heart of the South Island, home to starry skies and stunning lakes.</p>
             </div>
         </section>
-          
-        <section class="filter-pills-wrapper sticky-pills">
+
+        <!-- Filter Pills -->
+        <section class="filter-pills-wrapper">
             <div class="filter-pills">
-              <button class="filter-pill" data-location="all">All</button>
-              <button class="filter-pill" data-location="tekapo">Lake Tekapo</button>
-              <button class="filter-pill" data-location="mt-cook">Aoraki Mount Cook</button>
-              <button class="filter-pill" data-location="pukaki">Lake Pukaki</button>
-              <button class="filter-pill" data-location="twizel">Twizel</button>
-              <button class="filter-pill" data-location="fairlie">Fairlie</button>
+                <button class="filter-pill" data-location="all">
+                    All <span class="count"></span>
+                </button>
+                <button class="filter-pill" data-location="tekapo">
+                    Lake Tekapo <span class="count"></span>
+                </button>
+                <button class="filter-pill" data-location="mt-cook">
+                    Aoraki Mount Cook <span class="count"></span>
+                </button>
+                <button class="filter-pill" data-location="pukaki">
+                    Lake Pukaki <span class="count"></span>
+                </button>
+                <button class="filter-pill" data-location="twizel">
+                    Twizel <span class="count"></span>
+                </button>
+                <button class="filter-pill" data-location="fairlie">
+                    Fairlie <span class="count"></span>
+                </button>
             </div>
         </section>
 
