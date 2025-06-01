@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initVideosOnLeave();
   initFilterPillsScroll();
   initImageModal();
+  initFilterPillCounters();
 });
 
 let isHobbitMode = false;
@@ -148,6 +149,31 @@ function initFilterPills() {
   };
 
   applyFilter();
+}
+
+/* ----------------------- Filter Pill Counters ----------------------- */
+function initFilterPillCounters() {
+  const posts = document.querySelectorAll(".post");
+  const filterPills = document.querySelectorAll(".filter-pill");
+
+  filterPills.forEach(pill => {
+    const location = pill.dataset.location;
+    let matchingPosts;
+
+    if (location === "all") {
+      matchingPosts = posts;
+    } else {
+      matchingPosts = Array.from(posts).filter(post => {
+        const locations = post.dataset.locations?.split(/[\s,]+/) || [];
+        return locations.includes(location);
+      });
+    }
+
+    const countSpan = pill.querySelector(".count");
+    if (countSpan) {
+      countSpan.textContent = matchingPosts.length;
+    }
+  });
 }
 
 /* ----------------------- Carousel Chevrons ----------------------- */
