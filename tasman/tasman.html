@@ -3,59 +3,59 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>J's Adventure in Aotearoa</title>
-        
-        <!-- Google Fonts: Uncial Antiqua for headings, Kanit for body -->
-        <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Uncial+Antiqua&display=swap" rel="stylesheet">
-      
+        <title>J's Adventure in Aotearoa</title>        
+        <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Uncial+Antiqua&display=swap" rel="stylesheet">      
         <script
           src="https://kit.fontawesome.com/4bab21cbed.js"
           crossorigin="anonymous"
-        ></script>
-      
+        ></script>      
         <link rel="stylesheet" href="../styles.css" />
-      </head>
+    </head>
       
-      <body>
+    <body>
         <header>
-          <nav class="navbar">
-            <div class="nav-left">
-              <a href="../index.html" class="home-icon">
-                  <i class="fas fa-home"></i>
-              </a>
-            </div>
-      
-            <div class="nav-right">
-              <label class="theme-switch" for="hobbitToggle">
-                <span class="toggle-label">Hobbit Mode</span>
-                <input type="checkbox" id="hobbitToggle" />
-                <div class="switch-wrapper">
-                  <div class="switch-handle"></div>
+            <nav class="navbar">
+                <div class="nav-left">
+                    <a href="../index.html" class="home-icon">
+                        <i class="fas fa-home"></i>
+                    </a>
                 </div>
-              </label>      
-
-            </div>
-          </nav>
+      
+                <div class="nav-right">
+                    <label class="theme-switch" for="hobbitToggle">
+                        <span class="toggle-label">Hobbit Mode</span>
+                        <input type="checkbox" id="hobbitToggle" />
+                        <div class="switch-wrapper">
+                            <div class="switch-handle"></div>
+                        </div>
+                    </label>      
+                </div>
+            </nav>
         </header>
         
-
         <!-- Region Header -->
-        <section class="small-hero tasman-hero">
-          <div class="region-photo">
-            <img src="../assets/tasman-thumbnail.png" alt="Tasman Display"  />
-          </div>
-          <div class="small-hero-content">
-            <h1>Nelson Tasman</h1>
-            <p class="region-description">A sun-soaked paradise, with golden beaches, lush forests, and vibrant arts communities.</p>
-          </div>
+        <section class="small-hero">
+            <div class="small-hero-content">
+                <h1>Nelson Tasman</h1>
+                <p>A sun-soaked paradise, with golden beaches, lush forests, and vibrant arts communities.</p>
+            </div>
+            <video class="small-hero-banner" autoplay muted loop playsinline>
+                <source src="../canterbury/assets/canterbury-hero.mp4" type="video/mp4" />
+            </video>
         </section>
         
-        <section class="filter-pills-wrapper sticky-pills">
-          <div class="filter-pills">
-            <button class="filter-pill" data-location="all">All</button>
-            <button class="filter-pill" data-location="nelson">Nelson</button>
-            <button class="filter-pill" data-location="murchison">Murchison</button>
-          </div>
+        <section class="filter-pills-wrapper">
+            <div class="filter-pills">
+                <button class="filter-pill" data-location="all">
+                    All <span class="count"></span>
+                </button>
+                <button class="filter-pill" data-location="nelson">
+                    Nelson <span class="count"></span>
+                </button>
+                <button class="filter-pill" data-location="murchison">
+                    Murchison <span class="count"></span>
+                </button>
+            </div>
         </section>
 
 

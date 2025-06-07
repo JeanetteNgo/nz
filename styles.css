@@ -98,7 +98,7 @@ a {
   align-items: center;
   gap: 0.5rem;
   font-family: var(--font-hobbit);
-  color: var(--text-color-primary);
+  color: var(--neutral-0);
   font-size: 0.8rem;
 }
 
@@ -131,7 +131,7 @@ a {
 .toggle-label {
   font-size: 0.8rem;
   font-family: var(--font-hobbit);
-  color: var(--text-color-primary);
+  color: var(--neutral-0);
 }
 
 .navbar.scrolled .toggle-label {
@@ -404,12 +404,37 @@ footer a:hover {
 /*------------------------------------*/
 .small-hero {
   position: relative;
-  width: 100%;
-  background-color: var(--neutral-200);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  width: 100%;
+  height: 40vh;
   padding: 8rem 0rem 4rem;
   margin: 0 auto;
   transition: all 0.5s ease;
+}
+
+.small-hero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: -1;
+}
+
+.small-hero-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
 }
 
 .region-photo img {
@@ -428,41 +453,21 @@ footer a:hover {
   margin: 0 auto;
 }
 
-.small-hero h1 {
-  color: var(--text-color-primary);
+.small-hero-content h1 {
+  color: var(--neutral-0);
   font-weight: 600;
   font-size: 2.2rem;
-  transition: all 0.5s ease;
+  z-index: 1;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
 }
 
-.region-description {
+.small-hero-content p {
   font-size: 1rem;
   font-weight: 400;
-  color: var(--text-color-primary);
+  color: var(--neutral-0);
   margin-top: 0.5rem;
-}
-
-
-
-.small-hero.scrolled {
-  display: flex;
-  align-items: center;
-  justify-contents: center;
-  background-image: none;
-  background: var(--neutral-0);
-  backdrop-filter: blur(4px);
-  position: sticky;
-  top: 60px; 
-  height: 60px; 
-  z-index: 100; 
-  padding: 0; 
-  box-shadow: 0 4px 20px #4f434320;
-}
-
-.small-hero.scrolled img,
-.small-hero.scrolled h1,
-.small-hero.scrolled .region-description {
-  display: none;
+  z-index: 1;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
 }
 
 .work-hero {
@@ -470,10 +475,6 @@ footer a:hover {
   background-size: cover; 
   background-position: center center; 
   background-attachment: fixed;
-}
-
-.canterbury-hero {
-  background-color: #F5F2EC;
 }
 
 .otago-hero {
@@ -538,7 +539,7 @@ footer a:hover {
   background-color: var(--neutral-0);
   color: var(--text-color-primary);
   font-weight: 600;
-  border: 2px solid var(--brown-400);
+  border: 2px solid var(--brown-300);
 }
 
 .filter-pill .count {
@@ -978,17 +979,13 @@ body.hobbit-mode .filter-pill .count {
     font-size: 1.6rem;
   }
 
-  .small-hero {
-    padding: 8rem 0rem 2.5rem;
-    margin: 0 auto;
-}
- 
-  .small-hero h1 {
-    font-size: 1.6rem;
+  .small-hero-content h1 {
+    font-size: 1.8rem;
   }
-  .region-description {
+
+  .small-hero-content p {
     font-size: 0.95rem;
-}
+  }
   .post-images img, .post-images video {
     max-height: 270px;
   }

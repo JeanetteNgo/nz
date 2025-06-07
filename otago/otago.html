@@ -3,64 +3,74 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>J's Adventure in Aotearoa</title>
-        
-        <!-- Google Fonts: Uncial Antiqua for headings, Kanit for body -->
-        <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Uncial+Antiqua&display=swap" rel="stylesheet">
-      
+        <title>J's Adventure in Aotearoa</title>        
+        <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Uncial+Antiqua&display=swap" rel="stylesheet">      
         <script
           src="https://kit.fontawesome.com/4bab21cbed.js"
           crossorigin="anonymous"
-        ></script>
-      
+        ></script>      
         <link rel="stylesheet" href="../styles.css" />
-      </head>
+    </head>
       
-      <body>
+    <body>
         <header>
-          <nav class="navbar">
-            <div class="nav-left">
-              <a href="../index.html" class="home-icon">
-                  <i class="fas fa-home"></i>
-              </a>
-            </div>
-      
-            <div class="nav-right">
-              <label class="theme-switch" for="hobbitToggle">
-                <span class="toggle-label">Hobbit Mode</span>
-                <input type="checkbox" id="hobbitToggle" />
-                <div class="switch-wrapper">
-                  <div class="switch-handle"></div>
+            <nav class="navbar">
+                <div class="nav-left">
+                    <a href="../index.html" class="home-icon">
+                        <i class="fas fa-home"></i>
+                    </a>
                 </div>
-              </label>      
-
-            </div>
-          </nav>
+      
+                <div class="nav-right">
+                    <label class="theme-switch" for="hobbitToggle">
+                        <span class="toggle-label">Hobbit Mode</span>
+                        <input type="checkbox" id="hobbitToggle" />
+                        <div class="switch-wrapper">
+                            <div class="switch-handle"></div>
+                        </div>
+                    </label>      
+                </div>
+            </nav>
         </header>
         
-
         <!-- Region Header -->
-        <section class="small-hero otago-hero">
-          <div class="region-photo">
-            <img src="../assets/otago-thumbnail.png" alt="Otago Display"  />
-          </div>
-          <div class="small-hero-content">
-            <h1>Otago</h1>
-            <p class="region-description">A land of diverse landscapes, from rolling hills and vineyards to rugged mountains and historic gold rush towns.</p>
-          </div>
+        <section class="small-hero">
+            <div class="small-hero-content">
+                <h1>Otago</h1>
+                <p>A land of diverse landscapes, from rolling hills and vineyards to rugged mountains and historic gold rush towns.</p>
+            </div>
+            <video class="small-hero-banner" autoplay muted loop playsinline>
+                <source src="../canterbury/assets/canterbury-hero.mp4" type="video/mp4" />
+            </video>
         </section>
         
-        <section class="filter-pills-wrapper sticky-pills">
-          <div class="filter-pills">
-            <button class="filter-pill" data-location="all">All</button>
-            <button class="filter-pill" data-location="queenstown">Queenstown</button>
-            <button class="filter-pill" data-location="wanaka">Wanaka</button>
-            <button class="filter-pill" data-location="lake-hawea">Lake Hawea</button>
-            <button class="filter-pill" data-location="dunedin">Dunedin</button>
-            <button class="filter-pill" data-location="oamaru">Oamaru</button>
-            <button class="filter-pill" data-location="arrowtown">Arrowtown</button>
-            <button class="filter-pill" data-location="cadrona">Cadrona</button>
-          </div>
+        <section class="filter-pills-wrapper">
+            <div class="filter-pills">
+                <button class="filter-pill" data-location="all">
+                    All <span class="count"></span>
+                </button>
+                <button class="filter-pill" data-location="queenstown">
+                    Queenstown <span class="count"></span>
+                </button>
+                <button class="filter-pill" data-location="wanaka">
+                    Wanaka <span class="count"></span>
+                </button>
+                <button class="filter-pill" data-location="lake-hawea">
+                    Lake Hawea <span class="count"></span>
+                </button>
+                <button class="filter-pill" data-location="dunedin">
+                    Dunedin <span class="count"></span>
+                </button>
+                <button class="filter-pill" data-location="oamaru">
+                    Oamaru <span class="count"></span>
+                </button>
+                <button class="filter-pill" data-location="arrowtown">
+                    Arrowtown <span class="count"></span>
+                </button>
+                <button class="filter-pill" data-location="cadrona">
+                    Cadrona <span class="count"></span>
+                </button>
+            </div>
         </section>
 
         <!-- MAIN CONTENT -->
