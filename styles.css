@@ -74,7 +74,7 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.5rem;
+  padding: 1.5rem 2rem;
   background-color: transparent;
   color: var(--neutral-0);
 }
@@ -94,21 +94,27 @@ a {
 }
 
 .home-icon {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 0.5rem;
+  text-decoration: none;
   font-family: var(--font-hobbit);
   color: var(--neutral-0);
   font-size: 0.8rem;
 }
 
-.home-icon i {
-  font-size: 1rem;
-  color: inherit;
+.nav-left .home-icon img {
+  width: 32px;
+  transition: transform 0.5s ease;
 }
 
-.navbar.scrolled .home-icon {
-  color: var(--neutral-0);
+.nav-left .home-icon:hover img {
+  transform: scale(1.15);
+}
+
+.home-icon i {
+  font-size: 1.1rem;
+  color: inherit;
 }
 
 /* Right side icons & toggles */
@@ -962,6 +968,10 @@ body.hobbit-mode .filter-pill .count {
 /* For mobile (example: max-width: 480px) */
 @media (max-width: 480px) {
   /* Hide the video, show the fallback image */
+  
+  .navbar {
+  padding: 1rem 1.5rem;
+  }
   
   footer {
     padding: 2rem;

@@ -71,12 +71,14 @@ function initHobbitMode() {
   document.body.classList.toggle("hobbit-mode", isHobbitMode);
 
   updateHeroVideo();
+  updateHomeIcon();
 
   hobbitToggle.addEventListener("change", () => {
     isHobbitMode = hobbitToggle.checked;
     localStorage.setItem("hobbitMode", isHobbitMode);
     document.body.classList.toggle("hobbit-mode", isHobbitMode);
     updateHeroVideo();
+    updateHomeIcon();
   });
 }
 
@@ -101,6 +103,27 @@ function updateHeroVideo() {
     heroVideo.removeEventListener("loadedmetadata", restoreTimeOnce);
   });
 }
+
+function updateHomeIcon() {
+  const homeIcon = document.getElementById("homeIcon");
+  if (!homeIcon) return;
+
+  if (isHobbitMode) {
+    // Replace with custom hobbit house icon
+    homeIcon.className = ""; // Remove Font Awesome classes
+    homeIcon.innerHTML = ""; // Clear contents if needed
+    homeIcon.outerHTML = `<img id="homeIcon" src="../assets/hobbit-house.svg" alt="Home">`;
+  } else {
+    // Reset to Font Awesome icon
+    const newIcon = document.createElement("i");
+    newIcon.id = "homeIcon";
+    newIcon.className = "fas fa-home";
+    const parent = document.querySelector(".home-icon");
+    const oldIcon = parent.querySelector("#homeIcon");
+    if (oldIcon) parent.replaceChild(newIcon, oldIcon);
+  }
+}
+
 
 /* ----------------------- Filter Pills Scroll Behavior ----------------------- */
 function initFilterPillsScroll() {
