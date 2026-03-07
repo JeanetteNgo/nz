@@ -17,6 +17,23 @@
 */
 
 const POSTS = [
+    {
+    id: "mount-sunday",
+    title: "A Fine Day at Mount Sunday",
+    date: "2025-02-23",
+    category: "location",
+    island: "north",
+    region: "Mount Somers / Canterbury",
+    location: "Mount Sunday",
+    tags: ["hiking", "lotr", "day walk"],
+    emoji: "🏞️",
+    cover: "assets/images/tongariro.jpg",
+    excerpt: "Nineteen kilometres across an alien landscape of craters, emerald lakes and lava fields. The Crossing earns every superlative.",
+    featured: true,
+    mapLat: -39.297,
+    mapLng: 175.642,
+    file: "posts/mount-sunday.html"
+  },
   {
     id: "tongariro-crossing",
     title: "Tongariro: Walking Through Middle-Earth",
@@ -30,8 +47,8 @@ const POSTS = [
     cover: "assets/images/tongariro.jpg",
     excerpt: "Nineteen kilometres across an alien landscape of craters, emerald lakes and lava fields. The Crossing earns every superlative.",
     featured: true,
-    mapLat: -39.297,
-    mapLng: 175.642,
+    mapLat: -43.548,
+    mapLng: 170.893,
     file: "posts/tongariro-crossing.html"
   },
   {
@@ -211,14 +228,72 @@ const POSTS = [
   Clicking a region card navigates to blog.html?region=Canterbury (etc.)
 */
 const REGIONS = [
-  { name: "Canterbury",               island: "south", emoji: "🏔️", desc: "Mountains, whales & a resilient city",  locations: ["Christchurch","Kaikōura","Hanmer Springs","Akaroa"] },
-  { name: "Otago",                     island: "south", emoji: "🏕️", desc: "Adventure, wine & dramatic fiords",     locations: ["Queenstown","Dunedin","Wānaka","Arrowtown"] },
-  { name: "Southland",                 island: "south", emoji: "🦅", desc: "Wild southern edge & fiordland",        locations: ["Milford Sound","Invercargill","Stewart Island"] },
-  { name: "West Coast",                island: "south", emoji: "🌧️", desc: "Wild, wet & gloriously untamed",        locations: ["Hokitika","Franz Josef","Greymouth","Haast"] },
-  { name: "Marlborough",               island: "south", emoji: "🍷", desc: "Sounds, sunshine & Sauvignon Blanc",    locations: ["Blenheim","Picton","Nelson"] },
-  { name: "Auckland",                  island: "north", emoji: "🌆", desc: "The big smoke & volcanic islands",      locations: ["Auckland City","Waiheke Island","Devonport"] },
-  { name: "Waikato / Bay of Plenty",   island: "north", emoji: "🌋", desc: "Hobbits, hot springs & volcanoes",     locations: ["Tongariro","Rotorua","Hamilton","Taupo"] },
-  { name: "Wellington",                island: "north", emoji: "💨", desc: "Windy, wonderful capital",              locations: ["Wellington CBD","Wairarapa","Kāpiti Coast"] },
+  { name: "Canterbury",
+    island: "south", 
+    emoji: "🏔️", 
+    desc: "Sprawling plains, majestic mountains, and charming towns.",  
+    locations: ["Christchurch","Kaikōura","Hanmer Springs","Methven", "Kaiapoit", "Arthur's Pass", "Castle Hill", "Mount Somers"] 
+  },
+  { name: "Mackenzie District",                 
+    island: "south", 
+    emoji: "🏔️", 
+    desc: "Home to starry skies and stunning lakes.",     
+    locations: ["Lake Tekapo","Aoraki Mount Cook","Lake Pukaki","Twizel", "Fairlie"] 
+  },
+  { name: "Nelson Tasman",                     
+    island: "south", 
+    emoji: "🚵‍♀️", 
+    desc: "A sun-soaked paradise, with golden beaches, lush forests, and vibrant arts communities.",     
+    locations: ["Nelson","Murchison"] 
+  },
+  { name: "Otago",                     
+    island: "south", 
+    emoji: "🪂", 
+    desc: "From rolling hills and vineyards to rugged mountains and historic gold rush towns.",     
+    locations: ["Queenstown","Wānaka", "Lake Hawea", "Dunedin", "Oamaru", "Arrowtown", "Cadrona"] 
+  },
+  { name: "West Coast",                
+    island: "south", 
+    emoji: "🌧️", 
+    desc: "Wild, wet & gloriously untamed",        
+    locations: ["Hokitika","Franz Josef", "Fox Glacier", "Greymouth","Haast"] 
+  },
+  { name: "Southland",                 
+    island: "south", 
+    emoji: "🦅", 
+    desc: "Wild southern edge & fiordland",        
+    locations: ["Milford Sound","Invercargill","Bluff"] 
+  },
+  { name: "The Catlins",                
+    island: "south", 
+    emoji: "🌧️", 
+    desc: "Wild, wet & gloriously untamed",        
+    locations: ["Surat Bay","Curio Bay"] 
+  },
+  { name: "Marlborough",               
+    island: "south", 
+    emoji: "🍷", 
+    desc: "Sounds, sunshine & Sauvignon Blanc",    
+    locations: ["Blenheim","Picton"] 
+  },
+  { name: "Auckland",                  
+    island: "north", 
+    emoji: "🌆", 
+    desc: "The big smoke & volcanic islands",      
+    locations: ["Auckland City","Waiheke Island","Devonport"] 
+  },
+  { name: "Waikato / Bay of Plenty",   
+    island: "north", 
+    emoji: "🌋", 
+    desc: "Hobbits, hot springs & volcanoes",     
+    locations: ["Tongariro","Rotorua","Hamilton","Taupo"] 
+  },
+  { name: "Wellington",                
+    island: "north", 
+    emoji: "💨", 
+    desc: "Windy, wonderful capital",              
+    locations: ["Wellington CBD","Wairarapa","Kāpiti Coast"] 
+  },
 ];
 
 /*

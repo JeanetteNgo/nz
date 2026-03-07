@@ -571,6 +571,12 @@ button {
     margin: 0 auto; 
     padding: 100px 40px; 
   }
+  .explore-panel { 
+    display: none; 
+  }
+  .explore-panel.active { 
+    display: block; 
+  }
 
   /* .explore-bg {
     inset: 0;
@@ -622,11 +628,23 @@ button {
     transition: all .2s; 
     white-space: nowrap;
   }
-  .explore-tab.active { background: var(--accent); color: #fff; }
-  [data-theme="hobbit"] .explore-tab.active { color: #111; }
-  .explore-tab:hover:not(.active) { color: var(--accent); background: var(--accent-dim); }
-  .explore-panel { display: none; }
-  .explore-panel.active { display: block; }
+  .explore-tab.active { 
+    background: var(--accent); 
+    color: #fff; 
+  }
+  [data-theme="hobbit"] .explore-tab.active { 
+    color: #111; 
+  }
+  .explore-tab:hover:not(.active) { 
+    color: var(--accent); 
+    background: var(--accent-dim); 
+  }
+  .explore-panel { 
+    display: none; 
+  }
+  .explore-panel.active { 
+    display: block; 
+  }
 
   @media (max-width: 768px) {
     .hero-stats { flex-wrap: wrap; padding: 16px 16px 24px; }
@@ -755,38 +773,94 @@ button {
 
 /* ── 9. FOOTER ─────────────────────────────────────────────── */
 .site-footer {
-  background: var(--surface); border-top: 1px solid var(--border);
+  background: var(--surface); 
+  border-top: 1px solid var(--border);
   padding: 56px 40px 32px;
 }
 .footer-grid {
-  max-width: var(--max-w); margin: 0 auto;
-  display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; align-items: start;
-  padding-bottom: 32px; border-bottom: 1px solid var(--border2);
+  max-width: var(--max-w); 
+  margin: 0 auto;
+  display: flex; 
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 32px; 
+  border-bottom: 1px solid var(--border2);
 }
 .footer-logo {
-  font-family: var(--font-primary); font-size: 18px; font-weight: 700;
-  color: var(--text); margin-bottom: 8px;
+  font-family: var(--font-primary); 
+  font-size: 18px; 
+  font-weight: 700;
+  color: var(--brown-300); 
+  margin-bottom: 8px;
 }
-[data-theme="hobbit"] .footer-logo { font-family: var(--font-hobbit); color: var(--gold); font-size: 22px; }
-.footer-tagline { font-family: var(--font-display); font-style: italic; font-size: 13px; color: var(--text3); line-height: 1.6; }
-.footer-credit { font-size: 12px; color: var(--text3); margin-top: 8px; }
-.footer-heading { font-family: var(--font-primary); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--text3); margin-bottom: 14px; }
-.footer-links { display: flex; flex-direction: column; gap: 8px; }
-.footer-links a { font-family: var(--font-primary); font-size: 13px; color: var(--text2); }
-.footer-links a:hover { color: var(--accent); }
-.footer-visitor { }
+[data-theme="hobbit"] .footer-logo { 
+  font-family: var(--font-hobbit); 
+  color: var(--gold); 
+  font-size: 22px; 
+}
+.footer-credit { 
+  font-size: 12px; 
+  color: var(--text3); 
+  margin-top: 8px; 
+}
+
+.footer-links { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 8px; 
+}
+.footer-links a { 
+  font-family: var(--font-primary); 
+  font-size: 14px; 
+  color: var(--brown-200); 
+}
+.footer-links a:hover { 
+  color: var(--brown-300); 
+  font-weight: 500;
+  text-decoration: underline;
+  letter-spacing: 1px;
+  transition: 0.3s;
+}
+.footer-visitor {
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  gap: 4px;
+}
 .visitor-count {
-  font-family: var(--font-primary); font-size: 32px; font-weight: 700;
-  color: var(--accent); letter-spacing: -1px; display: block; line-height: 1;
+  font-family: var(--font-primary); 
+  font-size: 32px; 
+  font-weight: 700;
+  color: var(--accent); 
+  letter-spacing: -1px; 
+  display: block; 
+  line-height: 1;
 }
-.visitor-label { font-family: var(--font-primary); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--text3); margin-top: 4px; }
+.visitor-label { 
+  font-family: var(--font-primary); 
+  font-size: 10px; 
+  letter-spacing: 3px; 
+  text-transform: uppercase; 
+  color: var(--text3); 
+  margin-top: 4px; 
+}
 .footer-bottom {
-  max-width: var(--max-w); margin: 0 auto;
-  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  max-width: var(--max-w); 
+  margin: 0 auto;
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  flex-wrap: wrap; 
+  gap: 12px;
   padding-top: 24px;
 }
-.footer-quote { font-family: var(--font-display); font-style: italic; font-size: 13px; color: var(--text3); }
-.footer-copy { font-size: 12px; color: var(--text3); opacity: .5; }
+.footer-quote { 
+  font-family: var(--font-display);  
+  font-style: italic;
+  font-size: 13px; 
+  color: var(--brown-200); 
+}
+
 
 /* ── 10. NZ FACTS WIDGET ───────────────────────────────────── */
 .facts-widget { position: fixed; bottom: 24px; left: 24px; z-index: 500; }
