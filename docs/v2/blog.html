@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="default">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — Aotearoa Diaries</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Uncial+Antiqua&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Reading progress bar */
+    .post-progress { position: fixed; top: var(--nav-h); left: 0; right: 0; height: 3px; background: var(--border2); z-index: 999; display: none; }
+    .post-progress.visible { display: block; }
+    .post-progress-fill { height: 100%; background: var(--accent); width: 0; transition: width .1s linear; }
+  </style>
+</head>
+<body>
+
+<!-- Reading progress bar -->
+<div class="post-progress" id="post-progress"><div class="post-progress-fill" id="post-progress-fill"></div></div>
+
+<!-- ══════════════════════════════════════════════════
+     NAV (always solid on blog page)
+════════════════════════════════════════════════════ -->
+<nav class="site-nav" id="main-nav">
+  <div class="nav-clock-wrap">
+    <span class="nav-clock">--:--:--</span>
+    <span class="nav-clock-label">NZT</span>
+  </div>
+  <a class="nav-logo" href="index.html"><span class="nav-logo-dot">·</span>Aotearoa Diaries</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-controls">
+      <button class="nav-btn" onclick="openSearch()" title="Search (/)">
+        <svg width="14" height="14" fill="none" viewBox="0 0 14 14"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.5"/><line x1="9.5" y1="9.5" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <button class="nav-btn" id="audio-btn" onclick="toggleAudio()">
+        <span class="audio-icon">♪</span>
+        <div class="audio-bars"><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div></div>
+      </button>
+      <button class="nav-theme-btn" onclick="toggleTheme()">
+        <span class="theme-icon">🧙</span><span class="theme-label">Hobbit Mode</span>
+      </button>
+    </div>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span class="ham-line"></span><span class="ham-line"></span><span class="ham-line"></span>
+  </button>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <p class="mob-label">Navigate</p>
+  <a class="mob-link" href="index.html" onclick="closeMenu()"><span style="font-size:18px">🏠</span> Home</a>
+  <a class="mob-link" href="blog.html" onclick="closeMenu()"><span style="font-size:18px">📖</span> Blog</a>
+  <a class="mob-link" href="about.html" onclick="closeMenu()"><span style="font-size:18px">👤</span> About</a>
+  <p class="mob-label">Controls</p>
+  <div class="mob-row">
+    <span class="mob-row-label">🧙 Theme</span>
+    <button class="mob-pill" onclick="toggleTheme()"><span class="theme-icon">🧙</span><span class="theme-label">Hobbit Mode</span></button>
+  </div>
+  <div class="mob-row">
+    <span class="mob-row-label">♪ Audio</span>
+    <button class="mob-pill" id="mob-audio-btn" onclick="toggleAudio()"><span class="mob-audio-label">Play</span></button>
+  </div>
+  <div class="mob-row">
+    <span class="mob-row-label">🔍 Search</span>
+    <button class="mob-pill" onclick="closeMenu();openSearch()">Search</button>
+  </div>
+  <div class="mob-clock">
+    <div class="mob-clock-time nav-clock">--:--:--</div>
+    <div class="mob-clock-label">New Zealand Time</div>
+  </div>
+</div>
+
+<!-- Search overlay -->
+<div class="search-overlay" id="search-overlay" onclick="if(event.target===this)closeSearch()">
+  <div class="search-box">
+    <div class="search-row">
+      <svg width="16" height="16" fill="none" viewBox="0 0 16 16" style="color:var(--text3);flex-shrink:0"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><line x1="11" y1="11" x2="15" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <input class="search-input" id="search-input" type="text" placeholder="Search posts…" oninput="handleSearch(this.value)">
+      <span class="search-esc">ESC</span>
+    </div>
+    <div class="search-results" id="search-results"><div class="search-empty">Search by title, date, or tag…</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PAGE HEADER
+════════════════════════════════════════════════════ -->
+<header class="page-header" id="blog-header">
+  <div class="page-eyebrow">Journal</div>
+  <h1 class="page-title">A Year Across the Islands</h1>
+  <p class="page-subtitle">Locations, stories &amp; honest dispatches from Aotearoa</p>
+</header>
+
+<!-- ══════════════════════════════════════════════════
+     MAIN CONTENT — listing view
+════════════════════════════════════════════════════ -->
+<main id="blog-listing">
+  <div class="blog-layout">
+
+    <!-- ── SIDEBAR ───────────────────────────── -->
+    <aside class="blog-sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-heading">Browse</div>
+        <div id="category-tree"></div>
+      </div>
+    </aside>
+
+    <!-- ── CONTENT ───────────────────────────── -->
+    <div class="blog-content">
+
+      <!-- Top bar: breadcrumb + view toggle -->
+      <div class="blog-topbar">
+        <div class="blog-breadcrumb" id="blog-breadcrumb">
+          <span class="breadcrumb-active">All Posts</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px">
+          <span class="blog-post-count" id="blog-post-count"></span>
+          <div class="view-toggle">
+            <div class="view-toggle-btns">
+              <button class="view-btn active" id="btn-grid" onclick="setView('grid',this)">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="0" y="0" width="6" height="6" rx="1"/><rect x="8" y="0" width="6" height="6" rx="1"/><rect x="0" y="8" width="6" height="6" rx="1"/><rect x="8" y="8" width="6" height="6" rx="1"/></svg>
+                Grid
+              </button>
+              <button class="view-btn" id="btn-list" onclick="setView('list',this)">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="0" y="1" width="14" height="2" rx="1"/><rect x="0" y="6" width="14" height="2" rx="1"/><rect x="0" y="11" width="14" height="2" rx="1"/></svg>
+                List
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid view -->
+      <div class="view-panel active" id="view-grid">
+        <div class="posts-grid" id="posts-grid"></div>
+      </div>
+
+      <!-- List view -->
+      <div class="view-panel" id="view-list">
+        <div class="posts-list" id="posts-list"></div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- ══════════════════════════════════════════════════
+     POST DETAIL VIEW (hidden by default)
+════════════════════════════════════════════════════ -->
+<div id="post-detail" style="display:none"></div>
+
+<!-- ══════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">Aotearoa Diaries</div>
+      <p class="footer-tagline">He aha te mea nui o te ao?<br>He tāngata, he tāngata, he tāngata.</p>
+      <p class="footer-credit">Designed &amp; built by [Your Name] · © 2025 — Made with 🌿 and good memories</p>
+    </div>
+    <div>
+      <p class="footer-heading">Pages</p>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="blog.html">Blog</a>
+        <a href="about.html">About</a>
+      </div>
+    </div>
+    <div class="footer-visitor">
+      <span class="visitor-count">—</span>
+      <div class="visitor-label">Wanderers visited</div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-quote">"Not all those who wander are lost — some of them are just in New Zealand."</p>
+    <p class="footer-copy">© 2025 Aotearoa Diaries · Built with HTML, CSS &amp; vanilla JS</p>
+  </div>
+</footer>
+
+<div class="firefly-layer" id="firefly-layer"></div>
+<div class="toast" id="toast"></div>
+<div class="facts-widget">
+  <button class="facts-btn" id="kiwi-btn" onclick="showFact()">🥝</button>
+  <div class="facts-tip" id="facts-tip"></div>
+</div>
+
+<script src="posts-registry.js"></script>
+<script src="script.js"></script>
+<script>
+/* ═══════════════════════════════════════════════════
+   BLOG PAGE — JS
+   
+   State:
+     activeFilter = { type: "all"|"island"|"region"|"general"|"featured", value: null|"north"|"south"|regionName }
+     currentView  = "grid" | "list"
+     openPostId   = null | string
+═══════════════════════════════════════════════════ */
+
+let activeFilter = { type: "all", value: null };
+let currentView  = "grid";
+let openPostId   = null;
+let postContent  = {};  // cache: postId -> HTML string
+
+// ── CATEGORY TREE ───────────────────────────────────────
+/*
+  Structure:
+  - All
+  - South Island  ▸ Canterbury, Otago, Southland, West Coast, Marlborough
+  - North Island  ▸ Auckland, Waikato / Bay of Plenty, Wellington
+  - General
+  - Featured
+*/
+function buildCategoryTree() {
+  const tree = document.getElementById("category-tree");
+
+  function countFor(filter) {
+    return filterPosts(filter).length;
+  }
+
+  // All
+  tree.appendChild(makeCatItem("All posts", countFor({type:"all"}), "all-posts", () => {
+    setFilter({type:"all", value:null}, "All Posts");
+  }));
+
+  // Islands with sub-regions
+  ["south","north"].forEach(island => {
+    const islandLabel = island === "south" ? "South Island" : "North Island";
+    const islandRegions = REGIONS.filter(r => r.island === island);
+    const islandCount = countFor({type:"island", value:island});
+
+    const wrap = document.createElement("div");
+
+    const row = document.createElement("div");
+    row.className = "cat-item";
+    row.id = `cat-${island}`;
+    row.innerHTML = `
+      <div class="cat-item-left">
+        <span>${islandLabel}</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span class="cat-count">${islandCount}</span>
+        <span class="cat-chevron" id="chev-${island}">›</span>
+      </div>`;
+    row.onclick = () => {
+      setFilter({type:"island", value:island}, islandLabel);
+      toggleSub(island);
+    };
+    wrap.appendChild(row);
+
+    const sub = document.createElement("div");
+    sub.className = "sub-items";
+    sub.id = `sub-${island}`;
+    islandRegions.forEach(region => {
+      const rc = countFor({type:"region", value:region.name});
+      if (rc === 0) return;
+      const s = document.createElement("div");
+      s.className = "sub-item";
+      s.id = `sub-item-${region.name.replace(/\s/g,"-")}`;
+      s.innerHTML = `<span>${region.emoji} ${region.name}</span><span class="cat-count">${rc}</span>`;
+      s.onclick = (e) => {
+        e.stopPropagation();
+        setFilter({type:"region", value:region.name}, `${islandLabel} › ${region.name}`);
+      };
+      sub.appendChild(s);
+    });
+    wrap.appendChild(sub);
+    tree.appendChild(wrap);
+  });
+
+  // General
+  tree.appendChild(makeCatItem("General", countFor({type:"general"}), "cat-general", () => {
+    setFilter({type:"general", value:null}, "General");
+  }));
+
+  // Featured
+  tree.appendChild(makeCatItem("⭐ Featured", countFor({type:"featured"}), "cat-featured", () => {
+    setFilter({type:"featured", value:null}, "Featured");
+  }));
+}
+
+function makeCatItem(label, count, id, onClick) {
+  const el = document.createElement("div");
+  el.className = "cat-item";
+  el.id = id;
+  el.innerHTML = `
+    <div class="cat-item-left"><span>${label}</span></div>
+    <span class="cat-count">${count}</span>`;
+  el.onclick = onClick;
+  return el;
+}
+
+function toggleSub(island) {
+  const sub  = document.getElementById(`sub-${island}`);
+  const chev = document.getElementById(`chev-${island}`);
+  if (!sub) return;
+  const open = sub.classList.toggle("open");
+  if (chev) chev.classList.toggle("open", open);
+}
+
+function setFilter(filter, breadcrumb) {
+  activeFilter = filter;
+
+  // Update active states in sidebar
+  document.querySelectorAll(".cat-item, .sub-item").forEach(el => el.classList.remove("active"));
+  if (filter.type === "all")      document.getElementById("all-posts")?.classList.add("active");
+  if (filter.type === "general")  document.getElementById("cat-general")?.classList.add("active");
+  if (filter.type === "featured") document.getElementById("cat-featured")?.classList.add("active");
+  if (filter.type === "island") {
+    document.getElementById(`cat-${filter.value}`)?.classList.add("active");
+    // auto-open the sub-items
+    const sub = document.getElementById(`sub-${filter.value}`);
+    if (sub && !sub.classList.contains("open")) toggleSub(filter.value);
+  }
+  if (filter.type === "region") {
+    const slug = filter.value.replace(/\s/g,"-");
+    document.getElementById(`sub-item-${slug}`)?.classList.add("active");
+  }
+
+  // Update breadcrumb
+  const bc = document.getElementById("blog-breadcrumb");
+  if (bc) bc.innerHTML = buildBreadcrumbHTML(filter, breadcrumb);
+
+  renderPosts();
+}
+
+function buildBreadcrumbHTML(filter, label) {
+  const parts = label.split(" › ");
+  if (parts.length === 1) return `<span class="breadcrumb-active">${label}</span>`;
+  return parts.map((p, i) =>
+    i < parts.length - 1
+      ? `<span style="cursor:pointer;color:var(--accent)" onclick="setFilter({type:'island',value:'${filter.value === parts[1] ? "" : "south"}'},'${p}')">${p}</span><span class="breadcrumb-sep"> › </span>`
+      : `<span class="breadcrumb-active">${p}</span>`
+  ).join("");
+}
+
+// ── FILTER POSTS ────────────────────────────────────────
+function filterPosts(filter) {
+  filter = filter || activeFilter;
+  switch (filter.type) {
+    case "all":      return POSTS;
+    case "island":   return POSTS.filter(p => p.island === filter.value);
+    case "region":   return POSTS.filter(p => p.region === filter.value);
+    case "general":  return POSTS.filter(p => p.category === "general");
+    case "featured": return POSTS.filter(p => p.featured);
+    default:         return POSTS;
+  }
+}
+
+// ── RENDER POSTS ─────────────────────────────────────────
+function renderPosts() {
+  const posts = filterPosts();
+  const count = document.getElementById("blog-post-count");
+  if (count) count.textContent = `${posts.length} post${posts.length !== 1 ? "s" : ""}`;
+
+  // Grid
+  const grid = document.getElementById("posts-grid");
+  if (grid) {
+    if (!posts.length) {
+      grid.innerHTML = `<p style="color:var(--text3);font-style:italic;padding:20px 0">No posts in this category yet.</p>`;
+    } else {
+      grid.innerHTML = posts.map(p => `
+        <div class="post-card" onclick="openPost('${p.id}')">
+          <div class="post-card-cover">
+            ${p.cover ? `<img src="${p.cover}" alt="${p.title}" loading="lazy" onerror="this.parentElement.innerHTML='<span style=font-size:52px>${p.emoji}</span>'">` : `<span style="font-size:52px">${p.emoji}</span>`}
+          </div>
+          <div class="post-card-body">
+            <div class="post-card-meta">
+              <span class="post-card-date">📅 ${formatDate(p.date)}</span>
+              <span class="post-card-type">${p.category === "general" ? "General" : p.location || p.region || "Location"}</span>
+            </div>
+            <div class="post-card-title">${p.title}</div>
+            <div class="post-card-excerpt">${p.excerpt}</div>
+            <div class="post-card-tags">
+              ${p.tags.slice(0,3).map(t => `<span class="tag">${t}</span>`).join("")}
+              ${p.featured ? `<span class="tag accent">⭐ Featured</span>` : ""}
+            </div>
+          </div>
+        </div>`).join("");
+    }
+  }
+
+  // List
+  const list = document.getElementById("posts-list");
+  if (list) {
+    if (!posts.length) {
+      list.innerHTML = `<p style="color:var(--text3);font-style:italic;padding:20px 0">No posts in this category yet.</p>`;
+    } else {
+      list.innerHTML = posts.map((p, i) => `
+        <div class="post-list-item" onclick="openPost('${p.id}')">
+          <div class="post-list-thumb">
+            ${p.cover ? `<img src="${p.cover}" alt="${p.title}" loading="lazy" onerror="this.parentElement.innerHTML='<span style=font-size:26px>${p.emoji}</span>'">` : `<span style="font-size:26px">${p.emoji}</span>`}
+          </div>
+          <div>
+            <div class="post-list-num">№ ${String(i+1).padStart(2,"0")}</div>
+            <div class="post-list-title">${p.title}</div>
+            <div class="post-list-excerpt">${p.excerpt}</div>
+            <div class="post-list-meta">
+              <span>📅 ${formatDate(p.date)}</span>
+              ${p.location ? `<span>📍 ${p.location}</span>` : ""}
+              <span>${p.tags.slice(0,3).join(" · ")}</span>
+            </div>
+          </div>
+        </div>`).join("");
+    }
+  }
+}
+
+// ── VIEW TOGGLE ──────────────────────────────────────────
+function setView(view, btn) {
+  currentView = view;
+  document.querySelectorAll(".view-panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".view-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("view-" + view)?.classList.add("active");
+  btn.classList.add("active");
+}
+
+// ── POST DETAIL ──────────────────────────────────────────
+async function openPost(id) {
+  const post = POSTS.find(p => p.id === id);
+  if (!post) return;
+  openPostId = id;
+
+  // Update URL without page reload
+  history.pushState({ postId: id }, "", `?post=${id}`);
+
+  // Hide listing, show detail
+  document.getElementById("blog-listing").style.display = "none";
+  document.getElementById("blog-header").style.display = "none";
+  const detail = document.getElementById("post-detail");
+  detail.style.display = "block";
+  window.scrollTo({ top: 0, behavior: "instant" });
+
+  // Show loading state
+  detail.innerHTML = `<div style="padding:120px 40px;text-align:center;color:var(--text3);font-family:var(--font-primary);letter-spacing:2px;text-transform:uppercase;font-size:12px">Loading…</div>`;
+
+  // Fetch the post HTML file
+  let content = postContent[id]; // check cache first
+  if (!content) {
+    try {
+      const res = await fetch(post.file);
+      if (res.ok) {
+        const html = await res.text();
+        // Extract the <article> or <main> content from the post file
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
+        const articleEl = doc.querySelector("article.post-article");
+        content = articleEl ? articleEl.innerHTML : "<p>Post content not found.</p>";
+        postContent[id] = content; // cache it
+      } else {
+        content = `<p style="color:var(--text3)">Could not load post. (<code>${post.file}</code>)</p>`;
+      }
+    } catch(e) {
+      content = `<p style="color:var(--text3)">Could not load post file.</p>`;
+    }
+  }
+
+  // Find prev / next post in the current filtered set
+  const posts = filterPosts();
+  const idx   = posts.findIndex(p => p.id === id);
+  const prev  = posts[idx - 1] || null;
+  const next  = posts[idx + 1] || null;
+
+  detail.innerHTML = `
+    <!-- Hero -->
+    <div class="post-hero">
+      <div class="post-hero-img">
+        ${post.cover
+          ? `<img src="${post.cover}" alt="${post.title}" onerror="this.parentElement.innerHTML='<span style=font-size:80px;display:flex;align-items:center;justify-content:center;height:100%>${post.emoji}</span>'">`
+          : `<span style="font-size:80px;display:flex;align-items:center;justify-content:center;height:100%">${post.emoji}</span>`}
+      </div>
+      <div class="post-hero-overlay"></div>
+      <div class="post-hero-content">
+        <div class="post-hero-tags">
+          ${post.tags.map(t => `<span class="tag" style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.25);color:#fff">${t}</span>`).join("")}
+        </div>
+        <h1 class="post-hero-title">${post.title}</h1>
+        <div class="post-hero-meta">
+          <span>📅 ${formatDate(post.date)}</span>
+          ${post.location ? `<span>📍 ${post.location}</span>` : ""}
+          ${post.region ? `<span>🗺 ${post.region}</span>` : ""}
+        </div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="post-body">
+      <button class="post-back" onclick="closePost()">← Back to posts</button>
+      <div class="post-content">${content}</div>
+
+      <!-- Prev / Next navigation -->
+      <nav class="post-nav">
+        ${prev
+          ? `<div class="post-nav-card" onclick="openPost('${prev.id}')">
+              <div class="post-nav-dir">← Previous</div>
+              <div class="post-nav-emoji">${prev.emoji}</div>
+              <div class="post-nav-title">${prev.title}</div>
+            </div>`
+          : `<div></div>`}
+        ${next
+          ? `<div class="post-nav-card post-nav-right" onclick="openPost('${next.id}')">
+              <div class="post-nav-dir">Next →</div>
+              <div class="post-nav-emoji">${next.emoji}</div>
+              <div class="post-nav-title">${next.title}</div>
+            </div>`
+          : `<div></div>`}
+      </nav>
+    </div>`;
+
+  // Show progress bar
+  document.getElementById("post-progress")?.classList.add("visible");
+}
+
+function closePost() {
+  openPostId = null;
+  history.pushState({}, "", "blog.html");
+  document.getElementById("blog-listing").style.display = "";
+  document.getElementById("blog-header").style.display = "";
+  document.getElementById("post-detail").style.display = "none";
+  document.getElementById("post-progress")?.classList.remove("visible");
+  window.scrollTo({ top: 0, behavior: "instant" });
+}
+
+// Progress bar for reading
+window.addEventListener("scroll", () => {
+  const content = document.querySelector("#post-detail .post-content");
+  const fill = document.getElementById("post-progress-fill");
+  if (!content || !fill) return;
+  const top = content.getBoundingClientRect().top + window.scrollY;
+  const h   = content.offsetHeight;
+  const pct = Math.min(100, Math.max(0, ((window.scrollY - top + window.innerHeight) / h) * 100));
+  fill.style.width = pct + "%";
+}, { passive: true });
+
+// ── BROWSER BACK BUTTON ──────────────────────────────────
+window.addEventListener("popstate", (e) => {
+  if (e.state && e.state.postId) {
+    openPost(e.state.postId);
+  } else {
+    closePost();
+  }
+});
+
+// ── openPost global (used by search) ────────────────────
+// (already defined above — search in script.js calls openPost(id))
+
+// ── INIT ─────────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", () => {
+  initShared();
+  buildCategoryTree();
+
+  // Check URL params on load
+  const params = new URLSearchParams(window.location.search);
+  const postParam   = params.get("post");
+  const regionParam = params.get("region");
+
+  if (postParam) {
+    // Direct link to a post
+    openPost(postParam);
+  } else if (regionParam) {
+    // Directed from homepage region card — pre-filter by region
+    const region = REGIONS.find(r => r.name === regionParam);
+    if (region) {
+      const island = region.island === "north" ? "North Island" : "South Island";
+      // Open the sub-tree for the appropriate island
+      toggleSub(region.island);
+      setFilter({type:"region", value:regionParam}, `${island} › ${regionParam}`);
+    } else {
+      renderPosts();
+    }
+  } else {
+    renderPosts();
+  }
+});
+</script>
+</body>
+</html>
