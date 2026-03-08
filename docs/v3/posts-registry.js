@@ -33,7 +33,7 @@
 
 
 /* ── CDN base — change this one line to switch image hosting ── */
-const CDN_BASE = "";  // e.g. "https://pub-xxxx.r2.dev"
+const CDN_BASE = "https://cdn.jeanettengo.com";  // e.g. "https://pub-xxxx.r2.dev"
 
 /* ══ POSTS ══════════════════════════════════════════════════ */
 const POSTS = [
@@ -247,31 +247,31 @@ const REGIONS = [
     name:      "Canterbury",
     island:    "south",
     emoji:     "🏔️",
-    cover: CDN_BASE + "/images/regions/canterbury.jpg",
+    cover: CDN_BASE + "/images/regions/canterbury-thumbnail.jpg",
     desc:      "Mountains, whales & a resilient city",
     locations: ["Christchurch", "Kaikōura", "Hanmer Springs", "Akaroa"]
-  },
-  {
-    name:      "Nelson",
-    island:    "south",
-    emoji:     "☀️",
-    cover: CDN_BASE + "/images/regions/nelson.jpg",
-    desc:      "Sunshine, art & national parks",
-    locations: ["Nelson", "Abel Tasman", "Golden Bay"]
   },
   {
     name:      "Mackenzie Country",
     island:    "south",
     emoji:     "⭐",
-    cover: CDN_BASE + "/images/regions/mackenzie.jpg",
+    cover: CDN_BASE + "/images/regions/mackenzie-thumbnail.jpg",
     desc:      "Stargazing, turquoise lakes & lupins",
     locations: ["Lake Tekapo", "Aoraki/Mt Cook", "Twizel"]
+  },
+  {
+    name:      "Nelson-Tasman",
+    island:    "south",
+    emoji:     "☀️",
+    cover: CDN_BASE + "/images/regions/tasman-thumbnail.jpg",
+    desc:      "Sunshine, art & national parks",
+    locations: ["Nelson", "Abel Tasman", "Golden Bay"]
   },
   {
     name:      "Otago",
     island:    "south",
     emoji:     "🏕️",
-    cover: CDN_BASE + "/images/regions/otago.jpg",
+    cover: CDN_BASE + "/images/regions/otago-thumbnail.jpg",
     desc:      "Adventure, wine & dramatic fiords",
     locations: ["Queenstown", "Dunedin", "Wānaka", "Arrowtown"]
   },
@@ -279,7 +279,7 @@ const REGIONS = [
     name:      "The Catlins",
     island:    "south",
     emoji:     "🌊",
-    cover: CDN_BASE + "/images/regions/catlins.jpg",
+    cover: CDN_BASE + "/images/regions/catlins-thumbnail.jpg",
     desc:      "Waterfalls, sea lions & solitude",
     locations: ["Nugget Point", "Curio Bay", "Papatowai"]
   },
@@ -287,7 +287,7 @@ const REGIONS = [
     name:      "West Coast",
     island:    "south",
     emoji:     "🌧️",
-    cover: CDN_BASE + "/images/regions/westcoast.jpg",
+    cover: CDN_BASE + "/images/regions/west-coast-thumbnail.jpg",
     desc:      "Wild, wet & gloriously untamed",
     locations: ["Hokitika", "Franz Josef", "Greymouth", "Haast"]
   },
@@ -295,25 +295,25 @@ const REGIONS = [
     name:      "Southland",
     island:    "south",
     emoji:     "🦅",
-    cover: CDN_BASE + "/images/regions/southland.jpg",
+    cover: CDN_BASE + "/images/regions/southland-thumbnail.jpg",
     desc:      "Wild southern edge & fiordland",
     locations: ["Milford Sound", "Invercargill", "Stewart Island"]
   },
-  {
-    name:      "Marlborough",
-    island:    "south",
-    emoji:     "🍷",
-    cover: CDN_BASE + "/images/regions/marlborough.jpg",
-    desc:      "Sounds, sunshine & Sauvignon Blanc",
-    locations: ["Blenheim", "Picton", "Nelson"]
-  },
+  // {
+  //   name:      "Marlborough",
+  //   island:    "south",
+  //   emoji:     "🍷",
+  //   cover: CDN_BASE + "/images/regions/marlborough.jpg",
+  //   desc:      "Sounds, sunshine & Sauvignon Blanc",
+  //   locations: ["Blenheim", "Picton", "Nelson"]
+  // },
 
   /* ── North Island ── */
   {
     name:      "Northland",
     island:    "north",
     emoji:     "🏝️",
-    cover: CDN_BASE + "/images/regions/northland.jpg",
+    cover: CDN_BASE + "/images/regions/northland-thumbnail.jpg",
     desc:      "Ancient kauri forests & sweeping beaches",
     locations: ["Bay of Islands", "Ninety Mile Beach", "Cape Reinga"]
   },
@@ -321,7 +321,7 @@ const REGIONS = [
     name:      "Auckland",
     island:    "north",
     emoji:     "🌆",
-    cover: CDN_BASE + "/images/regions/auckland.jpg",
+    cover: CDN_BASE + "/images/regions/auckland-thumbnail.jpg",
     desc:      "The big smoke & volcanic islands",
     locations: ["Auckland City", "Waiheke Island", "Devonport"]
   },
@@ -329,7 +329,7 @@ const REGIONS = [
     name:      "Coromandel",
     island:    "north",
     emoji:     "🏖️",
-    cover: CDN_BASE + "/images/regions/coromandel.jpg",
+    cover: CDN_BASE + "/images/regions/coromandel-thumbnail.jpg",
     desc:      "Hot water beach & cathedral cove",
     locations: ["Thames", "Coromandel Town", "Hot Water Beach", "Cathedral Cove"]
   },
@@ -337,7 +337,7 @@ const REGIONS = [
     name:      "Bay of Plenty",
     island:    "north",
     emoji:     "🌊",
-    cover: CDN_BASE + "/images/regions/bayofplenty.jpg",
+    cover: CDN_BASE + "/images/regions/bop-thumbnail.jpg",
     desc:      "Kiwifruit, beaches & White Island",
     locations: ["Tauranga", "Mount Maunganui", "Whakatāne"]
   },
@@ -345,23 +345,15 @@ const REGIONS = [
     name:      "Waikato",
     island:    "north",
     emoji:     "🌿",
-    cover: CDN_BASE + "/images/regions/waikato.jpg",
+    cover: CDN_BASE + "/images/regions/waikato-thumbnail.jpg",
     desc:      "Hobbits, caves & the mighty Waikato river",
     locations: ["Hobbiton", "Waitomo Caves", "Hamilton"]
-  },
-  {
-    name:      "Waikato / Bay of Plenty",
-    island:    "north",
-    emoji:     "🌋",
-    cover: CDN_BASE + "/images/regions/tongariro.jpg",
-    desc:      "Hobbits, hot springs & volcanoes",
-    locations: ["Tongariro", "Rotorua", "Hamilton", "Taupo"]
   },
   {
     name:      "Manawatū-Whanganui",
     island:    "north",
     emoji:     "🏔️",
-    cover: CDN_BASE + "/images/regions/manawatu.jpg",
+    cover: CDN_BASE + "/images/regions/whanganui-thumbnail.jpg",
     desc:      "Volcanic plateau & wild river gorges",
     locations: ["Whanganui", "Palmerston North", "Tongariro National Park"]
   },
@@ -369,7 +361,7 @@ const REGIONS = [
     name:      "Wellington",
     island:    "north",
     emoji:     "💨",
-    cover: CDN_BASE + "/images/regions/wellington.jpg",
+    cover: CDN_BASE + "/images/regions/wellington-thumbnail.jpg",
     desc:      "Windy, wonderful capital",
     locations: ["Wellington CBD", "Wairarapa", "Kāpiti Coast"]
   },

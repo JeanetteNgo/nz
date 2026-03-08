@@ -2,7 +2,7 @@
 <html lang="en" data-theme="default">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>About — Aotearoa Diaries</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,20 +14,33 @@
 <!-- ══════════════════════════════════════════════════
      NAV
 ════════════════════════════════════════════════════ -->
-<nav class="site-nav over-hero" id="main-nav">
+<nav class="site-nav" id="main-nav">
   <div class="nav-clock-wrap">
     <span class="nav-clock">--:--:--</span>
     <span class="nav-clock-label">NZT</span>
   </div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
   <div class="nav-right">
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="about.html">About</a></li>
-    </ul>
     <div class="nav-controls">
       <button class="nav-btn" onclick="openSearch()" title="Search (/)">
         <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+      <button class="nav-btn" id="audio-btn" onclick="toggleAudio()" title="Ambient sounds">
+        <i class="fa-solid fa-music audio-icon"></i>
+        <span class="audio-bars">
+          <span class="audio-bar"></span>
+          <span class="audio-bar"></span>
+          <span class="audio-bar"></span>
+          <span class="audio-bar"></span>
+        </span>
+      </button>
+      <button class="nav-btn hobbit-pill" id="hobbit-toggle-btn" onclick="toggleTheme()" title="Toggle Hobbit Mode" aria-pressed="false">
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        <span class="hobbit-label theme-label">Default</span>
       </button>
     </div>
   </div>
@@ -42,14 +55,14 @@
 <div class="mobile-menu" id="mobile-menu">
   <p class="mob-label">Navigate</p>
   <a class="mob-link" href="index.html" onclick="closeMenu()"><span style="font-size:18px">🏠</span> Home</a>
-  <a class="mob-link" href="blog.html" onclick="closeMenu()"><span style="font-size:18px">📖</span> Blog</a>
+  <a class="mob-link" href="blog.html"  onclick="closeMenu()"><span style="font-size:18px">📖</span> Blog</a>
   <a class="mob-link" href="about.html" onclick="closeMenu()"><span style="font-size:18px">👤</span> About</a>
   <p class="mob-label">Controls</p>
   <div class="mob-row">
     <span class="mob-row-label">🧙 Theme</span>
     <button class="mob-pill" onclick="toggleTheme()"><span class="theme-icon">🧙</span><span class="theme-label">Hobbit Mode</span></button>
   </div>
-  <div class="mob-row">
+  <div class="mob-row mob-audio-row">
     <span class="mob-row-label">♪ Audio</span>
     <button class="mob-pill" id="mob-audio-btn" onclick="toggleAudio()"><span class="mob-audio-label">Play</span></button>
   </div>
@@ -180,10 +193,10 @@
     <section class="about-section fade-in">
       <div class="about-section-title">Say Hello</div>
       <div class="contact-grid">
-        <a class="contact-card" href="mailto:hello@example.com">
+        <a class="contact-card" href="/cdn-cgi/l/email-protection#91f9f4fdfdfed1f4e9f0fce1fdf4bff2fefc">
           <div class="contact-icon">✉️</div>
           <div class="contact-label">Email</div>
-          <div class="contact-value">hello@example.com</div>
+          <div class="contact-value"><span class="__cf_email__" data-cfemail="96fef3fafaf9d6f3eef7fbe6faf3b8f5f9fb">[email&#160;protected]</span></div>
         </a>
         <a class="contact-card" href="#" target="_blank">
           <div class="contact-icon">📸</div>
@@ -207,12 +220,7 @@
 <footer class="site-footer">
   <div class="footer-grid">
     <div>
-      <div class="footer-logo">Aotearoa Diaries</div>
-      <p class="footer-tagline">He aha te mea nui o te ao?<br>He tāngata, he tāngata, he tāngata.</p>
-      <p class="footer-credit">Designed &amp; built by [Your Name] · © 2025 — Made with 🌿 and good memories</p>
-    </div>
-    <div>
-      <p class="footer-heading">Pages</p>
+      <p class="footer-logo">Thank you for sharing my journey.</p>
       <div class="footer-links">
         <a href="index.html">Home</a>
         <a href="blog.html">Blog</a>
@@ -225,23 +233,31 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <p class="footer-quote">"Not all those who wander are lost — some of them are just in New Zealand."</p>
-    <p class="footer-copy">© 2025 Aotearoa Diaries · Built with HTML, CSS &amp; vanilla JS</p>
+    <p class="footer-quote">"Not all who wander are lost — some of them are just in New Zealand."</p>
+    <p class="footer-credit">© 2025 Jeanette Ngo · Made with 🍫 and good memories</p>
   </div>
 </footer>
 
+<!-- Fixed overlays and widgets -->
 <div class="firefly-layer" id="firefly-layer"></div>
 <div class="toast" id="toast"></div>
-<div class="facts-widget">
-  <button class="facts-btn" id="kiwi-btn" onclick="showFact()">🥝</button>
+<div class="facts-fixed" id="facts-fixed">
+  <button class="facts-btn" id="kiwi-btn" onclick="showFact()" aria-label="NZ fun fact" title="Fun fact!">🥝</button>
   <div class="facts-tip" id="facts-tip"></div>
 </div>
 
 <script src="posts-registry.js"></script>
 <script src="script.js"></script>
 <script>
-  function openPost(id) { window.location.href = `blog.html?post=${id}`; }
-  document.addEventListener("DOMContentLoaded", () => initShared());
+document.addEventListener("DOMContentLoaded", () => {
+  initShared();
+  setTimeout(() => {
+    ["ci-hobbit","ci-audio","ci-facts"].forEach((id, i) => {
+      setTimeout(() => document.getElementById(id)?.classList.add("visible"), i * 120);
+    });
+  }, 1500);
+});
 </script>
+
 </body>
 </html>

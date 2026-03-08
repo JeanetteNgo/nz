@@ -127,6 +127,8 @@ function initMap() {
   if (mapReady) return;
   mapReady = true;
 
+  const isMobile = () => window.innerWidth <= 768;
+
   nzMap = L.map("nz-map", {
     center:             [-41.5, 172.5],
     zoom:               6,
@@ -135,7 +137,9 @@ function initMap() {
     minZoom:            5,
     maxZoom:            14,
     zoomControl:        true,
+    // On mobile allow scroll; tap-to-pin replaces hover
     scrollWheelZoom:    true,
+    dragging:           true,
   });
 
   L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
@@ -148,19 +152,43 @@ function initMap() {
   const countEl = document.getElementById("map-pin-count");
   if (countEl) countEl.textContent = `${pinned.length} location${pinned.length !== 1 ? "s" : ""} visited`;
 
-  let pinnedMarker = null;   // which marker currently has its popup pinned open
+  let activeMarker = null;
+
+  // ── Helper: show bottom sheet on mobile ──
+  function openSheet(post) {
+    const sheet = document.getElementById("map-sheet");
+    const inner = document.getElementById("map-sheet-inner");
+    if (!sheet || !inner) return;
+
+    const imgHTML = post.cover
+      ? `<div class="map-sheet-img"><img src="${post.cover}" alt="${post.title}" loading="lazy"
+           onerror="this.parentElement.innerHTML='<span style=font-size:28px>${post.emoji}</span>'"></div>`
+      : `<div class="map-sheet-img">${post.emoji}</div>`;
+
+    inner.innerHTML = `
+      ${imgHTML}
+      <div class="map-sheet-body">
+        <div class="map-sheet-title">${post.title}</div>
+        <div class="map-sheet-date">${formatDate(post.date)}</div>
+        <div class="map-sheet-desc">${post.excerpt.slice(0, 100)}…</div>
+        <a class="map-sheet-link" href="blog.html?post=${post.id}">Read post →</a>
+      </div>`;
+    sheet.classList.add("open");
+  }
 
   pinned.forEach(post => {
     const icon = L.divIcon({
       html:        `<i class="fa-solid fa-location-dot map-pin-icon"></i>`,
-      className:   "",       // no leaflet default wrapper styles
-      iconSize:    [28, 34],
-      iconAnchor:  [14, 34], // tip of pin sits on coordinate
-      popupAnchor: [0, -36],
+      className:   "",
+      iconSize:    [34, 40],   // slightly larger wrapper gives a bigger hit target
+      iconAnchor:  [17, 40],   // anchor at base centre
+      popupAnchor: [0, -42],
     });
 
     const marker = L.marker([post.mapLat, post.mapLng], { icon }).addTo(nzMap);
+    const pinEl  = () => marker.getElement()?.querySelector(".map-pin-icon");
 
+    // Desktop: bind popup
     const coverHTML = post.cover
       ? `<div class="popup-img"><img src="${post.cover}" alt="${post.title}" loading="lazy"
            onerror="this.parentElement.innerHTML='<span style=font-size:36px;display:block;text-align:center;line-height:110px>${post.emoji}</span>'"></div>`
@@ -175,50 +203,110 @@ function initMap() {
         <a class="popup-link" href="blog.html?post=${post.id}">Read post →</a>
       </div>`, {
       maxWidth:    240,
-      autoPan:     false,
+      autoPan:     false,   // autoPan shifts map + creates empty gap / stray ×
       closeButton: true,
     });
 
-    const pinEl = () => marker.getElement()?.querySelector(".map-pin-icon");
-
     marker.on("mouseover", function() {
+      if (isMobile()) return;
       pinEl()?.classList.add("hovered");
-      if (!pinnedMarker) this.openPopup();
+      if (activeMarker !== this) this.openPopup();
     });
 
     marker.on("mouseout", function() {
+      if (isMobile()) return;
       pinEl()?.classList.remove("hovered");
-      if (pinnedMarker !== this) this.closePopup();
+      if (activeMarker !== this) this.closePopup();
     });
 
-    marker.on("click", function() {
-      if (pinnedMarker === this) {
-        // Unpin
-        pinEl()?.classList.remove("pinned");
-        this.closePopup();
-        pinnedMarker = null;
-      } else {
-        // Close previous pin
-        if (pinnedMarker) {
-          pinnedMarker.getElement()?.querySelector(".map-pin-icon")?.classList.remove("pinned");
-          pinnedMarker.closePopup();
+    marker.on("click", function(e) {
+      if (isMobile()) {
+        // Mobile: pan to pin, open bottom sheet
+        L.DomEvent.stopPropagation(e);
+        // Deactivate previous
+        if (activeMarker && activeMarker !== this) {
+          activeMarker.getElement()?.querySelector(".map-pin-icon")?.classList.remove("pinned");
         }
-        pinnedMarker = this;
-        pinEl()?.classList.add("pinned");
-        this.openPopup();
+        if (activeMarker === this) {
+          // Tap same pin → close sheet
+          pinEl()?.classList.remove("pinned");
+          closeMapSheet();
+          activeMarker = null;
+        } else {
+          activeMarker = this;
+          pinEl()?.classList.add("pinned");
+          nzMap.panTo([post.mapLat, post.mapLng], { animate: true, duration: 0.4 });
+          openSheet(post);
+        }
+      } else {
+        // Desktop: pin/unpin popup
+        if (activeMarker === this) {
+          pinEl()?.classList.remove("pinned");
+          this.closePopup();
+          activeMarker = null;
+        } else {
+          if (activeMarker) {
+            activeMarker.getElement()?.querySelector(".map-pin-icon")?.classList.remove("pinned");
+            activeMarker.closePopup();
+          }
+          activeMarker = this;
+          pinEl()?.classList.add("pinned");
+          this.openPopup();
+        }
       }
     });
 
     marker.on("popupclose", function() {
-      if (pinnedMarker === this) {
-        pinnedMarker = null;
+      if (activeMarker === this) {
+        activeMarker = null;
         pinEl()?.classList.remove("pinned");
       }
     });
   });
 
-  // Tight fit to NZ mainland
+  // ── Mobile: render scrollable pin list below the map ──
+  if (isMobile()) {
+    const listEl = document.getElementById("map-pin-list");
+    if (listEl) {
+      listEl.style.display = "flex";
+      listEl.innerHTML = pinned.map(post => `
+        <div class="map-pin-list-item" onclick="
+          nzMap.panTo([${post.mapLat}, ${post.mapLng}], {animate:true,duration:0.4});
+          document.getElementById('map-sheet') && openMapSheet('${post.id}');
+        ">
+          <i class="fa-solid fa-location-dot map-pin-list-icon"></i>
+          <span class="map-pin-list-name">${post.title}</span>
+          <span class="map-pin-list-region">${post.region || post.category || ''}</span>
+        </div>`).join('');
+    }
+  }
+
   nzMap.fitBounds([[-46.8, 166.4], [-34.4, 178.2]], { padding: [20, 20] });
+}
+
+/* Called from pin list items — open sheet for a specific post id */
+function openMapSheet(postId) {
+  const post = POSTS.find(p => p.id === postId);
+  if (!post) return;
+  const sheet = document.getElementById("map-sheet");
+  const inner = document.getElementById("map-sheet-inner");
+  if (!sheet || !inner) return;
+  const imgHTML = post.cover
+    ? `<div class="map-sheet-img"><img src="${post.cover}" alt="${post.title}" loading="lazy"></div>`
+    : `<div class="map-sheet-img">${post.emoji}</div>`;
+  inner.innerHTML = `
+    ${imgHTML}
+    <div class="map-sheet-body">
+      <div class="map-sheet-title">${post.title}</div>
+      <div class="map-sheet-date">${formatDate(post.date)}</div>
+      <div class="map-sheet-desc">${post.excerpt.slice(0, 100)}…</div>
+      <a class="map-sheet-link" href="blog.html?post=${post.id}">Read post →</a>
+    </div>`;
+  sheet.classList.add("open");
+}
+
+function closeMapSheet() {
+  document.getElementById("map-sheet")?.classList.remove("open");
 }
 
 
@@ -301,5 +389,14 @@ document.addEventListener("DOMContentLoaded", () => {
   animateStatCounters();
   renderRegions();
   renderJournal();
-  initMap();
+
+  // Leaflet measures the container at init time — if called synchronously
+  // inside DOMContentLoaded the browser hasn't done layout yet, so the
+  // panel has 0×0 size and the map renders blank with zoom controls at 0,0.
+  // A double-rAF guarantees we're past the first paint before measuring.
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      initMap();
+    });
+  });
 });

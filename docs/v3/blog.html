@@ -2,7 +2,7 @@
 <html lang="en" data-theme="default">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Blog — J's Adventure in Aotearoa</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,7 +47,7 @@
       </button>
       <button class="nav-btn hobbit-pill" id="hobbit-toggle-btn" onclick="toggleTheme()" title="Toggle Hobbit Mode" aria-pressed="false">
         <span class="toggle-track"><span class="toggle-thumb"></span></span>
-        <span class="hobbit-label theme-label">Hobbit</span>
+        <span class="hobbit-label theme-label">Default</span>
       </button>
     </div>
   </div>
@@ -62,20 +62,16 @@
 <div class="mobile-menu" id="mobile-menu">
   <p class="mob-label">Navigate</p>
   <a class="mob-link" href="index.html" onclick="closeMenu()"><span style="font-size:18px">🏠</span> Home</a>
-  <a class="mob-link" href="blog.html" onclick="closeMenu()"><span style="font-size:18px">📖</span> Blog</a>
+  <a class="mob-link" href="blog.html"  onclick="closeMenu()"><span style="font-size:18px">📖</span> Blog</a>
   <a class="mob-link" href="about.html" onclick="closeMenu()"><span style="font-size:18px">👤</span> About</a>
   <p class="mob-label">Controls</p>
   <div class="mob-row">
     <span class="mob-row-label">🧙 Theme</span>
-    <button class="mob-pill" onclick="toggleTheme()">
-      <span class="theme-icon">🧙</span><span class="theme-label">Hobbit Mode</span>
-    </button>
+    <button class="mob-pill" onclick="toggleTheme()"><span class="theme-icon">🧙</span><span class="theme-label">Hobbit Mode</span></button>
   </div>
-  <div class="mob-row">
+  <div class="mob-row mob-audio-row">
     <span class="mob-row-label">♪ Audio</span>
-    <button class="mob-pill" id="mob-audio-btn" onclick="toggleAudio()">
-      <span class="mob-audio-label">Play</span>
-    </button>
+    <button class="mob-pill" id="mob-audio-btn" onclick="toggleAudio()"><span class="mob-audio-label">Play</span></button>
   </div>
   <div class="mob-row">
     <span class="mob-row-label">🔍 Search</span>
@@ -190,19 +186,14 @@
   </div>
 </footer>
 
-<!-- FIXED WIDGETS -->
+<!-- Fixed overlays and widgets -->
 <div class="firefly-layer" id="firefly-layer"></div>
 <div class="toast" id="toast"></div>
-
-<!-- Bottom-left: kiwi fun-facts widget -->
 <div class="facts-fixed" id="facts-fixed">
   <button class="facts-btn" id="kiwi-btn" onclick="showFact()" aria-label="NZ fun fact" title="Fun fact!">🥝</button>
   <div class="facts-tip" id="facts-tip"></div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     SCRIPTS
-════════════════════════════════════════════════════ -->
 <script src="posts-registry.js"></script>
 <script src="script.js"></script>
 <script src="blog.js"></script>
