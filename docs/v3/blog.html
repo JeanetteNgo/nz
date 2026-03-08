@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="default">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — J's Adventure in Aotearoa</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Uncial+Antiqua&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Note: .post-progress styles live in styles.css (section 17) -->
+</head>
+<body>
+
+<!-- Reading progress bar -->
+<div class="post-progress" id="post-progress">
+  <div class="post-progress-fill" id="post-progress-fill"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     NAV (always solid on blog/about pages)
+════════════════════════════════════════════════════ -->
+<nav class="site-nav" id="main-nav">
+  <div class="nav-clock-wrap">
+    <span class="nav-clock">--:--:--</span>
+    <span class="nav-clock-label">NZT</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-controls">
+      <button class="nav-btn" id="audio-btn" onclick="toggleAudio()" title="Ambient sounds">
+        <i class="fa-solid fa-music audio-icon"></i>
+        <span class="audio-bars">
+          <span class="audio-bar"></span>
+          <span class="audio-bar"></span>
+          <span class="audio-bar"></span>
+          <span class="audio-bar"></span>
+        </span>
+      </button>
+      <button class="nav-btn hobbit-pill" id="hobbit-toggle-btn" onclick="toggleTheme()" title="Toggle theme">
+        <span class="theme-icon">🧙</span>
+        <span class="hobbit-label theme-label">Hobbit</span>
+      </button>
+      <button class="nav-btn" onclick="openSearch()" title="Search (/)">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </div>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span class="ham-line"></span>
+    <span class="ham-line"></span>
+    <span class="ham-line"></span>
+  </button>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <p class="mob-label">Navigate</p>
+  <a class="mob-link" href="index.html" onclick="closeMenu()"><span style="font-size:18px">🏠</span> Home</a>
+  <a class="mob-link" href="blog.html" onclick="closeMenu()"><span style="font-size:18px">📖</span> Blog</a>
+  <a class="mob-link" href="about.html" onclick="closeMenu()"><span style="font-size:18px">👤</span> About</a>
+  <p class="mob-label">Controls</p>
+  <div class="mob-row">
+    <span class="mob-row-label">🧙 Theme</span>
+    <button class="mob-pill" onclick="toggleTheme()">
+      <span class="theme-icon">🧙</span><span class="theme-label">Hobbit Mode</span>
+    </button>
+  </div>
+  <div class="mob-row">
+    <span class="mob-row-label">♪ Audio</span>
+    <button class="mob-pill" id="mob-audio-btn" onclick="toggleAudio()">
+      <span class="mob-audio-label">Play</span>
+    </button>
+  </div>
+  <div class="mob-row">
+    <span class="mob-row-label">🔍 Search</span>
+    <button class="mob-pill" onclick="closeMenu();openSearch()">Search</button>
+  </div>
+  <div class="mob-clock">
+    <div class="mob-clock-time nav-clock">--:--:--</div>
+    <div class="mob-clock-label">New Zealand Time</div>
+  </div>
+</div>
+
+<!-- Search overlay -->
+<div class="search-overlay" id="search-overlay" onclick="if(event.target===this)closeSearch()">
+  <div class="search-box">
+    <div class="search-row">
+      <i class="fa-solid fa-magnifying-glass" style="color:var(--text3);flex-shrink:0;font-size:15px"></i>
+      <input class="search-input" id="search-input" type="text" placeholder="Search posts…" oninput="handleSearch(this.value)">
+      <span class="search-esc">ESC</span>
+    </div>
+    <div class="search-results" id="search-results">
+      <div class="search-empty">Search by title, date, or tag…</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PAGE HEADER
+════════════════════════════════════════════════════ -->
+<header class="page-header" id="blog-header">
+  <div class="page-eyebrow">Journal</div>
+  <h1 class="page-title">A Year Across the Islands</h1>
+  <p class="page-subtitle">Locations, stories &amp; honest dispatches from Aotearoa</p>
+</header>
+
+<!-- ══════════════════════════════════════════════════
+     BLOG LISTING
+════════════════════════════════════════════════════ -->
+<main id="blog-listing">
+  <div class="blog-layout">
+
+    <!-- ── SIDEBAR ───────────────────────────── -->
+    <aside class="blog-sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-heading">Browse</div>
+        <div id="category-tree"></div>
+      </div>
+    </aside>
+
+    <!-- ── CONTENT ───────────────────────────── -->
+    <div class="blog-content">
+
+      <!-- Top bar: breadcrumb + view toggle -->
+      <div class="blog-topbar">
+        <div class="blog-breadcrumb" id="blog-breadcrumb">
+          <span class="breadcrumb-active">All Posts</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px">
+          <span class="blog-post-count" id="blog-post-count"></span>
+          <div class="view-toggle">
+            <div class="view-toggle-btns">
+              <button class="view-btn active" id="btn-grid" onclick="setView('grid',this)">
+                <i class="fa-solid fa-border-all"></i> Grid
+              </button>
+              <button class="view-btn" id="btn-list" onclick="setView('list',this)">
+                <i class="fa-solid fa-list"></i> List
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid view -->
+      <div class="view-panel active" id="view-grid">
+        <div class="posts-grid" id="posts-grid"></div>
+      </div>
+
+      <!-- List view -->
+      <div class="view-panel" id="view-list">
+        <div class="posts-list" id="posts-list"></div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- ══════════════════════════════════════════════════
+     POST DETAIL VIEW (hidden by default, shown by JS)
+════════════════════════════════════════════════════ -->
+<div id="post-detail" style="display:none"></div>
+
+<!-- ══════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <p class="footer-logo">Thank you for sharing my journey.</p>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="blog.html">Blog</a>
+        <a href="about.html">About</a>
+      </div>
+    </div>
+    <div class="footer-visitor">
+      <span class="visitor-count">—</span>
+      <div class="visitor-label">Wanderers visited</div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-quote">"Not all who wander are lost — some of them are just in New Zealand."</p>
+    <p class="footer-credit">© 2025 Jeanette Ngo · Made with 🍫 and good memories</p>
+  </div>
+</footer>
+
+<!-- FIXED WIDGETS -->
+<div class="firefly-layer" id="firefly-layer"></div>
+<div class="toast" id="toast"></div>
+
+<!-- Bottom-left: kiwi fun-facts widget -->
+<div class="facts-fixed" id="facts-fixed">
+  <button class="facts-btn" id="kiwi-btn" onclick="showFact()" aria-label="NZ fun fact" title="Fun fact!">🥝</button>
+  <div class="facts-tip" id="facts-tip"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════════════════ -->
+<script src="posts-registry.js"></script>
+<script src="script.js"></script>
+<script src="blog.js"></script>
+
+</body>
+</html>

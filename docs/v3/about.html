@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="default">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Aotearoa Diaries</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Uncial+Antiqua&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     NAV
+════════════════════════════════════════════════════ -->
+<nav class="site-nav over-hero" id="main-nav">
+  <div class="nav-clock-wrap">
+    <span class="nav-clock">--:--:--</span>
+    <span class="nav-clock-label">NZT</span>
+  </div>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-controls">
+      <button class="nav-btn" onclick="openSearch()" title="Search (/)">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </div>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span class="ham-line"></span>
+    <span class="ham-line"></span>
+    <span class="ham-line"></span>
+  </button>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <p class="mob-label">Navigate</p>
+  <a class="mob-link" href="index.html" onclick="closeMenu()"><span style="font-size:18px">🏠</span> Home</a>
+  <a class="mob-link" href="blog.html" onclick="closeMenu()"><span style="font-size:18px">📖</span> Blog</a>
+  <a class="mob-link" href="about.html" onclick="closeMenu()"><span style="font-size:18px">👤</span> About</a>
+  <p class="mob-label">Controls</p>
+  <div class="mob-row">
+    <span class="mob-row-label">🧙 Theme</span>
+    <button class="mob-pill" onclick="toggleTheme()"><span class="theme-icon">🧙</span><span class="theme-label">Hobbit Mode</span></button>
+  </div>
+  <div class="mob-row">
+    <span class="mob-row-label">♪ Audio</span>
+    <button class="mob-pill" id="mob-audio-btn" onclick="toggleAudio()"><span class="mob-audio-label">Play</span></button>
+  </div>
+  <div class="mob-row">
+    <span class="mob-row-label">🔍 Search</span>
+    <button class="mob-pill" onclick="closeMenu();openSearch()">Search</button>
+  </div>
+  <div class="mob-clock">
+    <div class="mob-clock-time nav-clock">--:--:--</div>
+    <div class="mob-clock-label">New Zealand Time</div>
+  </div>
+</div>
+
+<!-- Search overlay -->
+<div class="search-overlay" id="search-overlay" onclick="if(event.target===this)closeSearch()">
+  <div class="search-box">
+    <div class="search-row">
+      <svg width="16" height="16" fill="none" viewBox="0 0 16 16" style="color:var(--text3);flex-shrink:0"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><line x1="11" y1="11" x2="15" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <input class="search-input" id="search-input" type="text" placeholder="Search posts…" oninput="handleSearch(this.value)">
+      <span class="search-esc">ESC</span>
+    </div>
+    <div class="search-results" id="search-results"><div class="search-empty">Search by title, date, or tag…</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PAGE HEADER
+════════════════════════════════════════════════════ -->
+<header class="page-header">
+  <div class="page-eyebrow">The person behind the posts</div>
+  <h1 class="page-title">About Me</h1>
+  <p class="page-subtitle">A working holiday, a year of wandering, a blog about both</p>
+</header>
+
+<!-- ══════════════════════════════════════════════════
+     ABOUT CONTENT
+════════════════════════════════════════════════════ -->
+<main style="padding-top: 56px">
+  <div class="about-layout">
+
+    <!-- Intro: photo + bio -->
+    <div class="about-intro fade-in">
+      <div class="about-avatar">
+        <!-- Replace with: <img src="assets/images/me.jpg" alt="[Your Name]"> -->
+        🧳
+      </div>
+      <div>
+        <h1 class="about-name">[Your Name]</h1>
+        <p class="about-tagline">[your nationality] · [job/field] · [age]</p>
+        <p class="about-bio">
+          I came to New Zealand on a working holiday visa in January 2024, with a vague plan to 
+          stay for a few months. Twelve months later I was still here, having worked a handful of 
+          jobs, driven most of the country's main roads, hiked fourteen trails, and eaten a 
+          truly unreasonable number of meat pies.
+        </p>
+        <p class="about-bio" style="margin-top:12px">
+          This blog is my attempt to document it honestly — not the Instagram version of travel, 
+          but the actual one. The getting-lost bits, the hard bits, the bits where the mountain 
+          is so beautiful you can't talk for a moment.
+        </p>
+        <div class="about-stats">
+          <div class="about-stat"><span class="about-stat-num">365</span><span class="about-stat-label">Days</span></div>
+          <div class="about-stat"><span class="about-stat-num">9+</span><span class="about-stat-label">Stories</span></div>
+          <div class="about-stat"><span class="about-stat-num">2</span><span class="about-stat-label">Islands</span></div>
+          <div class="about-stat"><span class="about-stat-num">∞</span><span class="about-stat-label">Pies</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hobbies -->
+    <section class="about-section fade-in">
+      <div class="about-section-title">Things I Like</div>
+      <div class="hobbies-grid">
+        <div class="hobby-card"><div class="hobby-icon">🥾</div><div class="hobby-name">Hiking</div></div>
+        <div class="hobby-card"><div class="hobby-icon">📷</div><div class="hobby-name">Photography</div></div>
+        <div class="hobby-card"><div class="hobby-icon">📚</div><div class="hobby-name">Reading</div></div>
+        <div class="hobby-card"><div class="hobby-icon">☕</div><div class="hobby-name">Flat whites</div></div>
+        <div class="hobby-card"><div class="hobby-icon">🗺</div><div class="hobby-name">Maps</div></div>
+        <div class="hobby-card"><div class="hobby-icon">🎒</div><div class="hobby-name">Solo travel</div></div>
+        <div class="hobby-card"><div class="hobby-icon">✍️</div><div class="hobby-name">Writing</div></div>
+        <div class="hobby-card"><div class="hobby-icon">🥧</div><div class="hobby-name">Pies</div></div>
+      </div>
+    </section>
+
+    <!-- NZ Timeline -->
+    <section class="about-section fade-in">
+      <div class="about-section-title">The Year in NZ</div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">January 2024</div>
+          <div class="timeline-title">Arrived in Auckland</div>
+          <div class="timeline-desc">Landed at 6am, still in summer clothes, slightly overwhelmed. Found a hostel in the CBD and slept for twelve hours.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">January – February 2024</div>
+          <div class="timeline-title">North Island exploration</div>
+          <div class="timeline-desc">Rotorua, Tongariro, Taupo. The volcanic plateau is alien and brilliant.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">March 2024</div>
+          <div class="timeline-title">Moved to Christchurch</div>
+          <div class="timeline-desc">Took the Interislander ferry south and based myself in the Garden City for two months. Got a job at a café.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">April – May 2024</div>
+          <div class="timeline-title">South Island road trip</div>
+          <div class="timeline-desc">Kaikōura, Queenstown, Milford Sound, Dunedin. Three weeks, one rented car, and a lot of scenic pull-offs.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">June – August 2024</div>
+          <div class="timeline-title">Winter in the South</div>
+          <div class="timeline-desc">Ski season in Queenstown. Picked up work at a resort. The Remarkables in snow are something else.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">September 2024</div>
+          <div class="timeline-title">The West Coast</div>
+          <div class="timeline-desc">Drove the Hokitika to Haast road. Rained three days out of three. Would do it again immediately.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">January 2025</div>
+          <div class="timeline-title">Home</div>
+          <div class="timeline-desc">Left from Auckland. Cried a small amount at the gate. Started writing this blog on the flight back.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="about-section fade-in">
+      <div class="about-section-title">Say Hello</div>
+      <div class="contact-grid">
+        <a class="contact-card" href="mailto:hello@example.com">
+          <div class="contact-icon">✉️</div>
+          <div class="contact-label">Email</div>
+          <div class="contact-value">hello@example.com</div>
+        </a>
+        <a class="contact-card" href="#" target="_blank">
+          <div class="contact-icon">📸</div>
+          <div class="contact-label">Instagram</div>
+          <div class="contact-value">@yourhandle</div>
+        </a>
+        <a class="contact-card" href="#" target="_blank">
+          <div class="contact-icon">🐙</div>
+          <div class="contact-label">GitHub</div>
+          <div class="contact-value">@yourhandle</div>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- ══════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">Aotearoa Diaries</div>
+      <p class="footer-tagline">He aha te mea nui o te ao?<br>He tāngata, he tāngata, he tāngata.</p>
+      <p class="footer-credit">Designed &amp; built by [Your Name] · © 2025 — Made with 🌿 and good memories</p>
+    </div>
+    <div>
+      <p class="footer-heading">Pages</p>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="blog.html">Blog</a>
+        <a href="about.html">About</a>
+      </div>
+    </div>
+    <div class="footer-visitor">
+      <span class="visitor-count">—</span>
+      <div class="visitor-label">Wanderers visited</div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-quote">"Not all those who wander are lost — some of them are just in New Zealand."</p>
+    <p class="footer-copy">© 2025 Aotearoa Diaries · Built with HTML, CSS &amp; vanilla JS</p>
+  </div>
+</footer>
+
+<div class="firefly-layer" id="firefly-layer"></div>
+<div class="toast" id="toast"></div>
+<div class="facts-widget">
+  <button class="facts-btn" id="kiwi-btn" onclick="showFact()">🥝</button>
+  <div class="facts-tip" id="facts-tip"></div>
+</div>
+
+<script src="posts-registry.js"></script>
+<script src="script.js"></script>
+<script>
+  function openPost(id) { window.location.href = `blog.html?post=${id}`; }
+  document.addEventListener("DOMContentLoaded", () => initShared());
+</script>
+</body>
+</html>

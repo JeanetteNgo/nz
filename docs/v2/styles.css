@@ -647,14 +647,24 @@ button {
   }
 
   @media (max-width: 768px) {
-    .hero-stats { flex-wrap: wrap; padding: 16px 16px 24px; }
-    .hero-stat { padding: 0 14px; }
-    .hero-stat-num { font-size: 20px; }
-    .hero-stat:nth-child(3) { border-right: none; }
-    .explore-section { padding: 56px 18px; }
+    .hero-stats { 
+      flex-wrap: wrap; 
+      padding: 16px 16px 24px; 
+    }
+    .hero-stat { 
+      padding: 0 14px; 
+    }
+    .hero-stat-num { 
+      font-size: 20px; 
+    }
+    .explore-section { 
+      padding: 56px 18px; 
+    }
   }
   @media (min-width: 1440px) {
-    .explore-section { padding: 120px 60px; }
+    .explore-section { 
+      padding: 120px 60px; 
+    }
   }
 
 
