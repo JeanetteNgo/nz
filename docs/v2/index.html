@@ -2,52 +2,52 @@
 <html lang="en" data-theme="default">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>J's Adventure in Aotearoa</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Uncial+Antiqua&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <!-- Font Awesome -->
-  <script
-    src="https://kit.fontawesome.com/4bab21cbed.js"
-    crossorigin="anonymous"
-  ></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="styles.css">
 </head>
-
-
 <body>
-<!-- ══════════════════════════════════════════════════
-     NAV
-════════════════════════════════════════════════════ -->
+
+<!-- NAV -->
 <nav class="site-nav over-hero" id="main-nav">
   <div class="nav-clock-wrap">
     <span class="nav-clock">--:--:--</span>
     <span class="nav-clock-label">NZT</span>
   </div>
-
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
   <div class="nav-right">
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="about.html">About</a></li>
-    </ul>
     <div class="nav-controls">
       <button class="nav-btn" onclick="openSearch()" title="Search (/)">
-        <svg width="14" height="14" fill="none" viewBox="0 0 14 14"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.5"/><line x1="9.5" y1="9.5" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <i class="fa-solid fa-magnifying-glass"></i>
       </button>
-      <button class="nav-btn" id="audio-btn" onclick="toggleAudio()">
-        <span class="audio-icon">♪</span>
-        <div class="audio-bars"><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div></div>
+      <button class="nav-btn" id="audio-btn" onclick="toggleAudio()" title="Ambient sounds">
+        <i class="fa-solid fa-music audio-icon"></i>
+        <span class="audio-bars">
+          <span class="audio-bar"></span>
+          <span class="audio-bar"></span>
+          <span class="audio-bar"></span>
+          <span class="audio-bar"></span>
+        </span>
       </button>
-      <button class="nav-theme-btn" onclick="toggleTheme()">
-        <span class="theme-icon">🧙</span><span class="theme-label">Hobbit Mode</span>
+      <button class="nav-btn hobbit-pill" id="hobbit-toggle-btn" onclick="toggleTheme()" title="Toggle Hobbit Mode" aria-pressed="false">
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        <span class="hobbit-label theme-label">Default</span>
       </button>
     </div>
   </div>
   <button class="hamburger" id="hamburger" onclick="toggleMenu()">
-    <span class="ham-line"></span><span class="ham-line"></span><span class="ham-line"></span>
+    <span class="ham-line"></span>
+    <span class="ham-line"></span>
+    <span class="ham-line"></span>
   </button>
 </nav>
 
@@ -62,7 +62,7 @@
     <span class="mob-row-label">🧙 Theme</span>
     <button class="mob-pill" onclick="toggleTheme()"><span class="theme-icon">🧙</span><span class="theme-label">Hobbit Mode</span></button>
   </div>
-  <div class="mob-row">
+  <div class="mob-row mob-audio-row">
     <span class="mob-row-label">♪ Audio</span>
     <button class="mob-pill" id="mob-audio-btn" onclick="toggleAudio()"><span class="mob-audio-label">Play</span></button>
   </div>
@@ -80,68 +80,68 @@
 <div class="search-overlay" id="search-overlay" onclick="if(event.target===this)closeSearch()">
   <div class="search-box">
     <div class="search-row">
-      <svg width="16" height="16" fill="none" viewBox="0 0 16 16" style="color:var(--text3);flex-shrink:0"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><line x1="11" y1="11" x2="15" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <i class="fa-solid fa-magnifying-glass" style="color:var(--text3);flex-shrink:0;font-size:15px"></i>
       <input class="search-input" id="search-input" type="text" placeholder="Search posts…" oninput="handleSearch(this.value)">
       <span class="search-esc">ESC</span>
     </div>
-    <div class="search-results" id="search-results"><div class="search-empty">Search by title, date, or tag…</div></div>
+    <div class="search-results" id="search-results">
+      <div class="search-empty">Search by title, date, or tag…</div>
+    </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     HERO
-════════════════════════════════════════════════════ -->
+<!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-vignette"></div>
   <div class="hero-particles" id="particles"></div>
-  <video class="hero-video" autoplay loop muted playsinline oncanplay="this.classList.add('loaded')" src="assets/highlight-reel.mp4"></video>
+  <video class="hero-video" id="hero-video" autoplay loop muted playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback" oncanplay="this.classList.add('loaded')" src="assets/highlight-reel.mp4"></video>
+  <!-- Mobile fallback: replace src with any still from your video or a photo -->
+  <img class="hero-mobile-poster" src="assets/hero-poster.jpg" alt="" onerror="this.style.opacity='0'" aria-hidden="true">
   <div class="hero-content">
-    <span class="hero-eyebrow"> 
-      New Zealand Work Holiday · 2024–2025
-    </span>
-    <h1 class="hero-title">
-      Jeanette's Adventure <br> in Aotearoa
-    </h1>
-    <!-- <p class="hero-subtitle">
-      Journey with me through the land of the long, white cloud.
-    </p> -->
+    <span class="hero-eyebrow">New Zealand Work Holiday · 2024–2025</span>
+    <h1 class="hero-title">Jeanette's Adventure <br> in Aotearoa</h1>
     <div class="hero-stats">
-      <div class="hero-stat"><span class="hero-stat-num">365</span><span class="hero-stat-label">Days</span></div>
-      <div class="hero-stat"><span class="hero-stat-num" id="stat-places">—</span><span class="hero-stat-label">Locations</span></div>
-      <div class="hero-stat"><span class="hero-stat-num">2 TB</span><span class="hero-stat-label">Memories</span></div>
-      <!-- <div class="hero-stat"><span class="hero-stat-num" id="stat-posts">—</span><span class="hero-stat-label">Stories</span></div> -->
+      <div class="hero-stat">
+        <span class="hero-stat-num" data-count="365">0</span>
+        <span class="hero-stat-label">Days</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num" id="stat-places" data-count="0">—</span>
+        <span class="hero-stat-label">Locations</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num" data-bytes="2000000000000">0 B</span>
+        <span class="hero-stat-label">Memories</span>
+      </div>
+    </div>
   </div>
-  </div>
-
   <div class="hero-scroll">
     <span>Journey with me</span>
     <div class="scroll-line"></div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════
-     EXPLORE
-════════════════════════════════════════════════════ -->
+<!-- EXPLORE -->
+<div class="explore-wrap">
 <section class="explore-section" id="explore">
   <div class="explore-header fade-in">
     <span class="section-eyebrow">Explore</span>
     <h2 class="section-title">A Year Across the Islands</h2>
-    <p class="explore-desc">Browse by map, region, or journal entry</p>
+    <!-- <p class="explore-desc">Browse by map, region, or journal entry</p> -->
   </div>
-
-  <!-- Tab switcher -->
   <div class="explore-tabs fade-in">
     <div class="explore-tab-inner">
-      <button class="explore-tab active" onclick="setExploreTab('map',this)">🗺 Map</button>
-      <button class="explore-tab" onclick="setExploreTab('regions',this)">⬛ Regions</button>
-      <button class="explore-tab" onclick="setExploreTab('journal',this)">📋 Journal</button>
+      <button class="explore-tab active" onclick="setExploreTab('map',this)"><i class="fa-solid fa-map"></i> Map</button>
+      <button class="explore-tab" onclick="setExploreTab('regions',this)"><i class="fa-solid fa-border-all"></i> Grid</button>
+      <button class="explore-tab" onclick="setExploreTab('journal',this)"><i class="fa-solid fa-bars-staggered"></i> List</button>
     </div>
   </div>
 
   <!-- MAP PANEL -->
   <div class="explore-panel active" id="panel-map">
+    <!-- The map tile renders inside .map-wrap -->
     <div class="map-wrap">
       <div id="nz-map"></div>
       <div class="map-badge">
@@ -149,205 +149,82 @@
         <div class="map-badge-count" id="map-pin-count">Loading…</div>
       </div>
     </div>
+    <!-- Mobile: slides up below the map when a pin is tapped -->
+    <div class="map-sheet" id="map-sheet">
+      <button class="map-sheet-close" onclick="closeMapSheet()" aria-label="Close">✕</button>
+      <div class="map-sheet-inner" id="map-sheet-inner"></div>
+    </div>
+    <!-- Mobile: scrollable list of all pins, rendered by JS -->
+    <div class="map-pin-list" id="map-pin-list" style="display:none"></div>
   </div>
 
   <!-- REGIONS PANEL -->
   <div class="explore-panel" id="panel-regions">
-    <!-- North Island -->
-    <div style="margin-bottom:40px">
-      <div class="island-divider"><div class="island-line"></div><div class="island-label">North Island · Te Ika-a-Māui</div><div class="island-line"></div></div>
-      <div class="regions-grid" id="north-grid"></div>
-    </div>
-    <!-- South Island -->
-    <div>
-      <div class="island-divider"><div class="island-line"></div><div class="island-label">South Island · Te Waipounamu</div><div class="island-line"></div></div>
+    <div style="margin-bottom:48px">
+      <div class="island-divider">
+        <div class="island-line"></div>
+        <div class="island-label">South Island · Te Waipounamu</div>
+        <div class="island-line"></div>
+      </div>
       <div class="regions-grid" id="south-grid"></div>
+    </div>
+    <div>
+      <div class="island-divider">
+        <div class="island-line"></div>
+        <div class="island-label">North Island · Te Ika-a-Māui</div>
+        <div class="island-line"></div>
+      </div>
+      <div class="regions-grid" id="north-grid"></div>
     </div>
   </div>
 
   <!-- JOURNAL PANEL -->
-  <!--
-    FEATURED_LIST in posts-registry.js controls which posts appear here.
-    Clicking a post opens it on blog.html.
-  -->
   <div class="explore-panel" id="panel-journal">
     <div class="journal-list" id="journal-list"></div>
   </div>
 </section>
+</div><!-- /.explore-wrap -->
 
-<!-- ══════════════════════════════════════════════════
-     FOOTER
-════════════════════════════════════════════════════ -->
+<!-- FOOTER -->
 <footer class="site-footer">
   <div class="footer-grid">
-    <!-- <div>
-      <div class="footer-logo">Jeanette's Adventure</div>
-      <p class="footer-tagline">He aha te mea nui o te ao?<br>He tāngata, he tāngata, he tāngata.</p>
-      <p class="footer-credit">Designed &amp; built by [Your Name] · © 2025 — Made with 🌿 and good memories</p>
-    </div> -->
-    <div>
+    <div class="footer-left">
       <p class="footer-logo">Thank you for sharing my journey.</p>
-      <div class="footer-links">
-        <a href="index.html">Home</a>
-        <a href="blog.html">Blog</a>
-        <a href="about.html">About</a>
-      </div>
+      <p class="footer-quote">"Not all who wander are lost — some of them are just in New Zealand."</p>
+      <div class="footer-visitor">
+        <span class="visitor-count">—</span>
+      <div class="visitor-label">visits</div>
     </div>
-    <div class="footer-visitor">
-      <span class="visitor-count">—</span>
-      <div class="visitor-label">Wanderers visited</div>
+    </div>
+
+    <div class="footer-links"> 
+      <p>Browse</p>
+      <a href="index.html">Home</a>
+      <a href="blog.html">Blog</a>
+      <a href="about.html">About</a>
     </div>
   </div>
   <div class="footer-bottom">
-    <p class="footer-quote">"Not all who wander are lost — some of them are just in New Zealand."</p>
-    <p class="footer-credit">© 2025 Jeanette Ngo · Made with 🍫 and good memories</p>
+    <!-- <p class="footer-quote">"Not all who wander are lost — some of them are just in New Zealand."</p> -->
+    <p class="footer-credit">© 2025 Jeanette Ngo · Made with lots of 🍫 and good memories</p>
   </div>
 </footer>
 
-<!-- Fixed widgets -->
+<!-- FIXED WIDGETS -->
 <div class="firefly-layer" id="firefly-layer"></div>
 <div class="toast" id="toast"></div>
-<div class="facts-widget">
-  <button class="facts-btn" id="kiwi-btn" onclick="showFact()">🥝</button>
+
+<!-- Bottom-left: kiwi fun-facts widget -->
+<div class="facts-fixed" id="facts-fixed">
+  <button class="facts-btn" id="kiwi-btn" onclick="showFact()" aria-label="NZ fun fact" title="Fun fact!">🥝</button>
   <div class="facts-tip" id="facts-tip"></div>
 </div>
 
+<!-- SCRIPTS -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="posts-registry.js"></script>
 <script src="script.js"></script>
-<script>
-/* ── INDEX-SPECIFIC JS ──────────────────────────────────── */
+<script src="index.js"></script>
 
-// Nav: transparent over hero, solid when scrolled
-const nav = document.getElementById("main-nav");
-window.addEventListener("scroll", () => {
-  nav.classList.toggle("over-hero", window.scrollY < window.innerHeight * 0.5);
-}, { passive: true });
-
-// Hero particles
-function initParticles() {
-  const c = document.getElementById("particles");
-  for (let i = 0; i < 16; i++) {
-    const p = document.createElement("div");
-    p.className = "particle";
-    p.style.cssText = `left:${Math.random()*100}%;animation-duration:${8+Math.random()*10}s;animation-delay:${Math.random()*10}s;width:${1+Math.random()*3}px;height:${1+Math.random()*3}px;`;
-    c.appendChild(p);
-  }
-}
-
-// Hero stats
-function updateStats() {
-  document.getElementById("stat-places").textContent = POSTS.filter(p => p.mapLat).length;
-  document.getElementById("stat-posts").textContent  = POSTS.length;
-}
-
-// Explore tab switcher
-function setExploreTab(id, btn) {
-  document.querySelectorAll(".explore-panel").forEach(p => p.classList.remove("active"));
-  document.querySelectorAll(".explore-tab").forEach(b => b.classList.remove("active"));
-  document.getElementById("panel-" + id).classList.add("active");
-  btn.classList.add("active");
-  if (id === "map") setTimeout(initMap, 50);
-}
-
-// ── MAP ─────────────────────────────────────────────────
-let mapReady = false;
-let nzMap;
-
-function initMap() {
-  if (mapReady) return;
-  mapReady = true;
-  nzMap = L.map("nz-map", { center: [-41.5, 172.5], zoom: 6 });
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-    attribution: "© OpenStreetMap © CARTO", subdomains: "abcd", maxZoom: 18
-  }).addTo(nzMap);
-
-  const pinned = POSTS.filter(p => p.mapLat && p.mapLng);
-  document.getElementById("map-pin-count").textContent = `${pinned.length} location${pinned.length !== 1 ? "s" : ""} visited`;
-
-  pinned.forEach(post => {
-    const color = isHobbit ? "#F4BC6E" : "#1C5E35";
-    const icon = L.divIcon({
-      html: `<div style="position:relative;width:36px;height:36px;display:flex;align-items:center;justify-content:center;">
-        <div style="position:absolute;inset:0;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:${color};border:2px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,.25);"></div>
-        <span style="position:relative;z-index:1;font-size:13px;">${post.emoji}</span>
-      </div>`,
-      className: "", iconSize: [36,36], iconAnchor: [18,36], popupAnchor: [0,-40]
-    });
-    const marker = L.marker([post.mapLat, post.mapLng], { icon }).addTo(nzMap);
-    marker.bindPopup(`
-      <div class="popup-img">${post.cover ? `<img src="${post.cover}" alt="${post.title}" onerror="this.parentElement.innerHTML='${post.emoji}'">` : post.emoji}</div>
-      <div class="popup-body">
-        <div class="popup-title">${post.title}</div>
-        <div class="popup-date">📅 ${formatDate(post.date)}</div>
-        <div class="popup-desc">${post.excerpt}</div>
-        <a class="popup-link" href="blog.html?post=${post.id}">Read post →</a>
-      </div>`, { maxWidth: 240 });
-  });
-  nzMap.fitBounds([[-47.5, 166], [-34.5, 178]]);
-}
-
-// ── REGIONS GRID ─────────────────────────────────────────
-function renderRegions() {
-  ["north", "south"].forEach(island => {
-    const grid = document.getElementById(island + "-grid");
-    REGIONS.filter(r => r.island === island).forEach(region => {
-      const count = POSTS.filter(p => p.region === region.name).length;
-      const card = document.createElement("div");
-      card.className = "region-card fade-in";
-      // Clicking a region card goes to blog.html filtered by that region
-      card.onclick = () => window.location.href = `blog.html?region=${encodeURIComponent(region.name)}`;
-      card.innerHTML = `
-        <div class="region-thumb">${region.emoji}</div>
-        <div class="region-body">
-          <div class="region-name">${region.name}</div>
-          <div class="region-count">${count} post${count !== 1 ? "s" : ""}</div>
-          <div class="region-desc">${region.desc}</div>
-          <div class="region-tags">${region.locations.slice(0,3).map(l=>`<span class="tag">${l}</span>`).join("")}${region.locations.length>3?`<span class="tag">+${region.locations.length-3}</span>`:""}</div>
-        </div>`;
-      grid.appendChild(card);
-    });
-  });
-}
-
-// ── JOURNAL LIST ─────────────────────────────────────────
-/*
-  Shows only posts listed in FEATURED_LIST from posts-registry.js.
-  Edit that array to choose which posts appear here.
-*/
-function renderJournal() {
-  const container = document.getElementById("journal-list");
-  const posts = FEATURED_LIST.map(id => POSTS.find(p => p.id === id)).filter(Boolean);
-  container.innerHTML = posts.map((p, i) => `
-    <div class="journal-item" onclick="window.location.href='blog.html?post=${p.id}'">
-      <div class="journal-thumb">
-        ${p.cover ? `<img src="${p.cover}" alt="${p.title}" onerror="this.parentElement.innerHTML='${p.emoji}'">` : p.emoji}
-      </div>
-      <div>
-        <div class="journal-num">№ ${String(i+1).padStart(2,"0")}</div>
-        <div class="journal-title">${p.title}</div>
-        <div class="journal-excerpt">${p.excerpt}</div>
-        <div class="journal-meta">
-          <span>📅 ${formatDate(p.date)}</span>
-          <span>${p.tags.slice(0,3).join(" · ")}</span>
-        </div>
-      </div>
-    </div>`).join("");
-}
-
-// openPost helper (used by search results on this page)
-function openPost(id) {
-  window.location.href = `blog.html?post=${id}`;
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  initShared();
-  initParticles();
-  updateStats();
-  renderRegions();
-  renderJournal();
-  initMap(); // initialise map immediately so it's ready when tab is clicked
-});
-</script>
 </body>
 </html>

@@ -1,305 +1,377 @@
 /*
   posts-registry.js
-  ──────────────────
-  The single source of truth for all blog post metadata.
-  Loaded by every page that needs post data.
+  Single source of truth for all blog post metadata.
+
+  ── CLOUDFLARE R2 IMAGE HOSTING ─────────────────────────────
+  Set CDN_BASE to your R2 public bucket URL (or custom domain):
+
+    const CDN_BASE = "https://pub-xxxxxxxxxxxx.r2.dev";
+
+  Then all cover images resolve automatically.
+  Upload via Cloudflare dashboard or:
+    wrangler r2 object put nz-blog-assets/images/tongariro.jpg --file ./tongariro.jpg
+
+  Leave CDN_BASE as "" to use local paths (for local dev).
+  ────────────────────────────────────────────────────────────
 
   HOW TO ADD A NEW POST:
-  1. Create  posts/your-slug.html  (copy posts/_template.html as starting point)
-  2. Add an entry below — fill in all fields
-  3. Done! The blog page, map, search, and homepage all update automatically.
+  1. Create posts/your-slug.html (copy _template.html)
+  2. Add an entry to POSTS below — fill in all fields
+
+  HOW TO STYLE REGION CARDS:
+  - Layout/sizing: styles.css → ".region-card", ".region-thumb", ".region-name"
+  - Rendered by: index.js → renderRegions()
+  - Images: update the `cover` field in REGIONS below
+  - Without a cover, falls back to first post cover in that region, then emoji
 
   CATEGORY SYSTEM:
     island:   "north" | "south" | null
-    region:   must match a name in REGIONS array below (or null for general posts)
+    region:   must match a name in REGIONS (or null for general posts)
     category: "location" | "general"
-    featured: true → appears in "Featured" filter + homepage list view
+    featured: true → appears in Featured filter + homepage Journal
 */
 
+
+/* ── CDN base — change this one line to switch image hosting ── */
+const CDN_BASE = "https://cdn.jeanettengo.com";  // e.g. "https://pub-xxxx.r2.dev"
+
+/* ══ POSTS ══════════════════════════════════════════════════ */
 const POSTS = [
-    {
-    id: "mount-sunday",
-    title: "A Fine Day at Mount Sunday",
-    date: "2025-02-23",
-    category: "location",
-    island: "north",
-    region: "Mount Somers / Canterbury",
-    location: "Mount Sunday",
-    tags: ["hiking", "lotr", "day walk"],
-    emoji: "🏞️",
-    cover: "assets/images/tongariro.jpg",
-    excerpt: "Nineteen kilometres across an alien landscape of craters, emerald lakes and lava fields. The Crossing earns every superlative.",
+  {
+    id:       "working-holiday-guide",
+    title:    "A Comprehensive Guide: Working Holiday in New Zealand",
+    date:     "2024-03-13",
+    category: "general",
+    island:   null,
+    region:   null,
+    location: null,
+    tags:     ["guide", "visa", "nz", "work holiday"],
+    emoji:    "📑",
+    cover:    CDN_BASE + "/images/regions/northland-thumbnail.jpg",
+    excerpt:  "The practical realities of a New Zealand working holiday — money, work, accommodation, and settling in.",
     featured: true,
-    mapLat: -39.297,
-    mapLng: 175.642,
-    file: "posts/mount-sunday.html"
+    mapLat:   null,
+    mapLng:   null,
+    file:     "posts/working-holiday-guide.html"
   },
   {
-    id: "tongariro-crossing",
-    title: "Tongariro: Walking Through Middle-Earth",
-    date: "2024-02-18",
+    id:       "tongariro-crossing",
+    title:    "Tongariro: Walking Through Middle-Earth",
+    date:     "2024-02-18",
     category: "location",
-    island: "north",
-    region: "Waikato / Bay of Plenty",
+    island:   "north",
+    region:   "Waikato / Bay of Plenty",
     location: "Tongariro National Park",
-    tags: ["hiking", "volcanic", "UNESCO", "day walk"],
-    emoji: "🌋",
-    cover: "assets/images/tongariro.jpg",
-    excerpt: "Nineteen kilometres across an alien landscape of craters, emerald lakes and lava fields. The Crossing earns every superlative.",
+    tags:     ["hiking", "volcanic", "UNESCO", "day walk"],
+    emoji:    "🌋",
+    cover:    CDN_BASE + "/images/regions/whanganui-thumbnail.jpg",
+    excerpt:  "Nineteen kilometres across an alien landscape of craters, emerald lakes and lava fields. The Crossing earns every superlative.",
     featured: true,
-    mapLat: -43.548,
-    mapLng: 170.893,
-    file: "posts/tongariro-crossing.html"
+    mapLat:   -39.297,
+    mapLng:   175.642,
+    file:     "posts/tongariro-crossing.html"
   },
   {
-    id: "kaikoura-whales",
-    title: "Kaikōura: Where Mountains Meet the Sea",
-    date: "2024-04-03",
+    id:       "kaikoura-whales",
+    title:    "Kaikōura: Where Mountains Meet the Sea",
+    date:     "2024-04-03",
     category: "location",
-    island: "south",
-    region: "Canterbury",
+    island:   "south",
+    region:   "Canterbury",
     location: "Kaikōura",
-    tags: ["wildlife", "whales", "ocean", "mountains"],
-    emoji: "🐋",
-    cover: "assets/images/kaikoura.jpg",
-    excerpt: "The drive up the Kaikōura coast — mountain on one side, Pacific on the other — is among the most quietly dramatic roads I've ever travelled.",
+    tags:     ["wildlife", "whales", "ocean", "mountains"],
+    emoji:    "🐋",
+    cover: CDN_BASE + "/images/kaikoura.jpg",
+    excerpt:  "The drive up the Kaikōura coast — mountain on one side, Pacific on the other — is among the most quietly dramatic roads I've ever travelled.",
     featured: true,
-    mapLat: -42.4,
-    mapLng: 173.68,
-    file: "posts/kaikoura-whales.html"
+    mapLat:   -42.4,
+    mapLng:   173.68,
+    file:     "posts/kaikoura-whales.html"
   },
   {
-    id: "queenstown-nevis",
-    title: "Queenstown: Jumping Off the Nevis",
-    date: "2024-05-12",
+    id:       "queenstown-nevis",
+    title:    "Queenstown: Jumping Off the Nevis",
+    date:     "2024-05-12",
     category: "location",
-    island: "south",
-    region: "Otago",
+    island:   "south",
+    region:   "Otago",
     location: "Queenstown",
-    tags: ["adventure", "bungee", "mountains", "Remarkables"],
-    emoji: "🏔️",
-    cover: "assets/images/queenstown.jpg",
-    excerpt: "Every cliché about Queenstown is true. None of them fully capture it.",
+    tags:     ["adventure", "bungee", "mountains", "Remarkables"],
+    emoji:    "🏔️",
+    cover: CDN_BASE + "/images/queenstown.jpg",
+    excerpt:  "Every cliché about Queenstown is true. None of them fully capture it.",
     featured: true,
-    mapLat: -45.0312,
-    mapLng: 168.6626,
-    file: "posts/queenstown-nevis.html"
+    mapLat:   -45.0312,
+    mapLng:   168.6626,
+    file:     "posts/queenstown-nevis.html"
   },
   {
-    id: "auckland-arrival",
-    title: "Auckland: The City You Leave Too Quickly",
-    date: "2024-01-16",
+    id:       "auckland-arrival",
+    title:    "Auckland: The City You Leave Too Quickly",
+    date:     "2024-01-16",
     category: "location",
-    island: "north",
-    region: "Auckland",
+    island:   "north",
+    region:   "Auckland",
     location: "Auckland",
-    tags: ["city", "arrival", "harbour", "Waiheke"],
-    emoji: "🌆",
-    cover: "assets/images/auckland.jpg",
-    excerpt: "Most working holiday makers land in Auckland and immediately plan to leave. This is understandable and also a mistake.",
+    tags:     ["city", "arrival", "harbour", "Waiheke"],
+    emoji:    "🌆",
+    cover: CDN_BASE + "/images/auckland.jpg",
+    excerpt:  "They warned me not to spend too long in Auckland. They were right, and also wrong.",
     featured: false,
-    mapLat: -36.8485,
-    mapLng: 174.7633,
-    file: "posts/auckland-arrival.html"
+    mapLat:   -36.8509,
+    mapLng:   174.7645,
+    file:     "posts/auckland-arrival.html"
   },
   {
-    id: "christchurch-rising",
-    title: "Christchurch: The City Still Rising",
-    date: "2024-03-12",
+    id:       "christchurch-rising",
+    title:    "Christchurch: The City Still Rising",
+    date:     "2024-03-22",
     category: "location",
-    island: "south",
-    region: "Canterbury",
+    island:   "south",
+    region:   "Canterbury",
     location: "Christchurch",
-    tags: ["city", "resilience", "art", "gardens"],
-    emoji: "🌸",
-    cover: "assets/images/christchurch.jpg",
-    excerpt: "Landing in a city still finding itself after the earthquakes — and finding myself in it too.",
+    tags:     ["city", "resilience", "street art", "gardens"],
+    emoji:    "🌸",
+    cover: CDN_BASE + "/images/christchurch.jpg",
+    excerpt:  "Fourteen years after the earthquake, Christchurch is still mid-sentence. That's what makes it so interesting.",
     featured: false,
-    mapLat: -43.532,
-    mapLng: 172.636,
-    file: "posts/christchurch-rising.html"
+    mapLat:   -43.5321,
+    mapLng:   172.6362,
+    file:     "posts/christchurch-rising.html"
   },
   {
-    id: "rotorua-geothermal",
-    title: "Rotorua: Heat, Sulphur and the Hāngī",
-    date: "2024-02-08",
+    id:       "rotorua-geothermal",
+    title:    "Rotorua: Heat, Sulphur and the Hāngī",
+    date:     "2024-02-05",
     category: "location",
-    island: "north",
-    region: "Waikato / Bay of Plenty",
+    island:   "north",
+    region:   "Waikato / Bay of Plenty",
     location: "Rotorua",
-    tags: ["geothermal", "Māori culture", "thermal pools"],
-    emoji: "💨",
-    cover: "assets/images/rotorua.jpg",
-    excerpt: "Rotorua smells of sulphur and doesn't apologise for it. You stop noticing after an hour.",
+    tags:     ["geothermal", "Māori culture", "hāngī", "mud pools"],
+    emoji:    "♨️",
+    cover: CDN_BASE + "/images/rotorua.jpg",
+    excerpt:  "The smell hits you before the city does. Then you stop noticing it — until you leave.",
     featured: false,
-    mapLat: -38.1368,
-    mapLng: 176.2497,
-    file: "posts/rotorua-geothermal.html"
+    mapLat:   -38.1368,
+    mapLng:   176.2497,
+    file:     "posts/rotorua-geothermal.html"
   },
   {
-    id: "milford-sound",
-    title: "Milford Sound: Rain Makes It Better",
-    date: "2024-06-20",
+    id:       "milford-sound",
+    title:    "Milford Sound: Rain Makes It Better",
+    date:     "2024-06-08",
     category: "location",
-    island: "south",
-    region: "Southland",
-    location: "Milford Sound",
-    tags: ["fiord", "rain", "boat cruise", "waterfalls"],
-    emoji: "🏞️",
-    cover: "assets/images/milford.jpg",
-    excerpt: "Everyone says go on a clear day. They're wrong. Rain transforms Milford Sound into something impossibly dramatic.",
+    island:   "south",
+    region:   "Southland",
+    location: "Milford Sound / Piopiotahi",
+    tags:     ["fiords", "rain", "cruise", "scenery"],
+    emoji:    "🌊",
+    cover: CDN_BASE + "/images/milford.jpg",
+    excerpt:  "Everyone says go on a sunny day. Everyone is wrong. The waterfalls only appear when it rains.",
     featured: true,
-    mapLat: -44.6414,
-    mapLng: 167.8974,
-    file: "posts/milford-sound.html"
+    mapLat:   -44.6411,
+    mapLng:   167.9271,
+    file:     "posts/milford-sound.html"
   },
   {
-    id: "west-coast-drive",
-    title: "The West Coast: New Zealand's Wild Side",
-    date: "2024-09-14",
+    id:       "west-coast-drive",
+    title:    "The West Coast: New Zealand's Wild Side",
+    date:     "2024-07-14",
     category: "location",
-    island: "south",
-    region: "West Coast",
-    location: "Hokitika to Haast",
-    tags: ["road trip", "rainforest", "glaciers", "wild"],
-    emoji: "🌧️",
-    cover: "assets/images/westcoast.jpg",
-    excerpt: "Three days driving the wettest, most dramatic stretch of road I've ever been on. The West Coast does not compromise.",
+    island:   "south",
+    region:   "West Coast",
+    location: "West Coast",
+    tags:     ["road trip", "glaciers", "rain forest", "wild"],
+    emoji:    "🌧️",
+    cover: CDN_BASE + "/images/westcoast.jpg",
+    excerpt:  "Three days driving the wettest, most dramatic stretch of road I've ever been on. The West Coast does not compromise.",
     featured: false,
-    mapLat: -43.2,
-    mapLng: 170.6,
-    file: "posts/west-coast-drive.html"
+    mapLat:   -43.2,
+    mapLng:   170.6,
+    file:     "posts/west-coast-drive.html"
   },
   {
-    id: "working-holiday-guide",
-    title: "Working Holiday NZ: The Honest Guide",
-    date: "2024-08-20",
+    id:       "best-sunsets",
+    title:    "New Zealand's Best Sunsets, Ranked",
+    date:     "2024-09-22",
     category: "general",
-    island: null,
-    region: null,
+    island:   null,
+    region:   null,
     location: null,
-    tags: ["visa", "practical", "money", "work"],
-    emoji: "📋",
-    cover: null,
-    excerpt: "The practical realities of a New Zealand working holiday — money, work, accommodation, and the things no one warns you about.",
-    featured: true,
-    mapLat: null,
-    mapLng: null,
-    file: "posts/working-holiday-guide.html"
+    tags:     ["photography", "lists", "landscape", "golden hour"],
+    emoji:    "🌅",
+    cover:    null,
+    excerpt:  "A completely subjective ranking of the best places I watched the sun go down this year.",
+    featured: false,
+    mapLat:   null,
+    mapLng:   null,
+    file:     "posts/best-sunsets.html"
   },
   {
-    id: "best-sunsets",
-    title: "New Zealand's Best Sunsets, Ranked",
-    date: "2024-09-22",
+    id:       "nz-food",
+    title:    "Favourite Foods from a Year in Aotearoa",
+    date:     "2024-11-10",
     category: "general",
-    island: null,
-    region: null,
+    island:   null,
+    region:   null,
     location: null,
-    tags: ["photography", "lists", "landscape", "golden hour"],
-    emoji: "🌅",
-    cover: null,
-    excerpt: "A completely subjective ranking of the best places I watched the sun go down this year.",
+    tags:     ["food", "culture", "flat white", "recommendations"],
+    emoji:    "🥧",
+    cover:    null,
+    excerpt:  "A sincere accounting of the best things I ate during twelve months in New Zealand.",
     featured: false,
-    mapLat: null,
-    mapLng: null,
-    file: "posts/best-sunsets.html"
-  },
-  {
-    id: "nz-food",
-    title: "Favourite Foods from a Year in Aotearoa",
-    date: "2024-11-10",
-    category: "general",
-    island: null,
-    region: null,
-    location: null,
-    tags: ["food", "culture", "flat white", "recommendations"],
-    emoji: "🥧",
-    cover: null,
-    excerpt: "A sincere accounting of the best things I ate during twelve months in New Zealand.",
-    featured: false,
-    mapLat: null,
-    mapLng: null,
-    file: "posts/nz-food.html"
+    mapLat:   null,
+    mapLng:   null,
+    file:     "posts/nz-food.html"
   }
 ];
 
-/*
-  REGIONS — displayed as cards in the homepage "Regions" grid view.
-  Clicking a region card navigates to blog.html?region=Canterbury (etc.)
-*/
+
+/* ══ REGIONS ═════════════════════════════════════════════════
+  Displayed as photo-first cards in the homepage "Regions" grid.
+  Clicking a card navigates to blog.html?region=<name>.
+
+  `cover` — path to a region hero photo.
+    Drop your photo at  assets/images/regions/<slug>.jpg
+    and set the cover field here. If omitted, the renderer falls
+    back to the first post in the region that has a cover image,
+    then to the emoji.
+
+  To match the reference screenshot, the regions below include
+  all the regions you have photos for. Add / remove as needed.
+════════════════════════════════════════════════════════════ */
 const REGIONS = [
-  { name: "Canterbury",
-    island: "south", 
-    emoji: "🏔️", 
-    desc: "Sprawling plains, majestic mountains, and charming towns.",  
-    locations: ["Christchurch","Kaikōura","Hanmer Springs","Methven", "Kaiapoit", "Arthur's Pass", "Castle Hill", "Mount Somers"] 
+
+  /* ── South Island ── */
+  {
+    name:      "Canterbury",
+    island:    "south",
+    emoji:     "🏔️",
+    cover: CDN_BASE + "/images/regions/canterbury-thumbnail.jpg",
+    desc:      "Mountains, whales & a resilient city",
+    locations: ["Christchurch", "Kaikōura", "Hanmer Springs", "Akaroa"]
   },
-  { name: "Mackenzie District",                 
-    island: "south", 
-    emoji: "🏔️", 
-    desc: "Home to starry skies and stunning lakes.",     
-    locations: ["Lake Tekapo","Aoraki Mount Cook","Lake Pukaki","Twizel", "Fairlie"] 
+  {
+    name:      "Mackenzie Country",
+    island:    "south",
+    emoji:     "⭐",
+    cover: CDN_BASE + "/images/regions/mackenzie-thumbnail.jpg",
+    desc:      "Stargazing, turquoise lakes & lupins",
+    locations: ["Lake Tekapo", "Aoraki/Mt Cook", "Twizel"]
   },
-  { name: "Nelson Tasman",                     
-    island: "south", 
-    emoji: "🚵‍♀️", 
-    desc: "A sun-soaked paradise, with golden beaches, lush forests, and vibrant arts communities.",     
-    locations: ["Nelson","Murchison"] 
+  {
+    name:      "Nelson-Tasman",
+    island:    "south",
+    emoji:     "☀️",
+    cover: CDN_BASE + "/images/regions/tasman-thumbnail.jpg",
+    desc:      "Sunshine, art & national parks",
+    locations: ["Nelson", "Abel Tasman", "Golden Bay"]
   },
-  { name: "Otago",                     
-    island: "south", 
-    emoji: "🪂", 
-    desc: "From rolling hills and vineyards to rugged mountains and historic gold rush towns.",     
-    locations: ["Queenstown","Wānaka", "Lake Hawea", "Dunedin", "Oamaru", "Arrowtown", "Cadrona"] 
+  {
+    name:      "Otago",
+    island:    "south",
+    emoji:     "🏕️",
+    cover: CDN_BASE + "/images/regions/otago-thumbnail.jpg",
+    desc:      "Adventure, wine & dramatic fiords",
+    locations: ["Queenstown", "Dunedin", "Wānaka", "Arrowtown"]
   },
-  { name: "West Coast",                
-    island: "south", 
-    emoji: "🌧️", 
-    desc: "Wild, wet & gloriously untamed",        
-    locations: ["Hokitika","Franz Josef", "Fox Glacier", "Greymouth","Haast"] 
+  {
+    name:      "The Catlins",
+    island:    "south",
+    emoji:     "🌊",
+    cover: CDN_BASE + "/images/regions/catlins-thumbnail.jpg",
+    desc:      "Waterfalls, sea lions & solitude",
+    locations: ["Nugget Point", "Curio Bay", "Papatowai"]
   },
-  { name: "Southland",                 
-    island: "south", 
-    emoji: "🦅", 
-    desc: "Wild southern edge & fiordland",        
-    locations: ["Milford Sound","Invercargill","Bluff"] 
+  {
+    name:      "West Coast",
+    island:    "south",
+    emoji:     "🌧️",
+    cover: CDN_BASE + "/images/regions/west-coast-thumbnail.jpg",
+    desc:      "Wild, wet & gloriously untamed",
+    locations: ["Hokitika", "Franz Josef", "Greymouth", "Haast"]
   },
-  { name: "The Catlins",                
-    island: "south", 
-    emoji: "🌧️", 
-    desc: "Wild, wet & gloriously untamed",        
-    locations: ["Surat Bay","Curio Bay"] 
+  {
+    name:      "Southland",
+    island:    "south",
+    emoji:     "🦅",
+    cover: CDN_BASE + "/images/regions/southland-thumbnail.jpg",
+    desc:      "Wild southern edge & fiordland",
+    locations: ["Milford Sound", "Invercargill", "Stewart Island"]
   },
-  { name: "Marlborough",               
-    island: "south", 
-    emoji: "🍷", 
-    desc: "Sounds, sunshine & Sauvignon Blanc",    
-    locations: ["Blenheim","Picton"] 
+  // {
+  //   name:      "Marlborough",
+  //   island:    "south",
+  //   emoji:     "🍷",
+  //   cover: CDN_BASE + "/images/regions/marlborough.jpg",
+  //   desc:      "Sounds, sunshine & Sauvignon Blanc",
+  //   locations: ["Blenheim", "Picton", "Nelson"]
+  // },
+
+  /* ── North Island ── */
+  {
+    name:      "Northland",
+    island:    "north",
+    emoji:     "🏝️",
+    cover: CDN_BASE + "/images/regions/northland-thumbnail.jpg",
+    desc:      "Ancient kauri forests & sweeping beaches",
+    locations: ["Bay of Islands", "Ninety Mile Beach", "Cape Reinga"]
   },
-  { name: "Auckland",                  
-    island: "north", 
-    emoji: "🌆", 
-    desc: "The big smoke & volcanic islands",      
-    locations: ["Auckland City","Waiheke Island","Devonport"] 
+  {
+    name:      "Auckland",
+    island:    "north",
+    emoji:     "🌆",
+    cover: CDN_BASE + "/images/regions/auckland-thumbnail.jpg",
+    desc:      "The big smoke & volcanic islands",
+    locations: ["Auckland City", "Waiheke Island", "Devonport"]
   },
-  { name: "Waikato / Bay of Plenty",   
-    island: "north", 
-    emoji: "🌋", 
-    desc: "Hobbits, hot springs & volcanoes",     
-    locations: ["Tongariro","Rotorua","Hamilton","Taupo"] 
+  {
+    name:      "Coromandel",
+    island:    "north",
+    emoji:     "🏖️",
+    cover: CDN_BASE + "/images/regions/coromandel-thumbnail.jpg",
+    desc:      "Hot water beach & cathedral cove",
+    locations: ["Thames", "Coromandel Town", "Hot Water Beach", "Cathedral Cove"]
   },
-  { name: "Wellington",                
-    island: "north", 
-    emoji: "💨", 
-    desc: "Windy, wonderful capital",              
-    locations: ["Wellington CBD","Wairarapa","Kāpiti Coast"] 
+  {
+    name:      "Bay of Plenty",
+    island:    "north",
+    emoji:     "🌊",
+    cover: CDN_BASE + "/images/regions/bop-thumbnail.jpg",
+    desc:      "Kiwifruit, beaches & White Island",
+    locations: ["Tauranga", "Mount Maunganui", "Whakatāne"]
+  },
+  {
+    name:      "Waikato",
+    island:    "north",
+    emoji:     "🌿",
+    cover: CDN_BASE + "/images/regions/waikato-thumbnail.jpg",
+    desc:      "Hobbits, caves & the mighty Waikato river",
+    locations: ["Hobbiton", "Waitomo Caves", "Hamilton"]
+  },
+  {
+    name:      "Manawatū-Whanganui",
+    island:    "north",
+    emoji:     "🏔️",
+    cover: CDN_BASE + "/images/regions/whanganui-thumbnail.jpg",
+    desc:      "Volcanic plateau & wild river gorges",
+    locations: ["Whanganui", "Palmerston North", "Tongariro National Park"]
+  },
+  {
+    name:      "Wellington",
+    island:    "north",
+    emoji:     "💨",
+    cover: CDN_BASE + "/images/regions/wellington-thumbnail.jpg",
+    desc:      "Windy, wonderful capital",
+    locations: ["Wellington CBD", "Wairarapa", "Kāpiti Coast"]
   },
 ];
 
-/*
-  FEATURED_LIST — controls which posts show in the homepage Journal (list view).
-  Edit this array to curate your featured posts. Use post id strings.
-*/
+
+/* ══ FEATURED_LIST ═══════════════════════════════════════════
+  Controls which posts appear in the homepage Journal (list) tab.
+  Edit this array to curate. Uses post id strings.
+════════════════════════════════════════════════════════════ */
 const FEATURED_LIST = [
   "working-holiday-guide",
   "best-sunsets",
