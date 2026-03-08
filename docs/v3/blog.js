@@ -63,13 +63,15 @@ function buildCategoryTree() {
     header.id        = `cat-${island}`;
     header.innerHTML = `
       <span>${label}</span>
-      <span style="display:flex;align-items:center;gap:6px">
-        <span class="cat-count" id="count-${island}">${total}</span>
-        <i class="fa-solid fa-chevron-down cat-chevron" id="chev-${island}"></i>
-      </span>`;
+      <i class="fa-solid fa-chevron-down cat-chevron" id="chev-${island}"></i>`;
     header.onclick = () => {
-      // setFilter handles opening the sub-list via toggleSub internally
-      setFilter({ type: "island", value: island }, label);
+      // Toggle drawer ONLY — do not change the active post filter
+      const sub  = document.getElementById(`sub-${island}`);
+      const chev = document.getElementById(`chev-${island}`);
+      if (!sub) return;
+      const isOpen = sub.classList.contains("open");
+      sub.classList.toggle("open", !isOpen);
+      if (chev) chev.classList.toggle("open", !isOpen);
     };
     wrap.appendChild(header);
 
@@ -133,11 +135,7 @@ function setFilter(filter, breadcrumb) {
 
   if (filter.type === "island") {
     document.getElementById(`cat-${filter.value}`)?.classList.add("active");
-    // Always open the sub-list when filtering by island
-    const sub  = document.getElementById(`sub-${filter.value}`);
-    const chev = document.getElementById(`chev-${filter.value}`);
-    if (sub)  sub.classList.add("open");
-    if (chev) chev.classList.add("open");
+    // Drawer open/close is handled by the onclick directly — don't touch it here
   }
 
   if (filter.type === "region") {

@@ -26,6 +26,9 @@
   </ul>
   <div class="nav-right">
     <div class="nav-controls">
+      <button class="nav-btn" onclick="openSearch()" title="Search (/)">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
       <button class="nav-btn" id="audio-btn" onclick="toggleAudio()" title="Ambient sounds">
         <i class="fa-solid fa-music audio-icon"></i>
         <span class="audio-bars">
@@ -35,12 +38,9 @@
           <span class="audio-bar"></span>
         </span>
       </button>
-      <button class="nav-btn hobbit-pill" id="hobbit-toggle-btn" onclick="toggleTheme()" title="Toggle theme">
-        <span class="theme-icon">🧙</span>
+      <button class="nav-btn hobbit-pill" id="hobbit-toggle-btn" onclick="toggleTheme()" title="Toggle Hobbit Mode" aria-pressed="false">
+        <span class="toggle-track"><span class="toggle-thumb"></span></span>
         <span class="hobbit-label theme-label">Hobbit</span>
-      </button>
-      <button class="nav-btn" onclick="openSearch()" title="Search (/)">
-        <i class="fa-solid fa-magnifying-glass"></i>
       </button>
     </div>
   </div>
@@ -62,7 +62,7 @@
     <span class="mob-row-label">🧙 Theme</span>
     <button class="mob-pill" onclick="toggleTheme()"><span class="theme-icon">🧙</span><span class="theme-label">Hobbit Mode</span></button>
   </div>
-  <div class="mob-row">
+  <div class="mob-row mob-audio-row">
     <span class="mob-row-label">♪ Audio</span>
     <button class="mob-pill" id="mob-audio-btn" onclick="toggleAudio()"><span class="mob-audio-label">Play</span></button>
   </div>
@@ -96,7 +96,7 @@
   <div class="hero-grid"></div>
   <div class="hero-vignette"></div>
   <div class="hero-particles" id="particles"></div>
-  <video class="hero-video" id="hero-video" autoplay loop muted playsinline oncanplay="this.classList.add('loaded')" src="assets/highlight-reel.mp4"></video>
+  <video class="hero-video" id="hero-video" autoplay loop muted playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback" oncanplay="this.classList.add('loaded')" src="assets/highlight-reel.mp4"></video>
   <!-- Mobile fallback: replace src with any still from your video or a photo -->
   <img class="hero-mobile-poster" src="assets/hero-poster.jpg" alt="" onerror="this.style.opacity='0'" aria-hidden="true">
   <div class="hero-content">

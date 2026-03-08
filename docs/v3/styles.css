@@ -98,6 +98,20 @@
   padding: 0;
 }
 
+/* Theme transition: applied by JS during toggleTheme */
+body.theme-transitioning * {
+  transition:
+    background-color .5s ease,
+    color .4s ease,
+    border-color .5s ease,
+    box-shadow .5s ease !important;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
 html {
   scroll-behavior: smooth;
   /* Wider, more visible scrollbar */
@@ -276,7 +290,7 @@ button {
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(20px) saturate(160%);
   -webkit-backdrop-filter: blur(20px) saturate(160%);
-  transition: background .4s, border-color .4s;
+  transition: background .5s ease, border-color .5s ease, color .4s ease;
 }
 
 /* Homepage only: transparent over hero */
@@ -406,7 +420,7 @@ button {
   justify-content: center;
   font-size: 14px;
   color: var(--text3);
-  transition: all var(--transition);
+  transition: all .35s ease;
 }
 .nav-btn:hover,
 .nav-btn.active {
@@ -435,37 +449,92 @@ button {
   color: var(--gold);
   background: rgba(244,188,110,0.12);
 }
-/* Nav hobbit button: active state when in hobbit mode */
-[data-theme="hobbit"] .nav-btn.hobbit-pill {
-  border-color: var(--gold);
-  color: var(--gold);
-}
-.site-nav.over-hero .nav-btn.hobbit-pill {
-  color: rgba(255,255,255,0.9);
-}
-/* Hobbit toggle: pill shape with label */
+/* ── Hobbit toggle: whimsical ring/rune button ── */
 #hobbit-toggle-btn {
   width: auto;
-  padding: 0 12px;
-  gap: 6px;
+  padding: 0 11px 0 9px;
+  gap: 7px;
   border-radius: 99px;
   font-size: 13px;
   white-space: nowrap;
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  height: 36px;
+  transition: background .4s ease, border-color .4s ease, box-shadow .4s ease;
 }
-#hobbit-toggle-btn .hobbit-label {
+#hobbit-toggle-btn:hover {
+  border-color: var(--accent3);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+[data-theme="hobbit"] #hobbit-toggle-btn {
+  background: rgba(244,188,110,0.1);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px rgba(244,188,110,0.2), 0 0 14px rgba(244,188,110,0.15);
+}
+[data-theme="hobbit"] #hobbit-toggle-btn:hover {
+  box-shadow: 0 0 0 3px rgba(244,188,110,0.3), 0 0 20px rgba(244,188,110,0.25);
+}
+.site-nav.over-hero #hobbit-toggle-btn {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.3);
+}
+
+/* Toggle track: a tiny glowing rune track */
+.toggle-track {
+  position: relative;
+  width: 34px;
+  height: 18px;
+  border-radius: 99px;
+  background: var(--bg3);
+  border: 1.5px solid var(--border);
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: background .4s ease, border-color .4s ease, box-shadow .35s ease;
+}
+[data-theme="hobbit"] .toggle-track {
+  background: linear-gradient(90deg, #b8762a 0%, var(--gold) 100%);
+  border-color: var(--gold);
+  box-shadow: inset 0 0 6px rgba(255,200,80,0.3), 0 0 8px rgba(244,188,110,0.3);
+}
+.site-nav.over-hero .toggle-track {
+  background: rgba(255,255,255,0.2);
+  border-color: rgba(255,255,255,0.35);
+}
+
+/* Toggle thumb: glowing orb in hobbit mode */
+.toggle-thumb {
+  position: absolute;
+  top: 1.5px;
+  left: 1.5px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1), background .35s ease, box-shadow .35s ease;
+}
+[data-theme="hobbit"] .toggle-thumb {
+  transform: translateX(16px);
+  background: #fffbe8;
+  box-shadow: 0 0 6px rgba(255,220,80,0.9), 0 0 12px rgba(244,188,110,0.6), 0 1px 2px rgba(0,0,0,0.15);
+}
+
+/* Label text */
+.hobbit-label {
   font-family: 'Kanit', sans-serif;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 1.5px;
   text-transform: uppercase;
+  color: var(--text2);
+  transition: color .4s ease;
 }
-[data-theme="hobbit"] #hobbit-toggle-btn {
-  border-color: var(--gold);
+[data-theme="hobbit"] .hobbit-label {
   color: var(--gold);
+  text-shadow: 0 0 8px rgba(244,188,110,0.4);
 }
-.site-nav.over-hero #hobbit-toggle-btn {
+.site-nav.over-hero .hobbit-label {
   color: rgba(255,255,255,0.9);
-  border-color: rgba(255,255,255,0.3);
 }
 
 
@@ -596,6 +665,12 @@ button {
   opacity: 0;
   animation: fadeUp .8s .4s ease forwards;
 }
+/* After animation fires, lock visibility regardless of theme */
+.hero-content.visible {
+  opacity: 1 !important;
+  animation: none !important;
+  transform: none !important;
+}
 .hero-eyebrow {
   display: inline-flex;
   align-items: center;
@@ -650,6 +725,10 @@ button {
   padding: 40px;
   opacity: 0;
   animation: fadeUp .8s .5s ease forwards;
+}
+.hero-stats.visible {
+  opacity: 1 !important;
+  animation: none !important;
 }
 .hero-stat {
   text-align: center;
@@ -818,6 +897,16 @@ button {
   }
   .explore-section {
     padding: 56px 18px;
+  }
+  /* Hero text: reduce for mobile */
+  .hero-title {
+    font-size: clamp(1.8rem, 8vw, 2.8rem);
+    letter-spacing: -1px;
+  }
+  .hero-eyebrow {
+    font-size: 9px;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
   }
   /* On mobile: hide the video entirely, show static poster */
   .hero-video {
@@ -1066,21 +1155,62 @@ button {
 
 
 /* ── 9. SPARKLE ────────────────────────────────────────────── */
-/* Refined sparkle: staggered fade, glow pulse, varied shapes */
+/* ── Sparkle particles (hobbit mode transition) ── */
 .sparkle {
   position: fixed;
   z-index: 9998;
   pointer-events: none;
-  animation: sparkleFloat var(--dur, 1.2s) ease-out forwards;
+  border-radius: 50%;
+  animation: sparkleFloat var(--dur, 1.4s) ease-out forwards;
 }
 @keyframes sparkleFloat {
-  0%   { transform: translate(0,0) scale(0) rotate(0deg); opacity: 1; }
-  40%  { opacity: 1; }
-  100% { transform: translate(var(--sx), var(--sy)) scale(1) rotate(var(--rot, 180deg)); opacity: 0; }
+  0%   { transform: translate(0,0) scale(0) rotate(0deg); opacity: 0; }
+  12%  { opacity: 1; }
+  75%  { opacity: .8; }
+  100% { transform: translate(var(--sx), var(--sy)) scale(var(--es, 0.3)) rotate(var(--rot, 180deg)); opacity: 0; }
 }
-/* Star-shaped sparkles via clip-path */
+
+/* 4-pointed diamond sparkle */
 .sparkle-star {
-  clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+  border-radius: 0;
+  clip-path: polygon(50% 0%,56% 44%,100% 50%,56% 56%,50% 100%,44% 56%,0% 50%,44% 44%);
+}
+/* Rune-ish elongated shape */
+.sparkle-rune {
+  border-radius: 2px;
+  clip-path: polygon(50% 0%,60% 38%,100% 38%,72% 62%,82% 100%,50% 78%,18% 100%,28% 62%,0% 38%,40% 38%);
+}
+
+/* Shimmer ring that expands from click point */
+.sparkle-ring {
+  position: fixed;
+  border-radius: 50%;
+  border: 2px solid var(--ring-color, rgba(244,188,110,0.7));
+  pointer-events: none;
+  z-index: 9997;
+  animation: ringExpand var(--dur, 0.9s) ease-out forwards;
+}
+@keyframes ringExpand {
+  0%   { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+}
+
+/* Floating text rune symbols */
+.sparkle-glyph {
+  position: fixed;
+  z-index: 9998;
+  pointer-events: none;
+  font-family: 'Uncial Antiqua', cursive;
+  font-size: 18px;
+  color: rgba(244,188,110,0.9);
+  text-shadow: 0 0 8px rgba(244,188,110,0.6);
+  animation: glyphFloat var(--dur, 2s) ease-out forwards;
+  user-select: none;
+}
+@keyframes glyphFloat {
+  0%   { transform: translate(0, 0) scale(0.5); opacity: 0; }
+  20%  { opacity: 1; }
+  100% { transform: translate(var(--gx, 0px), var(--gy, -120px)) scale(1); opacity: 0; }
 }
 
 
@@ -1492,6 +1622,10 @@ button {
   min-width: 24px;
   text-align: center;
 }
+/* Hide the count badge on the island-level headers (keep on sub-items) */
+.cat-island .cat-count {
+  display: none;
+}
 .cat-item.active .cat-count { background: var(--accent-dim); color: var(--accent); }
 /* .cat-chevron styles are on .cat-island .cat-chevron — see sidebar section */
 
@@ -1798,7 +1932,7 @@ button {
 .map-pin-icon {
   font-size: 28px;
   line-height: 1;
-  color: var(--accent);
+  color: #e03535;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
   transition: color .2s, transform .2s, filter .2s;
   display: block;
@@ -1809,14 +1943,14 @@ button {
   color: var(--gold);
 }
 .map-pin-icon.hovered {
-  color: var(--accent2);
-  transform: scale(1.2) translateY(-2px);
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.35));
+  color: #c42a2a;
+  transform: scale(1.2) translateY(-3px);
+  filter: drop-shadow(0 3px 8px rgba(220,42,42,0.4)) drop-shadow(0 2px 4px rgba(0,0,0,0.2));
 }
 .map-pin-icon.pinned {
-  color: var(--accent2);
-  transform: scale(1.15) translateY(-2px);
-  filter: drop-shadow(0 4px 10px rgba(28,94,53,0.5));
+  color: #c42a2a;
+  transform: scale(1.2) translateY(-4px);
+  filter: drop-shadow(0 0 8px rgba(220,42,42,0.55)) drop-shadow(0 4px 10px rgba(0,0,0,0.25));
 }
 [data-theme="hobbit"] .map-pin-icon.hovered,
 [data-theme="hobbit"] .map-pin-icon.pinned {
@@ -2079,3 +2213,11 @@ button {
   .posts-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
   .regions-grid { grid-template-columns: repeat(4, 1fr); }
 }
+
+/* Hide audio row in mobile menu */
+@media (max-width: 768px) {
+  .mob-audio-row {
+    display: none;
+  }
+}
+

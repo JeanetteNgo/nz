@@ -1,25 +1,39 @@
 /*
   posts-registry.js
-  ──────────────────
   Single source of truth for all blog post metadata.
-  Loaded by every page that needs post data.
+
+  ── CLOUDFLARE R2 IMAGE HOSTING ─────────────────────────────
+  Set CDN_BASE to your R2 public bucket URL (or custom domain):
+
+    const CDN_BASE = "https://pub-xxxxxxxxxxxx.r2.dev";
+
+  Then all cover images resolve automatically.
+  Upload via Cloudflare dashboard or:
+    wrangler r2 object put nz-blog-assets/images/tongariro.jpg --file ./tongariro.jpg
+
+  Leave CDN_BASE as "" to use local paths (for local dev).
+  ────────────────────────────────────────────────────────────
 
   HOW TO ADD A NEW POST:
-  1. Create  posts/your-slug.html  (copy posts/_template.html as a starting point)
+  1. Create posts/your-slug.html (copy _template.html)
   2. Add an entry to POSTS below — fill in all fields
-  3. Done! The blog page, map, search, and homepage all update automatically.
 
-  HOW TO ADD A REGION PHOTO:
-  1. Drop the photo in  assets/images/regions/<region-slug>.jpg
-  2. Add/update the `cover` field in the matching REGIONS entry below
+  HOW TO STYLE REGION CARDS:
+  - Layout/sizing: styles.css → ".region-card", ".region-thumb", ".region-name"
+  - Rendered by: index.js → renderRegions()
+  - Images: update the `cover` field in REGIONS below
+  - Without a cover, falls back to first post cover in that region, then emoji
 
   CATEGORY SYSTEM:
     island:   "north" | "south" | null
     region:   must match a name in REGIONS (or null for general posts)
     category: "location" | "general"
-    featured: true → appears in the "Featured" filter + homepage Journal list
+    featured: true → appears in Featured filter + homepage Journal
 */
 
+
+/* ── CDN base — change this one line to switch image hosting ── */
+const CDN_BASE = "";  // e.g. "https://pub-xxxx.r2.dev"
 
 /* ══ POSTS ══════════════════════════════════════════════════ */
 const POSTS = [
@@ -33,7 +47,7 @@ const POSTS = [
     location: "Tongariro National Park",
     tags:     ["hiking", "volcanic", "UNESCO", "day walk"],
     emoji:    "🌋",
-    cover:    "assets/images/tongariro.jpg",
+    cover: CDN_BASE + "/images/tongariro.jpg",
     excerpt:  "Nineteen kilometres across an alien landscape of craters, emerald lakes and lava fields. The Crossing earns every superlative.",
     featured: true,
     mapLat:   -39.297,
@@ -50,7 +64,7 @@ const POSTS = [
     location: "Kaikōura",
     tags:     ["wildlife", "whales", "ocean", "mountains"],
     emoji:    "🐋",
-    cover:    "assets/images/kaikoura.jpg",
+    cover: CDN_BASE + "/images/kaikoura.jpg",
     excerpt:  "The drive up the Kaikōura coast — mountain on one side, Pacific on the other — is among the most quietly dramatic roads I've ever travelled.",
     featured: true,
     mapLat:   -42.4,
@@ -67,7 +81,7 @@ const POSTS = [
     location: "Queenstown",
     tags:     ["adventure", "bungee", "mountains", "Remarkables"],
     emoji:    "🏔️",
-    cover:    "assets/images/queenstown.jpg",
+    cover: CDN_BASE + "/images/queenstown.jpg",
     excerpt:  "Every cliché about Queenstown is true. None of them fully capture it.",
     featured: true,
     mapLat:   -45.0312,
@@ -84,7 +98,7 @@ const POSTS = [
     location: "Auckland",
     tags:     ["city", "arrival", "harbour", "Waiheke"],
     emoji:    "🌆",
-    cover:    "assets/images/auckland.jpg",
+    cover: CDN_BASE + "/images/auckland.jpg",
     excerpt:  "They warned me not to spend too long in Auckland. They were right, and also wrong.",
     featured: false,
     mapLat:   -36.8509,
@@ -101,7 +115,7 @@ const POSTS = [
     location: "Christchurch",
     tags:     ["city", "resilience", "street art", "gardens"],
     emoji:    "🌸",
-    cover:    "assets/images/christchurch.jpg",
+    cover: CDN_BASE + "/images/christchurch.jpg",
     excerpt:  "Fourteen years after the earthquake, Christchurch is still mid-sentence. That's what makes it so interesting.",
     featured: false,
     mapLat:   -43.5321,
@@ -118,7 +132,7 @@ const POSTS = [
     location: "Rotorua",
     tags:     ["geothermal", "Māori culture", "hāngī", "mud pools"],
     emoji:    "♨️",
-    cover:    "assets/images/rotorua.jpg",
+    cover: CDN_BASE + "/images/rotorua.jpg",
     excerpt:  "The smell hits you before the city does. Then you stop noticing it — until you leave.",
     featured: false,
     mapLat:   -38.1368,
@@ -135,7 +149,7 @@ const POSTS = [
     location: "Milford Sound / Piopiotahi",
     tags:     ["fiords", "rain", "cruise", "scenery"],
     emoji:    "🌊",
-    cover:    "assets/images/milford.jpg",
+    cover: CDN_BASE + "/images/milford.jpg",
     excerpt:  "Everyone says go on a sunny day. Everyone is wrong. The waterfalls only appear when it rains.",
     featured: true,
     mapLat:   -44.6411,
@@ -152,7 +166,7 @@ const POSTS = [
     location: "West Coast",
     tags:     ["road trip", "glaciers", "rain forest", "wild"],
     emoji:    "🌧️",
-    cover:    "assets/images/westcoast.jpg",
+    cover: CDN_BASE + "/images/westcoast.jpg",
     excerpt:  "Three days driving the wettest, most dramatic stretch of road I've ever been on. The West Coast does not compromise.",
     featured: false,
     mapLat:   -43.2,
@@ -233,7 +247,7 @@ const REGIONS = [
     name:      "Canterbury",
     island:    "south",
     emoji:     "🏔️",
-    cover:     "assets/images/regions/canterbury.jpg",
+    cover: CDN_BASE + "/images/regions/canterbury.jpg",
     desc:      "Mountains, whales & a resilient city",
     locations: ["Christchurch", "Kaikōura", "Hanmer Springs", "Akaroa"]
   },
@@ -241,7 +255,7 @@ const REGIONS = [
     name:      "Nelson",
     island:    "south",
     emoji:     "☀️",
-    cover:     "assets/images/regions/nelson.jpg",
+    cover: CDN_BASE + "/images/regions/nelson.jpg",
     desc:      "Sunshine, art & national parks",
     locations: ["Nelson", "Abel Tasman", "Golden Bay"]
   },
@@ -249,7 +263,7 @@ const REGIONS = [
     name:      "Mackenzie Country",
     island:    "south",
     emoji:     "⭐",
-    cover:     "assets/images/regions/mackenzie.jpg",
+    cover: CDN_BASE + "/images/regions/mackenzie.jpg",
     desc:      "Stargazing, turquoise lakes & lupins",
     locations: ["Lake Tekapo", "Aoraki/Mt Cook", "Twizel"]
   },
@@ -257,7 +271,7 @@ const REGIONS = [
     name:      "Otago",
     island:    "south",
     emoji:     "🏕️",
-    cover:     "assets/images/regions/otago.jpg",
+    cover: CDN_BASE + "/images/regions/otago.jpg",
     desc:      "Adventure, wine & dramatic fiords",
     locations: ["Queenstown", "Dunedin", "Wānaka", "Arrowtown"]
   },
@@ -265,7 +279,7 @@ const REGIONS = [
     name:      "The Catlins",
     island:    "south",
     emoji:     "🌊",
-    cover:     "assets/images/regions/catlins.jpg",
+    cover: CDN_BASE + "/images/regions/catlins.jpg",
     desc:      "Waterfalls, sea lions & solitude",
     locations: ["Nugget Point", "Curio Bay", "Papatowai"]
   },
@@ -273,7 +287,7 @@ const REGIONS = [
     name:      "West Coast",
     island:    "south",
     emoji:     "🌧️",
-    cover:     "assets/images/regions/westcoast.jpg",
+    cover: CDN_BASE + "/images/regions/westcoast.jpg",
     desc:      "Wild, wet & gloriously untamed",
     locations: ["Hokitika", "Franz Josef", "Greymouth", "Haast"]
   },
@@ -281,7 +295,7 @@ const REGIONS = [
     name:      "Southland",
     island:    "south",
     emoji:     "🦅",
-    cover:     "assets/images/regions/southland.jpg",
+    cover: CDN_BASE + "/images/regions/southland.jpg",
     desc:      "Wild southern edge & fiordland",
     locations: ["Milford Sound", "Invercargill", "Stewart Island"]
   },
@@ -289,7 +303,7 @@ const REGIONS = [
     name:      "Marlborough",
     island:    "south",
     emoji:     "🍷",
-    cover:     "assets/images/regions/marlborough.jpg",
+    cover: CDN_BASE + "/images/regions/marlborough.jpg",
     desc:      "Sounds, sunshine & Sauvignon Blanc",
     locations: ["Blenheim", "Picton", "Nelson"]
   },
@@ -299,7 +313,7 @@ const REGIONS = [
     name:      "Northland",
     island:    "north",
     emoji:     "🏝️",
-    cover:     "assets/images/regions/northland.jpg",
+    cover: CDN_BASE + "/images/regions/northland.jpg",
     desc:      "Ancient kauri forests & sweeping beaches",
     locations: ["Bay of Islands", "Ninety Mile Beach", "Cape Reinga"]
   },
@@ -307,7 +321,7 @@ const REGIONS = [
     name:      "Auckland",
     island:    "north",
     emoji:     "🌆",
-    cover:     "assets/images/regions/auckland.jpg",
+    cover: CDN_BASE + "/images/regions/auckland.jpg",
     desc:      "The big smoke & volcanic islands",
     locations: ["Auckland City", "Waiheke Island", "Devonport"]
   },
@@ -315,7 +329,7 @@ const REGIONS = [
     name:      "Coromandel",
     island:    "north",
     emoji:     "🏖️",
-    cover:     "assets/images/regions/coromandel.jpg",
+    cover: CDN_BASE + "/images/regions/coromandel.jpg",
     desc:      "Hot water beach & cathedral cove",
     locations: ["Thames", "Coromandel Town", "Hot Water Beach", "Cathedral Cove"]
   },
@@ -323,7 +337,7 @@ const REGIONS = [
     name:      "Bay of Plenty",
     island:    "north",
     emoji:     "🌊",
-    cover:     "assets/images/regions/bayofplenty.jpg",
+    cover: CDN_BASE + "/images/regions/bayofplenty.jpg",
     desc:      "Kiwifruit, beaches & White Island",
     locations: ["Tauranga", "Mount Maunganui", "Whakatāne"]
   },
@@ -331,7 +345,7 @@ const REGIONS = [
     name:      "Waikato",
     island:    "north",
     emoji:     "🌿",
-    cover:     "assets/images/regions/waikato.jpg",
+    cover: CDN_BASE + "/images/regions/waikato.jpg",
     desc:      "Hobbits, caves & the mighty Waikato river",
     locations: ["Hobbiton", "Waitomo Caves", "Hamilton"]
   },
@@ -339,7 +353,7 @@ const REGIONS = [
     name:      "Waikato / Bay of Plenty",
     island:    "north",
     emoji:     "🌋",
-    cover:     "assets/images/regions/tongariro.jpg",
+    cover: CDN_BASE + "/images/regions/tongariro.jpg",
     desc:      "Hobbits, hot springs & volcanoes",
     locations: ["Tongariro", "Rotorua", "Hamilton", "Taupo"]
   },
@@ -347,7 +361,7 @@ const REGIONS = [
     name:      "Manawatū-Whanganui",
     island:    "north",
     emoji:     "🏔️",
-    cover:     "assets/images/regions/manawatu.jpg",
+    cover: CDN_BASE + "/images/regions/manawatu.jpg",
     desc:      "Volcanic plateau & wild river gorges",
     locations: ["Whanganui", "Palmerston North", "Tongariro National Park"]
   },
@@ -355,7 +369,7 @@ const REGIONS = [
     name:      "Wellington",
     island:    "north",
     emoji:     "💨",
-    cover:     "assets/images/regions/wellington.jpg",
+    cover: CDN_BASE + "/images/regions/wellington.jpg",
     desc:      "Windy, wonderful capital",
     locations: ["Wellington CBD", "Wairarapa", "Kāpiti Coast"]
   },

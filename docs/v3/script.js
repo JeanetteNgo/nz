@@ -80,29 +80,40 @@ function applyTheme() {
   const kiwi = document.getElementById("kiwi-btn");
   if (kiwi) kiwi.textContent = isHobbit ? "💍" : "🥝";
 
-  // Nav hobbit button: add visual active state when in hobbit mode
+  // Nav hobbit button: aria-pressed for accessibility
   const hobbitBtn = document.getElementById("hobbit-toggle-btn");
-  if (hobbitBtn) hobbitBtn.classList.toggle("hobbit-active", isHobbit);
+  if (hobbitBtn) {
+    hobbitBtn.setAttribute("aria-pressed", isHobbit ? "true" : "false");
+    hobbitBtn.classList.toggle("hobbit-active", isHobbit);
+  }
 }
 
 function toggleTheme() {
   const scrollY = window.scrollY;
+
+  // Add transitioning class — blanket-smooths all colour changes
+  document.body.classList.add("theme-transitioning");
+  setTimeout(() => document.body.classList.remove("theme-transitioning"), 600);
+
   isHobbit = !isHobbit;
   localStorage.setItem("nz-theme", isHobbit ? "hobbit" : "default");
   applyTheme();
 
-  // Refined sparkle burst on entering hobbit mode
   if (isHobbit) {
     spawnSparkles();
     spawnFireflies();
+  } else {
+    // Clear fireflies on exit
+    const fl = document.getElementById("firefly-layer");
+    if (fl) {
+      fl.style.opacity = "0";
+      setTimeout(() => { fl.innerHTML = ""; fl.style.opacity = ""; }, 600);
+    }
   }
 
-  showToast(isHobbit ? "✨ You have entered the Shire" : "🌿 You have left the Shire");
+  showToast(isHobbit ? "✨ You have entered the Shire" : "🌿 Back to Aotearoa");
 
-  // Restore scroll position (prevents jump)
   requestAnimationFrame(() => window.scrollTo({ top: scrollY, behavior: "instant" }));
-
-  // Cross-fade audio ambience
   switchAmbience();
 }
 
@@ -113,40 +124,85 @@ function toggleTheme() {
   radial burst pattern rather than fully random scatter.
 */
 function spawnSparkles() {
-  const colors = ["#F4BC6E", "#e8a84d", "#ffffff", "#d4943a", "#ffe0a0"];
-  const cx = window.innerWidth / 2;
-  const cy = window.innerHeight / 2;
+  const colors  = ["#F4BC6E", "#e8a84d", "#fff8dc", "#d4943a", "#ffe0a0", "#ffffff"];
+  const glyphs  = ["ᚠ", "ᚢ", "ᚦ", "ᚨ", "ᚱ", "✦", "✧", "⁕", "☽", "✨"];
+  const W = window.innerWidth, H = window.innerHeight;
 
-  for (let i = 0; i < 48; i++) {
+  // Wave 1: expanding rings from center (0ms)
+  [80, 160, 260, 380].forEach((r, i) => {
+    const ring = document.createElement("div");
+    ring.className = "sparkle-ring";
+    const dur = 0.85 + i * 0.12;
+    ring.style.cssText = `
+      left: 50%; top: 40%;
+      width: ${r * 2}px; height: ${r * 2}px;
+      --ring-color: rgba(244,188,110,${0.7 - i * 0.15});
+      --dur: ${dur}s;
+      animation-delay: ${i * 0.08}s;
+    `;
+    document.body.appendChild(ring);
+    setTimeout(() => ring.remove(), (dur + i * 0.08 + 0.1) * 1000);
+  });
+
+  // Wave 2: particle burst spread across screen (100ms stagger)
+  const shapes = ["", " sparkle-star", " sparkle-rune", " sparkle-star"];
+  for (let i = 0; i < 72; i++) {
     const s = document.createElement("div");
-    const isStar = Math.random() > 0.5;
-    s.className = "sparkle" + (isStar ? " sparkle-star" : "");
+    s.className = "sparkle" + shapes[i % shapes.length];
 
-    const size  = 5 + Math.random() * 12;
+    const size  = 4 + Math.random() * 14;
     const color = colors[Math.floor(Math.random() * colors.length)];
-    const angle = (i / 48) * Math.PI * 2 + (Math.random() - 0.5) * 0.8;
-    const dist  = 80 + Math.random() * 220;
+
+    // Multi-origin: some from center, some random edge origins
+    const originX = Math.random() < 0.6
+      ? W * 0.5 + (Math.random() - 0.5) * W * 0.3
+      : Math.random() * W;
+    const originY = Math.random() < 0.6
+      ? H * 0.38 + (Math.random() - 0.5) * H * 0.2
+      : Math.random() * H * 0.6;
+
+    const angle = Math.random() * Math.PI * 2;
+    const dist  = 120 + Math.random() * Math.max(W, H) * 0.45;
     const sx    = Math.cos(angle) * dist;
     const sy    = Math.sin(angle) * dist;
-    const dur   = 0.7 + Math.random() * 0.8;
-    const rot   = (Math.random() - 0.5) * 540;
+    const dur   = 1.1 + Math.random() * 1.2;
+    const rot   = (Math.random() - 0.5) * 720;
+    const delay = Math.random() * 0.55;
 
     s.style.cssText = `
-      width: ${size}px;
-      height: ${size}px;
-      left: ${cx + (Math.random() - 0.5) * 60}px;
-      top: ${cy + (Math.random() - 0.5) * 60}px;
+      width: ${size}px; height: ${size}px;
+      left: ${originX}px; top: ${originY}px;
       background: ${color};
-      --sx: ${sx}px;
-      --sy: ${sy}px;
-      --dur: ${dur}s;
-      --rot: ${rot}deg;
-      animation-delay: ${Math.random() * 0.3}s;
-      box-shadow: 0 0 ${size * 2}px ${color};
-      border-radius: ${isStar ? "0" : "50%"};
+      --sx: ${sx}px; --sy: ${sy}px;
+      --dur: ${dur}s; --rot: ${rot}deg;
+      --es: ${0.2 + Math.random() * 0.5};
+      animation-delay: ${delay}s;
+      box-shadow: 0 0 ${size * 1.8}px ${color}88;
     `;
     document.body.appendChild(s);
-    setTimeout(() => s.remove(), (dur + 0.3) * 1000);
+    setTimeout(() => s.remove(), (dur + delay + 0.2) * 1000);
+  }
+
+  // Wave 3: rune glyphs drift upward from random points (200ms stagger)
+  for (let i = 0; i < 12; i++) {
+    const g = document.createElement("div");
+    g.className = "sparkle-glyph";
+    g.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+    const dur   = 1.8 + Math.random() * 1.4;
+    const delay = 0.1 + Math.random() * 0.7;
+    const gx    = (Math.random() - 0.5) * 120;
+    const gy    = -(100 + Math.random() * 200);
+    const fs    = 12 + Math.random() * 18;
+    g.style.cssText = `
+      left: ${W * 0.1 + Math.random() * W * 0.8}px;
+      top: ${H * 0.2 + Math.random() * H * 0.55}px;
+      font-size: ${fs}px;
+      --dur: ${dur}s; --gx: ${gx}px; --gy: ${gy}px;
+      animation-delay: ${delay}s;
+      opacity: 0;
+    `;
+    document.body.appendChild(g);
+    setTimeout(() => g.remove(), (dur + delay + 0.2) * 1000);
   }
 }
 
@@ -536,6 +592,18 @@ document.addEventListener("keydown", e => {
   bottom-cluster visibility animations.
 */
 function initShared() {
+  // Lock hero text visible after entry animation so theme toggle can't reset it
+  const heroContent = document.querySelector(".hero-content");
+  const heroStats   = document.querySelector(".hero-stats");
+  if (heroContent) {
+    heroContent.addEventListener("animationend", () => heroContent.classList.add("visible"), { once: true });
+    // Fallback: lock after 1.5s if animationend doesn't fire
+    setTimeout(() => heroContent?.classList.add("visible"), 1500);
+  }
+  if (heroStats) {
+    heroStats.addEventListener("animationend", () => heroStats.classList.add("visible"), { once: true });
+    setTimeout(() => heroStats?.classList.add("visible"), 1700);
+  }
   applyTheme();
   startClock();
   initFadeIn();
