@@ -38,6 +38,23 @@ const CDN_BASE = "https://cdn.jeanettengo.com";  // e.g. "https://pub-xxxx.r2.de
 /* ══ POSTS ══════════════════════════════════════════════════ */
 const POSTS = [
   {
+    id:       "working-holiday-guide",
+    title:    "A Comprehensive Guide: Working Holiday in New Zealand",
+    date:     "2024-03-13",
+    category: "general",
+    island:   null,
+    region:   null,
+    location: null,
+    tags:     ["guide", "visa", "nz", "work holiday"],
+    emoji:    "📑",
+    cover:    CDN_BASE + "/images/regions/northland-thumbnail.jpg",
+    excerpt:  "The practical realities of a New Zealand working holiday — money, work, accommodation, and settling in.",
+    featured: true,
+    mapLat:   null,
+    mapLng:   null,
+    file:     "posts/working-holiday-guide.html"
+  },
+  {
     id:       "tongariro-crossing",
     title:    "Tongariro: Walking Through Middle-Earth",
     date:     "2024-02-18",
@@ -47,7 +64,7 @@ const POSTS = [
     location: "Tongariro National Park",
     tags:     ["hiking", "volcanic", "UNESCO", "day walk"],
     emoji:    "🌋",
-    cover: CDN_BASE + "/images/tongariro.jpg",
+    cover:    CDN_BASE + "/images/regions/whanganui-thumbnail.jpg",
     excerpt:  "Nineteen kilometres across an alien landscape of craters, emerald lakes and lava fields. The Crossing earns every superlative.",
     featured: true,
     mapLat:   -39.297,
@@ -172,23 +189,6 @@ const POSTS = [
     mapLat:   -43.2,
     mapLng:   170.6,
     file:     "posts/west-coast-drive.html"
-  },
-  {
-    id:       "working-holiday-guide",
-    title:    "Working Holiday NZ: The Honest Guide",
-    date:     "2024-08-20",
-    category: "general",
-    island:   null,
-    region:   null,
-    location: null,
-    tags:     ["visa", "practical", "money", "work"],
-    emoji:    "📋",
-    cover:    null,
-    excerpt:  "The practical realities of a New Zealand working holiday — money, work, accommodation, and the things no one warns you about.",
-    featured: true,
-    mapLat:   null,
-    mapLng:   null,
-    file:     "posts/working-holiday-guide.html"
   },
   {
     id:       "best-sunsets",
