@@ -607,12 +607,6 @@ button {
   transition: background .6s;
 }
 
-/* Hobbit mode: uncomment and set path when you have the Middle-Earth map image */
-/*
-[data-theme="hobbit"] .hero-bg {
-  background: #11301E url('assets/middle-earth-map.png') center/cover;
-}
-*/
 [data-theme="hobbit"] .hero-bg {
   background: radial-gradient(ellipse at 40% 50%, #1a4a28 0%, #0a1f12 100%);
 }
@@ -870,7 +864,7 @@ button {
 /* Middle-Earth map background in hobbit mode.
    Applied to the full-width wrapper (.explore-wrap), not the max-width inner section. */
 [data-theme="hobbit"] .explore-wrap {
-  background: url('assets/middle-earth-map.png') center/cover no-repeat;
+  background: url('https://cdn.jeanettengo.com/hero/middle-earth-map.png') center/cover no-repeat;
   position: relative;
   overflow: hidden;
 }
@@ -880,7 +874,7 @@ button {
   position: absolute;
   inset: 0;
   /* Reduced overlay so map image shows through more clearly */
-  background: rgba(10, 28, 18, 0.55);
+  background: rgba(10, 28, 18, 0.15);
   pointer-events: none;
   z-index: 0;
 }
@@ -1450,12 +1444,22 @@ button {
   padding-bottom: 32px;
   border-bottom: 1px solid var(--border2);
 }
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
 .footer-logo {
   font-family: var(--font-primary);
   font-size: 18px;
   font-weight: 700;
-  color: var(--brown-300);
-  margin-bottom: 8px;
+  color: var(--text2);
+}
+.footer-quote {
+  font-style: italic;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text3);
 }
 [data-theme="hobbit"] .footer-logo {
   font-family: var(--font-hobbit);
@@ -1470,12 +1474,21 @@ button {
 .footer-links {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   gap: 8px;
+}
+.footer-links p {
+  font-family: var(--font-primary);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text2);
 }
 .footer-links a {
   font-family: var(--font-primary);
   font-size: 14px;
-  color: var(--brown-200);
+  color: var(--text3);
 }
 .footer-links a:hover {
   color: var(--brown-300);
@@ -1485,30 +1498,28 @@ button {
   transition: 0.3s;
 }
 
-/* Social links — removed for now */
-
 .footer-visitor {
   display: flex;
-  flex-direction: column;
   align-items: center;
   gap: 4px;
+  margin-top: 20px;
 }
 .visitor-count {
   font-family: var(--font-primary);
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 700;
   color: var(--accent);
-  letter-spacing: -1px;
+  letter-spacing: 1px;
   display: block;
   line-height: 1;
 }
 .visitor-label {
   font-family: var(--font-primary);
-  font-size: 10px;
-  letter-spacing: 3px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 6px;
   text-transform: uppercase;
-  color: var(--text3);
-  margin-top: 4px;
+  color: var(--accent);
 }
 .footer-bottom {
   max-width: var(--max-w);
@@ -1520,12 +1531,7 @@ button {
   gap: 12px;
   padding-top: 24px;
 }
-.footer-quote {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 13px;
-  color: var(--brown-200);
-}
+
 
 
 /* ── 13. PAGE HEADER (blog / about pages) ──────────────────── */
