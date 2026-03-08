@@ -1800,8 +1800,14 @@ button {
   display: flex;
   flex-direction: column;
 }
-.post-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px var(--shadow); border-color: var(--accent); }
-[data-theme="hobbit"] .post-card:hover { border-color: var(--gold); }
+.post-card:hover { 
+  transform: translateY(-5px); 
+  box-shadow: 0 16px 40px var(--shadow); 
+  border-color: var(--accent); 
+}
+[data-theme="hobbit"] .post-card:hover { 
+  border-color: var(--gold); 
+}
 .post-card-cover {
   height: 180px;
   background: linear-gradient(135deg, var(--bg2), var(--bg3));
@@ -1812,19 +1818,40 @@ button {
   overflow: hidden;
   flex-shrink: 0;
 }
-.post-card-cover img { width: 100%; height: 100%; object-fit: cover; }
-.post-card-body { padding: 18px 20px; flex: 1; display: flex; flex-direction: column; }
-.post-card-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
-.post-card-date { font-family: var(--font-primary); font-size: 11px; color: var(--text3); letter-spacing: 1px; }
+.post-card-cover img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+}
+.post-card-body { 
+  padding: 18px 20px; 
+  flex: 1; 
+  display: flex; 
+  flex-direction: column; 
+}
+.post-card-meta { 
+  display: flex; 
+  align-items: center; 
+  gap: 10px; 
+  flex-wrap: wrap; 
+  margin-bottom: 8px; 
+}
+.post-card-date { 
+  font-family: var(--font-primary); 
+  font-size: 11px; 
+  color: var(--text3); 
+  letter-spacing: 1px; 
+}
 .post-card-type {
   font-family: var(--font-primary);
   font-size: 9px;
-  letter-spacing: 2px;
+  font-weight: 500;
+  letter-spacing: 1px;
   text-transform: uppercase;
   padding: 2px 8px;
-  border-radius: 99px;
-  background: var(--accent-dim);
-  color: var(--accent);
+  border-radius: 100px;
+  /* background: var(--accent-dim); */
+  color: var(--text3);
   border: 1px solid var(--border);
 }
 .post-card-title {
@@ -1837,9 +1864,16 @@ button {
   margin-bottom: 8px;
   transition: color .2s;
 }
-[data-theme="hobbit"] .post-card-title { font-family: var(--font-hobbit); color: var(--gold); }
-.post-card:hover .post-card-title { color: var(--accent); }
-[data-theme="hobbit"] .post-card:hover .post-card-title { color: var(--accent2); }
+[data-theme="hobbit"] .post-card-title { 
+  font-family: var(--font-hobbit); 
+  color: var(--gold); 
+}
+.post-card:hover .post-card-title { 
+  color: var(--accent); 
+}
+[data-theme="hobbit"] .post-card:hover .post-card-title { 
+  color: var(--accent2); 
+}
 .post-card-excerpt {
   font-size: 13px;
   color: var(--text2);
@@ -1851,7 +1885,10 @@ button {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.post-card-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.post-card-tags { 
+  display: flex; 
+  flex-wrap: wrap; gap: 5px; 
+}
 
 /* Post list view */
 .posts-list {}
@@ -1865,7 +1902,9 @@ button {
   transition: all .2s;
   position: relative;
 }
-.post-list-item:first-child { border-top: 1px solid var(--border); }
+.post-list-item:first-child { 
+  border-top: 1px solid var(--border); 
+}
 .post-list-item::before {
   content: '';
   position: absolute;
@@ -1878,8 +1917,12 @@ button {
   transition: transform .3s;
   transform-origin: top;
 }
-.post-list-item:hover::before { transform: scaleY(1); }
-.post-list-item:hover .post-list-title { color: var(--accent); }
+.post-list-item:hover::before { 
+  transform: scaleY(1); 
+}
+.post-list-item:hover .post-list-title { 
+  color: var(--accent); 
+}
 .post-list-thumb {
   height: 80px;
   border-radius: 12px;
@@ -1891,11 +1934,27 @@ button {
   font-size: 28px;
 }
 .post-list-thumb img { width: 100%; height: 100%; object-fit: cover; }
-.post-list-num { font-family: var(--font-primary); font-size: 10px; letter-spacing: 3px; color: var(--text3); text-transform: uppercase; margin-bottom: 5px; }
+.post-list-num { 
+  font-family: var(--font-primary); 
+  font-size: 10px; 
+  letter-spacing: 3px; 
+  color: var(--text3); 
+  text-transform: uppercase; 
+  margin-bottom: 5px; 
+}
 .post-list-title { font-family: var(--font-primary); font-size: 17px; font-weight: 700; color: var(--text); letter-spacing: -.3px; line-height: 1.3; margin-bottom: 6px; transition: color .2s; }
 [data-theme="hobbit"] .post-list-title { font-family: var(--font-hobbit); color: var(--gold); }
 .post-list-excerpt { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.post-list-meta { display: flex; gap: 12px; flex-wrap: wrap; font-size: 11px; color: var(--text3); font-family: var(--font-primary); letter-spacing: 1px; text-transform: uppercase; }
+.post-list-meta { 
+  display: flex; 
+  gap: 12px; 
+  flex-wrap: wrap; 
+  font-size: 11px; 
+  color: var(--text3); 
+  font-family: var(--font-primary); 
+  letter-spacing: 1px; 
+  text-transform: uppercase; 
+}
 
 
 /* ── 17. POST DETAIL VIEW ──────────────────────────────────── */
@@ -2218,7 +2277,9 @@ button {
   transition: all .2s;
   position: relative;
 }
-.journal-item:first-child { border-top: 1px solid var(--border); }
+.journal-item:first-child { 
+  border-top: 1px solid var(--border); 
+}
 .journal-item::before {
   content: '';
   position: absolute;
@@ -2231,12 +2292,45 @@ button {
   transition: transform .3s;
   transform-origin: top;
 }
-.journal-item:hover::before { transform: scaleY(1); }
-.journal-item:hover .journal-title { color: var(--accent); }
-.journal-thumb { height: 70px; border-radius: 12px; overflow: hidden; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 26px; }
-.journal-thumb img { width: 100%; height: 100%; object-fit: cover; }
-.journal-num { font-family: var(--font-primary); font-size: 10px; letter-spacing: 3px; color: var(--text3); text-transform: uppercase; margin-bottom: 4px; }
-.journal-title { font-family: var(--font-primary); font-size: 16px; font-weight: 700; color: var(--text); letter-spacing: -.2px; line-height: 1.3; margin-bottom: 5px; transition: color .2s; }
+.journal-item:hover::before { 
+  transform: scaleY(1); 
+}
+.journal-item:hover .journal-title { 
+  color: var(--accent); 
+}
+.journal-thumb { 
+  height: 70px; 
+  border-radius: 12px; 
+  overflow: hidden; 
+  background: var(--surface2); 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-size: 26px; 
+}
+.journal-thumb img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+}
+.journal-num { 
+  font-family: var(--font-primary); 
+  font-size: 10px; 
+  letter-spacing: 3px; 
+  color: var(--text3); 
+  text-transform: uppercase; 
+  margin-bottom: 4px; 
+}
+.journal-title { 
+  font-family: var(--font-primary); 
+  font-size: 16px; 
+  font-weight: 700; 
+  color: var(--text); 
+  letter-spacing: -.2px; 
+  line-height: 1.3; 
+  margin-bottom: 5px; 
+  transition: color .2s; 
+}
 [data-theme="hobbit"] .journal-title { font-family: var(--font-hobbit); color: var(--gold); }
 .journal-excerpt { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .journal-meta { display: flex; gap: 12px; flex-wrap: wrap; font-size: 11px; color: var(--text3); font-family: var(--font-primary); letter-spacing: 1px; text-transform: uppercase; }
