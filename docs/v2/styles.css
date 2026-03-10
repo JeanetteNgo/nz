@@ -2357,11 +2357,39 @@ button {
 .hobby-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 8px 24px var(--shadow2); }
 .hobby-icon { font-size: 28px; margin-bottom: 10px; }
 .hobby-name { font-family: var(--font-primary); font-size: 13px; font-weight: 500; color: var(--text2); }
-.timeline { position: relative; padding-left: 28px; }
-.timeline::before { content: ''; position: absolute; left: 7px; top: 0; bottom: 0; width: 1.5px; background: var(--border); }
-.timeline-item { position: relative; margin-bottom: 32px; }
-.timeline-item::before { content: ''; position: absolute; left: -28px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); box-shadow: 0 0 0 2px var(--accent); }
-[data-theme="hobbit"] .timeline-item::before { background: var(--gold); box-shadow: 0 0 0 2px var(--gold); }
+.timeline { 
+  position: relative; 
+  padding-left: 28px; 
+}
+.timeline::before { 
+  content: ''; position: 
+  absolute; 
+  left: 4px; 
+  top: 0; 
+  bottom: 0; 
+  width: 1.5px; 
+  background: var(--border); 
+}
+.timeline-item { 
+  position: relative; 
+  margin-bottom: 32px; 
+}
+.timeline-item::before { 
+  content: ''; 
+  position: absolute; 
+  left: -28px; 
+  top: 4px; 
+  width: 10px; 
+  height: 10px; 
+  border-radius: 50%; 
+  background: var(--accent); 
+  border: 2px solid var(--bg); 
+  box-shadow: 0 0 0 2px var(--accent); 
+}
+[data-theme="hobbit"] .timeline-item::before { 
+  background: var(--gold); 
+  box-shadow: 0 0 0 2px var(--gold); 
+}
 .timeline-date { 
   font-size: 11px; 
   color: var(--text3); 
@@ -2376,7 +2404,10 @@ button {
   color: var(--text); 
   margin-bottom: 4px; 
 }
-[data-theme="hobbit"] .timeline-title { font-family: var(--font-hobbit); color: var(--gold); }
+[data-theme="hobbit"] .timeline-title { 
+  font-family: var(--font-hobbit); 
+  color: var(--gold); 
+}
 .timeline-desc { 
   font-size: 14px; 
   color: var(--text2); 
