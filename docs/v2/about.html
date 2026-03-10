@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>About — Aotearoa Diaries</title>
+  <title>Blog — J's Adventure in Aotearoa</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Uncial+Antiqua&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
 <!-- ══════════════════════════════════════════════════
@@ -28,15 +30,6 @@
     <div class="nav-controls">
       <button class="nav-btn" onclick="openSearch()" title="Search (/)">
         <i class="fa-solid fa-magnifying-glass"></i>
-      </button>
-      <button class="nav-btn" id="audio-btn" onclick="toggleAudio()" title="Ambient sounds">
-        <i class="fa-solid fa-music audio-icon"></i>
-        <span class="audio-bars">
-          <span class="audio-bar"></span>
-          <span class="audio-bar"></span>
-          <span class="audio-bar"></span>
-          <span class="audio-bar"></span>
-        </span>
       </button>
       <button class="nav-btn hobbit-pill" id="hobbit-toggle-btn" onclick="toggleTheme()" title="Toggle Hobbit Mode" aria-pressed="false">
         <span class="toggle-track"><span class="toggle-thumb"></span></span>
@@ -61,10 +54,6 @@
   <div class="mob-row">
     <span class="mob-row-label">🧙 Theme</span>
     <button class="mob-pill" onclick="toggleTheme()"><span class="theme-icon">🧙</span><span class="theme-label">Hobbit Mode</span></button>
-  </div>
-  <div class="mob-row mob-audio-row">
-    <span class="mob-row-label">♪ Audio</span>
-    <button class="mob-pill" id="mob-audio-btn" onclick="toggleAudio()"><span class="mob-audio-label">Play</span></button>
   </div>
   <div class="mob-row">
     <span class="mob-row-label">🔍 Search</span>
@@ -92,7 +81,7 @@
      PAGE HEADER
 ════════════════════════════════════════════════════ -->
 <header class="page-header">
-  <div class="page-eyebrow">The person behind the posts</div>
+  <!-- <div class="page-eyebrow">The person behind the posts</div> -->
   <h1 class="page-title">About Me</h1>
   <p class="page-subtitle">A working holiday, a year of wandering, a blog about both</p>
 </header>
@@ -106,12 +95,11 @@
     <!-- Intro: photo + bio -->
     <div class="about-intro fade-in">
       <div class="about-avatar">
-        <!-- Replace with: <img src="assets/images/me.jpg" alt="[Your Name]"> -->
-        🧳
+        <img src="assets/profile-image.png" alt="[Jeanette's Avatar]">
       </div>
       <div>
-        <h1 class="about-name">[Your Name]</h1>
-        <p class="about-tagline">[your nationality] · [job/field] · [age]</p>
+        <h1 class="about-name">Jeanette</h1>
+        <p class="about-tagline"> Hi from Singapore! </p>
         <p class="about-bio">
           I came to New Zealand on a working holiday visa in January 2024, with a vague plan to 
           stay for a few months. Twelve months later I was still here, having worked a handful of 
@@ -125,9 +113,8 @@
         </p>
         <div class="about-stats">
           <div class="about-stat"><span class="about-stat-num">365</span><span class="about-stat-label">Days</span></div>
-          <div class="about-stat"><span class="about-stat-num">9+</span><span class="about-stat-label">Stories</span></div>
-          <div class="about-stat"><span class="about-stat-num">2</span><span class="about-stat-label">Islands</span></div>
-          <div class="about-stat"><span class="about-stat-num">∞</span><span class="about-stat-label">Pies</span></div>
+          <div class="about-stat"><span class="about-stat-num">9+</span><span class="about-stat-label">Places</span></div>
+          <div class="about-stat"><span class="about-stat-num">∞</span><span class="about-stat-label">Memories</span></div>
         </div>
       </div>
     </div>
@@ -137,13 +124,13 @@
       <div class="about-section-title">Things I Like</div>
       <div class="hobbies-grid">
         <div class="hobby-card"><div class="hobby-icon">🥾</div><div class="hobby-name">Hiking</div></div>
-        <div class="hobby-card"><div class="hobby-icon">📷</div><div class="hobby-name">Photography</div></div>
         <div class="hobby-card"><div class="hobby-icon">📚</div><div class="hobby-name">Reading</div></div>
-        <div class="hobby-card"><div class="hobby-icon">☕</div><div class="hobby-name">Flat whites</div></div>
-        <div class="hobby-card"><div class="hobby-icon">🗺</div><div class="hobby-name">Maps</div></div>
-        <div class="hobby-card"><div class="hobby-icon">🎒</div><div class="hobby-name">Solo travel</div></div>
-        <div class="hobby-card"><div class="hobby-icon">✍️</div><div class="hobby-name">Writing</div></div>
-        <div class="hobby-card"><div class="hobby-icon">🥧</div><div class="hobby-name">Pies</div></div>
+        <div class="hobby-card"><div class="hobby-icon">✍️</div><div class="hobby-name">Journaling</div></div>
+        <div class="hobby-card"><div class="hobby-icon">📷</div><div class="hobby-name">Vlogging</div></div>
+        <div class="hobby-card"><div class="hobby-icon">✈️</div><div class="hobby-name">Travel</div></div>
+        <div class="hobby-card"><div class="hobby-icon">👩🏻‍💻</div><div class="hobby-name">Design</div></div>
+        <div class="hobby-card"><div class="hobby-icon">🎧</div><div class="hobby-name">Music</div></div>
+        <div class="hobby-card"><div class="hobby-icon">🥧</div><div class="hobby-name">Food</div></div>
       </div>
     </section>
 
@@ -308,10 +295,10 @@
           <div class="contact-label">Instagram</div>
           <div class="contact-value">@yourhandle</div>
         </a>
-        <a class="contact-card" href="#" target="_blank">
+        <a class="contact-card" href="https://github.com/JeanetteNgo" target="_blank">
           <div class="contact-icon">🐙</div>
           <div class="contact-label">GitHub</div>
-          <div class="contact-value">@yourhandle</div>
+          <div class="contact-value">@JeanetteNgo</div>
         </a>
       </div>
     </section>
