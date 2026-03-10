@@ -2362,10 +2362,27 @@ button {
 .timeline-item { position: relative; margin-bottom: 32px; }
 .timeline-item::before { content: ''; position: absolute; left: -28px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); box-shadow: 0 0 0 2px var(--accent); }
 [data-theme="hobbit"] .timeline-item::before { background: var(--gold); box-shadow: 0 0 0 2px var(--gold); }
-.timeline-date { font-size: 11px; color: var(--text3); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
-.timeline-title { font-family: var(--font-primary); font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+.timeline-date { 
+  font-size: 11px; 
+  color: var(--text3); 
+  letter-spacing: 1.2px; 
+  text-transform: uppercase; 
+  margin-bottom: 4px; 
+}
+.timeline-title { 
+  font-family: var(--font-primary); 
+  font-size: 16px; 
+  font-weight: 600; 
+  color: var(--text); 
+  margin-bottom: 4px; 
+}
 [data-theme="hobbit"] .timeline-title { font-family: var(--font-hobbit); color: var(--gold); }
-.timeline-desc { font-size: 14px; color: var(--text2); line-height: 1.6; }
+.timeline-desc { 
+  font-size: 14px; 
+  color: var(--text2); 
+  line-height: 1.4; 
+  margin-bottom: 20px; 
+}
 .contact-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 14px; }
 .contact-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; transition: all .25s; text-decoration: none; color: inherit; display: block; }
 .contact-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 24px var(--shadow2); }
