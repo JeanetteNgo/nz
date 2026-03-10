@@ -39,7 +39,7 @@ const CDN_BASE = "https://cdn.jeanettengo.com";  // e.g. "https://pub-xxxx.r2.de
 const POSTS = [
   {
     id:       "working-holiday-guide",
-    title:    "A Comprehensive Guide: Working Holiday in New Zealand",
+    title:    "The Ultimate Guide to the New Zealand Working Holiday Visa for Singaporeans",
     date:     "2024-03-13",
     category: "general",
     island:   null,
