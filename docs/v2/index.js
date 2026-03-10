@@ -130,41 +130,54 @@ function initMap() {
   const isMobile = () => window.innerWidth <= 768;
 
   nzMap = L.map("nz-map", {
-    center:             [-41.5, 172.5],
-    zoom:               6,
-    maxBounds:          [[-50, 162], [-33, 180]],
-    maxBoundsViscosity: 0.85,
-    minZoom:            5,
-    maxZoom:            14,
-    zoomControl:        true,
-    // On mobile allow scroll; tap-to-pin replaces hover
-    scrollWheelZoom:    true,
-    dragging:           true,
+    center:              [-41.5, 172.5],
+    zoom:                6,
+    maxBounds:           [[-55, 155], [-30, 190]],
+    maxBoundsViscosity:  0.5,
+    minZoom:             5,
+    maxZoom:             14,
+    zoomControl:         window.innerWidth > 768,
+    attributionControl:  false,   // removes the © widget — no stray × ever
+    scrollWheelZoom:     true,
+    dragging:            true,
   });
 
   L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-    attribution: "© OpenStreetMap © CARTO",
-    subdomains:  "abcd",
-    maxZoom:     18,
+    subdomains: "abcd",
+    maxZoom:    18,
   }).addTo(nzMap);
 
-  const pinned = POSTS.filter(p => p.mapLat && p.mapLng);
+  const pinned  = POSTS.filter(p => p.mapLat && p.mapLng);
   const countEl = document.getElementById("map-pin-count");
   if (countEl) countEl.textContent = `${pinned.length} location${pinned.length !== 1 ? "s" : ""} visited`;
 
   let activeMarker = null;
 
-  // ── Helper: show bottom sheet on mobile ──
+  // ── Helper: flyTo pin, open popup once map settles ──
+  function flyToAndOpen(marker, lat, lng) {
+    if (activeMarker && activeMarker !== marker) {
+      activeMarker.getElement()?.querySelector(".map-pin-icon")?.classList.remove("pinned");
+      activeMarker.closePopup();
+    }
+    activeMarker = marker;
+    marker.getElement()?.querySelector(".map-pin-icon")?.classList.add("pinned");
+
+    nzMap.flyTo([lat, lng], 9, { animate: true, duration: 0.6 });
+    // Open popup after map settles so keepInView can pan correctly
+    nzMap.once("moveend", function() {
+      marker.openPopup();
+    });
+  }
+
+  // ── Helper: open bottom sheet on mobile ──
   function openSheet(post) {
     const sheet = document.getElementById("map-sheet");
     const inner = document.getElementById("map-sheet-inner");
     if (!sheet || !inner) return;
-
     const imgHTML = post.cover
       ? `<div class="map-sheet-img"><img src="${post.cover}" alt="${post.title}" loading="lazy"
            onerror="this.parentElement.innerHTML='<span style=font-size:28px>${post.emoji}</span>'"></div>`
       : `<div class="map-sheet-img">${post.emoji}</div>`;
-
     inner.innerHTML = `
       ${imgHTML}
       <div class="map-sheet-body">
@@ -180,20 +193,21 @@ function initMap() {
     const icon = L.divIcon({
       html:        `<i class="fa-solid fa-location-dot map-pin-icon"></i>`,
       className:   "",
-      iconSize:    [34, 40],   // slightly larger wrapper gives a bigger hit target
-      iconAnchor:  [17, 40],   // anchor at base centre
-      popupAnchor: [0, -42],
+      iconSize:    [34, 40],
+      iconAnchor:  [17, 40],
+      popupAnchor: [0, -46],  // popup opens 46px above the pin tip
     });
 
     const marker = L.marker([post.mapLat, post.mapLng], { icon }).addTo(nzMap);
     const pinEl  = () => marker.getElement()?.querySelector(".map-pin-icon");
 
-    // Desktop: bind popup
     const coverHTML = post.cover
       ? `<div class="popup-img"><img src="${post.cover}" alt="${post.title}" loading="lazy"
-           onerror="this.parentElement.innerHTML='<span style=font-size:36px;display:block;text-align:center;line-height:110px>${post.emoji}</span>'"></div>`
-      : `<div class="popup-img" style="font-size:36px">${post.emoji}</div>`;
+           onerror="this.parentElement.innerHTML='<span>${post.emoji}</span>'"></div>`
+      : `<div class="popup-img">${post.emoji}</div>`;
 
+    // keepInView:true — Leaflet auto-pans the map so the popup is never out of view
+    // autoPan:true + autoPanPadding gives extra breathing room from the map edges
     marker.bindPopup(`
       ${coverHTML}
       <div class="popup-body">
@@ -202,56 +216,49 @@ function initMap() {
         <div class="popup-desc">${post.excerpt.slice(0, 90)}…</div>
         <a class="popup-link" href="blog.html?post=${post.id}">Read post →</a>
       </div>`, {
-      maxWidth:    240,
-      autoPan:     false,   // autoPan shifts map + creates empty gap / stray ×
-      closeButton: true,
+      maxWidth:        240,
+      keepInView:      true,   // auto-pans so popup is always fully visible
+      autoPan:         true,
+      autoPanPadding:  [20, 20],
+      closeButton:     true,
     });
 
+    // Hover: highlight pin on desktop
     marker.on("mouseover", function() {
       if (isMobile()) return;
       pinEl()?.classList.add("hovered");
-      if (activeMarker !== this) this.openPopup();
     });
 
     marker.on("mouseout", function() {
       if (isMobile()) return;
       pinEl()?.classList.remove("hovered");
-      if (activeMarker !== this) this.closePopup();
     });
 
     marker.on("click", function(e) {
       if (isMobile()) {
-        // Mobile: pan to pin, open bottom sheet
         L.DomEvent.stopPropagation(e);
-        // Deactivate previous
         if (activeMarker && activeMarker !== this) {
           activeMarker.getElement()?.querySelector(".map-pin-icon")?.classList.remove("pinned");
         }
         if (activeMarker === this) {
-          // Tap same pin → close sheet
           pinEl()?.classList.remove("pinned");
           closeMapSheet();
           activeMarker = null;
         } else {
           activeMarker = this;
           pinEl()?.classList.add("pinned");
-          nzMap.panTo([post.mapLat, post.mapLng], { animate: true, duration: 0.4 });
+          nzMap.flyTo([post.mapLat, post.mapLng], 9, { animate: true, duration: 0.5 });
           openSheet(post);
         }
       } else {
-        // Desktop: pin/unpin popup
+        // Desktop: toggle — second click on same pin zooms back out
         if (activeMarker === this) {
           pinEl()?.classList.remove("pinned");
           this.closePopup();
           activeMarker = null;
+          nzMap.flyTo([-41.5, 172.5], 6, { animate: true, duration: 0.5 });
         } else {
-          if (activeMarker) {
-            activeMarker.getElement()?.querySelector(".map-pin-icon")?.classList.remove("pinned");
-            activeMarker.closePopup();
-          }
-          activeMarker = this;
-          pinEl()?.classList.add("pinned");
-          this.openPopup();
+          flyToAndOpen(this, post.mapLat, post.mapLng);
         }
       }
     });
@@ -264,15 +271,15 @@ function initMap() {
     });
   });
 
-  // ── Mobile: render scrollable pin list below the map ──
+  // ── Mobile: render scrollable pin list below map ──
   if (isMobile()) {
     const listEl = document.getElementById("map-pin-list");
     if (listEl) {
       listEl.style.display = "flex";
       listEl.innerHTML = pinned.map(post => `
         <div class="map-pin-list-item" onclick="
-          nzMap.panTo([${post.mapLat}, ${post.mapLng}], {animate:true,duration:0.4});
-          document.getElementById('map-sheet') && openMapSheet('${post.id}');
+          nzMap.flyTo([${post.mapLat}, ${post.mapLng}], 9, {animate:true,duration:0.5});
+          openMapSheet('${post.id}');
         ">
           <i class="fa-solid fa-location-dot map-pin-list-icon"></i>
           <span class="map-pin-list-name">${post.title}</span>
@@ -283,7 +290,6 @@ function initMap() {
 
   nzMap.fitBounds([[-46.8, 166.4], [-34.4, 178.2]], { padding: [20, 20] });
 }
-
 /* Called from pin list items — open sheet for a specific post id */
 function openMapSheet(postId) {
   const post = POSTS.find(p => p.id === postId);

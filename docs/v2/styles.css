@@ -299,7 +299,7 @@ button {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 1001;  /* above mobile-menu (1000) so nav stays visible when menu is open */
   height: calc(var(--nav-h) + env(safe-area-inset-top, 0px));
   padding-top: env(safe-area-inset-top, 0px);
   display: grid;
@@ -947,6 +947,7 @@ button {
 
 .explore-panel {
   display: none;
+  position: relative; /* anchor for .map-popup-card absolute positioning */
 }
 .explore-panel.active {
   display: block;
@@ -1034,15 +1035,21 @@ button {
 
 .mobile-menu {
   position: fixed;
-  inset: 0;
-  z-index: 999;
+  /* Sits below the nav bar — nav stays fully visible above the menu */
+  top: var(--nav-h);
+  right: 0;
+  bottom: 0;
+  width: 100%;          /* full-width on small phones; cap at 320px if desired */
+  max-width: 320px;
+  z-index: 1000;        /* nav is z-index:1001 so it stays on top */
   background: var(--surface);
   transform: translateX(100%);
   transition: transform .35s cubic-bezier(.4,0,.2,1);
   display: flex;
   flex-direction: column;
-  padding: calc(var(--nav-h) + 20px) 28px 40px;
+  padding: 20px 28px 40px;
   overflow-y: auto;
+  box-shadow: -4px 0 24px rgba(0,0,0,0.10);
 }
 .mobile-menu.open { transform: translateX(0); }
 
@@ -2159,22 +2166,66 @@ button {
 /* ── 18. MAP ───────────────────────────────────────────────── */
 .map-wrap {
   border-radius: 20px;
-  overflow: hidden;
+  /* overflow:visible lets Leaflet popups float above the map boundary.
+     Rounded-corner clipping is recreated by the ::after frame overlay. */
+  overflow: visible;
   border: 1px solid var(--border);
   box-shadow: 0 8px 40px var(--shadow);
   position: relative;
 }
+/* Frame overlay: sits above tiles (z-index 200) but below Leaflet popups
+   (z-index 700), so popups always render on top. Paints a ring of bg colour
+   over the map edges to recreate rounded-corner clipping visually. */
+.map-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 20px;
+  box-shadow: 0 0 0 6px var(--bg);
+  pointer-events: none;
+  z-index: 650;
+}
 #nz-map {
   height: 580px;
   width: 100%;
-  /* NOTE: no overflow:hidden — Leaflet's tile layers extend beyond the
-     container edge during pan; clipping them breaks tile rendering.
-     map-wrap's overflow:hidden handles the visual clipping instead. */
 }
+
+/* ── Leaflet popup styles ── */
+.leaflet-popup-content-wrapper {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 16px 48px var(--shadow) !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+.leaflet-popup-content { margin: 0 !important; width: 230px !important; }
+.leaflet-popup-tip-container { display: none; }
+.leaflet-popup-close-button {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 24px !important;
+  height: 24px !important;
+  background: var(--surface2) !important;
+  border-radius: 50% !important;
+  top: 8px !important;
+  right: 8px !important;
+  font-size: 14px !important;
+  color: var(--text2) !important;
+  z-index: 2;
+}
+.popup-img { height: 110px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 44px; overflow: hidden; }
+.popup-img img { width: 100%; height: 100%; object-fit: cover; }
+.popup-body { padding: 14px 16px; }
+.popup-title { font-family: var(--font-primary); font-weight: 600; font-size: 14px; color: var(--text); margin-bottom: 4px; line-height: 1.3; }
+.popup-date { font-size: 11px; color: var(--text3); margin-bottom: 8px; }
+.popup-desc { font-size: 13px; color: var(--text2); line-height: 1.5; margin-bottom: 10px; }
+.popup-link { font-size: 12px; color: var(--accent); font-family: var(--font-primary); letter-spacing: 1px; text-transform: uppercase; }
 .map-badge {
   position: absolute;
   top: 14px;
-  left: 14px;
+  left: 14px;   /* sits flush left on mobile (no zoom controls shown on mobile) */
   z-index: 500;
   background: rgba(255,255,255,0.94);
   border: 1px solid var(--border);
@@ -2223,41 +2274,30 @@ button {
   filter: drop-shadow(0 0 10px rgba(244,188,110,0.55));
 }
 
-.leaflet-popup-content-wrapper {
-  background: var(--surface) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 16px 48px var(--shadow) !important;
-  padding: 0 !important;
-  overflow: hidden;
+/* Hide zoom controls on mobile — pinch-to-zoom is the native gesture. */
+@media (max-width: 768px) {
+  .leaflet-control-zoom {
+    display: none !important;
+  }
 }
-.leaflet-popup-content { margin: 0 !important; width: 230px !important; }
-.leaflet-popup-tip-container { display: none; }
-/* NOTE: do NOT set overflow:hidden on .leaflet-pane / .leaflet-top / .leaflet-bottom
-   — Leaflet's tile renderer requires its pane containers to be overflow:visible.
-   The map-wrap's own overflow:hidden (+ border-radius) clips the edges cleanly. */
-.leaflet-popup-close-button { 
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  width: 24px !important;
-  height: 24px !important;
-  background: var(--surface2) !important;
-  border-radius: 50% !important;
-  top: 8px !important;
-  right: 8px !important;
-  font-size: 14px !important;
-  color: var(--text2) !important;
-  z-index: 2;
+/* On desktop, zoom controls are shown at top-left (~30px wide).
+   Offset the badge right so they don't overlap. */
+@media (min-width: 769px) {
+  .map-badge { left: 52px; }
 }
-.popup-img { height: 110px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 44px; overflow: hidden; }
-.popup-img img { width: 100%; height: 100%; object-fit: cover; }
-.popup-body { padding: 14px 16px; }
-.popup-title { font-family: var(--font-primary); font-weight: 600; font-size: 14px; color: var(--text); margin-bottom: 4px; }
-.popup-date { font-size: 11px; color: var(--text3); margin-bottom: 8px; }
-.popup-desc { font-size: 13px; color: var(--text2); line-height: 1.5; margin-bottom: 10px; }
-.popup-link { font-size: 12px; color: var(--accent); font-family: var(--font-primary); letter-spacing: 1px; text-transform: uppercase; }
+/* Leaflet attribution: hidden entirely (attributionControl:false in JS is the primary fix,
+   this CSS is a belt-and-suspenders backup) */
+.leaflet-control-attribution { display: none !important; }
+/* The bottom-left control container (attribution area) can escape map-wrap when
+   overflow:visible is set, rendering a stray × below the map. Hide it entirely —
+   it only ever holds the attribution widget which we've already disabled. */
+.leaflet-bottom { display: none !important; }
 
+
+/* map-sheet and map-pin-list are mobile-only — hide on desktop so their
+   buttons (✕ close) don't render as stray characters below the map */
+.map-sheet,
+.map-pin-list { display: none; }
 
 /* ── 19. REGION GRID (homepage) ────────────────────────────── */
 .island-divider {
@@ -2676,7 +2716,7 @@ button {
 @media (max-width: 768px) {
   :root { --nav-h: 58px; }
   .site-nav {
-    padding: 0 18px;
+    padding: env(safe-area-inset-top, 0px) 18px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
