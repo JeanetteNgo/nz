@@ -170,24 +170,6 @@ function initMap() {
   }
 
   // ── Helper: open bottom sheet on mobile ──
-  function openSheet(post) {
-    const sheet = document.getElementById("map-sheet");
-    const inner = document.getElementById("map-sheet-inner");
-    if (!sheet || !inner) return;
-    const imgHTML = post.cover
-      ? `<div class="map-sheet-img"><img src="${post.cover}" alt="${post.title}" loading="lazy"
-           onerror="this.parentElement.innerHTML='<span style=font-size:28px>${post.emoji}</span>'"></div>`
-      : `<div class="map-sheet-img">${post.emoji}</div>`;
-    inner.innerHTML = `
-      ${imgHTML}
-      <div class="map-sheet-body">
-        <div class="map-sheet-title">${post.title}</div>
-        <div class="map-sheet-date">${formatDate(post.date)}</div>
-        <div class="map-sheet-desc">${post.excerpt.slice(0, 100)}…</div>
-        <a class="map-sheet-link" href="blog.html?post=${post.id}">Read post →</a>
-      </div>`;
-    sheet.classList.add("open");
-  }
 
   pinned.forEach(post => {
     const icon = L.divIcon({
@@ -223,7 +205,7 @@ function initMap() {
       closeButton:     true,
     });
 
-    // Hover: highlight pin on desktop
+    // Hover: highlight pin on desktop only (touch devices don't have hover)
     marker.on("mouseover", function() {
       if (isMobile()) return;
       pinEl()?.classList.add("hovered");
@@ -234,32 +216,17 @@ function initMap() {
       pinEl()?.classList.remove("hovered");
     });
 
+    // Same behaviour on mobile and desktop: flyTo + open popup
+    // Second click on active pin zooms back out and closes popup
     marker.on("click", function(e) {
-      if (isMobile()) {
-        L.DomEvent.stopPropagation(e);
-        if (activeMarker && activeMarker !== this) {
-          activeMarker.getElement()?.querySelector(".map-pin-icon")?.classList.remove("pinned");
-        }
-        if (activeMarker === this) {
-          pinEl()?.classList.remove("pinned");
-          closeMapSheet();
-          activeMarker = null;
-        } else {
-          activeMarker = this;
-          pinEl()?.classList.add("pinned");
-          nzMap.flyTo([post.mapLat, post.mapLng], 9, { animate: true, duration: 0.5 });
-          openSheet(post);
-        }
+      L.DomEvent.stopPropagation(e);
+      if (activeMarker === this) {
+        pinEl()?.classList.remove("pinned");
+        this.closePopup();
+        activeMarker = null;
+        nzMap.flyTo([-41.5, 172.5], 6, { animate: true, duration: 0.5 });
       } else {
-        // Desktop: toggle — second click on same pin zooms back out
-        if (activeMarker === this) {
-          pinEl()?.classList.remove("pinned");
-          this.closePopup();
-          activeMarker = null;
-          nzMap.flyTo([-41.5, 172.5], 6, { animate: true, duration: 0.5 });
-        } else {
-          flyToAndOpen(this, post.mapLat, post.mapLng);
-        }
+        flyToAndOpen(this, post.mapLat, post.mapLng);
       }
     });
 
@@ -271,48 +238,7 @@ function initMap() {
     });
   });
 
-  // ── Mobile: render scrollable pin list below map ──
-  if (isMobile()) {
-    const listEl = document.getElementById("map-pin-list");
-    if (listEl) {
-      listEl.style.display = "flex";
-      listEl.innerHTML = pinned.map(post => `
-        <div class="map-pin-list-item" onclick="
-          nzMap.flyTo([${post.mapLat}, ${post.mapLng}], 9, {animate:true,duration:0.5});
-          openMapSheet('${post.id}');
-        ">
-          <i class="fa-solid fa-location-dot map-pin-list-icon"></i>
-          <span class="map-pin-list-name">${post.title}</span>
-          <span class="map-pin-list-region">${post.region || post.category || ''}</span>
-        </div>`).join('');
-    }
-  }
-
   nzMap.fitBounds([[-46.8, 166.4], [-34.4, 178.2]], { padding: [20, 20] });
-}
-/* Called from pin list items — open sheet for a specific post id */
-function openMapSheet(postId) {
-  const post = POSTS.find(p => p.id === postId);
-  if (!post) return;
-  const sheet = document.getElementById("map-sheet");
-  const inner = document.getElementById("map-sheet-inner");
-  if (!sheet || !inner) return;
-  const imgHTML = post.cover
-    ? `<div class="map-sheet-img"><img src="${post.cover}" alt="${post.title}" loading="lazy"></div>`
-    : `<div class="map-sheet-img">${post.emoji}</div>`;
-  inner.innerHTML = `
-    ${imgHTML}
-    <div class="map-sheet-body">
-      <div class="map-sheet-title">${post.title}</div>
-      <div class="map-sheet-date">${formatDate(post.date)}</div>
-      <div class="map-sheet-desc">${post.excerpt.slice(0, 100)}…</div>
-      <a class="map-sheet-link" href="blog.html?post=${post.id}">Read post →</a>
-    </div>`;
-  sheet.classList.add("open");
-}
-
-function closeMapSheet() {
-  document.getElementById("map-sheet")?.classList.remove("open");
 }
 
 
