@@ -42,7 +42,7 @@
   --accent2:    #2D7A47;
   --accent3:    #4A9E6A;
   --accent-dim: rgba(28,94,53,0.08);
-  --gold:       #B87333;
+  --gold:     #B87333;
   --border:     rgba(28,94,53,0.14);
   --border2:    rgba(28,94,53,0.07);
   --shadow:     rgba(30,26,20,0.12);
@@ -70,7 +70,7 @@
   --bg:         #11301E;
   --bg2:        #0e2818;
   --bg3:        #162e1e;
-  --surface:    #1a3d26;
+  --surface:    #124223;
   --surface2:   #1f4a2d;
   --surface3:   #254f32;
   --text:       #FFFFFF;
@@ -98,7 +98,8 @@
   padding: 0;
 }
 
-/* Theme transition: applied by JS during toggleTheme */
+/* ── Theme transition ──────────────────────────────────────────
+   Smoothly transitions all colour/surface properties. */
 body.theme-transitioning * {
   transition:
     background-color .5s ease,
@@ -107,21 +108,31 @@ body.theme-transitioning * {
     box-shadow       .5s ease !important;
 }
 
-/* Font cross-fade between Kanit ↔ Uncial Antiqua.
-   CSS can't animate font-family directly, so we fade + blur text out,
-   let the font swap happen mid-fade, then fade back in.
-   The animation runs on any element using --font-primary. */
-@keyframes fontFadeOut {
-  0%   { opacity: 1; filter: blur(0px);   }
-  40%  { opacity: 0; filter: blur(3px);   }
-  60%  { opacity: 0; filter: blur(3px);   }
-  100% { opacity: 1; filter: blur(0px);   }
+/* Font crossfade: Kanit ↔ Uncial Antiqua
+   ─────────────────────────────────────────────────────────────
+   Single blur on .hero-content — one GPU layer, no lag.
+   Blur peak is at the midpoint when JS swaps the theme.
+   font-size / letter-spacing / line-height animate via their own
+   transition rules on .hero-title, so the layout change is gradual. */
+@keyframes heroBlurSwap {
+  0%   { filter: blur(0);      }
+  50%  { filter: blur(6px);    }
+  100% { filter: blur(0);      }
 }
-/* Only fade hero content — that's where the Kanit ↔ Uncial Antiqua swap is most visible */
+
+body.theme-transitioning .hero-content {
+  animation: heroBlurSwap 180ms ease forwards !important;
+  will-change: filter;
+}
+
+/* Ensure font metrics animate smoothly when theme swaps mid-transition.
+   These transitions are already on .hero-title but need to be active
+   even while .hero-content.visible has overridden animation to none. */
 body.theme-transitioning .hero-title,
 body.theme-transitioning .hero-eyebrow,
 body.theme-transitioning .hero-subtitle {
-  animation: fontFadeOut 0.55s ease forwards;
+  transition: font-size .35s ease, letter-spacing .35s ease,
+              line-height .35s ease, opacity .2s ease !important;
 }
 
 html,
@@ -1817,7 +1828,69 @@ button {
   border-color: var(--accent); 
 }
 [data-theme="hobbit"] .post-card:hover { 
-  border-color: var(--gold); 
+  border-color: var(--gold);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(244,188,110,0.2);
+}
+
+/* Hobbit card: warm parchment border + subtle inner glow */
+[data-theme="hobbit"] .post-card {
+  border-color: rgba(244,188,110,0.2);
+  background: linear-gradient(160deg, #1f4a2d 20%, #0D361E 80%);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3), inset 0 1px 0 rgba(244,188,110,0.08);
+}
+
+/* Cover placeholder: dark earthy gradient instead of flat green */
+[data-theme="hobbit"] .post-card-cover {
+  background: linear-gradient(135deg, #142a1a 0%, #0e2017 100%);
+}
+
+/* Tags: gold-tinted in hobbit mode */
+[data-theme="hobbit"] .tag {
+  background: rgba(244,188,110,0.08);
+  border-color: rgba(244,188,110,0.25);
+  color: rgba(244,188,110,0.8);
+}
+[data-theme="hobbit"] .tag.accent {
+  background: rgba(244,188,110,0.15);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* Excerpt text: slightly lighter in hobbit dark bg */
+[data-theme="hobbit"] .post-card-excerpt {
+  color: rgba(255,255,255,0.6);
+}
+[data-theme="hobbit"] .post-card-date,
+[data-theme="hobbit"] .post-card-type {
+  font-size: 0.65rem;
+  color: var(--text3);
+  border-color: var(--border);
+}
+
+/* Region card in hobbit: golden hover glow */
+[data-theme="hobbit"] .region-thumb {
+  background: linear-gradient(135deg, #142a1a 0%, #0e2017 100%);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+[data-theme="hobbit"] .region-card:hover .region-thumb {
+  box-shadow: 0 12px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(244,188,110,0.3);
+}
+
+/* Journal list items: gold accent line */
+[data-theme="hobbit"] .journal-item::before {
+  background: var(--gold);
+}
+[data-theme="hobbit"] .journal-item:hover .journal-title {
+  color: var(--gold);
+}
+[data-theme="hobbit"] .journal-item {
+  border-bottom-color: rgba(244,188,110,0.15);
+}
+[data-theme="hobbit"] .journal-item:first-child {
+  border-top-color: rgba(244,188,110,0.15);
+}
+[data-theme="hobbit"] .journal-excerpt {
+  color: rgba(255,255,255,0.55);
 }
 .post-card-cover {
   height: 180px;
@@ -2247,7 +2320,7 @@ button {
   pointer-events: auto;
 }
 [data-theme="hobbit"] .map-pin-icon {
-  color: var(--gold);
+  color: #e03535;  /* keep red — same as default */
 }
 /* Hover: grow the icon in-place (no position shift) */
 .map-pin-icon.hovered {
@@ -2718,6 +2791,31 @@ button {
 
   .posts-grid { grid-template-columns: 1fr; }
   .post-list-item { grid-template-columns: 80px 1fr; gap: 14px; }
+
+  /* Post hero banner: tighter, better overlay, readable hierarchy */
+  .post-hero { height: clamp(260px, 55vw, 340px); align-items: flex-end; }
+  .post-hero-overlay {
+    background: linear-gradient(to top,
+      rgba(0,0,0,0.82) 0%,
+      rgba(0,0,0,0.35) 55%,
+      transparent 100%);
+  }
+  .post-hero-content { padding: 20px 18px 24px; }
+  .post-hero-breadcrumb { font-size: 9px; letter-spacing: 1px; margin-bottom: 8px; }
+  .post-hero-tags { gap: 4px; margin-bottom: 8px; }
+  .post-hero-title {
+    font-size: 1.45rem;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  .post-hero-meta {
+    gap: 10px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    flex-direction: column;
+    gap: 4px;
+  }
+
   .post-body { padding: 24px 16px 64px; }
   .post-content { font-size: 0.92rem; line-height: 1.75; }
   .post-content h2 { font-size: 1.1rem; margin: 1.6em 0 .6em; }

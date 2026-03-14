@@ -515,8 +515,10 @@ window.addEventListener("scroll", function() {
 
   const contentTop    = contentEl.getBoundingClientRect().top + window.scrollY;
   const contentHeight = contentEl.offsetHeight;
-  const scrolled      = window.scrollY - contentTop + window.innerHeight;
-  const percent       = Math.min(100, Math.max(0, (scrolled / contentHeight) * 100));
+  // Progress starts at 0 when the content top is at the viewport top,
+  // reaches 100 when the content bottom scrolls out of view.
+  const scrolled = Math.max(0, window.scrollY - contentTop);
+  const percent  = Math.min(100, (scrolled / contentHeight) * 100);
 
   fillEl.style.width = percent + "%";
 }, { passive: true });

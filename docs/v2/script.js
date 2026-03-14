@@ -117,45 +117,48 @@ function applyTheme() {
 /* Called when the user clicks the Hobbit toggle button */
 function toggleTheme() {
 
-  /* Remember the current scroll position — toggling the theme can cause the page
-     to briefly jump, so we restore it after the change */
   const scrollY = window.scrollY;
 
-  /* Add a class that smoothly transitions all colour-related CSS properties.
-     It is removed after 600ms once the transition is done. */
+  /* Add transitioning class — triggers the CSS font blur animation */
   document.body.classList.add("theme-transitioning");
+
+  /* Flip happens at the animation midpoint (275ms = 50% of 550ms),
+     when the blur is at its peak and the font swap is imperceptible.
+     ALL logic that reads the new isHobbit value must live inside here. */
+  setTimeout(function() {
+
+    isHobbit = !isHobbit;
+    localStorage.setItem("nz-theme", isHobbit ? "hobbit" : "default");
+    applyTheme();
+
+    requestAnimationFrame(function() {
+      window.scrollTo({ top: scrollY, behavior: "instant" });
+    });
+
+    /* Sparkles + fireflies on entering Hobbit mode */
+    if (isHobbit) {
+      spawnSparkles();
+      spawnFireflies();
+    } else {
+      /* Fade out and clear fireflies when leaving Hobbit mode */
+      const fireflyLayer = document.getElementById("firefly-layer");
+      if (fireflyLayer) {
+        fireflyLayer.style.opacity = "0";
+        setTimeout(function() {
+          fireflyLayer.innerHTML = "";
+          fireflyLayer.style.opacity = "";
+        }, 600);
+      }
+    }
+
+    showToast(isHobbit ? "✨ You have entered the Shire" : "🌿 Back to Aotearoa");
+    switchAmbience();
+
+  }, 90);   /* midpoint of the 180ms heroBlurSwap animation */
+
   setTimeout(function() {
     document.body.classList.remove("theme-transitioning");
-  }, 600);
-
-  /* Flip the theme and save it so it persists across page loads */
-  isHobbit = !isHobbit;
-  localStorage.setItem("nz-theme", isHobbit ? "hobbit" : "default");
-  applyTheme();
-
-  if (isHobbit) {
-    spawnSparkles();   /* golden particle burst */
-    spawnFireflies();  /* floating lights in the background */
-  } else {
-    /* Fade out and clear fireflies when leaving Hobbit mode */
-    const fireflyLayer = document.getElementById("firefly-layer");
-    if (fireflyLayer) {
-      fireflyLayer.style.opacity = "0";
-      setTimeout(function() {
-        fireflyLayer.innerHTML = "";
-        fireflyLayer.style.opacity = "";
-      }, 600);
-    }
-  }
-
-  showToast(isHobbit ? "✨ You have entered the Shire" : "🌿 Back to Aotearoa");
-
-  /* Restore scroll position after the theme swap */
-  requestAnimationFrame(function() {
-    window.scrollTo({ top: scrollY, behavior: "instant" });
-  });
-
-  switchAmbience();
+  }, 200);
 }
 
 

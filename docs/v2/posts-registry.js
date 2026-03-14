@@ -81,7 +81,7 @@ const POSTS = [
     location: "Kaikōura",
     tags:     ["wildlife", "whales", "ocean", "mountains"],
     emoji:    "🐋",
-    cover: CDN_BASE + "/images/kaikoura.jpg",
+    cover:    CDN_BASE + "/images/kaikoura.jpg",
     excerpt:  "The drive up the Kaikōura coast — mountain on one side, Pacific on the other — is among the most quietly dramatic roads I've ever travelled.",
     featured: true,
     mapLat:   -42.4,
