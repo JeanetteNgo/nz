@@ -162,11 +162,9 @@ body {
   cursor: default;
 }
 
-/* Hobbit mode — ring cursor */
-[data-theme="hobbit"] body,
-[data-theme="hobbit"] button,
-[data-theme="hobbit"] a {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='9' fill='none' stroke='%23F4BC6E' stroke-width='3'/%3E%3Ccircle cx='12' cy='12' r='5' fill='none' stroke='%23d4943a' stroke-width='1.5'/%3E%3C/svg%3E") 12 12, pointer;
+/* Hobbit mode — One Ring cursor */
+[data-theme="hobbit"] body {
+  cursor: url('assets/hobbit-cursor.png') 8 8, auto;
 }
 
 /* Webkit scrollbar (Chrome/Safari) */
@@ -1835,7 +1833,7 @@ button {
 /* Hobbit card: warm parchment border + subtle inner glow */
 [data-theme="hobbit"] .post-card {
   border-color: rgba(244,188,110,0.2);
-  background: linear-gradient(160deg, #1f4a2d 20%, #0D361E 80%);
+  background: linear-gradient(165deg, #0C5827 20%, #06401E 100%);
   box-shadow: 0 2px 12px rgba(0,0,0,0.3), inset 0 1px 0 rgba(244,188,110,0.08);
 }
 
