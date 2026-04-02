@@ -296,11 +296,11 @@ function renderPosts() {
           : (post.location || post.region || "Location");
 
         const tagHTML = post.tags.slice(0, 3).map(function(tag) {
-          return '<span class="tag">' + tag + '</span>';
+          return '<span class="post-tag-hash">#' + tag.toLowerCase() + '</span>';
         }).join("");
 
         const featuredTag = post.featured
-          ? '<span class="tag accent">⭐ Featured</span>'
+          ? '<span class="card-featured-tag">⭐ Featured</span>'
           : "";
 
         return (
@@ -348,7 +348,7 @@ function renderPosts() {
               '<div class="post-list-meta">' +
                 '<span>📅 ' + formatDate(post.date) + '</span>' +
                 locationTag +
-                '<span>' + post.tags.slice(0, 3).join(" · ") + '</span>' +
+                '<span>' + post.tags.slice(0, 3).map(function(t) { return '#' + t.toLowerCase(); }).join(' ') + '</span>' +
               '</div>' +
             '</div>' +
           '</div>'
@@ -460,12 +460,12 @@ async function openPost(id) {
     : '<span style="font-size:80px;display:flex;align-items:center;justify-content:center;height:100%">' +
       post.emoji + '</span>';
 
-  /* Tag pills — normal style in the body */
+  /* Tag hashtags — simple # prefix text, no pill */
   const tagsHTML = post.tags.map(function(tag) {
-    return '<span class="tag">' + tag + '</span>';
+    return '<span class="post-tag-hash">#' + tag.toLowerCase() + '</span>';
   }).join("");
 
-  /* Meta line: date, location, region */
+  /* Meta line: date, location, region — goes ABOVE the title */
   const metaHTML =
     '<span>📅 ' + formatDate(post.date) + '</span>' +
     (post.location ? '<span>📍 ' + post.location + '</span>' : "") +
@@ -488,6 +488,12 @@ async function openPost(id) {
       '</div>'
     : '<div></div>';
 
+  /* Populate the sticky breadcrumb bar */
+  var crumbBar   = document.getElementById("post-crumb-bar");
+  var crumbInner = document.getElementById("post-crumb-inner");
+  if (crumbInner) crumbInner.innerHTML = breadcrumbHTML;
+  if (crumbBar)   crumbBar.classList.add("visible");
+
   /* Render the full post layout */
   detailEl.innerHTML =
     /* Hero banner — image only, no text overlay */
@@ -496,16 +502,13 @@ async function openPost(id) {
       '<div class="post-hero-overlay"></div>' +
     '</div>' +
 
-    /* Post body — breadcrumb, header block, then content */
+    /* Post body — back button, then post header (meta → title → tags), then content */
     '<div class="post-body">' +
-      /* Back button */
       '<button class="post-back" onclick="closePost()">← Back to posts</button>' +
-      /* Post header: breadcrumb, tags, title, meta — all in body */
       '<div class="post-header">' +
-        '<div class="post-header-breadcrumb">' + breadcrumbHTML + '</div>' +
-        '<div class="post-header-tags">' + tagsHTML + '</div>' +
         '<h1 class="post-header-title">' + post.title + '</h1>' +
         '<div class="post-header-meta">' + metaHTML + '</div>' +
+        '<div class="post-header-tags">' + tagsHTML + '</div>' +
       '</div>' +
       '<div class="post-content">' + content + '</div>' +
       '<nav class="post-nav">' + prevCard + nextCard + '</nav>' +
@@ -524,22 +527,20 @@ function closePost() {
   document.getElementById("post-detail").style.display  = "none";
   document.getElementById("post-progress")?.classList.remove("visible");
 
+  var crumbBar = document.getElementById("post-crumb-bar");
+  if (crumbBar) crumbBar.classList.remove("visible");
+
   window.scrollTo({ top: 0, behavior: "instant" });
 }
 
-/* Updates the reading progress bar at the top of the page as the user scrolls */
+/* Updates the reading progress bar as the user scrolls through the post.
+   Uses total page scroll range so 0% = top, 100% = can't scroll further. */
 window.addEventListener("scroll", function() {
-  const contentEl = document.querySelector("#post-detail .post-content");
-  const fillEl    = document.getElementById("post-progress-fill");
-  if (!contentEl || !fillEl) return;
+  const fillEl = document.getElementById("post-progress-fill");
+  if (!fillEl || !openPostId) return;
 
-  const contentTop    = contentEl.getBoundingClientRect().top + window.scrollY;
-  const contentHeight = contentEl.offsetHeight;
-  // Progress starts at 0 when the content top is at the viewport top,
-  // reaches 100 when the content bottom scrolls out of view.
-  const scrolled = Math.max(0, window.scrollY - contentTop);
-  const percent  = Math.min(100, (scrolled / contentHeight) * 100);
-
+  const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+  const percent    = scrollable > 0 ? Math.min(100, (window.scrollY / scrollable) * 100) : 0;
   fillEl.style.width = percent + "%";
 }, { passive: true });
 

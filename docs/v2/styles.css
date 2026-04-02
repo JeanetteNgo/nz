@@ -2079,9 +2079,32 @@ button {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.post-card-tags { 
-  display: flex; 
-  flex-wrap: wrap; gap: 5px; 
+.post-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 8px;
+  margin-top: auto;
+}
+
+/* Featured badge — kept as a subtle pill since it's special status */
+.card-featured-tag {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-primary);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: var(--accent-dim);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+
+[data-theme="hobbit"] .card-featured-tag {
+  background: rgba(244,188,110,0.1);
+  border-color: var(--gold);
+  color: var(--gold);
 }
 
 /* Post list view */
@@ -2157,97 +2180,148 @@ button {
 
 /* ── 17. POST DETAIL VIEW ──────────────────────────────────── */
 #post-detail { display: none; }
+/* ══════════════════════════════════════════════════════════════
+   POST DETAIL — HERO BANNER
+   ══════════════════════════════════════════════════════════════ */
+
 .post-hero {
   position: relative;
-  height: clamp(220px, 32vw, 480px);
+  height: clamp(300px, 45vw, 560px);
   overflow: hidden;
   background: var(--bg3);
 }
-.post-hero-img { 
-  position: absolute; 
-  inset: 0; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  overflow: hidden; 
-}
-.post-hero-img img { 
-  width: 100%; 
-  height: 100%; 
-  object-fit: cover; 
-}
-.post-hero-overlay { 
-  position: absolute; 
+
+.post-hero-img {
+  position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.18) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-/* Post header block — in the body, above the content */
-.post-header {
-  margin-bottom: 40px;
-  padding-bottom: 32px;
+.post-hero-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.post-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.12) 100%);
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   POST DETAIL — STICKY BREADCRUMB BAR  (below nav, above hero)
+   Common blog pattern: small, low-contrast, purely navigational.
+   No uppercase, no letter-spacing — reads as plain prose links.
+   ══════════════════════════════════════════════════════════════ */
+
+.post-crumb-bar {
+  display: none;
+  position: fixed;
+  top: var(--nav-h);
+  left: 0;
+  right: 0;
+  z-index: 990;
+  background: var(--bg);
   border-bottom: 1px solid var(--border);
 }
 
-.post-header-breadcrumb {
+.post-crumb-bar.visible {
+  display: block;
+}
+
+.post-crumb-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 40px;
+  height: 34px;
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-family: var(--font-primary);
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text3);
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-}
-.post-header-breadcrumb span[style*="cursor:pointer"] {
-  transition: color .2s;
-}
-.post-header-breadcrumb span[style*="cursor:pointer"]:hover {
-  color: var(--accent);
-}
-[data-theme="hobbit"] .post-header-breadcrumb span[style*="cursor:pointer"]:hover {
-  color: var(--gold);
-}
-
-.post-header-tags {
-  display: flex;
-  flex-wrap: wrap;
   gap: 6px;
-  margin-bottom: 16px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text3);
+  flex-wrap: nowrap;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-.post-header-title {
-  font-family: var(--font-primary);
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  font-weight: 700;
-  color: var(--text);
-  line-height: 1.1;
-  letter-spacing: -0.5px;
-  margin-bottom: 16px;
+/* Separator between crumbs */
+.post-crumb-inner .breadcrumb-sep {
+  opacity: 0.4;
+  font-size: 11px;
 }
-[data-theme="hobbit"] .post-header-title {
-  font-family: var(--font-hobbit);
+
+/* Clickable crumb segments */
+.post-crumb-inner span[style*="cursor:pointer"] {
+  color: var(--text3);
+  transition: color 0.15s;
+}
+
+.post-crumb-inner span[style*="cursor:pointer"]:hover {
+  color: var(--text);
+}
+
+[data-theme="hobbit"] .post-crumb-inner span[style*="cursor:pointer"]:hover {
   color: var(--gold);
 }
 
-.post-header-meta {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  font-family: var(--font-primary);
-  font-size: 12px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--text3);
+
+/* ══════════════════════════════════════════════════════════════
+   POST DETAIL — READING PROGRESS BAR  (directly below nav)
+   ══════════════════════════════════════════════════════════════ */
+
+.post-progress {
+  position: fixed;
+  top: var(--nav-h);
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: transparent;
+  z-index: 999;
+  display: none;
 }
-.post-body { 
-  max-width: 860px; 
-  margin: 0 auto; 
-  padding: 60px 40px 100px; 
+
+.post-progress.visible {
+  display: block;
 }
+
+.post-progress-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0;
+  transition: width 0.08s linear;
+}
+
+[data-theme="hobbit"] .post-progress-fill {
+  background: var(--gold);
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   POST DETAIL — BODY LAYOUT
+   ══════════════════════════════════════════════════════════════ */
+
+/* Push content below nav + crumb bar (nav-h + 34px crumb height) */
+#post-detail {
+  padding-top: calc(var(--nav-h) + 34px);
+}
+
+.post-body {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 60px 40px 100px;
+}
+
 .post-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: 99px;
@@ -2257,43 +2331,117 @@ button {
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--text2);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all .2s;
+  transition: all 0.2s;
   margin-bottom: 40px;
 }
-.post-back:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
-.post-content { 
-  color: var(--text2); 
-  font-size: 1.05rem; 
-  line-height: 1.8; 
+
+.post-back:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
 }
+
+
+/* ══════════════════════════════════════════════════════════════
+   POST DETAIL — POST HEADER  (title, meta, tags)
+   Hierarchy: Title → Meta → Tags
+   ══════════════════════════════════════════════════════════════ */
+
+.post-header {
+  margin-bottom: 40px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.post-header-title {
+  font-family: var(--font-primary);
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  margin-bottom: 16px;
+}
+
+[data-theme="hobbit"] .post-header-title {
+  font-family: var(--font-hobbit);
+  color: var(--gold);
+}
+
+/* Meta: date / location / region — below title */
+.post-header-meta {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  font-family: var(--font-primary);
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 14px;
+}
+
+/* Tags: lightweight # prefix — below meta */
+.post-header-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 8px;
+}
+
+.post-tag-hash {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text3);
+  letter-spacing: 0.2px;
+  transition: color 0.15s;
+}
+
+.post-tag-hash:hover {
+  color: var(--text2);
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   POST DETAIL — CONTENT BODY
+   ══════════════════════════════════════════════════════════════ */
+
+.post-content {
+  color: var(--text2);
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
 .post-content img {
   border-radius: 8px;
   margin: 1.8em auto;
   display: block;
   max-width: 100%;
 }
-.post-content h2 { 
-  font-family: var(--font-primary); 
-  font-weight: 600; 
-  font-size: 1.4rem; 
+
+.post-content h2 {
+  font-family: var(--font-primary);
+  font-size: 1.4rem;
+  font-weight: 600;
   text-transform: uppercase;
-  color: var(--text); 
-  margin: 2em 0 .8em; 
+  color: var(--text);
+  margin: 2em 0 0.8em;
 }
-[data-theme="hobbit"] .post-content h2 { 
-  font-family: var(--font-hobbit); 
-  color: var(--accent); 
+
+[data-theme="hobbit"] .post-content h2 {
+  font-family: var(--font-hobbit);
+  color: var(--accent);
 }
-.post-content p { 
-  margin-bottom: 1.4em; 
+
+.post-content p {
+  margin-bottom: 1.4em;
 }
-.post-content strong { 
-  color: var(--text); 
-  font-weight: 600; 
+
+.post-content strong {
+  color: var(--text);
+  font-weight: 600;
 }
+
 .post-content blockquote {
   border-left: 3px solid var(--accent);
   padding: 12px 24px;
@@ -2305,55 +2453,48 @@ button {
   line-height: 1.6;
   color: var(--text2);
 }
-[data-theme="hobbit"] .post-content blockquote { 
-  border-color: var(--gold); 
-  background: var(--surface3); 
+
+[data-theme="hobbit"] .post-content blockquote {
+  border-color: var(--gold);
+  background: var(--surface3);
 }
+
+.post-content ul,
+.post-content ol {
+  margin: 0.8em 0 1.4em 1.5em;
+}
+
+.post-content li {
+  margin-bottom: 0.5em;
+}
+
+/* Links within post content */
 .post-content a {
   font-style: italic;
   color: var(--text2);
   border-bottom: 1px dashed var(--accent);
 }
+
 .post-content a:hover {
   font-weight: 700;
   color: var(--accent);
   border-color: var(--accent);
-  transition: all .2s;
+  transition: all 0.2s;
 }
+
 [data-theme="hobbit"] .post-content a {
   border-color: var(--gold);
   color: var(--text2);
 }
+
 [data-theme="hobbit"] .post-content a:hover {
   font-weight: 700;
   color: var(--gold);
   border-color: var(--gold);
-  transition: all .2s;
+  transition: all 0.2s;
 }
-.post-content ul, .post-content ol { 
-  margin: .8em 0 1.4em 1.5em; 
-}
-.post-content li { 
-  margin-bottom: .5em; 
-}
-.post-progress { 
-  position: fixed; 
-  top: var(--nav-h); 
-  left: 0; 
-  right: 0; 
-  height: 3px; 
-  background: var(--border2); 
-  z-index: 999; display: none; 
-}
-.post-progress.visible { 
-  display: block; 
-}
-.post-progress-fill { 
-  height: 100%; 
-  background: var(--accent); 
-  width: 0; 
-  transition: width .1s linear; 
-}
+
+
 .post-nav { display: grid; 
   grid-template-columns: 1fr 1fr; 
   gap: 14px; 
@@ -3092,19 +3233,66 @@ button {
   .posts-grid { grid-template-columns: 1fr; padding-top: 16px; }  .post-list-item { grid-template-columns: 80px 1fr; gap: 14px; }
 
   /* Post hero banner: tighter, better overlay, readable hierarchy */
-  .post-hero { height: clamp(180px, 42vw, 280px); }
+  /* Post detail — mobile */
+  .post-hero {
+    height: clamp(200px, 50vw, 300px);
+  }
 
-  .post-header { margin-bottom: 28px; padding-bottom: 24px; }
-  .post-header-title { font-size: 1.5rem; letter-spacing: -0.3px; margin-bottom: 12px; }
-  .post-header-meta { gap: 10px; font-size: 11px; flex-wrap: wrap; }
-  .post-header-breadcrumb { font-size: 10px; margin-bottom: 12px; }
-  .post-header-tags { margin-bottom: 12px; }
+  .post-crumb-inner {
+    padding: 0 18px;
+    font-size: 11px;
+  }
 
-  .post-body { padding: 24px 16px 64px; }
-  .post-content { font-size: 0.92rem; line-height: 1.75; }
-  .post-content h2 { font-size: 1.1rem; margin: 1.6em 0 .6em; }
-  .post-content p { margin-bottom: 1.1em; }
-  .post-content blockquote { margin: 1em 0; padding: 10px 14px; font-size: 0.9rem; }
+  #post-detail {
+    padding-top: calc(var(--nav-h) + 34px);
+  }
+
+  .post-body {
+    padding: 28px 18px 72px;
+  }
+
+  .post-back {
+    margin-bottom: 28px;
+    font-size: 11px;
+    padding: 7px 16px;
+  }
+
+  .post-header {
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+  }
+
+  .post-header-title {
+    font-size: 1.55rem;
+    letter-spacing: -0.3px;
+    margin-bottom: 12px;
+  }
+
+  .post-header-meta {
+    gap: 10px;
+    font-size: 11px;
+    margin-bottom: 10px;
+  }
+
+  .post-content {
+    font-size: 0.95rem;
+    line-height: 1.75;
+  }
+
+  .post-content h2 {
+    font-size: 1.1rem;
+    margin: 1.6em 0 0.6em;
+  }
+
+  .post-content p {
+    margin-bottom: 1.1em;
+  }
+
+  .post-content blockquote {
+    margin: 1em 0;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
   .post-nav { grid-template-columns: 1fr; }
   .post-nav-right { text-align: left; }
 

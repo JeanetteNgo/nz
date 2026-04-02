@@ -58,6 +58,13 @@
   </button>
 </nav>
 
+<!-- Sticky post breadcrumb bar — shown only when a post is open -->
+<div class="post-crumb-bar" id="post-crumb-bar">
+  <div class="post-crumb-inner" id="post-crumb-inner">
+    <!-- Breadcrumb text injected by JS when post opens -->
+  </div>
+</div>
+
 <!-- Mobile menu -->
 <div class="mobile-menu" id="mobile-menu">
   <p class="mob-label">Navigate</p>
@@ -101,6 +108,19 @@
      PAGE HEADER
 ════════════════════════════════════════════════════ -->
 <header class="page-header" id="blog-header">
+  <!-- Mobile-only video banner (hidden on desktop) -->
+  <div class="blog-mobile-banner">
+    <video class="blog-banner-video" autoplay loop muted playsinline
+      disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback"
+      oncanplay="this.classList.add('loaded')"
+      src="https://cdn.jeanettengo.com/hero/highlight-reel.mp4"></video>
+    <!-- Fallback poster shown until video is ready -->
+    <img class="blog-banner-poster"
+      src="https://cdn.jeanettengo.com/hero/hero-poster.jpg"
+      alt="" aria-hidden="true"
+      onerror="this.style.display='none'">
+    <div class="blog-banner-overlay"></div>
+  </div>
   <div class="page-eyebrow">Journal</div>
   <h1 class="page-title">A Year Across the Islands</h1>
   <p class="page-subtitle">Locations, stories &amp; honest dispatches from Aotearoa</p>
