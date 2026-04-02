@@ -2159,7 +2159,7 @@ button {
 #post-detail { display: none; }
 .post-hero {
   position: relative;
-  height: clamp(220px, 32vw, 420px);
+  height: clamp(220px, 32vw, 480px);
   overflow: hidden;
   background: var(--bg3);
 }
