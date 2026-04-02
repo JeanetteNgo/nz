@@ -52,9 +52,12 @@ let postContent  = {};
     GENERAL
     ⭐ FEATURED
 */
-function buildCategoryTree() {
-  const tree = document.getElementById("category-tree");
+function buildCategoryTree(targetEl) {
+  const tree = targetEl || document.getElementById("category-tree");
   if (!tree) return;
+
+  /* Use a unique prefix so desktop + mobile drawer don't share IDs */
+  const pfx = targetEl ? "mob-" : "";
 
   /* Helper: returns the number of posts that match a given filter */
   function countFor(filter) {
@@ -64,7 +67,7 @@ function buildCategoryTree() {
   /* ── ALL ── */
   const allItem     = document.createElement("div");
   allItem.className = "cat-all active";
-  allItem.id        = "cat-all";
+  allItem.id        = pfx + "cat-all";
   allItem.textContent = "All";
   allItem.onclick   = function() {
     setFilter({ type: "all", value: null }, "All Posts");
@@ -85,17 +88,15 @@ function buildCategoryTree() {
     /* Island header row — clicking toggles the sub-region drawer */
     const header     = document.createElement("div");
     header.className = "cat-island";
-    header.id        = "cat-" + island;
+    header.id        = pfx + "cat-" + island;
     header.innerHTML =
       '<span>' + islandLabel + '</span>' +
-      '<i class="fa-solid fa-chevron-down cat-chevron" id="chev-' + island + '"></i>';
+      '<i class="fa-solid fa-chevron-down cat-chevron" id="' + pfx + 'chev-' + island + '"></i>';
 
     header.onclick = function() {
-      /* Toggle the drawer open/closed — do NOT change the active filter */
-      const drawer = document.getElementById("sub-" + island);
-      const chev   = document.getElementById("chev-" + island);
+      const drawer = document.getElementById(pfx + "sub-" + island);
+      const chev   = document.getElementById(pfx + "chev-" + island);
       if (!drawer) return;
-
       const isNowOpen = !drawer.classList.contains("open");
       drawer.classList.toggle("open", isNowOpen);
       if (chev) chev.classList.toggle("open", isNowOpen);
@@ -105,19 +106,19 @@ function buildCategoryTree() {
     /* Sub-region items inside the collapsible drawer */
     const drawer     = document.createElement("div");
     drawer.className = "sub-items";
-    drawer.id        = "sub-" + island;
+    drawer.id        = pfx + "sub-" + island;
 
     regions.forEach(function(region) {
       const count   = countFor({ type: "region", value: region.name });
       const row     = document.createElement("div");
       row.className = "sub-item";
-      row.id        = "sub-item-" + region.name.replace(/[\s\/]/g, "-");
+      row.id        = pfx + "sub-item-" + region.name.replace(/[\s\/]/g, "-");
       row.innerHTML =
         '<span>' + region.name + '</span>' +
         '<span class="cat-count">' + count + '</span>';
 
       row.onclick = function(e) {
-        e.stopPropagation(); /* prevent the click from bubbling up to the island header */
+        e.stopPropagation();
         setFilter(
           { type: "region", value: region.name },
           islandLabel + " › " + region.name
@@ -130,10 +131,10 @@ function buildCategoryTree() {
     tree.appendChild(wrapper);
   });
 
-  /* ── GENERAL ── */
+  /* ── GENERAL — section header style ── */
   const generalItem     = document.createElement("div");
-  generalItem.className = "cat-simple";
-  generalItem.id        = "cat-general";
+  generalItem.className = "cat-section-header";
+  generalItem.id        = pfx + "cat-general";
   generalItem.innerHTML =
     '<span>General</span>' +
     '<span class="cat-count">' + countFor({ type: "general" }) + '</span>';
@@ -142,10 +143,10 @@ function buildCategoryTree() {
   };
   tree.appendChild(generalItem);
 
-  /* ── FEATURED ── */
+  /* ── FEATURED — section header style ── */
   const featuredItem     = document.createElement("div");
-  featuredItem.className = "cat-simple";
-  featuredItem.id        = "cat-featured";
+  featuredItem.className = "cat-section-header";
+  featuredItem.id        = pfx + "cat-featured";
   featuredItem.innerHTML =
     '<span>⭐ Featured</span>' +
     '<span class="cat-count">' + countFor({ type: "featured" }) + '</span>';
@@ -169,28 +170,45 @@ function toggleSub(island) {
 function setFilter(filter, breadcrumbLabel) {
   activeFilter = filter;
 
-  /* Clear all active highlights in the sidebar */
-  document.querySelectorAll(".cat-all, .cat-island, .sub-item, .cat-simple")
+  /* Close mobile filter drawer if open */
+  closeMobFilter();
+
+  /* Update mobile sticky header row 2 */
+  const isFiltered = filter.type !== "all";
+  const filterLabel = document.getElementById("mob-browse-filter-label");
+  const filterClear = document.getElementById("mob-browse-clear");
+  const filterBtn   = document.getElementById("mob-filter-btn");
+  if (filterLabel) filterLabel.textContent = isFiltered ? breadcrumbLabel : "All Posts";
+  if (filterClear) filterClear.style.display = isFiltered ? "flex" : "none";
+  if (filterBtn)   filterBtn.classList.toggle("has-filter", isFiltered);
+  /* mob-post-count is updated by renderPosts() below */
+
+  /* Clear all active highlights in both trees */
+  document.querySelectorAll(".cat-all, .cat-island, .sub-item, .cat-simple, .cat-section-header")
     .forEach(function(el) { el.classList.remove("active"); });
 
-  /* Apply the highlight to the correct item */
-  if (filter.type === "all")      document.getElementById("cat-all")?.classList.add("active");
-  if (filter.type === "general")  document.getElementById("cat-general")?.classList.add("active");
-  if (filter.type === "featured") document.getElementById("cat-featured")?.classList.add("active");
+  /* Apply the highlight to the correct item in BOTH desktop and mobile trees */
+  ["", "mob-"].forEach(function(pfx) {
+    if (filter.type === "all")      document.getElementById(pfx + "cat-all")?.classList.add("active");
+    if (filter.type === "general")  document.getElementById(pfx + "cat-general")?.classList.add("active");
+    if (filter.type === "featured") document.getElementById(pfx + "cat-featured")?.classList.add("active");
 
-  if (filter.type === "region") {
-    const slug = filter.value.replace(/[\s\/]/g, "-");
-    document.getElementById("sub-item-" + slug)?.classList.add("active");
+    if (filter.type === "region") {
+      const slug = filter.value.replace(/[\s\/]/g, "-");
+      document.getElementById(pfx + "sub-item-" + slug)?.classList.add("active");
 
-    /* Auto-expand the parent island drawer so the highlighted item is visible */
-    const region = REGIONS.find(function(r) { return r.name === filter.value; });
-    if (region) {
-      const drawer = document.getElementById("sub-" + region.island);
-      if (drawer && !drawer.classList.contains("open")) {
-        toggleSub(region.island);
+      /* Auto-expand the parent island drawer so the highlighted item is visible */
+      const region = REGIONS.find(function(r) { return r.name === filter.value; });
+      if (region) {
+        const drawer = document.getElementById(pfx + "sub-" + region.island);
+        if (drawer && !drawer.classList.contains("open")) {
+          const chev = document.getElementById(pfx + "chev-" + region.island);
+          drawer.classList.add("open");
+          if (chev) chev.classList.add("open");
+        }
       }
     }
-  }
+  });
 
   /* Update the breadcrumb text above the post list */
   const breadcrumbEl = document.getElementById("blog-breadcrumb");
@@ -251,11 +269,12 @@ function filterPosts(filter) {
 function renderPosts() {
   const posts = filterPosts();
 
-  /* Update the "X posts" count above the grid */
-  const countEl = document.getElementById("blog-post-count");
-  if (countEl) {
-    countEl.textContent = posts.length + " post" + (posts.length !== 1 ? "s" : "");
-  }
+  /* Update the "X posts" count above the grid — desktop and mobile */
+  const countText = posts.length + " post" + (posts.length !== 1 ? "s" : "");
+  const countEl    = document.getElementById("blog-post-count");
+  const mobCountEl = document.getElementById("mob-post-count");
+  if (countEl)    countEl.textContent    = countText;
+  if (mobCountEl) mobCountEl.textContent = "(" + posts.length + ")"; /* bracketed count */
 
   const emptyMessage = '<p style="color:var(--text3);font-style:italic;padding:20px 0">' +
                        'No posts in this category yet.</p>';
@@ -352,11 +371,13 @@ function setView(view, clickedBtn) {
   });
   document.getElementById("view-" + view)?.classList.add("active");
 
-  /* Remove the active state from all view buttons, then highlight the clicked one */
-  document.querySelectorAll(".view-btn").forEach(function(btn) {
+  /* Sync ALL view buttons (desktop + mobile bottom bar) */
+  document.querySelectorAll(".view-btn, .mob-view-btn").forEach(function(btn) {
     btn.classList.remove("active");
   });
-  clickedBtn.classList.add("active");
+  /* Mark the matching button in each set */
+  document.getElementById("btn-" + view)?.classList.add("active");
+  document.getElementById("mob-btn-" + view)?.classList.add("active");
 }
 
 
@@ -408,7 +429,7 @@ async function openPost(id) {
   const prevPost  = posts[postIndex - 1] || null;
   const nextPost  = posts[postIndex + 1] || null;
 
-  /* Build the breadcrumb trail for the post hero */
+  /* Build the breadcrumb trail — now shown in the post body, not the hero */
   const islandLabel  = post.island === "south" ? "South Island"
                      : post.island === "north" ? "North Island"
                      : null;
@@ -429,9 +450,7 @@ async function openPost(id) {
   const breadcrumbHTML =
     '<span onclick="closePost()" style="cursor:pointer">All Posts</span>' +
     islandCrumb +
-    regionCrumb +
-    '<span class="breadcrumb-sep"> › </span>' +
-    '<span style="opacity:1;color:#fff">' + post.title + '</span>';
+    regionCrumb;
 
   /* Cover image or emoji fallback for the hero banner */
   const heroImgHTML = post.cover
@@ -441,13 +460,12 @@ async function openPost(id) {
     : '<span style="font-size:80px;display:flex;align-items:center;justify-content:center;height:100%">' +
       post.emoji + '</span>';
 
-  /* Tag pills overlaid on the hero */
+  /* Tag pills — normal style in the body */
   const tagsHTML = post.tags.map(function(tag) {
-    return '<span class="tag" style="background:rgba(255,255,255,0.15);' +
-           'border-color:rgba(255,255,255,0.25);color:#fff">' + tag + '</span>';
+    return '<span class="tag">' + tag + '</span>';
   }).join("");
 
-  /* Hero meta line */
+  /* Meta line: date, location, region */
   const metaHTML =
     '<span>📅 ' + formatDate(post.date) + '</span>' +
     (post.location ? '<span>📍 ' + post.location + '</span>' : "") +
@@ -472,21 +490,23 @@ async function openPost(id) {
 
   /* Render the full post layout */
   detailEl.innerHTML =
-    /* Hero banner */
+    /* Hero banner — image only, no text overlay */
     '<div class="post-hero">' +
       '<div class="post-hero-img">' + heroImgHTML + '</div>' +
       '<div class="post-hero-overlay"></div>' +
-      '<div class="post-hero-content">' +
-        '<div class="post-hero-breadcrumb">' + breadcrumbHTML + '</div>' +
-        '<div class="post-hero-tags">' + tagsHTML + '</div>' +
-        '<h1 class="post-hero-title">' + post.title + '</h1>' +
-        '<div class="post-hero-meta">' + metaHTML + '</div>' +
-      '</div>' +
     '</div>' +
 
-    /* Post body */
+    /* Post body — breadcrumb, header block, then content */
     '<div class="post-body">' +
+      /* Back button */
       '<button class="post-back" onclick="closePost()">← Back to posts</button>' +
+      /* Post header: breadcrumb, tags, title, meta — all in body */
+      '<div class="post-header">' +
+        '<div class="post-header-breadcrumb">' + breadcrumbHTML + '</div>' +
+        '<div class="post-header-tags">' + tagsHTML + '</div>' +
+        '<h1 class="post-header-title">' + post.title + '</h1>' +
+        '<div class="post-header-meta">' + metaHTML + '</div>' +
+      '</div>' +
       '<div class="post-content">' + content + '</div>' +
       '<nav class="post-nav">' + prevCard + nextCard + '</nav>' +
     '</div>';
@@ -540,7 +560,11 @@ window.addEventListener("popstate", function(event) {
 
 document.addEventListener("DOMContentLoaded", function() {
   initShared();        /* theme, clock, fade-in, visitor counter */
-  buildCategoryTree();
+  buildCategoryTree(); /* desktop sidebar */
+
+  /* Mirror the category tree into the mobile filter drawer */
+  const drawerBody = document.getElementById("mob-filter-body");
+  if (drawerBody) buildCategoryTree(drawerBody);
 
   /* Check URL params so direct links and region links work on page load */
   const params      = new URLSearchParams(window.location.search);
@@ -567,3 +591,69 @@ document.addEventListener("DOMContentLoaded", function() {
     renderPosts();
   }
 });
+
+
+/* ── Mobile filter drawer ──────────────────────────────────── */
+
+function openMobFilter() {
+  const overlay = document.getElementById("mob-filter-overlay");
+  if (!overlay) return;
+  overlay.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeMobFilter() {
+  const overlay = document.getElementById("mob-filter-overlay");
+  if (!overlay) return;
+  overlay.classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+function clearMobFilter() {
+  setFilter({ type: "all", value: null }, "All Posts");
+}
+
+/* ── Mobile sticky header: pins below nav when banner scrolls out,
+   returns to in-flow when banner comes back into view ── */
+(function() {
+  var ticking = false;
+
+  function updateStickyHeader() {
+    var header  = document.getElementById("mob-sticky-header");
+    var spacer  = document.getElementById("mob-sticky-spacer");
+    var banner  = document.getElementById("blog-header");
+    if (!header || !spacer || !banner) return;
+
+    /* How far the bottom of the banner is from the top of the viewport.
+       Negative = banner has scrolled fully above the viewport.
+       We pin once the banner bottom passes behind the nav bar. */
+    var navH       = parseInt(getComputedStyle(document.documentElement)
+                       .getPropertyValue("--nav-h")) || 58;
+    var bannerBottom = banner.getBoundingClientRect().bottom;
+    var shouldStick  = bannerBottom <= navH;
+
+    if (shouldStick && !header.classList.contains("is-sticky")) {
+      /* Pin: fix the header, show spacer with same height to avoid jump */
+      spacer.style.height = header.offsetHeight + "px";
+      spacer.classList.add("active");
+      header.classList.add("is-sticky");
+    } else if (!shouldStick && header.classList.contains("is-sticky")) {
+      /* Unpin: return header to normal flow, hide spacer */
+      header.classList.remove("is-sticky");
+      spacer.classList.remove("active");
+      spacer.style.height = "";
+    }
+  }
+
+  window.addEventListener("scroll", function() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function() {
+      updateStickyHeader();
+      ticking = false;
+    });
+  }, { passive: true });
+
+  /* Run once on load in case the page starts mid-scroll */
+  updateStickyHeader();
+})();

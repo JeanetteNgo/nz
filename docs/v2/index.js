@@ -105,6 +105,7 @@ function setExploreTab(id, btn) {
   document.querySelectorAll(".explore-tab").forEach(b => b.classList.remove("active"));
   document.getElementById("panel-" + id).classList.add("active");
   btn.classList.add("active");
+  localStorage.setItem("nz-explore-tab", id);
   if (id === "map") initMap();
 }
 
@@ -322,13 +323,18 @@ document.addEventListener("DOMContentLoaded", () => {
   renderRegions();
   renderJournal();
 
-  // Leaflet measures the container at init time — if called synchronously
-  // inside DOMContentLoaded the browser hasn't done layout yet, so the
-  // panel has 0×0 size and the map renders blank with zoom controls at 0,0.
-  // A double-rAF guarantees we're past the first paint before measuring.
-  requestAnimationFrame(() => {
+  // Restore the last explore tab the user had open (defaults to map)
+  const savedTab = localStorage.getItem("nz-explore-tab") || "map";
+  const savedBtn = document.querySelector(`.explore-tab[onclick*="'${savedTab}'"]`);
+  if (savedTab !== "map" && savedBtn) {
+    // Non-map tabs can switch synchronously
+    setExploreTab(savedTab, savedBtn);
+  } else {
+    // Map tab: use double-rAF so Leaflet measures a laid-out container
     requestAnimationFrame(() => {
-      initMap();
+      requestAnimationFrame(() => {
+        initMap();
+      });
     });
-  });
+  }
 });

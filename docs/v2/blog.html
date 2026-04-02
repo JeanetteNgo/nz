@@ -36,6 +36,15 @@
       <button class="nav-btn" onclick="openSearch()" title="Search (/)">
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>
+      <button class="nav-btn" id="audio-btn" onclick="toggleAudio()" title="Ambient sounds">
+        <i class="fa-solid fa-music audio-icon"></i>
+        <span class="audio-bars">
+          <span class="audio-bar"></span>
+          <span class="audio-bar"></span>
+          <span class="audio-bar"></span>
+          <span class="audio-bar"></span>
+        </span>
+      </button>
       <button class="nav-btn hobbit-pill" id="hobbit-toggle-btn" onclick="toggleTheme()" title="Toggle Hobbit Mode" aria-pressed="false">
         <span class="toggle-track"><span class="toggle-thumb"></span></span>
         <span class="hobbit-label theme-label">Default</span>
@@ -59,6 +68,10 @@
   <div class="mob-row">
     <span class="mob-row-label">🧙 Theme</span>
     <button class="mob-pill" onclick="toggleTheme()"><span class="theme-icon">🧙</span><span class="theme-label">Hobbit Mode</span></button>
+  </div>
+  <div class="mob-row mob-audio-row">
+    <span class="mob-row-label">♪ Audio</span>
+    <button class="mob-pill" id="mob-audio-btn" onclick="toggleAudio()"><span class="mob-audio-label">Play</span></button>
   </div>
   <div class="mob-row">
     <span class="mob-row-label">🔍 Search</span>
@@ -88,7 +101,7 @@
      PAGE HEADER
 ════════════════════════════════════════════════════ -->
 <header class="page-header" id="blog-header">
-  <!-- <div class="page-eyebrow">Journal</div> -->
+  <div class="page-eyebrow">Journal</div>
   <h1 class="page-title">A Year Across the Islands</h1>
   <p class="page-subtitle">Locations, stories &amp; honest dispatches from Aotearoa</p>
 </header>
@@ -97,6 +110,50 @@
      BLOG LISTING
 ════════════════════════════════════════════════════ -->
 <main id="blog-listing">
+
+  <!-- Mobile: sticky header -->
+  <div class="mob-sticky-header" id="mob-sticky-header">
+    <!-- Row 1: Browse label + Grid/List toggle -->
+    <div class="mob-header-row1">
+      <span class="mob-browse-label">Browse</span>
+      <div class="mob-bottom-toggle">
+        <button class="mob-view-btn active" id="mob-btn-grid" onclick="setView('grid', document.getElementById('btn-grid'))">
+          <i class="fa-solid fa-border-all"></i> Grid
+        </button>
+        <button class="mob-view-btn" id="mob-btn-list" onclick="setView('list', document.getElementById('btn-list'))">
+          <i class="fa-solid fa-list"></i> List
+        </button>
+      </div>
+    </div>
+    <!-- Row 2: Filter button (left) + active filter label + post count + clear (right) -->
+    <div class="mob-header-row2">
+      <button class="mob-filter-btn" id="mob-filter-btn" onclick="openMobFilter()">
+        <i class="fa-solid fa-sliders"></i>
+        <span>Filter</span>
+      </button>
+      <div class="mob-filter-status" id="mob-filter-status">
+        <span class="mob-browse-filter-label" id="mob-browse-filter-label">All Posts</span>
+        <span class="mob-post-count" id="mob-post-count"></span>
+        <button class="mob-browse-clear" id="mob-browse-clear" onclick="clearMobFilter()" aria-label="Clear filter" style="display:none">×</button>
+      </div>
+    </div>
+  </div>
+  <!-- Spacer: holds header height when header becomes fixed, prevents layout jump -->
+  <div class="mob-sticky-spacer" id="mob-sticky-spacer"></div>
+
+  <!-- Mobile: filter drawer overlay -->
+  <div class="mob-filter-overlay" id="mob-filter-overlay" onclick="if(event.target===this)closeMobFilter()">
+    <div class="mob-filter-drawer" id="mob-filter-drawer">
+      <div class="mob-filter-header">
+        <span class="mob-filter-title">Browse</span>
+        <button class="mob-filter-close" onclick="closeMobFilter()">✕</button>
+      </div>
+      <div class="mob-filter-body" id="mob-filter-body">
+        <!-- JS renders same category-tree here on mobile -->
+      </div>
+    </div>
+  </div>
+
   <div class="blog-layout">
 
     <!-- ── SIDEBAR ───────────────────────────── -->
@@ -110,7 +167,7 @@
     <!-- ── CONTENT ───────────────────────────── -->
     <div class="blog-content">
 
-      <!-- Top bar: breadcrumb + view toggle -->
+      <!-- Desktop topbar: breadcrumb + view toggle + post count -->
       <div class="blog-topbar">
         <div class="blog-breadcrumb" id="blog-breadcrumb">
           <span class="breadcrumb-active">All Posts</span>
@@ -128,6 +185,11 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Hidden element kept for JS compat -->
+      <div id="mob-active-filter" style="display:none">
+        <span id="mob-active-filter-label"></span>
       </div>
 
       <!-- Grid view -->
@@ -159,11 +221,11 @@
       <p class="footer-quote">"Not all who wander are lost — some of them are just in New Zealand."</p>
       <div class="footer-visitor">
         <span class="visitor-count">—</span>
-      <div class="visitor-label">visits</div>
-    </div>
+        <div class="visitor-label">visits</div>
+      </div>
     </div>
 
-    <div class="footer-links"> 
+    <div class="footer-links">
       <p>Browse</p>
       <a href="index.html">Home</a>
       <a href="blog.html">Blog</a>
@@ -171,7 +233,6 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <!-- <p class="footer-quote">"Not all who wander are lost — some of them are just in New Zealand."</p> -->
     <p class="footer-credit">© 2025 Jeanette Ngo · Made with lots of 🍫 and good memories</p>
   </div>
 </footer>
