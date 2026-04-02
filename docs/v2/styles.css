@@ -2309,6 +2309,27 @@ button {
   border-color: var(--gold); 
   background: var(--surface3); 
 }
+.post-content a {
+  font-style: italic;
+  color: var(--text2);
+  border-bottom: 1px dashed var(--accent);
+}
+.post-content a:hover {
+  font-weight: 700;
+  color: var(--accent);
+  border-color: var(--accent);
+  transition: all .2s;
+}
+[data-theme="hobbit"] .post-content a {
+  border-color: var(--gold);
+  color: var(--text2);
+}
+[data-theme="hobbit"] .post-content a:hover {
+  font-weight: 700;
+  color: var(--gold);
+  border-color: var(--gold);
+  transition: all .2s;
+}
 .post-content ul, .post-content ol { 
   margin: .8em 0 1.4em 1.5em; 
 }

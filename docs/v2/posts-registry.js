@@ -96,7 +96,7 @@ const POSTS = [
     island:   "south",
     region:   "Otago",
     location: "Queenstown",
-    tags:     ["thrill", "swing", "nevis", "bucketlist"],
+    tags:     ["nevis", "swing", "activity", "thrill"],
     emoji:    "🫨",
     cover:    CDN_BASE + "/images/south-island/otago/queenstown/nevis-thumbnail.jpg",
     excerpt:  "We went on the big swing!",
