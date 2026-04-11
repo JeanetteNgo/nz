@@ -23,19 +23,11 @@
 
 /* Formats a date string like "2024-04-03" into "3 April 2024" */
 function formatDate(dateString) {
-  /* Always short caps format: "18 FEB 2026" */
-  var d = new Date(dateString);
-  var months = ["JAN","FEB","MAR","APR","MAY","JUN",
-                "JUL","AUG","SEP","OCT","NOV","DEC"];
-  return d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear();
-}
-
-/* Returns "18 FEB 2024" — short caps format used on card/list meta */
-function formatDateShort(dateString) {
-  var d = new Date(dateString);
-  var months = ["JAN","FEB","MAR","APR","MAY","JUN",
-                "JUL","AUG","SEP","OCT","NOV","DEC"];
-  return d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear();
+  return new Date(dateString).toLocaleDateString("en-NZ", {
+    day:   "numeric",
+    month: "long",
+    year:  "numeric"
+  });
 }
 
 

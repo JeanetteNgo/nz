@@ -36,15 +36,7 @@
       <button class="nav-btn" onclick="openSearch()" title="Search (/)">
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>
-      <button class="nav-btn" id="audio-btn" onclick="toggleAudio()" title="Ambient sounds">
-        <i class="fa-solid fa-music audio-icon"></i>
-        <span class="audio-bars">
-          <span class="audio-bar"></span>
-          <span class="audio-bar"></span>
-          <span class="audio-bar"></span>
-          <span class="audio-bar"></span>
-        </span>
-      </button>
+
       <button class="nav-btn hobbit-pill" id="hobbit-toggle-btn" onclick="toggleTheme()" title="Toggle Hobbit Mode" aria-pressed="false">
         <span class="toggle-track"><span class="toggle-thumb"></span></span>
         <span class="hobbit-label theme-label">Default</span>
@@ -76,10 +68,7 @@
     <span class="mob-row-label">🧙 Theme</span>
     <button class="mob-pill" onclick="toggleTheme()"><span class="theme-icon">🧙</span><span class="theme-label">Hobbit Mode</span></button>
   </div>
-  <div class="mob-row mob-audio-row">
-    <span class="mob-row-label">♪ Audio</span>
-    <button class="mob-pill" id="mob-audio-btn" onclick="toggleAudio()"><span class="mob-audio-label">Play</span></button>
-  </div>
+
   <div class="mob-row">
     <span class="mob-row-label">🔍 Search</span>
     <button class="mob-pill" onclick="closeMenu();openSearch()">Search</button>

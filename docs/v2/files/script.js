@@ -23,18 +23,17 @@
 
 /* Formats a date string like "2024-04-03" into "3 April 2024" */
 function formatDate(dateString) {
-  /* Always short caps format: "18 FEB 2026" */
-  var d = new Date(dateString);
-  var months = ["JAN","FEB","MAR","APR","MAY","JUN",
-                "JUL","AUG","SEP","OCT","NOV","DEC"];
-  return d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear();
+  return new Date(dateString).toLocaleDateString("en-NZ", {
+    day:   "numeric",
+    month: "long",
+    year:  "numeric"
+  });
 }
 
-/* Returns "18 FEB 2024" — short caps format used on card/list meta */
+/* Returns e.g. "18 FEB 2024" — used on card/list meta lines */
 function formatDateShort(dateString) {
-  var d = new Date(dateString);
-  var months = ["JAN","FEB","MAR","APR","MAY","JUN",
-                "JUL","AUG","SEP","OCT","NOV","DEC"];
+  const d = new Date(dateString);
+  const months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
   return d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear();
 }
 
@@ -833,4 +832,19 @@ function initShared() {
                      (linkPage === "" && currentPage === "index.html");
     link.classList.toggle("active", isActive);
   });
+
+  /* Auto-start ambient audio on desktop on the user's first interaction.
+     Browsers require a user gesture before audio can play — this hooks into
+     the first click or keydown so audio begins without extra effort from the user.
+     Mobile is excluded: battery + data considerations, and mobile users expect
+     silence by default. */
+  if (window.innerWidth > 768) {
+    var startAudioOnce = function() {
+      if (!audioPlaying) toggleAudio();
+      document.removeEventListener("click",    startAudioOnce);
+      document.removeEventListener("keydown",  startAudioOnce);
+    };
+    document.addEventListener("click",   startAudioOnce, { once: true, passive: true });
+    document.addEventListener("keydown", startAudioOnce, { once: true });
+  }
 }
