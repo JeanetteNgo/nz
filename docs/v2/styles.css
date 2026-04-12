@@ -754,8 +754,8 @@ button {
   font-weight: 700;
   line-height: 1.1;
   color: var(--neutral-0);
-  letter-spacing: -2px;
-  text-shadow: 0 2px 24px rgba(0,0,0,.3);
+  letter-spacing: 1px;
+  text-shadow: 0 2px 24px rgba(0,0,0,.4);
   transition: font-size .5s ease, letter-spacing .5s ease, line-height .5s ease;
   opacity: 0;
   animation: fadeUp .8s .65s ease forwards;
@@ -766,8 +766,8 @@ button {
 }
 [data-theme="hobbit"] .hero-title {
   /* Uncial Antiqua needs more space, less tight tracking */
-  font-size: clamp(2.4rem, 5.5vw, 3.8rem);
-  letter-spacing: 2px;
+  font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+  letter-spacing: 1px;
   line-height: 1.25;
 }
 
