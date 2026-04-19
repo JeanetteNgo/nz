@@ -2565,6 +2565,34 @@ button {
   color: var(--text2);
 }
 
+.post-content table {
+  width: 100%;
+  padding: 4px;
+  background: var(--surface2);
+  border: 1px dashed var(--border);
+  border-radius: 16px;
+  margin: 1.2em 0;
+  border-spacing: 1em;
+}
+
+.post-content th {
+  text-align: left;
+  vertical-align: text-top;
+  margin: 4px;
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.post-content td {
+  width: 80%;
+  text-align: left;
+  vertical-align: text-top;
+  margin: 4px;
+  font-size: 0.95rem;
+}
+
+
 [data-theme="hobbit"] .post-content blockquote {
   border-color: var(--gold);
   background: var(--surface3);
