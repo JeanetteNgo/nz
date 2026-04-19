@@ -2567,12 +2567,12 @@ button {
 
 .post-content table {
   width: 100%;
-  padding: 4px;
+  padding: 8px;
   background: var(--surface2);
   border: 1px dashed var(--border);
   border-radius: 16px;
   margin: 1.2em 0;
-  border-spacing: 1em;
+  border-spacing: 0.6em;
 }
 
 .post-content th {
