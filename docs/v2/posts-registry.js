@@ -56,7 +56,7 @@ const POSTS = [
   },
   {
     id:       "tongariro-crossing",
-    title:    "Tongariro Alpine Crossing: New Zealand's Most Epic Day Walk",
+    title:    "Tongariro Alpine Crossing: Hiking Middle Earth",
     date:     "2025-01-30",
     category: "location",
     island:   "north",

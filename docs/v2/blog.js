@@ -442,28 +442,33 @@ async function openPost(id) {
   const prevPost  = posts[postIndex - 1] || null;
   const nextPost  = posts[postIndex + 1] || null;
 
-  /* Build the breadcrumb trail — now shown in the post body, not the hero */
-  const islandLabel  = post.island === "south" ? "South Island"
-                     : post.island === "north" ? "North Island"
-                     : null;
+  /* Build breadcrumb: All › Island › Region › Location › Title */
+  const islandLabel = post.island === "south" ? "South Island"
+                    : post.island === "north" ? "North Island"
+                    : null;
 
   const islandCrumb = islandLabel
-    ? '<span class="breadcrumb-sep"> › </span>' +
-      '<span style="cursor:pointer" onclick="closePost();setFilter({type:\'island\',value:\'' +
+    ? '<span class="breadcrumb-sep"> ›</span> ' +
+      '<span class="crumb-link" onclick="closePost();setFilter({type:\'island\',value:\'' +
       post.island + '\'},\'' + islandLabel + '\');renderPosts()">' + islandLabel + '</span>'
     : "";
 
   const regionCrumb = post.region
-    ? '<span class="breadcrumb-sep"> › </span>' +
-      '<span style="cursor:pointer" onclick="closePost();setFilter({type:\'region\',value:\'' +
-      post.region + '\'},\'' + islandLabel + ' › ' + post.region + '\');renderPosts()">' +
+    ? '<span class="breadcrumb-sep"> ›</span> ' +
+      '<span class="crumb-link" onclick="closePost();setFilter({type:\'region\',value:\'' +
+      post.region + '\'},\'' + (islandLabel ? islandLabel + ' › ' : '') + post.region + '\');renderPosts()">' +
       post.region + '</span>'
     : "";
 
+  const titleCrumb =
+    '<span class="breadcrumb-sep"> ›</span> ' +
+    '<span class="crumb-title">' + post.title + '</span>';
+
   const breadcrumbHTML =
-    '<span onclick="closePost()" style="cursor:pointer">All Posts</span>' +
+    '<span class="crumb-link" onclick="closePost()">All</span>' +
     islandCrumb +
-    regionCrumb;
+    regionCrumb +
+    titleCrumb;
 
   /* Cover image or emoji fallback for the hero banner */
   const heroImgHTML = post.cover
@@ -481,8 +486,7 @@ async function openPost(id) {
   /* Meta line: date, location, region — goes ABOVE the title */
   const metaHTML =
     '<span>📅 ' + formatDateShort(post.date) + '</span>' +
-    (post.location ? '<span>📍 ' + post.location + '</span>' : "") +
-    (post.region   ? '<span>🗺 ' + post.region   + '</span>' : "");
+    (post.location ? '<span>📍 ' + post.location + '</span>' : "");
 
   /* Prev / next navigation cards */
   const prevCard = prevPost

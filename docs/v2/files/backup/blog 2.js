@@ -291,25 +291,28 @@ function renderPosts() {
             'onerror="this.parentElement.innerHTML=\'<span style=font-size:52px>' + post.emoji + '</span>\'">'
           : '<span style="font-size:52px">' + post.emoji + '</span>';
 
-        const locationLabel = post.category === "general"
-          ? "General"
-          : (post.location || post.region || "Location");
+        /* Location: emoji inline, no pill */
+        var locationHTML = post.location
+          ? '<span class="post-card-location">📍 ' + post.location + '</span>'
+          : post.region
+          ? '<span class="post-card-location">🗺 ' + post.region + '</span>'
+          : '';
 
-        const tagHTML = post.tags.slice(0, 3).map(function(tag) {
-          return '<span class="post-tag-hash">#' + tag.toLowerCase() + '</span>';
-        }).join("");
+        var tagHTML = post.tags.slice(0, 3).map(function(tag) {
+          return '<span class="post-tag-hash">#' + tag.toLowerCase().replace(/ /g,'_') + '</span>';
+        }).join('');
 
-        const featuredTag = post.featured
+        var featuredTag = post.featured
           ? '<span class="card-featured-tag">⭐ Featured</span>'
-          : "";
+          : '';
 
         return (
           '<div class="post-card" onclick="openPost(\'' + post.id + '\')">' +
             '<div class="post-card-cover">' + coverHTML + '</div>' +
             '<div class="post-card-body">' +
               '<div class="post-card-meta">' +
-                '<span class="post-card-date">📅 ' + formatDate(post.date) + '</span>' +
-                '<span class="post-card-type">' + locationLabel + '</span>' +
+                '<span class="post-card-date">📅 ' + formatDateShort(post.date) + '</span>' +
+                locationHTML +
               '</div>' +
               '<div class="post-card-title">' + post.title + '</div>' +
               '<div class="post-card-excerpt">' + post.excerpt + '</div>' +
@@ -317,7 +320,7 @@ function renderPosts() {
             '</div>' +
           '</div>'
         );
-      }).join("");
+      }).join('');
     }
   }
 
@@ -333,27 +336,37 @@ function renderPosts() {
             'onerror="this.parentElement.innerHTML=\'<span style=font-size:26px>' + post.emoji + '</span>\'">'
           : '<span style="font-size:26px">' + post.emoji + '</span>';
 
-        const number      = String(index + 1).padStart(2, "0");
-        const locationTag = post.location
+        /* Location with region fallback */
+        var listLocationHTML = post.location
           ? '<span>📍 ' + post.location + '</span>'
-          : "";
+          : post.region
+          ? '<span>🗺 ' + post.region + '</span>'
+          : '';
+
+        /* Tags outside .post-list-meta so they stay lowercase */
+        var listTagHTML = post.tags.slice(0, 3).map(function(t) {
+          return '<span class="post-tag-hash">#' + t.toLowerCase().replace(/ /g,'_') + '</span>';
+        }).join('');
+
+        var listFeaturedTag = post.featured
+          ? '<span class="card-featured-tag">⭐ Featured</span>'
+          : '';
 
         return (
           '<div class="post-list-item" onclick="openPost(\'' + post.id + '\')">' +
             '<div class="post-list-thumb">' + thumbHTML + '</div>' +
-            '<div>' +
-              '<div class="post-list-num">№ ' + number + '</div>' +
+            '<div class="post-list-content">' +
+              '<div class="post-list-meta">' +
+                '<span>📅 ' + formatDateShort(post.date) + '</span>' +
+                listLocationHTML +
+              '</div>' +
               '<div class="post-list-title">' + post.title + '</div>' +
               '<div class="post-list-excerpt">' + post.excerpt + '</div>' +
-              '<div class="post-list-meta">' +
-                '<span>📅 ' + formatDate(post.date) + '</span>' +
-                locationTag +
-                '<span>' + post.tags.slice(0, 3).map(function(t) { return '#' + t.toLowerCase(); }).join(' ') + '</span>' +
-              '</div>' +
+              '<div class="post-card-tags">' + listTagHTML + listFeaturedTag + '</div>' +
             '</div>' +
           '</div>'
         );
-      }).join("");
+      }).join('');
     }
   }
 }
@@ -462,12 +475,12 @@ async function openPost(id) {
 
   /* Tag hashtags — simple # prefix text, no pill */
   const tagsHTML = post.tags.map(function(tag) {
-    return '<span class="post-tag-hash">#' + tag.toLowerCase() + '</span>';
+    return '<span class="post-tag-hash">#' + tag.toLowerCase().replace(/ /g,'_') + '</span>';
   }).join("");
 
   /* Meta line: date, location, region — goes ABOVE the title */
   const metaHTML =
-    '<span>📅 ' + formatDate(post.date) + '</span>' +
+    '<span>📅 ' + formatDateShort(post.date) + '</span>' +
     (post.location ? '<span>📍 ' + post.location + '</span>' : "") +
     (post.region   ? '<span>🗺 ' + post.region   + '</span>' : "");
 
@@ -506,8 +519,8 @@ async function openPost(id) {
     '<div class="post-body">' +
       '<button class="post-back" onclick="closePost()">← Back to posts</button>' +
       '<div class="post-header">' +
-        '<h1 class="post-header-title">' + post.title + '</h1>' +
         '<div class="post-header-meta">' + metaHTML + '</div>' +
+        '<h1 class="post-header-title">' + post.title + '</h1>' +
         '<div class="post-header-tags">' + tagsHTML + '</div>' +
       '</div>' +
       '<div class="post-content">' + content + '</div>' +
