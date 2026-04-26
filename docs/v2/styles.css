@@ -36,7 +36,7 @@
   --surface2:   #F5F3EE;
   --surface3:   #EDE9E0;
   --text:       #2d2b28;
-  --text2:      #43403c;
+  --text2:      #464340;
   --text3:      #7b7466;
   --accent:     #1C5E35;
   --accent2:    #2D7A47;
@@ -2067,7 +2067,7 @@ button {
 [data-theme="hobbit"] .journal-item::before {
   background: var(--gold);
 }
-[data-theme="hobbit"] .journal-item:hover .journal-title {
+[data-theme="hobbit"] .journal-item:hover .post-list-title {
   color: var(--gold);
 }
 [data-theme="hobbit"] .journal-item {
@@ -2075,9 +2075,6 @@ button {
 }
 [data-theme="hobbit"] .journal-item:first-child {
   border-top-color: rgba(244,188,110,0.15);
-}
-[data-theme="hobbit"] .journal-excerpt {
-  color: rgba(255,255,255,0.55);
 }
 .post-card-cover {
   height: 180px;
@@ -2105,7 +2102,6 @@ button {
   align-items: center; 
   gap: 10px; 
   flex-wrap: wrap; 
-  margin-bottom: 8px; 
 }
 .post-card-date {
   font-family: var(--font-primary);
@@ -2128,11 +2124,12 @@ button {
 }
 .post-card-title {
   font-family: var(--font-primary);
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 600;
   color: var(--text);
   line-height: 1.25;
-  margin-bottom: 8px;
+  margin-top: 8px;
+  margin-bottom: 4px;
   transition: color .2s;
 }
 [data-theme="hobbit"] .post-card-title { 
@@ -2146,13 +2143,13 @@ button {
   color: var(--accent2); 
 }
 .post-card-excerpt {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text2);
   line-height: 1.5;
   margin-bottom: 12px;
   flex: 1;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -2241,24 +2238,27 @@ button {
 }
 .post-list-title {
   font-family: var(--font-primary);
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 600;
   color: var(--text);
   line-height: 1.25;
-  margin-bottom: 4px;
+  margin-top:8px;
+  margin-bottom: 2px;
   transition: color .2s;
 }
 [data-theme="hobbit"] .post-list-title { 
   font-family: var(--font-hobbit); 
   color: var(--gold); 
 }
-.post-list-excerpt { 
-  font-size: 13px; 
-  color: var(--text2); 
-  line-height: 1.5; 
-  margin-bottom: 8px; 
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; 
-  overflow: hidden; 
+.post-list-excerpt {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.5;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .post-list-meta {
   display: flex;
@@ -2872,19 +2872,24 @@ button {
 
 
 /* ── 20. JOURNAL LIST (homepage) ───────────────────────────── */
-.journal-list { max-width: 760px; margin: 0 auto; }
+.journal-list {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* Journal list items reuse blog list styles — only wrapper differences */
 .journal-item {
   display: grid;
-  grid-template-columns: 100px 1fr;
-  gap: 20px;
-  padding: 24px 0;
+  grid-template-columns: 120px 1fr;
+  gap: 22px;
+  padding: 26px 0;
   border-bottom: 1px solid var(--border);
   cursor: pointer;
   transition: all .2s;
   position: relative;
 }
-.journal-item:first-child { 
-  border-top: 1px solid var(--border); 
+.journal-item:first-child {
+  border-top: 1px solid var(--border);
 }
 .journal-item::before {
   content: '';
@@ -2898,48 +2903,14 @@ button {
   transition: transform .3s;
   transform-origin: top;
 }
-.journal-item:hover::before { 
-  transform: scaleY(1); 
+.journal-item:hover::before {
+  transform: scaleY(1);
 }
-.journal-item:hover .journal-title { 
-  color: var(--accent); 
+.journal-item:hover .post-list-title {
+  color: var(--accent);
 }
-.journal-thumb { 
-  height: 70px; 
-  border-radius: 12px; 
-  overflow: hidden; 
-  background: var(--surface2); 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  font-size: 26px; 
-}
-.journal-thumb img { 
-  width: 100%; 
-  height: 100%; 
-  object-fit: cover; 
-}
-.journal-num { 
-  font-family: var(--font-primary); 
-  font-size: 10px; 
-  letter-spacing: 3px; 
-  color: var(--text3); 
-  text-transform: uppercase; 
-  margin-bottom: 4px; 
-}
-.journal-title { 
-  font-family: var(--font-primary); 
-  font-size: 16px; 
-  font-weight: 700; 
-  color: var(--text); 
-  letter-spacing: -.2px; 
-  line-height: 1.3; 
-  margin-bottom: 5px; 
-  transition: color .2s; 
-}
-[data-theme="hobbit"] .journal-title { font-family: var(--font-hobbit); color: var(--gold); }
-.journal-excerpt { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.journal-meta { display: flex; gap: 12px; flex-wrap: wrap; font-size: 11px; color: var(--text3); font-family: var(--font-primary); letter-spacing: 1px; text-transform: uppercase; }
+[data-theme="hobbit"] .journal-item::before { background: var(--gold); }
+[data-theme="hobbit"] .journal-item:hover .post-list-title { color: var(--gold); }
 
 
 /* ── 21. ABOUT PAGE ────────────────────────────────────────── */
@@ -3449,7 +3420,7 @@ button {
 
   .regions-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .region-name { font-size: 12px; }
-  .journal-item { grid-template-columns: 80px 1fr; gap: 14px; }
+  .journal-item { grid-template-columns: 80px 1fr; gap: 14px; } /* mirrors post-list-item mobile */
 
   #nz-map { height: 360px; }
   .site-footer { padding: 36px 24px 20px; }

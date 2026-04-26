@@ -320,7 +320,7 @@ function renderJournal() {
             locationHTML +
           '</div>' +
           '<div class="post-list-title">' + p.title + '</div>' +
-          '<div class="post-list-excerpt" data-post-id="' + p.id + '">' + p.excerpt + '</div>' +
+          '<div class="post-list-excerpt">' + p.excerpt + '</div>' +
           '<div class="post-card-tags">' + tagHTML + featuredTag + '</div>' +
         '</div>' +
       '</div>'
@@ -343,7 +343,6 @@ document.addEventListener("DOMContentLoaded", () => {
   animateStatCounters();
   renderRegions();
   renderJournal();
-  prefetchExcerpts(); /* background-fetch post files to auto-populate excerpts */
 
   // Restore the last explore tab the user had open (defaults to map)
   const savedTab = localStorage.getItem("nz-explore-tab") || "map";

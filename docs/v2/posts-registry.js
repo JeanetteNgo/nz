@@ -377,5 +377,6 @@ const FEATURED_LIST = [
   "best-sunsets",
   "nz-food",
   "tongariro-crossing",
-  "kaikoura-whales"
+  "wings-over-whales",
+  "the-nevis-swing",
 ];

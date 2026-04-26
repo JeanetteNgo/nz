@@ -35,9 +35,9 @@
   --surface:    #FFFFFF;
   --surface2:   #F5F3EE;
   --surface3:   #EDE9E0;
-  --text:       #221f1a;
-  --text2:      #454035;
-  --text3:      #7b7466;
+  --text:       #2d2b28;
+  --text2:      #5a5652;
+  --text3:      #7b7770;
   --accent:     #1C5E35;
   --accent2:    #2D7A47;
   --accent3:    #4A9E6A;
@@ -754,8 +754,8 @@ button {
   font-weight: 700;
   line-height: 1.1;
   color: var(--neutral-0);
-  letter-spacing: 1px;
-  text-shadow: 0 2px 24px rgba(0,0,0,.4);
+  letter-spacing: -2px;
+  text-shadow: 0 2px 24px rgba(0,0,0,.3);
   transition: font-size .5s ease, letter-spacing .5s ease, line-height .5s ease;
   opacity: 0;
   animation: fadeUp .8s .65s ease forwards;
@@ -766,8 +766,8 @@ button {
 }
 [data-theme="hobbit"] .hero-title {
   /* Uncial Antiqua needs more space, less tight tracking */
-  font-size: clamp(2.2rem, 5.5vw, 3.6rem);
-  letter-spacing: 1px;
+  font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+  letter-spacing: 2px;
   line-height: 1.25;
 }
 
@@ -1754,42 +1754,57 @@ button {
 
 /* Sidebar: ALL / island headers / simple flat items */
 .cat-all {
-  padding: 7px 10px;
-  border-radius: 9px;
+  padding: 8px 8px;
+  border-radius: 8px;
   cursor: pointer;
   font-family: var(--font-primary);
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 3px;
+  font-weight: 600;
+  letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--text3);
   transition: all .15s;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
-.cat-all:hover { background: var(--surface2); color: var(--text); }
-.cat-all.active { color: var(--accent); background: var(--accent-dim); }
-[data-theme="hobbit"] .cat-all.active { color: var(--gold); }
+.cat-all:hover { 
+  background: var(--surface2); 
+  color: var(--text); 
+}
+.cat-all.active { 
+  color: var(--accent); 
+  background: var(--accent-dim); 
+}
+[data-theme="hobbit"] .cat-all.active { 
+  color: var(--gold); 
+}
 
 .cat-island {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 10px;
-  border-radius: 9px;
+  padding: 8px 8px;
+  border-radius: 8px;
   cursor: pointer;
   font-family: var(--font-primary);
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
+  font-weight: 600;
+  letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--text2);
   transition: all .15s;
   user-select: none;
   margin-top: 8px;
 }
-.cat-island:hover { background: var(--surface2); color: var(--text); }
-.cat-island.active { color: var(--accent); }
-[data-theme="hobbit"] .cat-island.active { color: var(--gold); }
+.cat-island:hover { 
+  background: var(--surface2); 
+  color: var(--text); 
+}
+.cat-island.active { 
+  color: var(--accent); 
+}
+[data-theme="hobbit"] .cat-island.active { 
+  color: var(--gold); 
+}
 .cat-island .cat-chevron {
   transition: transform .25s ease;
   font-size: 11px;
@@ -1813,38 +1828,57 @@ button {
   transition: all .15s;
   margin-top: 4px;
 }
-.cat-simple:hover { background: var(--surface2); color: var(--text); }
-.cat-simple.active { background: var(--accent-dim); color: var(--accent); font-weight: 500; }
-[data-theme="hobbit"] .cat-simple.active { color: var(--gold); background: rgba(244,188,110,0.1); }
+.cat-simple:hover { 
+  background: var(--surface2); 
+  color: var(--text); 
+}
+.cat-simple.active { 
+  background: var(--accent-dim); 
+  color: var(--accent); 
+  font-weight: 500; 
+}
+[data-theme="hobbit"] .cat-simple.active { 
+  color: var(--gold); 
+  background: rgba(244,188,110,0.1); 
+}
 
 /* General + Featured: styled as section headers — bold, uppercase, same level as island headers */
 .cat-section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 10px;
-  border-radius: 9px;
+  padding: 8px 8px;
+  border-radius: 8px;
   cursor: pointer;
   font-family: var(--font-primary);
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
+  font-weight: 600;
+  letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--text2);
   transition: all .15s;
   margin-top: 8px;
 }
-.cat-section-header:hover { background: var(--surface2); color: var(--text); }
-.cat-section-header.active { color: var(--accent); background: var(--accent-dim); }
-[data-theme="hobbit"] .cat-section-header.active { color: var(--gold); background: rgba(244,188,110,0.1); }
+.cat-section-header:hover { 
+  background: var(--surface2); 
+  color: var(--text); 
+}
+.cat-section-header.active { 
+  color: var(--accent); 
+  background: var(--accent-dim); 
+}
+[data-theme="hobbit"] .cat-section-header.active { 
+  color: var(--gold); 
+  background: rgba(244,188,110,0.1); 
+}
 
 /* Category tree */
 .cat-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 10px;
-  border-radius: 9px;
+  padding: 8px 8px;
+  border-radius: 8px;
   cursor: pointer;
   font-family: var(--font-primary);
   font-size: 13px;
@@ -1852,13 +1886,28 @@ button {
   transition: all .15s;
   user-select: none;
 }
-.cat-item:hover { background: var(--surface2); color: var(--text); }
-.cat-item.active { background: var(--accent-dim); color: var(--accent); font-weight: 500; }
-[data-theme="hobbit"] .cat-item.active { color: var(--gold); background: rgba(244,188,110,0.1); }
-.cat-item-left { display: flex; align-items: center; gap: 8px; }
+.cat-item:hover { 
+  background: var(--surface2); 
+  color: var(--text); 
+}
+.cat-item.active { 
+  background: var(--accent-dim); 
+  color: var(--accent); 
+  font-weight: 500; 
+}
+[data-theme="hobbit"] .cat-item.active { 
+  color: var(--gold); 
+  background: rgba(244,188,110,0.1); 
+}
+.cat-item-left { 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+}
 .cat-count {
   font-family: var(--font-primary);
-  font-size: 11px;
+  font-size: 10px;
+  font-weight: 500;
   color: var(--text3);
   background: var(--surface2);
   border-radius: 99px;
@@ -1870,12 +1919,21 @@ button {
 .cat-island .cat-count {
   display: none;
 }
-.cat-item.active .cat-count { background: var(--accent-dim); color: var(--accent); }
+.cat-item.active .cat-count { 
+  background: var(--accent-dim); 
+  color: var(--accent); 
+}
 /* .cat-chevron styles are on .cat-island .cat-chevron — see sidebar section */
 
 /* Sub-items (regions) */
-.sub-items { overflow: hidden; max-height: 0; transition: max-height .3s ease; }
-.sub-items.open { max-height: 400px; }
+.sub-items { 
+  overflow: hidden; 
+  max-height: 0; 
+  transition: max-height .3s ease; 
+}
+.sub-items.open {
+  max-height: 400px; 
+}
 .sub-item {
   display: flex;
   align-items: center;
@@ -1888,12 +1946,23 @@ button {
   color: var(--text3);
   transition: all .15s;
 }
-.sub-item:hover { background: var(--surface2); color: var(--text); }
-.sub-item.active { background: var(--accent-dim); color: var(--accent); font-weight: 500; }
-[data-theme="hobbit"] .sub-item.active { color: var(--gold); }
+.sub-item:hover { 
+  background: var(--surface2); 
+  color: var(--text); 
+}
+.sub-item.active { 
+  background: var(--accent-dim); 
+  color: var(--accent); 
+  font-weight: 500; 
+}
+[data-theme="hobbit"] .sub-item.active { 
+  color: var(--gold); 
+  }
 
 /* Blog main content */
-.blog-content { min-width: 0; }
+.blog-content { 
+  min-width: 0; 
+}
 .blog-topbar {
   display: flex;
   align-items: center;
@@ -1910,9 +1979,17 @@ button {
   align-items: center;
   gap: 6px;
 }
-.breadcrumb-sep { opacity: .4; }
-.breadcrumb-active { color: var(--text); }
-.blog-post-count { font-family: var(--font-primary); font-size: 12px; color: var(--text3); }
+.breadcrumb-sep { 
+  opacity: .4; 
+}
+.breadcrumb-active { 
+  color: var(--text); 
+}
+.blog-post-count { 
+  font-family: var(--font-primary); 
+  font-size: 12px; 
+  color: var(--text3); 
+}
 
 
 /* ── 16. POST CARDS ────────────────────────────────────────── */
@@ -1990,7 +2067,7 @@ button {
 [data-theme="hobbit"] .journal-item::before {
   background: var(--gold);
 }
-[data-theme="hobbit"] .journal-item:hover .journal-title {
+[data-theme="hobbit"] .journal-item:hover .post-list-title {
   color: var(--gold);
 }
 [data-theme="hobbit"] .journal-item {
@@ -1998,9 +2075,6 @@ button {
 }
 [data-theme="hobbit"] .journal-item:first-child {
   border-top-color: rgba(244,188,110,0.15);
-}
-[data-theme="hobbit"] .journal-excerpt {
-  color: rgba(255,255,255,0.55);
 }
 .post-card-cover {
   height: 180px;
@@ -2030,11 +2104,12 @@ button {
   flex-wrap: wrap; 
   margin-bottom: 8px; 
 }
-.post-card-date { 
-  font-family: var(--font-primary); 
-  font-size: 11px; 
-  color: var(--text3); 
-  letter-spacing: 1px; 
+.post-card-date {
+  font-family: var(--font-primary);
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--text3);
+  letter-spacing: 0.8px;
 }
 .post-card-type {
   display: none; /* replaced by .post-card-location */
@@ -2042,17 +2117,17 @@ button {
 
 .post-card-location {
   font-family: var(--font-primary);
-  font-size: 11px;
+  font-size: 10px;
+  font-weight: 400;
   color: var(--text3);
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
 .post-card-title {
   font-family: var(--font-primary);
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 17px;
+  font-weight: 600;
   color: var(--text);
-  letter-spacing: -.3px;
   line-height: 1.25;
   margin-bottom: 8px;
   transition: color .2s;
@@ -2070,7 +2145,7 @@ button {
 .post-card-excerpt {
   font-size: 13px;
   color: var(--text2);
-  line-height: 1.65;
+  line-height: 1.5;
   margin-bottom: 12px;
   flex: 1;
   display: -webkit-box;
@@ -2147,32 +2222,53 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
+  font-size: 24px;
 }
 .post-list-thumb img { 
   width: 100%; 
   height: 100%; 
   object-fit: cover; 
 }
-/* .post-list-num removed — index no longer shown in list view */
+
 
 .post-list-content {
   display: flex;
   flex-direction: column;
   min-width: 0;
 }
-.post-list-title { font-family: var(--font-primary); font-size: 17px; font-weight: 700; color: var(--text); letter-spacing: -.3px; line-height: 1.3; margin-bottom: 6px; transition: color .2s; }
-[data-theme="hobbit"] .post-list-title { font-family: var(--font-hobbit); color: var(--gold); }
-.post-list-excerpt { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.post-list-meta { 
-  display: flex; 
-  gap: 12px; 
-  flex-wrap: wrap; 
-  font-size: 11px; 
-  color: var(--text3); 
-  font-family: var(--font-primary); 
-  letter-spacing: 1px; 
-  text-transform: uppercase; 
+.post-list-title {
+  font-family: var(--font-primary);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.25;
+  margin-top: 8px;
+  margin-bottom: 4px;
+  transition: color .2s;
+}
+[data-theme="hobbit"] .post-list-title { 
+  font-family: var(--font-hobbit); 
+  color: var(--gold); 
+}
+.post-list-excerpt { 
+  font-size: 13px; 
+  font-weight: 500;
+  color: var(--text2); 
+  line-height: 1.25; 
+  margin-bottom: 12px; 
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; 
+  overflow: hidden; 
+}
+.post-list-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--text3);
+  font-family: var(--font-primary);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 
@@ -2239,7 +2335,7 @@ button {
   height: 34px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 0;
   font-family: var(--font-body);
   font-size: 12px;
   font-weight: 400;
@@ -2247,26 +2343,42 @@ button {
   flex-wrap: nowrap;
   overflow: hidden;
   white-space: nowrap;
+  min-width: 0;
 }
 
-/* Separator between crumbs */
+/* Separator › */
 .post-crumb-inner .breadcrumb-sep {
-  opacity: 0.4;
+  opacity: 0.35;
   font-size: 11px;
+  flex-shrink: 0;
+  padding-right: 4px;
 }
 
-/* Clickable crumb segments */
-.post-crumb-inner span[style*="cursor:pointer"] {
+/* Clickable crumbs — never shrink, they're short words */
+.crumb-link {
   color: var(--text3);
+  cursor: pointer;
+  flex-shrink: 0;
   transition: color 0.15s;
+  padding-right: 4px;
 }
 
-.post-crumb-inner span[style*="cursor:pointer"]:hover {
+.crumb-link:hover {
   color: var(--text);
 }
 
-[data-theme="hobbit"] .post-crumb-inner span[style*="cursor:pointer"]:hover {
+[data-theme="hobbit"] .crumb-link:hover {
   color: var(--gold);
+}
+
+/* Post title — bold, accent colour, shrinks and truncates first on narrow screens */
+.crumb-title {
+  color: var(--text2);
+  font-weight: 500;
+  flex-shrink: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 
 
@@ -2356,7 +2468,7 @@ button {
   font-size: clamp(1.9rem, 4vw, 2.8rem);
   font-weight: 700;
   color: var(--text);
-  line-height: 1.1;
+  line-height: 1.2;
   letter-spacing: -0.5px;
   margin-bottom: 16px;
 }
@@ -2373,10 +2485,10 @@ button {
   flex-wrap: wrap;
   font-family: var(--font-primary);
   font-size: 12px;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
   color: var(--text3);
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 /* Tags: lightweight # prefix — below meta */
@@ -2388,7 +2500,7 @@ button {
 
 .post-tag-hash {
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 300;
   color: var(--text3);
   letter-spacing: 0.2px;
@@ -2451,6 +2563,34 @@ button {
   line-height: 1.6;
   color: var(--text2);
 }
+
+.post-content table {
+  width: 100%;
+  padding: 8px;
+  background: var(--surface2);
+  border: 1px dashed var(--border);
+  border-radius: 16px;
+  margin: 1.2em 0;
+  border-spacing: 0.6em;
+}
+
+.post-content th {
+  text-align: left;
+  vertical-align: text-top;
+  margin: 4px;
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.post-content td {
+  width: 80%;
+  text-align: left;
+  vertical-align: text-top;
+  margin: 4px;
+  font-size: 0.95rem;
+}
+
 
 [data-theme="hobbit"] .post-content blockquote {
   border-color: var(--gold);
@@ -2731,74 +2871,19 @@ button {
 
 
 /* ── 20. JOURNAL LIST (homepage) ───────────────────────────── */
-.journal-list { max-width: 760px; margin: 0 auto; }
-.journal-item {
-  display: grid;
-  grid-template-columns: 100px 1fr;
-  gap: 20px;
-  padding: 24px 0;
-  border-bottom: 1px solid var(--border);
-  cursor: pointer;
-  transition: all .2s;
-  position: relative;
+.journal-list {
+  max-width: 860px;
+  margin: 0 auto;
 }
-.journal-item:first-child { 
-  border-top: 1px solid var(--border); 
-}
-.journal-item::before {
-  content: '';
-  position: absolute;
-  left: -16px;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: var(--accent);
-  transform: scaleY(0);
-  transition: transform .3s;
-  transform-origin: top;
-}
-.journal-item:hover::before { 
-  transform: scaleY(1); 
-}
-.journal-item:hover .journal-title { 
-  color: var(--accent); 
-}
-.journal-thumb { 
-  height: 70px; 
-  border-radius: 12px; 
-  overflow: hidden; 
-  background: var(--surface2); 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  font-size: 26px; 
-}
-.journal-thumb img { 
-  width: 100%; 
-  height: 100%; 
-  object-fit: cover; 
-}
-.journal-num { 
-  font-family: var(--font-primary); 
-  font-size: 10px; 
-  letter-spacing: 3px; 
-  color: var(--text3); 
-  text-transform: uppercase; 
-  margin-bottom: 4px; 
-}
-.journal-title { 
-  font-family: var(--font-primary); 
-  font-size: 16px; 
-  font-weight: 700; 
-  color: var(--text); 
-  letter-spacing: -.2px; 
-  line-height: 1.3; 
-  margin-bottom: 5px; 
-  transition: color .2s; 
-}
-[data-theme="hobbit"] .journal-title { font-family: var(--font-hobbit); color: var(--gold); }
-.journal-excerpt { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.journal-meta { display: flex; gap: 12px; flex-wrap: wrap; font-size: 11px; color: var(--text3); font-family: var(--font-primary); letter-spacing: 1px; text-transform: uppercase; }
+
+/* Journal list items reuse blog list styles — only wrapper differences */
+.journal-item              { display: grid; grid-template-columns: 100px 1fr; gap: 20px; padding: 24px 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: all .2s; position: relative; }
+.journal-item:first-child  { border-top: 1px solid var(--border); }
+.journal-item::before      { content: ''; position: absolute; left: -16px; top: 0; bottom: 0; width: 2px; background: var(--accent); transform: scaleY(0); transition: transform .3s; transform-origin: top; }
+.journal-item:hover::before                 { transform: scaleY(1); }
+.journal-item:hover .post-list-title        { color: var(--accent); }
+[data-theme="hobbit"] .journal-item::before { background: var(--gold); }
+[data-theme="hobbit"] .journal-item:hover .post-list-title { color: var(--gold); }
 
 
 /* ── 21. ABOUT PAGE ────────────────────────────────────────── */
@@ -3308,7 +3393,7 @@ button {
 
   .regions-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .region-name { font-size: 12px; }
-  .journal-item { grid-template-columns: 80px 1fr; gap: 14px; }
+  .journal-item { grid-template-columns: 80px 1fr; gap: 14px; } /* mirrors post-list-item mobile */
 
   #nz-map { height: 360px; }
   .site-footer { padding: 36px 24px 20px; }

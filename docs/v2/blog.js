@@ -315,7 +315,7 @@ function renderPosts() {
                 locationHTML +
               '</div>' +
               '<div class="post-card-title">' + post.title + '</div>' +
-              '<div class="post-card-excerpt">' + post.excerpt + '</div>' +
+              '<div class="post-card-excerpt" data-post-id="' + post.id + '">' + post.excerpt + '</div>' +
               '<div class="post-card-tags">' + tagHTML + featuredTag + '</div>' +
             '</div>' +
           '</div>'
@@ -361,7 +361,7 @@ function renderPosts() {
                 listLocationHTML +
               '</div>' +
               '<div class="post-list-title">' + post.title + '</div>' +
-              '<div class="post-list-excerpt">' + post.excerpt + '</div>' +
+              '<div class="post-list-excerpt" data-post-id="' + post.id + '">' + post.excerpt + '</div>' +
               '<div class="post-card-tags">' + listTagHTML + listFeaturedTag + '</div>' +
             '</div>' +
           '</div>'
@@ -428,6 +428,7 @@ async function openPost(id) {
         const article  = doc.querySelector("article.post-article");
         content        = article ? article.innerHTML : "<p>Post content not found.</p>";
         postContent[id] = content; /* cache for next time */
+
       } else {
         content = '<p style="color:var(--text3)">Could not load post. (<code>' + post.file + '</code>)</p>';
       }
@@ -510,6 +511,9 @@ async function openPost(id) {
   var crumbInner = document.getElementById("post-crumb-inner");
   if (crumbInner) crumbInner.innerHTML = breadcrumbHTML;
   if (crumbBar)   crumbBar.classList.add("visible");
+
+  /* Use auto-extracted excerpt from body if available, else fall back to registry */
+  const displayExcerpt = post._extractedExcerpt || post.excerpt;
 
   /* Render the full post layout */
   detailEl.innerHTML =
@@ -608,6 +612,9 @@ document.addEventListener("DOMContentLoaded", function() {
   } else {
     renderPosts();
   }
+
+  /* Background-fetch post files to auto-populate excerpts */
+  prefetchExcerpts();
 });
 
 

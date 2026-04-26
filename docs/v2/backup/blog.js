@@ -315,7 +315,7 @@ function renderPosts() {
                 locationHTML +
               '</div>' +
               '<div class="post-card-title">' + post.title + '</div>' +
-              '<div class="post-card-excerpt">' + post.excerpt + '</div>' +
+              '<div class="post-card-excerpt" data-post-id="' + post.id + '">' + post.excerpt + '</div>' +
               '<div class="post-card-tags">' + tagHTML + featuredTag + '</div>' +
             '</div>' +
           '</div>'
@@ -361,7 +361,7 @@ function renderPosts() {
                 listLocationHTML +
               '</div>' +
               '<div class="post-list-title">' + post.title + '</div>' +
-              '<div class="post-list-excerpt">' + post.excerpt + '</div>' +
+              '<div class="post-list-excerpt" data-post-id="' + post.id + '">' + post.excerpt + '</div>' +
               '<div class="post-card-tags">' + listTagHTML + listFeaturedTag + '</div>' +
             '</div>' +
           '</div>'
@@ -428,6 +428,18 @@ async function openPost(id) {
         const article  = doc.querySelector("article.post-article");
         content        = article ? article.innerHTML : "<p>Post content not found.</p>";
         postContent[id] = content; /* cache for next time */
+
+        /* Auto-extract excerpt: first non-empty paragraph from the post body */
+        if (article) {
+          const firstP = article.querySelector("p");
+          if (firstP) {
+            const rawText = firstP.textContent.trim();
+            /* Truncate to ~240 chars (approx 2 lines) */
+            post._extractedExcerpt = rawText.length > 240
+              ? rawText.slice(0, 237) + "…"
+              : rawText;
+          }
+        }
       } else {
         content = '<p style="color:var(--text3)">Could not load post. (<code>' + post.file + '</code>)</p>';
       }
@@ -442,28 +454,33 @@ async function openPost(id) {
   const prevPost  = posts[postIndex - 1] || null;
   const nextPost  = posts[postIndex + 1] || null;
 
-  /* Build the breadcrumb trail — now shown in the post body, not the hero */
-  const islandLabel  = post.island === "south" ? "South Island"
-                     : post.island === "north" ? "North Island"
-                     : null;
+  /* Build breadcrumb: All › Island › Region › Location › Title */
+  const islandLabel = post.island === "south" ? "South Island"
+                    : post.island === "north" ? "North Island"
+                    : null;
 
   const islandCrumb = islandLabel
-    ? '<span class="breadcrumb-sep"> › </span>' +
-      '<span style="cursor:pointer" onclick="closePost();setFilter({type:\'island\',value:\'' +
+    ? '<span class="breadcrumb-sep"> ›</span> ' +
+      '<span class="crumb-link" onclick="closePost();setFilter({type:\'island\',value:\'' +
       post.island + '\'},\'' + islandLabel + '\');renderPosts()">' + islandLabel + '</span>'
     : "";
 
   const regionCrumb = post.region
-    ? '<span class="breadcrumb-sep"> › </span>' +
-      '<span style="cursor:pointer" onclick="closePost();setFilter({type:\'region\',value:\'' +
-      post.region + '\'},\'' + islandLabel + ' › ' + post.region + '\');renderPosts()">' +
+    ? '<span class="breadcrumb-sep"> ›</span> ' +
+      '<span class="crumb-link" onclick="closePost();setFilter({type:\'region\',value:\'' +
+      post.region + '\'},\'' + (islandLabel ? islandLabel + ' › ' : '') + post.region + '\');renderPosts()">' +
       post.region + '</span>'
     : "";
 
+  const titleCrumb =
+    '<span class="breadcrumb-sep"> ›</span> ' +
+    '<span class="crumb-title">' + post.title + '</span>';
+
   const breadcrumbHTML =
-    '<span onclick="closePost()" style="cursor:pointer">All Posts</span>' +
+    '<span class="crumb-link" onclick="closePost()">All</span>' +
     islandCrumb +
-    regionCrumb;
+    regionCrumb +
+    titleCrumb;
 
   /* Cover image or emoji fallback for the hero banner */
   const heroImgHTML = post.cover
@@ -481,8 +498,7 @@ async function openPost(id) {
   /* Meta line: date, location, region — goes ABOVE the title */
   const metaHTML =
     '<span>📅 ' + formatDateShort(post.date) + '</span>' +
-    (post.location ? '<span>📍 ' + post.location + '</span>' : "") +
-    (post.region   ? '<span>🗺 ' + post.region   + '</span>' : "");
+    (post.location ? '<span>📍 ' + post.location + '</span>' : "");
 
   /* Prev / next navigation cards */
   const prevCard = prevPost
@@ -506,6 +522,9 @@ async function openPost(id) {
   var crumbInner = document.getElementById("post-crumb-inner");
   if (crumbInner) crumbInner.innerHTML = breadcrumbHTML;
   if (crumbBar)   crumbBar.classList.add("visible");
+
+  /* Use auto-extracted excerpt from body if available, else fall back to registry */
+  const displayExcerpt = post._extractedExcerpt || post.excerpt;
 
   /* Render the full post layout */
   detailEl.innerHTML =
@@ -570,6 +589,42 @@ window.addEventListener("popstate", function(event) {
 });
 
 
+/* ── 7b. BACKGROUND EXCERPT PREFETCH ─────────────────────────────
+   After the initial render, fetch all post HTML files in parallel.
+   Extracts the first <p> text from each article and silently updates
+   any card/list excerpt elements already in the DOM.
+   The initial render is instant (uses registry excerpt); excerpts
+   upgrade themselves as files arrive.
+─────────────────────────────────────────────────────────────────── */
+function extractExcerptFromHTML(html) {
+  var doc     = (new DOMParser()).parseFromString(html, "text/html");
+  var article = doc.querySelector("article.post-article");
+  var p       = article ? article.querySelector("p") : null;
+  if (!p) return null;
+  var text = p.textContent.trim();
+  return text.length > 240 ? text.slice(0, 237) + "…" : text;
+}
+
+function prefetchExcerpts() {
+  POSTS.forEach(function(post) {
+    if (!post.file) return;
+    fetch(post.file)
+      .then(function(r) { return r.ok ? r.text() : null; })
+      .then(function(html) {
+        if (!html) return;
+        var excerpt = extractExcerptFromHTML(html);
+        if (!excerpt) return;
+        /* Cache on the post object so openPost() can use it too */
+        post._extractedExcerpt = excerpt;
+        /* Update any card/list excerpt elements already rendered in the DOM */
+        document.querySelectorAll('[data-post-id="' + post.id + '"]').forEach(function(el) {
+          el.textContent = excerpt;
+        });
+      })
+      .catch(function() { /* silently ignore network errors */ });
+  });
+}
+
 /* ── 8. PAGE INIT ────────────────────────────────────────────── */
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -604,6 +659,9 @@ document.addEventListener("DOMContentLoaded", function() {
   } else {
     renderPosts();
   }
+
+  /* Background-fetch post files to auto-populate excerpts */
+  prefetchExcerpts();
 });
 
 
