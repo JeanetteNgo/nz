@@ -536,6 +536,8 @@ async function openPost(id) {
     '</div>';
 
   document.getElementById("post-progress")?.classList.add("visible");
+  /* Wrap images in figure containers and enable lightbox */
+  initPostImages();
 }
 
 /* Closes the post detail view and returns to the listing */
@@ -577,6 +579,87 @@ window.addEventListener("popstate", function(event) {
   }
 });
 
+
+/* ── 7c. POST IMAGE LIGHTBOX ──────────────────────────────────
+   Runs after post content is injected into the DOM.
+   Wraps every <img> inside .post-content in a <div class="post-figure">
+   with a gradient overlay and caption drawn from the alt attribute.
+   Clicking any image opens the lightbox.
+─────────────────────────────────────────────────────────────── */
+function initPostImages() {
+  var content = document.querySelector("#post-detail .post-content");
+  if (!content) return;
+
+  content.querySelectorAll("img").forEach(function(img) {
+    /* Skip if already wrapped */
+    if (img.parentElement.classList.contains("post-figure")) return;
+
+    var caption = (img.alt || "").trim();
+
+    /* Build wrapper */
+    var figure = document.createElement("div");
+    figure.className = "post-figure" + (caption ? "" : " no-caption");
+    figure.title = caption ? "Click to enlarge" : "";
+
+    /* Gradient overlay */
+    var overlay = document.createElement("div");
+    overlay.className = "post-figure-overlay";
+
+    /* Caption label */
+    var capEl = document.createElement("p");
+    capEl.className = "post-figure-caption";
+    capEl.textContent = caption;
+
+    /* Wrap img */
+    img.parentNode.insertBefore(figure, img);
+    figure.appendChild(img);
+    figure.appendChild(overlay);
+    if (caption) figure.appendChild(capEl);
+
+    /* Lightbox on click */
+    figure.addEventListener("click", function() {
+      openLightbox(img.src, caption);
+    });
+  });
+}
+
+function openLightbox(src, caption) {
+  var box    = document.getElementById("lightbox");
+  var imgEl  = document.getElementById("lightbox-img");
+  var capEl  = document.getElementById("lightbox-caption");
+  if (!box || !imgEl) return;
+
+  imgEl.src = src;
+  imgEl.alt = caption || "";
+  capEl.textContent = caption || "";
+  capEl.style.display = caption ? "" : "none";
+  box.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeLightbox() {
+  var box = document.getElementById("lightbox");
+  if (!box) return;
+  box.classList.remove("open");
+  document.getElementById("lightbox-img").src = "";
+  document.body.style.overflow = "";
+}
+
+/* Close on overlay click or ESC */
+document.addEventListener("DOMContentLoaded", function() {
+  var box = document.getElementById("lightbox");
+  if (!box) return;
+
+  document.getElementById("lightbox-close").addEventListener("click", closeLightbox);
+
+  box.addEventListener("click", function(e) {
+    if (e.target === box) closeLightbox();
+  });
+
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") closeLightbox();
+  });
+});
 
 /* ── 8. PAGE INIT ────────────────────────────────────────────── */
 

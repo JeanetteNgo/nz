@@ -2523,11 +2523,148 @@ button {
   line-height: 1.8;
 }
 
-.post-content img {
-  border-radius: 8px;
-  margin: 1.8em auto;
+
+
+/* ── Post image figures (JS-wrapped after content loads) ── */
+.post-figure {
+  position: relative;
+  margin: 2em auto;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: zoom-in;
   display: block;
+  /* subtle lift */
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+ 
+.post-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.5s ease;
+}
+ 
+.post-figure:hover img {
+  transform: scale(1.02);
+}
+ 
+.post-figure-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 25%;
+  background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
+  transition: opacity 0.25s;
+  opacity: 0.7;
+  pointer-events: none;
+}
+ 
+.post-figure:hover .post-figure-overlay {
+  opacity: 1;
+}
+ 
+/* Caption — overlaid on the gradient at bottom of image */
+.post-figure-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 4px 20px;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 0.2px;
+  line-height: 1.4;
+  pointer-events: none;
+}
+ 
+/* Hide gradient + caption when there's no alt text */
+.post-figure.no-caption .post-figure-overlay,
+.post-figure.no-caption .post-figure-caption {
+  display: none;
+}
+ 
+ 
+/* ══════════════════════════════════════════════════════════════
+   LIGHTBOX
+   ══════════════════════════════════════════════════════════════ */
+ 
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(0,0,0,0.92);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 24px;
+  cursor: zoom-out;
+  /* fade in */
+  animation: lightboxFadeIn 0.2s ease;
+}
+ 
+.lightbox.open {
+  display: flex;
+}
+ 
+@keyframes lightboxFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+ 
+.lightbox-close {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  z-index: 9001;
+}
+ 
+.lightbox-close:hover {
+  background: rgba(255,255,255,0.22);
+}
+ 
+.lightbox-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  max-width: min(90vw, 1100px);
+  max-height: 90vh;
+  cursor: default;
+}
+ 
+.lightbox-img {
   max-width: 100%;
+  max-height: 78vh;
+  object-fit: contain;
+  border-radius: 6px;
+  display: block;
+}
+ 
+.lightbox-caption {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  line-height: 1.5;
+  max-width: 700px;
+  margin: 0;
 }
 
 .post-content h2 {
