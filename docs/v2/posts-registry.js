@@ -174,21 +174,21 @@ const POSTS = [
     file:     "posts/milford-sound.html"
   },
   {
-    id:       "west-coast-drive",
-    title:    "The West Coast: New Zealand's Wild Side",
-    date:     "2024-07-14",
+    id:       "work-haast",
+    title:    "Housekeeping and Web Design at Haast",
+    date:     "2024-04-01",
     category: "location",
     island:   "south",
     region:   "West Coast",
-    location: "West Coast",
-    tags:     ["road trip", "glaciers", "rain forest", "wild"],
+    location: "Haast",
+    tags:     ["work", "helpX", "housekeeping", "web design"],
     emoji:    "🌧️",
-    cover:    CDN_BASE + "/images/westcoast.jpg",
+    cover:    CDN_BASE + "/images/south-island/west-coast/haast/work/haast-27.4-1.webp",
     excerpt:  "Three days driving the wettest, most dramatic stretch of road I've ever been on. The West Coast does not compromise.",
     featured: false,
-    mapLat:   -43.2,
-    mapLng:   170.6,
-    file:     "posts/west-coast-drive.html"
+    mapLat:   -43.86,
+    mapLng:   169.05,
+    file:     "posts/work-haast.html"
   },
   {
     id:       "best-sunsets",
