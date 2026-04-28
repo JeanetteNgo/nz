@@ -55,14 +55,14 @@ const POSTS = [
     file:     "posts/working-holiday-guide.html"
   },
   {
-    id:       "tongariro-crossing",
-    title:    "Tongariro Alpine Crossing: Hiking Middle Earth",
+    id:       "tongariro-alpine-crossing",
+    title:    "Tongariro Alpine Crossing: Through Middle Earth",
     date:     "2025-01-30",
     category: "location",
     island:   "north",
     region:   "Manawatū-Whanganui",
     location: "Tongariro National Park",
-    tags:     ["hiking", "lotr", "UNESCO"],
+    tags:     ["hiking", "lotr", "volcanic"],
     emoji:    "🌋",
     cover:    CDN_BASE + "/images/regions/whanganui-thumbnail.jpg",
     excerpt:  "Trek 21.3km through a Middle Earth-esque landscape, with breathtaking views of volcanic craters and emerald lakes. ",
@@ -376,7 +376,7 @@ const FEATURED_LIST = [
   "working-holiday-guide",
   "best-sunsets",
   "nz-food",
-  "tongariro-crossing",
+  "tongariro-alpine-crossing",
   "wings-over-whales",
   "the-nevis-swing",
 ];
