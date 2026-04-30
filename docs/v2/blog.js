@@ -590,33 +590,86 @@ function initPostImages() {
   var content = document.querySelector("#post-detail .post-content");
   if (!content) return;
 
+  /* ── 1. Image grids: auto-columns + aspect-ratio per image ── */
+  content.querySelectorAll(".post-img-grid").forEach(function(grid) {
+    /* Already initialised (e.g. openPost called twice) */
+    if (grid.classList.contains("grid-cols-2") || grid.classList.contains("grid-cols-3")) return;
+
+    var imgs   = Array.from(grid.querySelectorAll("img"));
+    var count  = imgs.length;
+
+    /* Column count: min 2, max 3; 4 images = 2×2 */
+    var cols = (count === 4) ? 2 : Math.min(Math.max(count, 2), 3);
+    grid.classList.add("grid-cols-" + cols);
+
+    imgs.forEach(function(img) {
+      var caption = (img.alt || "").trim();
+
+      /* Cell wrapper: image container + caption */
+      var cell = document.createElement("div");
+      cell.className = "post-grid-cell";
+
+      /* Image wrap: receives the aspect-ratio from JS */
+      var wrap = document.createElement("div");
+      wrap.className = "post-grid-img-wrap";
+
+      img.parentNode.insertBefore(cell, img);
+      cell.appendChild(wrap);
+      wrap.appendChild(img);
+
+      /* Caption below the image */
+      if (caption) {
+        var capEl = document.createElement("p");
+        capEl.className = "post-grid-caption";
+        capEl.textContent = caption;
+        cell.appendChild(capEl);
+      }
+
+      /* Set aspect-ratio from natural dimensions once image is ready.
+         Landscape (w > h) → 4:3  |  Portrait (h >= w) → 3:4          */
+      function applyAspectRatio() {
+        var isPortrait = img.naturalHeight > img.naturalWidth;
+        wrap.style.aspectRatio = isPortrait ? "3 / 4" : "4 / 3";
+      }
+
+      if (img.complete && img.naturalWidth > 0) {
+        applyAspectRatio();
+      } else {
+        img.addEventListener("load", applyAspectRatio);
+      }
+
+      /* Lightbox on click */
+      cell.addEventListener("click", function() {
+        openLightbox(img.src, caption);
+      });
+    });
+  });
+
+  /* ── 2. Standalone images: gradient overlay + caption ── */
   content.querySelectorAll("img").forEach(function(img) {
+    /* Skip images inside grids (already handled above) */
+    if (img.closest(".post-img-grid")) return;
     /* Skip if already wrapped */
     if (img.parentElement.classList.contains("post-figure")) return;
 
     var caption = (img.alt || "").trim();
 
-    /* Build wrapper */
     var figure = document.createElement("div");
     figure.className = "post-figure" + (caption ? "" : " no-caption");
     figure.title = caption ? "Click to enlarge" : "";
 
-    /* Gradient overlay */
     var overlay = document.createElement("div");
     overlay.className = "post-figure-overlay";
 
-    /* Caption label */
     var capEl = document.createElement("p");
     capEl.className = "post-figure-caption";
     capEl.textContent = caption;
 
-    /* Wrap img */
     img.parentNode.insertBefore(figure, img);
     figure.appendChild(img);
     figure.appendChild(overlay);
     if (caption) figure.appendChild(capEl);
 
-    /* Lightbox on click */
     figure.addEventListener("click", function() {
       openLightbox(img.src, caption);
     });

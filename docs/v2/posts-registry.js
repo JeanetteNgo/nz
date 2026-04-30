@@ -54,6 +54,40 @@ const POSTS = [
     mapLng:   null,
     file:     "posts/working-holiday-guide.html"
   },
+   {
+    id:       "best-sunsets",
+    title:    "New Zealand's Best Sunsets, Ranked",
+    date:     "2024-09-22",
+    category: "general",
+    island:   null,
+    region:   null,
+    location: null,
+    tags:     ["photography", "lists", "landscape", "golden hour"],
+    emoji:    "🌅",
+    cover:    null,
+    excerpt:  "A completely subjective ranking of the best places I watched the sun go down this year.",
+    featured: false,
+    mapLat:   null,
+    mapLng:   null,
+    file:     "posts/best-sunsets.html"
+  },
+  {
+    id:       "nz-food",
+    title:    "Favourite Foods from a Year in Aotearoa",
+    date:     "2024-11-10",
+    category: "general",
+    island:   null,
+    region:   null,
+    location: null,
+    tags:     ["food", "culture", "flat white", "recommendations"],
+    emoji:    "🥧",
+    cover:    null,
+    excerpt:  "A sincere accounting of the best things I ate during twelve months in New Zealand.",
+    featured: false,
+    mapLat:   null,
+    mapLng:   null,
+    file:     "posts/nz-food.html"
+  },
   {
     id:       "tongariro-alpine-crossing",
     title:    "Tongariro Alpine Crossing: Through Middle Earth",
@@ -189,40 +223,6 @@ const POSTS = [
     mapLat:   -43.86,
     mapLng:   169.05,
     file:     "posts/work-haast.html"
-  },
-  {
-    id:       "best-sunsets",
-    title:    "New Zealand's Best Sunsets, Ranked",
-    date:     "2024-09-22",
-    category: "general",
-    island:   null,
-    region:   null,
-    location: null,
-    tags:     ["photography", "lists", "landscape", "golden hour"],
-    emoji:    "🌅",
-    cover:    null,
-    excerpt:  "A completely subjective ranking of the best places I watched the sun go down this year.",
-    featured: false,
-    mapLat:   null,
-    mapLng:   null,
-    file:     "posts/best-sunsets.html"
-  },
-  {
-    id:       "nz-food",
-    title:    "Favourite Foods from a Year in Aotearoa",
-    date:     "2024-11-10",
-    category: "general",
-    island:   null,
-    region:   null,
-    location: null,
-    tags:     ["food", "culture", "flat white", "recommendations"],
-    emoji:    "🥧",
-    cover:    null,
-    excerpt:  "A sincere accounting of the best things I ate during twelve months in New Zealand.",
-    featured: false,
-    mapLat:   null,
-    mapLng:   null,
-    file:     "posts/nz-food.html"
   }
 ];
 
