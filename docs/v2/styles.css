@@ -2738,8 +2738,9 @@ button {
   font-weight: 600;
   text-transform: uppercase;
   color: var(--text);
-  margin: 2em 0 0.8em;
+  margin: 2em 0 0.4em;
 }
+
 
 [data-theme="hobbit"] .post-content h2 {
   font-family: var(--font-hobbit);
@@ -2820,7 +2821,7 @@ button {
   font-weight: 700;
   color: var(--accent);
   border-color: var(--accent);
-  transition: all 0.2s;
+  transition: ease 0.3s;
 }
 
 [data-theme="hobbit"] .post-content a {
