@@ -55,21 +55,21 @@ const POSTS = [
     file:     "posts/working-holiday-guide.html"
   },
    {
-    id:       "best-viewpoints",
-    title:    "New Zealand's Best Viewpoints, Ranked",
-    date:     "2024-09-22",
+    id:       "best-views",
+    title:    "New Zealand's Best Views, Ranked",
+    date:     "2026-05-14",
     category: "general",
     island:   null,
     region:   null,
     location: null,
-    tags:     ["viewpoints", "photography", "landscape", "instagram"],
+    tags:     ["views", "photography", "landscape", "instagram"],
     emoji:    "🌅",
-    cover:    CDN_BASE + "/images/regions/northland-thumbnail.jpg",
+    cover:    CDN_BASE + "/images/south-island/canterbury/ashburton/mount-sunday/mount-sunday-1.webp",
     excerpt:  "A completely subjective ranking of the best places I watched the sun go down this year.",
-    featured: false,
+    featured: true,
     mapLat:   null,
     mapLng:   null,
-    file:     "posts/best-viewpoints.html"
+    file:     "posts/best-views.html"
   },
   {
     id:       "nz-food",
