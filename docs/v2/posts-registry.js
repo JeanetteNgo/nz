@@ -55,21 +55,21 @@ const POSTS = [
     file:     "posts/working-holiday-guide.html"
   },
    {
-    id:       "best-sunsets",
-    title:    "New Zealand's Best Sunsets, Ranked",
+    id:       "best-viewpoints",
+    title:    "New Zealand's Best Viewpoints, Ranked",
     date:     "2024-09-22",
     category: "general",
     island:   null,
     region:   null,
     location: null,
-    tags:     ["photography", "lists", "landscape", "golden hour"],
+    tags:     ["viewpoints", "photography", "landscape", "instagram"],
     emoji:    "🌅",
-    cover:    null,
+    cover:    CDN_BASE + "/images/regions/northland-thumbnail.jpg",
     excerpt:  "A completely subjective ranking of the best places I watched the sun go down this year.",
     featured: false,
     mapLat:   null,
     mapLng:   null,
-    file:     "posts/best-sunsets.html"
+    file:     "posts/best-viewpoints.html"
   },
   {
     id:       "nz-food",
