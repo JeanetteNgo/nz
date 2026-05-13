@@ -1,34 +1,34 @@
 /*
   posts-registry.js
   Single source of truth for all blog post metadata.
-
+ 
   ── CLOUDFLARE R2 IMAGE HOSTING ─────────────────────────────
   Set CDN_BASE to your R2 public bucket URL (or custom domain):
-
+ 
     const CDN_BASE = "https://pub-xxxxxxxxxxxx.r2.dev";
-
+ 
   Then all cover images resolve automatically.
   Upload via Cloudflare dashboard or:
     wrangler r2 object put nz-blog-assets/images/tongariro.jpg --file ./tongariro.jpg
-
+ 
   Leave CDN_BASE as "" to use local paths (for local dev).
   ────────────────────────────────────────────────────────────
-
+ 
   HOW TO ADD A NEW POST:
   1. Create posts/your-slug.html (copy _template.html)
   2. Add an entry to POSTS below — fill in all fields
-
+ 
   HOW TO STYLE REGION CARDS:
   - Layout/sizing: styles.css → ".region-card", ".region-thumb", ".region-name"
   - Rendered by: index.js → renderRegions()
   - Images: update the `cover` field in REGIONS below
   - Without a cover, falls back to first post cover in that region, then emoji
-
+ 
   CATEGORY SYSTEM:
     island:   "north" | "south" | null
     region:   must match a name in REGIONS (or null for general posts)
     category: "location" | "general"
-    featured: true → appears in Featured filter + homepage Journal
+    featured: true → post appears in the homepage Journal list tab
 */
 
 
@@ -372,11 +372,11 @@ const REGIONS = [
   Controls which posts appear in the homepage Journal (list) tab.
   Edit this array to curate. Uses post id strings.
 ════════════════════════════════════════════════════════════ */
-const FEATURED_LIST = [
-  "working-holiday-guide",
-  "best-sunsets",
-  "nz-food",
-  "tongariro-alpine-crossing",
-  "wings-over-whales",
-  "the-nevis-swing",
-];
+// const FEATURED_LIST = [
+//   "working-holiday-guide",
+//   "best-sunsets",
+//   "nz-food",
+//   "tongariro-alpine-crossing",
+//   "wings-over-whales",
+//   "the-nevis-swing",
+// ];

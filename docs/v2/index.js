@@ -286,7 +286,7 @@ function renderRegions() {
 function renderJournal() {
   const container = document.getElementById("journal-list");
   if (!container) return;
-  const posts = FEATURED_LIST.map(id => POSTS.find(p => p.id === id)).filter(Boolean);
+  var posts = POSTS.filter(function(p) { return p.featured; });
 
   container.innerHTML = posts.map(function(p) {
     /* Thumb: cover image with emoji fallback */
@@ -307,9 +307,6 @@ function renderJournal() {
       return '<span class="post-tag-hash">#' + t.toLowerCase().replace(/ /g, '_') + '</span>';
     }).join('');
 
-    const featuredTag = p.featured
-      ? '<span class="card-featured-tag">⭐ Featured</span>'
-      : '';
 
     return (
       '<div class="journal-item" onclick="window.location.href=\'blog.html?post=' + p.id + '\'">' +
@@ -321,7 +318,7 @@ function renderJournal() {
           '</div>' +
           '<div class="post-list-title">' + p.title + '</div>' +
           '<div class="post-list-excerpt" data-post-id="' + p.id + '">' + p.excerpt + '</div>' +
-          '<div class="post-card-tags">' + tagHTML + featuredTag + '</div>' +
+          '<div class="post-card-tags">' + tagHTML + '</div>' +
         '</div>' +
       '</div>'
     );

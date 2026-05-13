@@ -22,7 +22,6 @@
      { type: "island",   value: "south" }
      { type: "region",   value: "Canterbury" }
      { type: "general" }
-     { type: "featured" }
 */
 let activeFilter = { type: "all", value: null };
 
@@ -143,17 +142,6 @@ function buildCategoryTree(targetEl) {
   };
   tree.appendChild(generalItem);
 
-  /* ── FEATURED — section header style ── */
-  const featuredItem     = document.createElement("div");
-  featuredItem.className = "cat-section-header";
-  featuredItem.id        = pfx + "cat-featured";
-  featuredItem.innerHTML =
-    '<span>⭐ Featured</span>' +
-    '<span class="cat-count">' + countFor({ type: "featured" }) + '</span>';
-  featuredItem.onclick   = function() {
-    setFilter({ type: "featured", value: null }, "Featured");
-  };
-  tree.appendChild(featuredItem);
 }
 
 /* Opens or closes an island's sub-region drawer */
@@ -191,7 +179,6 @@ function setFilter(filter, breadcrumbLabel) {
   ["", "mob-"].forEach(function(pfx) {
     if (filter.type === "all")      document.getElementById(pfx + "cat-all")?.classList.add("active");
     if (filter.type === "general")  document.getElementById(pfx + "cat-general")?.classList.add("active");
-    if (filter.type === "featured") document.getElementById(pfx + "cat-featured")?.classList.add("active");
 
     if (filter.type === "region") {
       const slug = filter.value.replace(/[\s\/]/g, "-");
@@ -257,7 +244,6 @@ function filterPosts(filter) {
     case "island":   return POSTS.filter(function(p) { return p.island   === filter.value; });
     case "region":   return POSTS.filter(function(p) { return p.region   === filter.value; });
     case "general":  return POSTS.filter(function(p) { return p.category === "general";    });
-    case "featured": return POSTS.filter(function(p) { return p.featured;                 });
     default:         return POSTS;
   }
 }
@@ -302,9 +288,6 @@ function renderPosts() {
           return '<span class="post-tag-hash">#' + tag.toLowerCase().replace(/ /g,'_') + '</span>';
         }).join('');
 
-        var featuredTag = post.featured
-          ? '<span class="card-featured-tag">⭐ Featured</span>'
-          : '';
 
         return (
           '<div class="post-card" onclick="openPost(\'' + post.id + '\')">' +
@@ -316,7 +299,7 @@ function renderPosts() {
               '</div>' +
               '<div class="post-card-title">' + post.title + '</div>' +
               '<div class="post-card-excerpt" data-post-id="' + post.id + '">' + post.excerpt + '</div>' +
-              '<div class="post-card-tags">' + tagHTML + featuredTag + '</div>' +
+              '<div class="post-card-tags">' + tagHTML + '</div>' +
             '</div>' +
           '</div>'
         );
@@ -348,9 +331,6 @@ function renderPosts() {
           return '<span class="post-tag-hash">#' + t.toLowerCase().replace(/ /g,'_') + '</span>';
         }).join('');
 
-        var listFeaturedTag = post.featured
-          ? '<span class="card-featured-tag">⭐ Featured</span>'
-          : '';
 
         return (
           '<div class="post-list-item" onclick="openPost(\'' + post.id + '\')">' +
@@ -362,7 +342,7 @@ function renderPosts() {
               '</div>' +
               '<div class="post-list-title">' + post.title + '</div>' +
               '<div class="post-list-excerpt" data-post-id="' + post.id + '">' + post.excerpt + '</div>' +
-              '<div class="post-card-tags">' + listTagHTML + listFeaturedTag + '</div>' +
+              '<div class="post-card-tags">' + listTagHTML + '</div>' +
             '</div>' +
           '</div>'
         );
