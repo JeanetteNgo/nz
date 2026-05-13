@@ -366,17 +366,3 @@ const REGIONS = [
     locations: ["Wellington CBD", "Wairarapa", "Kāpiti Coast"]
   },
 ];
-
-
-/* ══ FEATURED_LIST ═══════════════════════════════════════════
-  Controls which posts appear in the homepage Journal (list) tab.
-  Edit this array to curate. Uses post id strings.
-════════════════════════════════════════════════════════════ */
-// const FEATURED_LIST = [
-//   "working-holiday-guide",
-//   "best-sunsets",
-//   "nz-food",
-//   "tongariro-alpine-crossing",
-//   "wings-over-whales",
-//   "the-nevis-swing",
-// ];
