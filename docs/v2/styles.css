@@ -144,7 +144,6 @@ html {
   scroll-behavior: smooth;
   /* iOS full-bleed under the notch */
   scroll-padding-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px));
-  /* Wider, more visible scrollbar */
   scrollbar-width: thin;
   scrollbar-color: var(--accent3) var(--bg2);
 }
@@ -157,7 +156,6 @@ body {
   line-height: 1.75;
   overflow-x: hidden;
   min-height: 100vh;
-  /* Smooth theme transition — font-size included for hobbit smoothness */
   transition: background .6s ease, color .4s ease, font-size .4s ease;
   cursor: default;
 }
@@ -677,7 +675,7 @@ button {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: rgba(0,0,0,0.45);
+  background: rgba(0,0,0,0.3);
 }
 
 .hero-particles {
@@ -746,8 +744,6 @@ button {
   background: rgba(255,255,255,.6);
 }
 
-/* Hero title: Kanit default, Uncial Antiqua in hobbit mode.
-   Font-size is tuned so both fonts appear at similar visual weight. */
 .hero-title {
   font-family: var(--font-primary);
   font-size: clamp(3rem, 7vw, 4.5rem);
@@ -765,7 +761,6 @@ button {
   animation: none;
 }
 [data-theme="hobbit"] .hero-title {
-  /* Uncial Antiqua needs more space, less tight tracking */
   font-size: clamp(2.4rem, 5.5vw, 3.8rem);
   letter-spacing: 2px;
   line-height: 1.25;
@@ -1658,7 +1653,9 @@ button {
   backdrop-filter: blur(2px);
   align-items: flex-end;
 }
-.mob-filter-overlay.open { display: flex; }
+.mob-filter-overlay.open { 
+  display: flex; 
+}
 .mob-filter-drawer {
   width: 100%;
   max-height: 72vh;
@@ -1669,7 +1666,9 @@ button {
   transform: translateY(100%);
   transition: transform .3s cubic-bezier(.4,0,.2,1);
 }
-.mob-filter-overlay.open .mob-filter-drawer { transform: translateY(0); }
+.mob-filter-overlay.open .mob-filter-drawer { 
+  transform: translateY(0); 
+}
 .mob-filter-header {
   display: flex;
   align-items: center;
@@ -1722,7 +1721,9 @@ button {
   position: sticky;
   top: calc(var(--nav-h) + 24px);
 }
-.sidebar-section { margin-bottom: 32px; }
+.sidebar-section { 
+  margin-bottom: 32px; 
+}
 .sidebar-heading {
   font-family: var(--font-primary);
   font-size: 10px;

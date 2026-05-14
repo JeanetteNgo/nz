@@ -140,21 +140,21 @@ const POSTS = [
     file:     "posts/nevis-swing.html"
   },
   {
-    id:       "auckland-arrival",
-    title:    "Auckland: The City You Leave Too Quickly",
-    date:     "2024-01-16",
+    id:       "auckland-skywalk",
+    title:    "The Auckland Skywalk",
+    date:     "2024-12-21",
     category: "location",
     island:   "north",
     region:   "Auckland",
     location: "Auckland",
-    tags:     ["city", "arrival", "harbour", "Waiheke"],
-    emoji:    "🌆",
-    cover:    CDN_BASE + "/images/auckland.jpg",
+    tags:     ["auckland skywalk", "thrill", "aj hackett", "activity"],
+    emoji:    "🫣",
+    cover:    CDN_BASE + "/images/north-island/auckland/skywalk/auckland-skywalk-1.webp",
     excerpt:  "They warned me not to spend too long in Auckland. They were right, and also wrong.",
     featured: false,
-    mapLat:   -36.8509,
-    mapLng:   174.7645,
-    file:     "posts/auckland-arrival.html"
+    mapLat:   -36.8485,
+    mapLng:   174.7622,
+    file:     "posts/auckland-skywalk.html"
   },
   {
     id:       "christchurch-botanic-gardens",
