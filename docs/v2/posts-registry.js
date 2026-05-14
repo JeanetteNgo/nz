@@ -39,7 +39,7 @@ const CDN_BASE = "https://cdn.jeanettengo.com";  // e.g. "https://pub-xxxx.r2.de
 const POSTS = [
   {
     id:       "working-holiday-guide",
-    title:    "The Ultimate Guide to the New Zealand Working Holiday Visa for Singaporeans",
+    title:    "The ultimate guide to the New Zealand Working Holiday Visa for Singaporeans",
     date:     "2024-03-13",
     category: "general",
     island:   null,
@@ -56,7 +56,7 @@ const POSTS = [
   },
    {
     id:       "best-views",
-    title:    "For the 'Gram: Best Views in New Zealand",
+    title:    "Best views in New Zealand",
     date:     "2026-05-14",
     category: "general",
     island:   null,
@@ -64,7 +64,7 @@ const POSTS = [
     location: null,
     tags:     ["views", "photography", "landscape", "scenery"],
     emoji:    "🌅",
-    cover:    CDN_BASE + "/images/south-island/canterbury/ashburton/mount-sunday/mount-sunday-1.webp",
+    cover:    CDN_BASE + "/images/south-island/catlins/kaka-point/nugget-point-1.webp",
     excerpt:  "",
     featured: true,
     mapLat:   null,
@@ -72,25 +72,59 @@ const POSTS = [
     file:     "posts/best-views.html"
   },
   {
-    id:       "nz-food",
-    title:    "Favourite Foods from a Year in Aotearoa",
-    date:     "2024-11-10",
+    id:       "favourite-hikes",
+    title:    "My favourite hikes in New Zealand",
+    date:     "2026-05-14",
     category: "general",
     island:   null,
     region:   null,
     location: null,
-    tags:     ["food", "culture", "flat white", "recommendations"],
-    emoji:    "🥧",
-    cover:    null,
-    excerpt:  "A sincere accounting of the best things I ate during twelve months in New Zealand.",
-    featured: false,
+    tags:     ["hiking", "nature", "outdoors", "recommendations"],
+    emoji:    "🥾",
+    cover:    CDN_BASE + "/images/south-island/canterbury/ashburton/mount-sunday/mount-sunday-1.webp",
+    excerpt:  "A sincere accounting of the best hiking trails I discovered during my time in New Zealand.",
+    featured: true,
     mapLat:   null,
     mapLng:   null,
-    file:     "posts/nz-food.html"
+    file:     "posts/favourite-hikes.html"
+  },
+  {
+    id:       "work-haast",
+    title:    "Working in a motel at Haast",
+    date:     "2024-04-01",
+    category: "location",
+    island:   "south",
+    region:   "West Coast",
+    location: "Haast",
+    tags:     ["work", "helpX", "housekeeping", "web design"],
+    emoji:    "🌧️",
+    cover:    CDN_BASE + "/images/south-island/west-coast/haast/work/haast-27.4-1.webp",
+    excerpt:  "Three days driving the wettest, most dramatic stretch of road I've ever been on. The West Coast does not compromise.",
+    featured: false,
+    mapLat:   -43.86,
+    mapLng:   169.05,
+    file:     "posts/work-haast.html"
+  },
+  {
+    id:       "work-kaiapoi",
+    title:    "Working on a family farm in Kaiapoi",
+    date:     "2024-09-29",
+    category: "location",
+    island:   "south",
+    region:   "Canterbury",
+    location: "Kaiapoi",
+    tags:     ["work", "helpX", "farm", "weeding", "harvesting"],
+    emoji:    "👩🏻‍🌾",
+    cover:    CDN_BASE + "/images/south-island/canterbury/kaiapoi/work-1.webp",
+    excerpt:  "Three days driving the wettest, most dramatic stretch of road I've ever been on. The West Coast does not compromise.",
+    featured: false,
+    mapLat:   -43.3831,
+    mapLng:   172.6569,
+    file:     "posts/work-kaiapoi.html"
   },
   {
     id:       "tongariro-alpine-crossing",
-    title:    "Tongariro Alpine Crossing: Through Middle Earth",
+    title:    "Tongariro Alpine Crossing: walking through Middle Earth",
     date:     "2025-01-30",
     category: "location",
     island:   "north",
@@ -107,7 +141,7 @@ const POSTS = [
   },
   {
     id:       "wings-over-whales",
-    title:    "Whale Watching in Kaikōura: Wings Over Whales",
+    title:    "Wings Over Whales: whale watching in Kaikōura",
     date:     "2024-05-28",
     category: "location",
     island:   "south",
@@ -192,7 +226,7 @@ const POSTS = [
   },
   {
     id:       "milford-sound",
-    title:    "Milford Sound: The 8th Wonder of the World",
+    title:    "Milford Sound - 8th Wonder of the World?",
     date:     "2024-10-22",
     category: "location",
     island:   "south",
@@ -206,23 +240,6 @@ const POSTS = [
     mapLat:   -44.67,
     mapLng:   167.9271,
     file:     "posts/milford-sound.html"
-  },
-  {
-    id:       "work-haast",
-    title:    "Housekeeping and Web Design at Haast",
-    date:     "2024-04-01",
-    category: "location",
-    island:   "south",
-    region:   "West Coast",
-    location: "Haast",
-    tags:     ["work", "helpX", "housekeeping", "web design"],
-    emoji:    "🌧️",
-    cover:    CDN_BASE + "/images/south-island/west-coast/haast/work/haast-27.4-1.webp",
-    excerpt:  "Three days driving the wettest, most dramatic stretch of road I've ever been on. The West Coast does not compromise.",
-    featured: false,
-    mapLat:   -43.86,
-    mapLng:   169.05,
-    file:     "posts/work-haast.html"
   }
 ];
 

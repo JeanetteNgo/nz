@@ -3628,17 +3628,29 @@ button {
     line-height: 1;
     transition: border-color .15s, color .15s;
   }
-  .mob-browse-clear:hover { border-color: var(--text2); color: var(--text2); }
-  [data-theme="hobbit"] .mob-browse-clear { border-color: rgba(244,188,110,0.4); color: var(--gold); }
+  .mob-browse-clear:hover { 
+    border-color: var(--text2); 
+    color: var(--text2); 
+  }
+  [data-theme="hobbit"] .mob-browse-clear { 
+    border-color: rgba(244,188,110,0.4); 
+    color: var(--gold); 
+  }
 
   /* Hide desktop topbar on mobile, show mob-sticky-header instead */
-  .blog-topbar { display: none; }
-  .mob-topbar  { display: none; }  /* old class, kept for safety */
+  .blog-topbar { 
+    display: none; 
+  }
+  .mob-topbar  { 
+    display: none; 
+  }  /* old class, kept for safety */
 
 
-  .post-list-item { grid-template-columns: 80px 1fr; gap: 14px; }
+  .post-list-item { 
+    grid-template-columns: 80px 1fr; 
+    gap: 14px; 
+  }
 
-  /* Post hero banner: tighter, better overlay, readable hierarchy */
   /* Post detail — mobile */
   .post-hero {
     height: clamp(150px, 38vw, 220px);
