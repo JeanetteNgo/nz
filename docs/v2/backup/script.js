@@ -834,3 +834,108 @@ function initShared() {
     link.classList.toggle("active", isActive);
   });
 }
+
+
+/* ══════════════════════════════════════════════════════════════
+   SHARED EXCERPT HELPERS
+   Used by blog.js (card/list) and index.js (journal list).
+   ══════════════════════════════════════════════════════════════ */
+
+/* Extract plain text from a fetched post HTML file.
+   Walks ALL descendant text nodes so content inside tables,
+   lists, blockquotes etc. is included.
+   No character truncation — CSS line-clamp handles responsive
+   2-line clamping for any screen width. */
+/* ── Excerpt extraction ─────────────────────────────────────────
+   Parses post HTML and returns the first ~500 chars of article text.
+   CSS line-clamp handles visible truncation — no char limit here.
+─────────────────────────────────────────────────────────────── */
+function extractExcerptFromHTML(html) {
+  var doc     = (new DOMParser()).parseFromString(html, "text/html");
+  var article = doc.querySelector("article.post-article");
+  if (!article) return null;
+  var text = article.textContent.replace(/\s+/g, " ").trim();
+  /* Cap at 500 chars — more than enough for 2-line clamp */
+  return text.length > 0 ? text.slice(0, 500) : null;
+}
+
+/* ── Excerpt prefetch ────────────────────────────────────────────
+   Called with an optional array of posts to fetch (defaults to all).
+   Strategy:
+     1. Check sessionStorage — skip fetch if already cached this session.
+     2. Stagger requests (one at a time) so map tile fetches are not
+        crowded out.
+     3. Defer the whole operation via requestIdleCallback so it only
+        runs when the browser has no higher-priority work.
+─────────────────────────────────────────────────────────────── */
+var SESSION_KEY = "nz-excerpts-v1";
+
+function loadExcerptCache() {
+  try {
+    var raw = sessionStorage.getItem(SESSION_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) { return {}; }
+}
+
+function saveExcerptCache(cache) {
+  try { sessionStorage.setItem(SESSION_KEY, JSON.stringify(cache)); }
+  catch (e) { /* quota exceeded — silently ignore */ }
+}
+
+function applyExcerpt(post, excerpt) {
+  post._extractedExcerpt = excerpt;
+  document.querySelectorAll('[data-post-id="' + post.id + '"]').forEach(function(el) {
+    el.textContent = excerpt;
+  });
+}
+
+function prefetchExcerpts(postList) {
+  if (typeof POSTS === "undefined") return;
+
+  /* Restore any excerpts already cached this session */
+  var cache = loadExcerptCache();
+  var queue = [];
+
+  (postList || POSTS).forEach(function(post) {
+    if (!post.file) return;
+    if (cache[post.id]) {
+      /* Already cached — apply immediately, no network request */
+      applyExcerpt(post, cache[post.id]);
+    } else {
+      queue.push(post);
+    }
+  });
+
+  if (queue.length === 0) return;
+
+  /* Staggered sequential fetch — one at a time, yielding to the
+     browser between each so map tiles and other work aren't blocked */
+  function fetchNext(i) {
+    if (i >= queue.length) return;
+    var post = queue[i];
+    fetch(post.file)
+      .then(function(r) { return r.ok ? r.text() : null; })
+      .then(function(html) {
+        if (html) {
+          var excerpt = extractExcerptFromHTML(html);
+          if (excerpt) {
+            cache[post.id] = excerpt;
+            applyExcerpt(post, excerpt);
+            saveExcerptCache(cache);
+          }
+        }
+        /* Yield to browser before next fetch */
+        setTimeout(function() { fetchNext(i + 1); }, 50);
+      })
+      .catch(function() {
+        setTimeout(function() { fetchNext(i + 1); }, 50);
+      });
+  }
+
+  /* Defer start until browser is idle (falls back to setTimeout) */
+  if (window.requestIdleCallback) {
+    requestIdleCallback(function() { fetchNext(0); }, { timeout: 3000 });
+  } else {
+    setTimeout(function() { fetchNext(0); }, 500);
+  }
+}

@@ -65,72 +65,17 @@ function buildCategoryTree(targetEl) {
 
   /* ── ALL ── */
   const allItem     = document.createElement("div");
-  allItem.className = "cat-all active";
+  allItem.className = "cat-section-header active";
   allItem.id        = pfx + "cat-all";
-  allItem.textContent = "All";
+  allItem.innerHTML =
+    '<span>All</span>' +
+    '<span class="cat-count">' + countFor({ type: "all" }) + '</span>';
   allItem.onclick   = function() {
     setFilter({ type: "all", value: null }, "All Posts");
   };
   tree.appendChild(allItem);
 
-  /* ── SOUTH ISLAND + NORTH ISLAND (with sub-regions) ── */
-  ["south", "north"].forEach(function(island) {
-    const islandLabel = island === "south" ? "South Island" : "North Island";
-
-    /* Only include regions that have at least one post */
-    const regions = REGIONS.filter(function(r) {
-      return r.island === island && countFor({ type: "region", value: r.name }) > 0;
-    });
-
-    const wrapper = document.createElement("div");
-
-    /* Island header row — clicking toggles the sub-region drawer */
-    const header     = document.createElement("div");
-    header.className = "cat-island";
-    header.id        = pfx + "cat-" + island;
-    header.innerHTML =
-      '<span>' + islandLabel + '</span>' +
-      '<i class="fa-solid fa-chevron-down cat-chevron" id="' + pfx + 'chev-' + island + '"></i>';
-
-    header.onclick = function() {
-      const drawer = document.getElementById(pfx + "sub-" + island);
-      const chev   = document.getElementById(pfx + "chev-" + island);
-      if (!drawer) return;
-      const isNowOpen = !drawer.classList.contains("open");
-      drawer.classList.toggle("open", isNowOpen);
-      if (chev) chev.classList.toggle("open", isNowOpen);
-    };
-    wrapper.appendChild(header);
-
-    /* Sub-region items inside the collapsible drawer */
-    const drawer     = document.createElement("div");
-    drawer.className = "sub-items";
-    drawer.id        = pfx + "sub-" + island;
-
-    regions.forEach(function(region) {
-      const count   = countFor({ type: "region", value: region.name });
-      const row     = document.createElement("div");
-      row.className = "sub-item";
-      row.id        = pfx + "sub-item-" + region.name.replace(/[\s\/]/g, "-");
-      row.innerHTML =
-        '<span>' + region.name + '</span>' +
-        '<span class="cat-count">' + count + '</span>';
-
-      row.onclick = function(e) {
-        e.stopPropagation();
-        setFilter(
-          { type: "region", value: region.name },
-          islandLabel + " › " + region.name
-        );
-      };
-      drawer.appendChild(row);
-    });
-
-    wrapper.appendChild(drawer);
-    tree.appendChild(wrapper);
-  });
-
-  /* ── GENERAL — section header style ── */
+  /* ── GENERAL ── */
   const generalItem     = document.createElement("div");
   generalItem.className = "cat-section-header";
   generalItem.id        = pfx + "cat-general";
@@ -142,17 +87,55 @@ function buildCategoryTree(targetEl) {
   };
   tree.appendChild(generalItem);
 
+  /* ── SOUTH ISLAND + NORTH ISLAND with always-visible sub-regions ── */
+  ["south", "north"].forEach(function(island) {
+    const islandLabel = island === "south" ? "South Island" : "North Island";
+    const islandCount = countFor({ type: "island", value: island });
+
+    /* Only show islands that have at least one post */
+    const regions = REGIONS.filter(function(r) {
+      return r.island === island && countFor({ type: "region", value: r.name }) > 0;
+    });
+    if (regions.length === 0) return;
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "cat-island-group";
+
+    /* Island header — clicking filters to this island */
+    const header     = document.createElement("div");
+    header.className = "cat-section-header";
+    header.id        = pfx + "cat-" + island;
+    header.innerHTML =
+      '<span>' + islandLabel + '</span>' +
+      '<span class="cat-count">' + islandCount + '</span>';
+    header.onclick   = function() {
+      setFilter({ type: "island", value: island }, islandLabel);
+    };
+    wrapper.appendChild(header);
+
+    /* Sub-region items — always visible, no collapse */
+    regions.forEach(function(region) {
+      const count = countFor({ type: "region", value: region.name });
+      const row   = document.createElement("div");
+      row.className = "sub-item";
+      row.id        = pfx + "sub-item-" + region.name.replace(/[\s\/]/g, "-");
+      row.innerHTML =
+        '<span>' + region.name + '</span>' +
+        '<span class="sub-count">' + count + '</span>';
+      row.onclick   = function() {
+        setFilter(
+          { type: "region", value: region.name },
+          islandLabel + " › " + region.name
+        );
+      };
+      wrapper.appendChild(row);
+    });
+
+    tree.appendChild(wrapper);
+  });
+
 }
 
-/* Opens or closes an island's sub-region drawer */
-function toggleSub(island) {
-  const drawer = document.getElementById("sub-" + island);
-  const chev   = document.getElementById("chev-" + island);
-  if (!drawer) return;
-
-  const isNowOpen = drawer.classList.toggle("open");
-  if (chev) chev.classList.toggle("open", isNowOpen);
-}
 
 /* Changes the active filter, updates the sidebar highlight, and re-renders posts */
 function setFilter(filter, breadcrumbLabel) {
@@ -179,6 +162,7 @@ function setFilter(filter, breadcrumbLabel) {
   ["", "mob-"].forEach(function(pfx) {
     if (filter.type === "all")      document.getElementById(pfx + "cat-all")?.classList.add("active");
     if (filter.type === "general")  document.getElementById(pfx + "cat-general")?.classList.add("active");
+    if (filter.type === "island")   document.getElementById(pfx + "cat-" + filter.value)?.classList.add("active");
 
     if (filter.type === "region") {
       const slug = filter.value.replace(/[\s\/]/g, "-");
@@ -298,7 +282,7 @@ function renderPosts() {
                 locationHTML +
               '</div>' +
               '<div class="post-card-title">' + post.title + '</div>' +
-              '<div class="post-card-excerpt" data-post-id="' + post.id + '">' + post.excerpt + '</div>' +
+              '<div class="post-card-excerpt" data-post-id="' + post.id + '">' + (post._extractedExcerpt || post.excerpt) + '</div>' +
               '<div class="post-card-tags">' + tagHTML + '</div>' +
             '</div>' +
           '</div>'
@@ -341,7 +325,7 @@ function renderPosts() {
                 listLocationHTML +
               '</div>' +
               '<div class="post-list-title">' + post.title + '</div>' +
-              '<div class="post-list-excerpt" data-post-id="' + post.id + '">' + post.excerpt + '</div>' +
+              '<div class="post-list-excerpt" data-post-id="' + post.id + '">' + (post._extractedExcerpt || post.excerpt) + '</div>' +
               '<div class="post-card-tags">' + listTagHTML + '</div>' +
             '</div>' +
           '</div>'

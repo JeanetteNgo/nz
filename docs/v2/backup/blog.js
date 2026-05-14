@@ -22,7 +22,6 @@
      { type: "island",   value: "south" }
      { type: "region",   value: "Canterbury" }
      { type: "general" }
-     { type: "featured" }
 */
 let activeFilter = { type: "all", value: null };
 
@@ -66,72 +65,17 @@ function buildCategoryTree(targetEl) {
 
   /* ── ALL ── */
   const allItem     = document.createElement("div");
-  allItem.className = "cat-all active";
+  allItem.className = "cat-section-header active";
   allItem.id        = pfx + "cat-all";
-  allItem.textContent = "All";
+  allItem.innerHTML =
+    '<span>All</span>' +
+    '<span class="cat-count">' + countFor({ type: "all" }) + '</span>';
   allItem.onclick   = function() {
     setFilter({ type: "all", value: null }, "All Posts");
   };
   tree.appendChild(allItem);
 
-  /* ── SOUTH ISLAND + NORTH ISLAND (with sub-regions) ── */
-  ["south", "north"].forEach(function(island) {
-    const islandLabel = island === "south" ? "South Island" : "North Island";
-
-    /* Only include regions that have at least one post */
-    const regions = REGIONS.filter(function(r) {
-      return r.island === island && countFor({ type: "region", value: r.name }) > 0;
-    });
-
-    const wrapper = document.createElement("div");
-
-    /* Island header row — clicking toggles the sub-region drawer */
-    const header     = document.createElement("div");
-    header.className = "cat-island";
-    header.id        = pfx + "cat-" + island;
-    header.innerHTML =
-      '<span>' + islandLabel + '</span>' +
-      '<i class="fa-solid fa-chevron-down cat-chevron" id="' + pfx + 'chev-' + island + '"></i>';
-
-    header.onclick = function() {
-      const drawer = document.getElementById(pfx + "sub-" + island);
-      const chev   = document.getElementById(pfx + "chev-" + island);
-      if (!drawer) return;
-      const isNowOpen = !drawer.classList.contains("open");
-      drawer.classList.toggle("open", isNowOpen);
-      if (chev) chev.classList.toggle("open", isNowOpen);
-    };
-    wrapper.appendChild(header);
-
-    /* Sub-region items inside the collapsible drawer */
-    const drawer     = document.createElement("div");
-    drawer.className = "sub-items";
-    drawer.id        = pfx + "sub-" + island;
-
-    regions.forEach(function(region) {
-      const count   = countFor({ type: "region", value: region.name });
-      const row     = document.createElement("div");
-      row.className = "sub-item";
-      row.id        = pfx + "sub-item-" + region.name.replace(/[\s\/]/g, "-");
-      row.innerHTML =
-        '<span>' + region.name + '</span>' +
-        '<span class="cat-count">' + count + '</span>';
-
-      row.onclick = function(e) {
-        e.stopPropagation();
-        setFilter(
-          { type: "region", value: region.name },
-          islandLabel + " › " + region.name
-        );
-      };
-      drawer.appendChild(row);
-    });
-
-    wrapper.appendChild(drawer);
-    tree.appendChild(wrapper);
-  });
-
-  /* ── GENERAL — section header style ── */
+  /* ── GENERAL ── */
   const generalItem     = document.createElement("div");
   generalItem.className = "cat-section-header";
   generalItem.id        = pfx + "cat-general";
@@ -143,28 +87,55 @@ function buildCategoryTree(targetEl) {
   };
   tree.appendChild(generalItem);
 
-  /* ── FEATURED — section header style ── */
-  const featuredItem     = document.createElement("div");
-  featuredItem.className = "cat-section-header";
-  featuredItem.id        = pfx + "cat-featured";
-  featuredItem.innerHTML =
-    '<span>⭐ Featured</span>' +
-    '<span class="cat-count">' + countFor({ type: "featured" }) + '</span>';
-  featuredItem.onclick   = function() {
-    setFilter({ type: "featured", value: null }, "Featured");
-  };
-  tree.appendChild(featuredItem);
+  /* ── SOUTH ISLAND + NORTH ISLAND with always-visible sub-regions ── */
+  ["south", "north"].forEach(function(island) {
+    const islandLabel = island === "south" ? "South Island" : "North Island";
+    const islandCount = countFor({ type: "island", value: island });
+
+    /* Only show islands that have at least one post */
+    const regions = REGIONS.filter(function(r) {
+      return r.island === island && countFor({ type: "region", value: r.name }) > 0;
+    });
+    if (regions.length === 0) return;
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "cat-island-group";
+
+    /* Island header — clicking filters to this island */
+    const header     = document.createElement("div");
+    header.className = "cat-section-header";
+    header.id        = pfx + "cat-" + island;
+    header.innerHTML =
+      '<span>' + islandLabel + '</span>' +
+      '<span class="cat-count">' + islandCount + '</span>';
+    header.onclick   = function() {
+      setFilter({ type: "island", value: island }, islandLabel);
+    };
+    wrapper.appendChild(header);
+
+    /* Sub-region items — always visible, no collapse */
+    regions.forEach(function(region) {
+      const count = countFor({ type: "region", value: region.name });
+      const row   = document.createElement("div");
+      row.className = "sub-item";
+      row.id        = pfx + "sub-item-" + region.name.replace(/[\s\/]/g, "-");
+      row.innerHTML =
+        '<span>' + region.name + '</span>' +
+        '<span class="sub-count">' + count + '</span>';
+      row.onclick   = function() {
+        setFilter(
+          { type: "region", value: region.name },
+          islandLabel + " › " + region.name
+        );
+      };
+      wrapper.appendChild(row);
+    });
+
+    tree.appendChild(wrapper);
+  });
+
 }
 
-/* Opens or closes an island's sub-region drawer */
-function toggleSub(island) {
-  const drawer = document.getElementById("sub-" + island);
-  const chev   = document.getElementById("chev-" + island);
-  if (!drawer) return;
-
-  const isNowOpen = drawer.classList.toggle("open");
-  if (chev) chev.classList.toggle("open", isNowOpen);
-}
 
 /* Changes the active filter, updates the sidebar highlight, and re-renders posts */
 function setFilter(filter, breadcrumbLabel) {
@@ -191,7 +162,7 @@ function setFilter(filter, breadcrumbLabel) {
   ["", "mob-"].forEach(function(pfx) {
     if (filter.type === "all")      document.getElementById(pfx + "cat-all")?.classList.add("active");
     if (filter.type === "general")  document.getElementById(pfx + "cat-general")?.classList.add("active");
-    if (filter.type === "featured") document.getElementById(pfx + "cat-featured")?.classList.add("active");
+    if (filter.type === "island")   document.getElementById(pfx + "cat-" + filter.value)?.classList.add("active");
 
     if (filter.type === "region") {
       const slug = filter.value.replace(/[\s\/]/g, "-");
@@ -257,7 +228,6 @@ function filterPosts(filter) {
     case "island":   return POSTS.filter(function(p) { return p.island   === filter.value; });
     case "region":   return POSTS.filter(function(p) { return p.region   === filter.value; });
     case "general":  return POSTS.filter(function(p) { return p.category === "general";    });
-    case "featured": return POSTS.filter(function(p) { return p.featured;                 });
     default:         return POSTS;
   }
 }
@@ -302,9 +272,6 @@ function renderPosts() {
           return '<span class="post-tag-hash">#' + tag.toLowerCase().replace(/ /g,'_') + '</span>';
         }).join('');
 
-        var featuredTag = post.featured
-          ? '<span class="card-featured-tag">⭐ Featured</span>'
-          : '';
 
         return (
           '<div class="post-card" onclick="openPost(\'' + post.id + '\')">' +
@@ -316,7 +283,7 @@ function renderPosts() {
               '</div>' +
               '<div class="post-card-title">' + post.title + '</div>' +
               '<div class="post-card-excerpt" data-post-id="' + post.id + '">' + post.excerpt + '</div>' +
-              '<div class="post-card-tags">' + tagHTML + featuredTag + '</div>' +
+              '<div class="post-card-tags">' + tagHTML + '</div>' +
             '</div>' +
           '</div>'
         );
@@ -348,9 +315,6 @@ function renderPosts() {
           return '<span class="post-tag-hash">#' + t.toLowerCase().replace(/ /g,'_') + '</span>';
         }).join('');
 
-        var listFeaturedTag = post.featured
-          ? '<span class="card-featured-tag">⭐ Featured</span>'
-          : '';
 
         return (
           '<div class="post-list-item" onclick="openPost(\'' + post.id + '\')">' +
@@ -362,7 +326,7 @@ function renderPosts() {
               '</div>' +
               '<div class="post-list-title">' + post.title + '</div>' +
               '<div class="post-list-excerpt" data-post-id="' + post.id + '">' + post.excerpt + '</div>' +
-              '<div class="post-card-tags">' + listTagHTML + listFeaturedTag + '</div>' +
+              '<div class="post-card-tags">' + listTagHTML + '</div>' +
             '</div>' +
           '</div>'
         );
@@ -429,17 +393,6 @@ async function openPost(id) {
         content        = article ? article.innerHTML : "<p>Post content not found.</p>";
         postContent[id] = content; /* cache for next time */
 
-        /* Auto-extract excerpt: first non-empty paragraph from the post body */
-        if (article) {
-          const firstP = article.querySelector("p");
-          if (firstP) {
-            const rawText = firstP.textContent.trim();
-            /* Truncate to ~240 chars (approx 2 lines) */
-            post._extractedExcerpt = rawText.length > 240
-              ? rawText.slice(0, 237) + "…"
-              : rawText;
-          }
-        }
       } else {
         content = '<p style="color:var(--text3)">Could not load post. (<code>' + post.file + '</code>)</p>';
       }
@@ -547,6 +500,8 @@ async function openPost(id) {
     '</div>';
 
   document.getElementById("post-progress")?.classList.add("visible");
+  /* Wrap images in figure containers and enable lightbox */
+  initPostImages();
 }
 
 /* Closes the post detail view and returns to the listing */
@@ -589,41 +544,139 @@ window.addEventListener("popstate", function(event) {
 });
 
 
-/* ── 7b. BACKGROUND EXCERPT PREFETCH ─────────────────────────────
-   After the initial render, fetch all post HTML files in parallel.
-   Extracts the first <p> text from each article and silently updates
-   any card/list excerpt elements already in the DOM.
-   The initial render is instant (uses registry excerpt); excerpts
-   upgrade themselves as files arrive.
-─────────────────────────────────────────────────────────────────── */
-function extractExcerptFromHTML(html) {
-  var doc     = (new DOMParser()).parseFromString(html, "text/html");
-  var article = doc.querySelector("article.post-article");
-  var p       = article ? article.querySelector("p") : null;
-  if (!p) return null;
-  var text = p.textContent.trim();
-  return text.length > 240 ? text.slice(0, 237) + "…" : text;
-}
+/* ── 7c. POST IMAGE LIGHTBOX ──────────────────────────────────
+   Runs after post content is injected into the DOM.
+   Wraps every <img> inside .post-content in a <div class="post-figure">
+   with a gradient overlay and caption drawn from the alt attribute.
+   Clicking any image opens the lightbox.
+─────────────────────────────────────────────────────────────── */
+function initPostImages() {
+  var content = document.querySelector("#post-detail .post-content");
+  if (!content) return;
 
-function prefetchExcerpts() {
-  POSTS.forEach(function(post) {
-    if (!post.file) return;
-    fetch(post.file)
-      .then(function(r) { return r.ok ? r.text() : null; })
-      .then(function(html) {
-        if (!html) return;
-        var excerpt = extractExcerptFromHTML(html);
-        if (!excerpt) return;
-        /* Cache on the post object so openPost() can use it too */
-        post._extractedExcerpt = excerpt;
-        /* Update any card/list excerpt elements already rendered in the DOM */
-        document.querySelectorAll('[data-post-id="' + post.id + '"]').forEach(function(el) {
-          el.textContent = excerpt;
-        });
-      })
-      .catch(function() { /* silently ignore network errors */ });
+  /* ── 1. Image grids: auto-columns + aspect-ratio per image ── */
+  content.querySelectorAll(".post-img-grid").forEach(function(grid) {
+    /* Already initialised (e.g. openPost called twice) */
+    if (grid.classList.contains("grid-cols-2") || grid.classList.contains("grid-cols-3")) return;
+
+    var imgs   = Array.from(grid.querySelectorAll("img"));
+    var count  = imgs.length;
+
+    /* Column count: min 2, max 3; 4 images = 2×2 */
+    var cols = (count === 4) ? 2 : Math.min(Math.max(count, 2), 3);
+    grid.classList.add("grid-cols-" + cols);
+
+    imgs.forEach(function(img) {
+      var caption = (img.alt || "").trim();
+
+      /* Cell wrapper: image container + caption */
+      var cell = document.createElement("div");
+      cell.className = "post-grid-cell";
+
+      /* Image wrap: receives the aspect-ratio from JS */
+      var wrap = document.createElement("div");
+      wrap.className = "post-grid-img-wrap";
+
+      img.parentNode.insertBefore(cell, img);
+      cell.appendChild(wrap);
+      wrap.appendChild(img);
+
+      /* Caption below the image */
+      if (caption) {
+        var capEl = document.createElement("p");
+        capEl.className = "post-grid-caption";
+        capEl.textContent = caption;
+        cell.appendChild(capEl);
+      }
+
+      /* Set aspect-ratio from natural dimensions once image is ready.
+         Landscape (w > h) → 4:3  |  Portrait (h >= w) → 3:4          */
+      function applyAspectRatio() {
+        var isPortrait = img.naturalHeight > img.naturalWidth;
+        wrap.style.aspectRatio = isPortrait ? "3 / 4" : "4 / 3";
+      }
+
+      if (img.complete && img.naturalWidth > 0) {
+        applyAspectRatio();
+      } else {
+        img.addEventListener("load", applyAspectRatio);
+      }
+
+      /* Lightbox on click */
+      cell.addEventListener("click", function() {
+        openLightbox(img.src, caption);
+      });
+    });
+  });
+
+  /* ── 2. Standalone images: gradient overlay + caption ── */
+  content.querySelectorAll("img").forEach(function(img) {
+    /* Skip images inside grids (already handled above) */
+    if (img.closest(".post-img-grid")) return;
+    /* Skip if already wrapped */
+    if (img.parentElement.classList.contains("post-figure")) return;
+
+    var caption = (img.alt || "").trim();
+
+    var figure = document.createElement("div");
+    figure.className = "post-figure" + (caption ? "" : " no-caption");
+    figure.title = caption ? "Click to enlarge" : "";
+
+    var overlay = document.createElement("div");
+    overlay.className = "post-figure-overlay";
+
+    var capEl = document.createElement("p");
+    capEl.className = "post-figure-caption";
+    capEl.textContent = caption;
+
+    img.parentNode.insertBefore(figure, img);
+    figure.appendChild(img);
+    figure.appendChild(overlay);
+    if (caption) figure.appendChild(capEl);
+
+    figure.addEventListener("click", function() {
+      openLightbox(img.src, caption);
+    });
   });
 }
+
+function openLightbox(src, caption) {
+  var box    = document.getElementById("lightbox");
+  var imgEl  = document.getElementById("lightbox-img");
+  var capEl  = document.getElementById("lightbox-caption");
+  if (!box || !imgEl) return;
+
+  imgEl.src = src;
+  imgEl.alt = caption || "";
+  capEl.textContent = caption || "";
+  capEl.style.display = caption ? "" : "none";
+  box.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeLightbox() {
+  var box = document.getElementById("lightbox");
+  if (!box) return;
+  box.classList.remove("open");
+  document.getElementById("lightbox-img").src = "";
+  document.body.style.overflow = "";
+}
+
+/* Close on overlay click or ESC */
+document.addEventListener("DOMContentLoaded", function() {
+  var box = document.getElementById("lightbox");
+  if (!box) return;
+
+  document.getElementById("lightbox-close").addEventListener("click", closeLightbox);
+
+  box.addEventListener("click", function(e) {
+    if (e.target === box) closeLightbox();
+  });
+
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") closeLightbox();
+  });
+});
 
 /* ── 8. PAGE INIT ────────────────────────────────────────────── */
 

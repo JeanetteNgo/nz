@@ -184,26 +184,32 @@ function initMap() {
     const marker = L.marker([post.mapLat, post.mapLng], { icon }).addTo(nzMap);
     const pinEl  = () => marker.getElement()?.querySelector(".map-pin-icon");
 
-    const coverHTML = post.cover
-      ? `<div class="popup-img"><img src="${post.cover}" alt="${post.title}" loading="lazy"
-           onerror="this.parentElement.innerHTML='<span>${post.emoji}</span>'"></div>`
-      : `<div class="popup-img">${post.emoji}</div>`;
+    /* Build popup content at click time so _extractedExcerpt is available
+       (prefetchExcerpts runs async — content is not ready at bindPopup time) */
+    function buildPopupHTML() {
+      const cover = post.cover
+        ? `<div class="popup-img"><img src="${post.cover}" alt="${post.title}" loading="lazy"
+             onerror="this.parentElement.innerHTML='<span style=font-size:44px>${post.emoji}</span>'"></div>`
+        : `<div class="popup-img">${post.emoji}</div>`;
 
-    // keepInView:true — Leaflet auto-pans the map so the popup is never out of view
-    // autoPan:true + autoPanPadding gives extra breathing room from the map edges
-    marker.bindPopup(`
-      ${coverHTML}
-      <div class="popup-body">
-        <div class="popup-title">${post.title}</div>
-        <div class="popup-date">📅 ${formatDate(post.date)}</div>
-        <div class="popup-desc">${post.excerpt.slice(0, 90)}…</div>
-        <a class="popup-link" href="blog.html?post=${post.id}">Read post →</a>
-      </div>`, {
-      maxWidth:        240,
-      keepInView:      true,   // auto-pans so popup is always fully visible
-      autoPan:         true,
-      autoPanPadding:  [20, 20],
-      closeButton:     true,
+      const excerpt = post._extractedExcerpt || post.excerpt || "";
+
+      return `${cover}
+        <div class="popup-body">
+          <div class="popup-date">📅 ${formatDate(post.date)}</div>
+          <div class="popup-title">${post.title}</div>
+          <div class="popup-desc">${excerpt}</div>
+          <a class="popup-link" href="blog.html?post=${post.id}">Read post →</a>
+        </div>`;
+    }
+
+    /* Bind with placeholder — content is replaced on each open */
+    marker.bindPopup("", {
+      maxWidth:       250,
+      keepInView:     true,
+      autoPan:        true,
+      autoPanPadding: [20, 20],
+      closeButton:    true,
     });
 
     // Hover: highlight pin on desktop only (touch devices don't have hover)
@@ -227,6 +233,7 @@ function initMap() {
         activeMarker = null;
         nzMap.flyTo([-41.5, 172.5], 6, { animate: true, duration: 0.5 });
       } else {
+        marker.setPopupContent(buildPopupHTML());
         flyToAndOpen(this, post.mapLat, post.mapLng);
       }
     });
@@ -317,7 +324,7 @@ function renderJournal() {
             locationHTML +
           '</div>' +
           '<div class="post-list-title">' + p.title + '</div>' +
-          '<div class="post-list-excerpt" data-post-id="' + p.id + '">' + p.excerpt + '</div>' +
+          '<div class="post-list-excerpt" data-post-id="' + p.id + '">' + (p._extractedExcerpt || p.excerpt) + '</div>' +
           '<div class="post-card-tags">' + tagHTML + '</div>' +
         '</div>' +
       '</div>'
@@ -340,7 +347,12 @@ document.addEventListener("DOMContentLoaded", () => {
   animateStatCounters();
   renderRegions();
   renderJournal();
-  prefetchExcerpts(); /* background-fetch post files to auto-populate excerpts */
+  /* Only prefetch excerpts for posts visible on this page:
+     featured journal items + map pins. Full fetch happens on blog.html. */
+  var visibleOnHomepage = POSTS.filter(function(p) {
+    return p.featured || (p.mapLat && p.mapLng);
+  });
+  prefetchExcerpts(visibleOnHomepage);
 
   // Restore the last explore tab the user had open (defaults to map)
   const savedTab = localStorage.getItem("nz-explore-tab") || "map";
