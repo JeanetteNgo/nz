@@ -192,7 +192,7 @@ const POSTS = [
   },
   {
     id:       "waimak-river-horse-trek",
-    title:    "Waimak River Horse Trek",
+    title:    "Waimak River horse trek",
     date:     "2024-03-26",
     category: "location",
     island:   "south",
@@ -200,11 +200,11 @@ const POSTS = [
     location: "Christchurch",
     tags:     ["horse riding", "activity", "nature"],
     emoji:    "🐎",
-    cover:    CDN_BASE + "/images/south-island/canterbury/christchurch/waimak-river-horse-trek-thumbnail.jpg",
+    cover:    CDN_BASE + "/images/south-island/canterbury/christchurch/waimak-river-horse-trek/waimak-river-horse-trek-1.webp",
     excerpt:  "Enjoy a peaceful day out at the Waimak River Horse Trek.",
     featured: false,
-    mapLat:   -43.5315,
-    mapLng:   172.6197,
+    mapLat:   -43.4333,
+    mapLng:   172.6167,
     file:     "posts/waimak-river-horse-trek.html"
   },
   {
