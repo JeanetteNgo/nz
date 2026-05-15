@@ -191,21 +191,21 @@ const POSTS = [
     file:     "posts/auckland-skywalk.html"
   },
   {
-    id:       "christchurch-botanic-gardens",
-    title:    "Christchurch Botanic Gardens",
-    date:     "2024-03-25",
+    id:       "waimak-river-horse-trek",
+    title:    "Waimak River Horse Trek",
+    date:     "2024-03-26",
     category: "location",
     island:   "south",
     region:   "Canterbury",
     location: "Christchurch",
-    tags:     ["botanic gardens", "city", "explore"],
-    emoji:    "🌸",
-    cover:    CDN_BASE + "/images/south-island/canterbury/christchurch/botanic-gardens-thumbnail.jpg",
-    excerpt:  "Enjoy a peaceful day out at the Christchurch Botanic Gardens / Hagley Park.",
+    tags:     ["horse riding", "activity", "nature"],
+    emoji:    "🐎",
+    cover:    CDN_BASE + "/images/south-island/canterbury/christchurch/waimak-river-horse-trek-thumbnail.jpg",
+    excerpt:  "Enjoy a peaceful day out at the Waimak River Horse Trek.",
     featured: false,
     mapLat:   -43.5315,
     mapLng:   172.6197,
-    file:     "posts/christchurch-botanic-gardens.html"
+    file:     "posts/waimak-river-horse-trek.html"
   },
   {
     id:       "rotorua-rafting",
