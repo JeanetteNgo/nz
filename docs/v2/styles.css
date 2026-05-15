@@ -2577,7 +2577,7 @@ button {
 /* ── Post image grids ───────────────────────────────────────── */
 .post-img-grid {
   display: grid;
-  gap: 4px 16px;
+  gap: 16px;
   margin: 2em auto;
   align-items: start;
 }

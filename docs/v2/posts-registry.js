@@ -215,7 +215,7 @@ const POSTS = [
     island:   "north",
     region:   "Bay of Plenty",
     location: "Rotorua",
-    tags:     ["rafting", "thrill", "activity", "waterfall"],
+    tags:     ["rafting", "thrill", "activity", "waterfall", "tutea falls"],
     emoji:    "🚣",
     cover:    CDN_BASE + "/images/north-island/bay-of-plenty/rotorua/rafting/kaituna-rafting-1.webp",
     excerpt:  "We rafted down the highest commercially rafted waterfall in the world, the 7m Tutea Falls.",
