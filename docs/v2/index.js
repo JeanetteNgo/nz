@@ -355,7 +355,7 @@ document.addEventListener("DOMContentLoaded", () => {
   prefetchExcerpts(visibleOnHomepage);
 
   // Restore the last explore tab the user had open (defaults to map)
-  const savedTab = localStorage.getItem("nz-explore-tab") || "map";
+  const savedTab = localStorage.getItem("nz-explore-tab") || "regions";
   const savedBtn = document.querySelector(`.explore-tab[onclick*="'${savedTab}'"]`);
   if (savedTab !== "map" && savedBtn) {
     // Non-map tabs can switch synchronously

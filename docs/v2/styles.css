@@ -1583,6 +1583,26 @@ button {
   background: var(--bg2);
   border-bottom: 1px solid var(--border);
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+[data-theme="hobbit"] .page-header {
+  background: url('https://cdn.jeanettengo.com/hero/middle-earth-map.png') center/cover no-repeat;
+  border-bottom-color: rgba(244,188,110,0.15);
+}
+/* Semi-transparent overlay — light enough the map shows through clearly */
+[data-theme="hobbit"] .page-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 28, 18, 0.52);
+  pointer-events: none;
+  z-index: 0;
+}
+/* All direct children (eyebrow, title, subtitle) sit above the overlay */
+[data-theme="hobbit"] .page-header > * {
+  position: relative;
+  z-index: 1;
 }
 .page-title {
   font-family: var(--font-primary);
@@ -2949,36 +2969,44 @@ button {
 
 /* Custom location pin markers (used via L.divIcon) */
 .map-pin-icon {
-  font-size: 28px;
+  font-size: 22px;
   line-height: 1;
   color: #e03535;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-  /* Only animate colour + glow — NO translateY (causes mouseover bounce) */
+  filter:
+    drop-shadow(0 0 1.5px #fff)
+    drop-shadow(0 0 1.5px #fff)
+    drop-shadow(0 2px 4px rgba(0,0,0,0.35));
   transition: color .18s ease, filter .18s ease, font-size .18s ease;
   display: block;
   margin-top: -4px;
-  /* Enlarge hit area so cursor stays inside the element */
   pointer-events: auto;
-}
-[data-theme="hobbit"] .map-pin-icon {
-  color: #e03535;  /* keep red — same as default */
 }
 /* Hover: grow the icon in-place (no position shift) */
 .map-pin-icon.hovered {
   color: #c42a2a;
-  font-size: 33px;
-  filter: drop-shadow(0 3px 8px rgba(220,42,42,0.45)) drop-shadow(0 1px 3px rgba(0,0,0,0.2));
+  font-size: 26px;
+  filter:
+    drop-shadow(0 0 2px #fff)
+    drop-shadow(0 0 2px #fff)
+    drop-shadow(0 3px 8px rgba(220,42,42,0.45))
+    drop-shadow(0 1px 3px rgba(0,0,0,0.25));
 }
 /* Pinned: slightly larger + stronger glow, still no movement */
 .map-pin-icon.pinned {
-  color: #c42a2a;
-  font-size: 34px;
-  filter: drop-shadow(0 0 9px rgba(220,42,42,0.6)) drop-shadow(0 3px 8px rgba(0,0,0,0.25));
+  color: #e03535;
+  font-size: 28px;
+  filter:
+    drop-shadow(0 0 2px #fff)
+    drop-shadow(0 0 2px #fff)
+    drop-shadow(0 0 9px rgba(220,42,42,0.6))
+    drop-shadow(0 3px 8px rgba(0,0,0,0.3));
 }
 [data-theme="hobbit"] .map-pin-icon.hovered,
 [data-theme="hobbit"] .map-pin-icon.pinned {
   color: #e8a84d;
-  filter: drop-shadow(0 0 10px rgba(244,188,110,0.55));
+  filter:
+    drop-shadow(0 0 2px #fff)
+    drop-shadow(0 0 10px rgba(244,188,110,0.6));
 }
 
 /* Hide zoom controls on mobile — pinch-to-zoom is the native gesture. */

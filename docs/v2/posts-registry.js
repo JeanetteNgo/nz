@@ -37,23 +37,23 @@ const CDN_BASE = "https://cdn.jeanettengo.com";  // e.g. "https://pub-xxxx.r2.de
 
 /* ══ POSTS ══════════════════════════════════════════════════ */
 const POSTS = [
-  {
-    id:       "working-holiday-guide",
-    title:    "The ultimate guide to the New Zealand Working Holiday Visa for Singaporeans",
-    date:     "2024-03-13",
-    category: "general",
-    island:   null,
-    region:   null,
-    location: null,
-    tags:     ["guide", "visa", "nz", "work holiday"],
-    emoji:    "📑",
-    cover:    CDN_BASE + "/images/regions/northland-thumbnail.jpg",
-    excerpt:  "",
-    featured: true,
-    mapLat:   null,
-    mapLng:   null,
-    file:     "posts/working-holiday-guide.html"
-  },
+  // {
+  //   id:       "working-holiday-guide",
+  //   title:    "The ultimate guide to the New Zealand Working Holiday Visa for Singaporeans",
+  //   date:     "2024-03-13",
+  //   category: "general",
+  //   island:   null,
+  //   region:   null,
+  //   location: null,
+  //   tags:     ["guide", "visa", "nz", "work holiday"],
+  //   emoji:    "📑",
+  //   cover:    CDN_BASE + "/images/regions/northland-thumbnail.jpg",
+  //   excerpt:  "",
+  //   featured: true,
+  //   mapLat:   null,
+  //   mapLng:   null,
+  //   file:     "posts/working-holiday-guide.html"
+  // },
    {
     id:       "best-views",
     title:    "Best views in New Zealand",
@@ -208,21 +208,21 @@ const POSTS = [
     file:     "posts/christchurch-botanic-gardens.html"
   },
   {
-    id:       "rotorua-geothermal",
-    title:    "Rotorua: Heat, Sulphur and the Hāngī",
-    date:     "2024-02-05",
+    id:       "rotorua-rafting",
+    title:    "Rafting down the Kaituna River",
+    date:     "2025-01-20",
     category: "location",
     island:   "north",
-    region:   "Waikato / Bay of Plenty",
+    region:   "Bay of Plenty",
     location: "Rotorua",
-    tags:     ["geothermal", "Māori culture", "hāngī", "mud pools"],
-    emoji:    "♨️",
-    cover:    CDN_BASE + "/images/rotorua.jpg",
-    excerpt:  "The smell hits you before the city does. Then you stop noticing it — until you leave.",
+    tags:     ["rafting", "thrill", "activity", "waterfall"],
+    emoji:    "🚣",
+    cover:    CDN_BASE + "/images/north-island/bay-of-plenty/rotorua/rafting/kaituna-rafting-1.webp",
+    excerpt:  "We rafted down the highest commercially rafted waterfall in the world, the 7m Tutea Falls.",
     featured: false,
     mapLat:   -38.1368,
     mapLng:   176.2497,
-    file:     "posts/rotorua-geothermal.html"
+    file:     "posts/rotorua-rafting.html"
   },
   {
     id:       "milford-sound",
@@ -354,9 +354,9 @@ const REGIONS = [
     name:      "Bay of Plenty",
     island:    "north",
     emoji:     "🌊",
-    cover: CDN_BASE + "/images/regions/bop-thumbnail.jpg",
+    cover:      CDN_BASE + "/images/regions/bop-thumbnail.jpg",
     desc:      "Kiwifruit, beaches & White Island",
-    locations: ["Tauranga", "Mount Maunganui", "Whakatāne"]
+    locations: ["Tauranga", "Mount Maunganui", "Rotorua"]
   },
   {
     name:      "Waikato",
