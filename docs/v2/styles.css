@@ -1587,22 +1587,7 @@ button {
   overflow: hidden;
 }
 [data-theme="hobbit"] .page-header {
-  background: url('https://cdn.jeanettengo.com/hero/middle-earth-map.png') center/cover no-repeat;
   border-bottom-color: rgba(244,188,110,0.15);
-}
-/* Semi-transparent overlay — light enough the map shows through clearly */
-[data-theme="hobbit"] .page-header::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(10, 28, 18, 0.52);
-  pointer-events: none;
-  z-index: 0;
-}
-/* All direct children (eyebrow, title, subtitle) sit above the overlay */
-[data-theme="hobbit"] .page-header > * {
-  position: relative;
-  z-index: 1;
 }
 .page-title {
   font-family: var(--font-primary);
@@ -2012,7 +1997,7 @@ button {
 .post-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 18px;
+  border-radius: 16px;
   overflow: hidden;
   cursor: pointer;
   transition: all .3s;
@@ -2088,7 +2073,7 @@ button {
   border-top-color: rgba(244,188,110,0.15);
 }
 .post-card-cover {
-  height: 180px;
+  height: 200px;
   background: linear-gradient(135deg, var(--bg2), var(--bg3));
   display: flex;
   align-items: center;
@@ -2103,7 +2088,7 @@ button {
   object-fit: cover; 
 }
 .post-card-body { 
-  padding: 18px 20px; 
+  padding: 16px; 
   flex: 1; 
   display: flex; 
   flex-direction: column; 
@@ -2111,7 +2096,7 @@ button {
 .post-card-meta { 
   display: flex; 
   align-items: center; 
-  gap: 10px; 
+  gap: 8px; 
   flex-wrap: wrap; 
 }
 .post-card-date {
@@ -2719,6 +2704,14 @@ button {
   line-height: 1.5;
   max-width: 700px;
   margin: 0;
+}
+
+.post-content h1 {
+  font-family: var(--font-primary);
+  font-size: 2rem;
+  text-transform: uppercase;
+  color: var(--text);
+  margin: 3.2em 0 0.4em;
 }
 
 .post-content h2 {
