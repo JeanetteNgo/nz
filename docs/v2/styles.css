@@ -2563,7 +2563,7 @@ button {
 .post-img-grid {
   display: grid;
   gap: 16px;
-  margin: 2em auto;
+  margin: 1.4em auto;
   align-items: start;
 }
  

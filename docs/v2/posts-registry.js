@@ -166,7 +166,7 @@ const POSTS = [
     location: "Queenstown",
     tags:     ["nevis swing", "thrill", "aj hackett", "activity"],
     emoji:    "🫨",
-    cover:    CDN_BASE + "/images/south-island/otago/queenstown/nevis-thumbnail.jpg",
+    cover:    CDN_BASE + "/images/south-island/otago/queenstown/nevis-swing/nevis-swing-1.jpg",
     excerpt:  "We went on the big swing! Join us as we voluntarily sign up for a whopping 300m drop into the void.",
     featured: false,
     mapLat:   -45.0308,
