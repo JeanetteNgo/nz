@@ -703,7 +703,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const region = REGIONS.find(function(r) { return r.name === regionParam; });
     if (region) {
       const islandLabel = region.island === "south" ? "South Island" : "North Island";
-      toggleSub(region.island);
       setFilter({ type: "region", value: regionParam }, islandLabel + " › " + regionParam);
     } else {
       renderPosts();

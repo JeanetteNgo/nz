@@ -81,7 +81,7 @@ const POSTS = [
     location: null,
     tags:     ["hiking", "mountains", "tramping", "nature"],
     emoji:    "🥾",
-    cover:    CDN_BASE + "/images/south-island/canterbury/ashburton/mount-sunday/mount-sunday-1.webp",
+    cover:    CDN_BASE + "/images/south-island/canterbury/ashburton/mount-sunday/mount-sunday-2.webp",
     excerpt:  "A sincere accounting of the best hiking trails I discovered during my time in New Zealand.",
     featured: true,
     mapLat:   null,
@@ -269,12 +269,12 @@ const REGIONS = [
     locations: ["Christchurch", "Kaikōura", "Hanmer Springs", "Akaroa"]
   },
   {
-    name:      "Mackenzie Country",
+    name:      "Mackenzie",
     island:    "south",
     emoji:     "⭐",
     cover: CDN_BASE + "/images/regions/mackenzie-thumbnail.jpg",
     desc:      "Stargazing, turquoise lakes & lupins",
-    locations: ["Lake Tekapo", "Aoraki/Mt Cook", "Twizel"]
+    locations: ["Lake Tekapo", "Aoraki Mount Cook", "Twizel"]
   },
   {
     name:      "Nelson-Tasman",
