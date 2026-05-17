@@ -151,7 +151,7 @@ const POSTS = [
     emoji:    "🐋",
     cover:    CDN_BASE + "/images/south-island/canterbury/kaikoura/wings-over-whales-thumbnail.jpg",
     excerpt:  "There are very few places where you can watch a sperm whale surface sixty metres away and then look up to see snow-capped mountains. Kaikōura is one of them.",
-    featured: true,
+    featured: false,
     mapLat:   -42.4,
     mapLng:   173.59,
     file:     "posts/wings-over-whales.html"
@@ -168,7 +168,7 @@ const POSTS = [
     emoji:    "🫨",
     cover:    CDN_BASE + "/images/south-island/otago/queenstown/nevis-thumbnail.jpg",
     excerpt:  "We went on the big swing! Join us as we voluntarily sign up for a whopping 300m drop into the void.",
-    featured: true,
+    featured: false,
     mapLat:   -45.0308,
     mapLng:   168.6601,
     file:     "posts/nevis-swing.html"
@@ -202,7 +202,7 @@ const POSTS = [
     emoji:    "🐎",
     cover:    CDN_BASE + "/images/south-island/canterbury/christchurch/waimak-river-horse-trek/waimak-river-horse-trek-1.webp",
     excerpt:  "Enjoy a peaceful day out at the Waimak River Horse Trek.",
-    featured: false,
+    featured: true,
     mapLat:   -43.4333,
     mapLng:   172.6167,
     file:     "posts/waimak-river-horse-trek.html"
@@ -219,7 +219,7 @@ const POSTS = [
     emoji:    "🚣",
     cover:    CDN_BASE + "/images/north-island/bay-of-plenty/rotorua/rafting/kaituna-rafting-1.webp",
     excerpt:  "We rafted down the highest commercially rafted waterfall in the world, the 7m Tutea Falls.",
-    featured: false,
+    featured: true,
     mapLat:   -38.1368,
     mapLng:   176.2497,
     file:     "posts/rotorua-rafting.html"
@@ -236,7 +236,7 @@ const POSTS = [
     emoji:    "🌊",
     cover:    CDN_BASE + "/images/south-island/southland/fiordland-national-park/milford-sound-1.webp",
     excerpt:  "Everyone says go on a sunny day. Everyone is wrong. The waterfalls only appear when it rains.",
-    featured: true,
+    featured: false,
     mapLat:   -44.67,
     mapLng:   167.9271,
     file:     "posts/milford-sound.html"
