@@ -130,7 +130,7 @@ const POSTS = [
     island:   "north",
     region:   "Manawatū-Whanganui",
     location: "Tongariro National Park",
-    tags:     ["hiking", "lotr", "volcanic"],
+    tags:     ["hiking", "lotr", "mountain", "volcano"],
     emoji:    "🌋",
     cover:    CDN_BASE + "/images/regions/whanganui-thumbnail.jpg",
     excerpt:  "",
@@ -240,6 +240,23 @@ const POSTS = [
     mapLat:   -44.67,
     mapLng:   167.9271,
     file:     "posts/milford-sound.html"
+  },
+  {
+    id:       "mount-sunday",
+    title:    "A fine day at Mount Sunday",
+    date:     "2025-02-23",
+    category: "location",
+    island:   "south",
+    region:   "Canterbury",
+    location: "Ashburton",
+    tags:     ["hiking", "mountain", "nature", "lotr"],
+    emoji:    "🌊",
+    cover:    CDN_BASE + "/images/south-island/canterbury/ashburton/mount-sunday/mount-sunday-1.webp",
+    excerpt:  "Also known as Edoras.",
+    featured: false,
+    mapLat:   -43.548,
+    mapLng:   170.893,
+    file:     "posts/mount-sunday.html"
   }
 ];
 
