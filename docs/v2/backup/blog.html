@@ -11,7 +11,9 @@
   <link rel="stylesheet" href="styles.css">
   <!-- Note: .post-progress styles live in styles.css (section 17) -->
 </head>
-<body class="content-page">
+
+
+<body>
 
 <!-- Reading progress bar -->
 <div class="post-progress" id="post-progress">
@@ -97,22 +99,8 @@
      PAGE HEADER
 ════════════════════════════════════════════════════ -->
 <header class="page-header" id="blog-header">
-  <!-- Mobile-only video banner (hidden on desktop) -->
-  <div class="blog-mobile-banner">
-    <video class="blog-banner-video" autoplay loop muted playsinline
-      disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback"
-      oncanplay="this.classList.add('loaded')"
-      src="https://cdn.jeanettengo.com/hero/highlight-reel.mp4"></video>
-    <!-- Fallback poster shown until video is ready -->
-    <img class="blog-banner-poster"
-      src="https://cdn.jeanettengo.com/hero/hero-poster.jpg"
-      alt="" aria-hidden="true"
-      onerror="this.style.display='none'">
-    <div class="blog-banner-overlay"></div>
-  </div>
-  <div class="page-eyebrow">Journal</div>
-  <h1 class="page-title">A Year Across the Islands</h1>
-  <p class="page-subtitle">Locations, stories &amp; honest dispatches from Aotearoa</p>
+  <h1 class="page-title">My Work Holiday Experience</h1>
+  <p class="page-subtitle">Stories from a year in Aotearoa</p>
 </header>
 
 <!-- ══════════════════════════════════════════════════
@@ -259,9 +247,7 @@
      IMAGE LIGHTBOX OVERLAY
 ════════════════════════════════════════════════════ -->
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
-  <button class="lightbox-close"  id="lightbox-close" aria-label="Close">✕</button>
-  <button class="lightbox-arrow lightbox-prev" id="lightbox-prev" aria-label="Previous image">&#8592;</button>
-  <button class="lightbox-arrow lightbox-next" id="lightbox-next" aria-label="Next image">&#8594;</button>
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close">✕</button>
   <div class="lightbox-inner">
     <img class="lightbox-img" id="lightbox-img" src="" alt="">
     <p class="lightbox-caption" id="lightbox-caption"></p>

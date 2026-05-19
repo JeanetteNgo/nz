@@ -282,7 +282,7 @@ function renderPosts() {
                 locationHTML +
               '</div>' +
               '<div class="post-card-title">' + post.title + '</div>' +
-              '<div class="post-card-excerpt" data-post-id="' + post.id + '">' + post.excerpt + '</div>' +
+              '<div class="post-card-excerpt" data-post-id="' + post.id + '">' + (post._extractedExcerpt || post.excerpt) + '</div>' +
               '<div class="post-card-tags">' + tagHTML + '</div>' +
             '</div>' +
           '</div>'
@@ -325,7 +325,7 @@ function renderPosts() {
                 listLocationHTML +
               '</div>' +
               '<div class="post-list-title">' + post.title + '</div>' +
-              '<div class="post-list-excerpt" data-post-id="' + post.id + '">' + post.excerpt + '</div>' +
+              '<div class="post-list-excerpt" data-post-id="' + post.id + '">' + (post._extractedExcerpt || post.excerpt) + '</div>' +
               '<div class="post-card-tags">' + listTagHTML + '</div>' +
             '</div>' +
           '</div>'
@@ -703,7 +703,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const region = REGIONS.find(function(r) { return r.name === regionParam; });
     if (region) {
       const islandLabel = region.island === "south" ? "South Island" : "North Island";
-      toggleSub(region.island);
       setFilter({ type: "region", value: regionParam }, islandLabel + " › " + regionParam);
     } else {
       renderPosts();
