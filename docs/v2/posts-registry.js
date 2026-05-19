@@ -115,7 +115,7 @@ const POSTS = [
     location: "Kaiapoi",
     tags:     ["work", "helpX", "farm", "weeding", "harvesting"],
     emoji:    "👩🏻‍🌾",
-    cover:    CDN_BASE + "/images/south-island/canterbury/kaiapoi/work-1.webp",
+    cover:    CDN_BASE + "/images/south-island/canterbury/kaiapoi/work/kaiapoi-work-1.webp",
     excerpt:  "Three days driving the wettest, most dramatic stretch of road I've ever been on. The West Coast does not compromise.",
     featured: true,
     mapLat:   -43.3831,
