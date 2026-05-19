@@ -117,7 +117,7 @@ const POSTS = [
     emoji:    "👩🏻‍🌾",
     cover:    CDN_BASE + "/images/south-island/canterbury/kaiapoi/work-1.webp",
     excerpt:  "Three days driving the wettest, most dramatic stretch of road I've ever been on. The West Coast does not compromise.",
-    featured: false,
+    featured: true,
     mapLat:   -43.3831,
     mapLng:   172.6569,
     file:     "posts/work-kaiapoi.html"
@@ -202,7 +202,7 @@ const POSTS = [
     emoji:    "🐎",
     cover:    CDN_BASE + "/images/south-island/canterbury/christchurch/waimak-river-horse-trek/waimak-river-horse-trek-1.webp",
     excerpt:  "Enjoy a peaceful day out at the Waimak River Horse Trek.",
-    featured: true,
+    featured: false,
     mapLat:   -43.4333,
     mapLng:   172.6167,
     file:     "posts/waimak-river-horse-trek.html"
