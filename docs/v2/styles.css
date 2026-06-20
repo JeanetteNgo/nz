@@ -1808,41 +1808,12 @@ button {
   padding-top: 24px;
 }
 
-/* ── 13. PAGE HEADER (blog / about pages) ──────────────────── */
-/* Blog page: mobile video banner (hidden on desktop) */
-.blog-mobile-banner {
-  display: none;
-}
-
-.page-header {
-  padding: calc(var(--nav-h) + 64px) 0 54px;
-  background: var(--bg2);
-  border-bottom: 1px solid var(--border);
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-[data-theme="hobbit"] .page-header {
-  border-bottom-color: rgba(244, 188, 110, 0.15);
-}
-.page-title {
-  font-family: var(--font-primary);
-  font-size: clamp(2.4rem, 5vw, 3.2rem);
-  font-weight: 700;
-  letter-spacing: -1px;
-  color: var(--text);
-  line-height: 1;
-}
-[data-theme="hobbit"] .page-title {
-  font-family: var(--font-hobbit);
-  color: var(--accent);
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-}
-.page-subtitle {
-  font-family: var(--font-primary);
-  font-size: clamp(0.9rem, 1.2vw, 1.1rem);
-  color: var(--text3);
-  margin-top: 20px;
+/* ── 13. BLOG LISTING TOP CLEARANCE ────────────────────────── */
+/* The page-header banner used to push #blog-listing below the fixed
+   nav bar. Now that it's removed, #blog-listing needs its own
+   clearance so content isn't hidden behind the nav. */
+#blog-listing {
+  padding-top: var(--nav-h);
 }
 
 /* ── 14. VIEW TOGGLE (grid / list) ─────────────────────────── */
@@ -4055,10 +4026,6 @@ button {
   }
   .section {
     padding: 56px 0;
-  }
-  /* Page header on mobile */
-  .page-header {
-    padding: calc(var(--nav-h) + 32px) 18px 36px;
   }
 
   .blog-layout {
