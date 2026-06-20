@@ -818,7 +818,7 @@ button {
   line-height: 1.1;
   color: var(--neutral-0);
   text-shadow:
-    0px 1px 3px var(--accent),
+    1px 1px 3px var(--accent),
     0 4px 32px rgba(0, 0, 0, 0.3);
   transition:
     font-size 0.5s ease,
@@ -2894,8 +2894,8 @@ button {
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(100, 100, 100, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   width: 44px;
   height: 44px;
@@ -2910,6 +2910,7 @@ button {
     transform 0.15s;
   z-index: 9001;
   user-select: none;
+  backdrop-filter: blur(4px);
 }
 .lightbox-prev {
   left: 40px;
@@ -2918,10 +2919,14 @@ button {
   right: 40px;
 }
 .lightbox-arrow:hover {
-  background: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.25);
 }
 .lightbox-arrow:active {
-  transform: translateY(-50%) scale(0.93);
+  transform: translateY(-50%) scale(0.95);
+  -webkit-transform: translateY(-50%) scale(0.95);
+  -moz-transform: translateY(-50%) scale(0.95);
+  -ms-transform: translateY(-50%) scale(0.95);
+  -o-transform: translateY(-50%) scale(0.95);
 }
 .lightbox-inner {
   display: flex;
