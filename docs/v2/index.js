@@ -56,7 +56,7 @@ function initParticles() {
                                    "0" → "1,204" → "8,839,201" → "∞"
                                  runs on the same duration/curve as A & B
 */
-const RAMP_START = 0.2; // fraction of duration before any visible climb begins
+const RAMP_START = 0.15; // fraction of duration before any visible climb begins
 const RAMP_POWER = 3; // higher = steeper/later climb in the back half
 
 function rampCurve(p) {
@@ -66,7 +66,7 @@ function rampCurve(p) {
 }
 
 function animateStatCounters() {
-  const duration = 2500;
+  const duration = 2200;
 
   // Plain integer stats — share rampCurve so "365" doesn't appear to
   // jump straight to the hundreds in the first instant.
