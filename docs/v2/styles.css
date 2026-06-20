@@ -352,8 +352,8 @@ button {
   pointer-events: none;
   background: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.65) 0%,
-    rgba(0, 0, 0, 0.1) 70%,
+    rgba(0, 0, 0, 0.25) 0%,
+    rgba(0, 0, 0, 0) 70%,
     transparent 100%
   );
 }
@@ -706,9 +706,10 @@ button {
   opacity: 0.9;
 }
 
-/* Mobile hero: hide video, show static poster image */
+/* Fallback only — shown via JS if the video element fails to load any source.
+   Not the default mobile state any more; mobile now plays the vertical video. */
 .hero-mobile-poster {
-  display: none; /* hidden on desktop */
+  display: none;
   position: absolute;
   inset: 0;
   width: 100%;
@@ -716,11 +717,21 @@ button {
   object-fit: cover;
   opacity: 0.8;
 }
-/* Darker overlay so text is always legible */
+/* Darker overlay so text is always legible — heavier at top (nav) and
+   bottom (stats/scroll cue), lighter through the middle so the video still
+   reads. Mirrors the deeper, gradient-style darkening used on AJ Hackett's hero. */
 .hero-vignette {
   position: absolute;
   inset: 0;
+  z-index: 2;
   pointer-events: none;
+  /* background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.6) 28%,
+    rgba(0, 0, 0, 0.6) 65%,
+    rgba(0, 0, 0, 0.8) 100%
+  ); */
   background: rgba(0, 0, 0, 0.4);
 }
 
@@ -807,8 +818,8 @@ button {
   line-height: 1.1;
   color: var(--neutral-0);
   text-shadow:
-    1px 1px 1px var(--accent),
-    0 4px 32px rgba(0, 0, 0, 0.5);
+    0px 1px 3px var(--accent),
+    0 4px 32px rgba(0, 0, 0, 0.3);
   transition:
     font-size 0.5s ease,
     letter-spacing 0.5s ease,
@@ -3769,12 +3780,17 @@ button {
     letter-spacing: 3px;
     margin-bottom: 24px;
   }
-  /* On mobile: hide the video entirely, show static poster */
-  .hero-video {
-    display: none;
-  }
-  .hero-mobile-poster {
-    display: block;
+  /* On mobile: the video keeps playing (vertical source via <source media>) —
+     it's no longer swapped for the static poster. A touch more overlay here
+     since the portrait crop sits closer to the subject than the desktop cut. */
+  .hero-vignette {
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.5) 30%,
+      rgba(0, 0, 0, 0.5) 65%,
+      rgba(0, 0, 0, 0.7) 100%
+    );
   }
 
   /* ---- Leaflet map controls ---- */

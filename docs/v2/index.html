@@ -165,9 +165,22 @@
         disablepictureinpicture
         controlslist="nodownload nofullscreen noremoteplayback"
         oncanplay="this.classList.add('loaded')"
-        src="https://cdn.jeanettengo.com/hero/highlight-reel.mp4"
-      ></video>
-      <!-- Mobile fallback: replace src with any still from your video or a photo -->
+        onerror="
+          this.style.display = 'none';
+          var p = document.querySelector('.hero-mobile-poster');
+          if (p) p.style.display = 'block';
+        "
+      >
+        <!-- Phones get a portrait-shot/exported clip so object-fit:cover frames it
+             properly instead of zooming into the center of the landscape cut.
+             Upload a vertical export to R2 with this filename (or swap the URL below). -->
+        <source
+          media="(max-width: 768px)"
+          src="https://cdn.jeanettengo.com/hero/highlight-reel-vertical.mp4"
+        />
+        <source src="https://cdn.jeanettengo.com/hero/highlight-reel.mp4" />
+      </video>
+      <!-- Fallback only: shown via the onerror handler above if no video source loads -->
       <img
         class="hero-mobile-poster"
         src="https://cdn.jeanettengo.com/hero/hero-poster.jpg"
