@@ -1,0 +1,12 @@
+{
+  // VS Code will show a "This workspace has extension recommendations" prompt
+  // when you open the folder, with an Install All button.
+  "recommendations": [
+    "ritwickdey.liveserver",
+    "esbenp.prettier-vscode",
+    "pranaygp.vscode-css-peek",
+    "zignd.html-css-class-completion",
+    "naumovs.color-highlight",
+    "eamodio.gitlens"
+  ]
+}

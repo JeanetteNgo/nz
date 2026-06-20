@@ -1037,48 +1037,6 @@ button {
   display: block;
 }
 
-@media (max-width: 768px) {
-  .hero-stats {
-    flex-wrap: nowrap;
-    padding: 12px 8px 20px;
-    gap: 0;
-    justify-content: center;
-  }
-  .hero-stat {
-    padding: 0 10px;
-    min-width: 0;
-  }
-  .hero-stat-num {
-    font-size: 17px;
-    min-width: 0;
-    letter-spacing: -0.5px;
-  }
-  .hero-stat-label {
-    font-size: 8px;
-    letter-spacing: 1.5px;
-    margin-top: 2px;
-  }
-  .explore-section {
-    padding: 56px 18px;
-  }
-  /* Hero text: reduce for mobile */
-  .hero-title {
-    font-size: clamp(1.8rem, 8vw, 2.8rem);
-    letter-spacing: -1px;
-  }
-  .hero-eyebrow {
-    font-size: 9px;
-    letter-spacing: 3px;
-    margin-bottom: 20px;
-  }
-  /* On mobile: hide the video entirely, show static poster */
-  .hero-video {
-    display: none;
-  }
-  .hero-mobile-poster {
-    display: block;
-  }
-}
 @media (min-width: 1440px) {
   .explore-section {
     padding: 120px 60px;
@@ -2953,20 +2911,6 @@ button {
 .lightbox-arrow:active {
   transform: translateY(-50%) scale(0.93);
 }
-@media (max-width: 600px) {
-  .lightbox-arrow {
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
-  }
-  .lightbox-prev {
-    left: 8px;
-  }
-  .lightbox-next {
-    right: 8px;
-  }
-}
-
 .lightbox-inner {
   display: flex;
   flex-direction: column;
@@ -3329,11 +3273,6 @@ button {
 }
 
 /* Hide zoom controls on mobile — pinch-to-zoom is the native gesture. */
-@media (max-width: 768px) {
-  .leaflet-control-zoom {
-    display: none !important;
-  }
-}
 /* zoom controls visible on desktop only */
 /* Leaflet attribution: hidden entirely (attributionControl:false in JS is the primary fix,
    this CSS is a belt-and-suspenders backup) */
@@ -3737,7 +3676,113 @@ button {
 
 /* ── 23. RESPONSIVE ────────────────────────────────────────── */
 
+@media (min-width: 769px) and (max-width: 1100px) {
+  .site-nav {
+    padding: 0 28px;
+  }
+  .blog-layout {
+    grid-template-columns: 200px 1fr;
+    gap: 32px;
+    padding: 48px 28px 80px;
+  }
+  .posts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  #nz-map {
+    height: 460px;
+  }
+  .footer-grid {
+    gap: 24px;
+  }
+  .regions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1440px) {
+  .site-nav {
+    padding: 0 60px;
+  }
+  #nz-map {
+    height: 660px;
+  }
+  .posts-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+  .regions-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Hide audio row in mobile menu */
+
+/* Mobile: always 2 columns, always 1:1 square ratio */
+
+/* ======================================================
+   MOBILE STYLES — consolidated (max-width: 768px)
+   ====================================================== */
 @media (max-width: 768px) {
+  /* ---- Lightbox arrows (was max-width: 600px) ---- */
+  .lightbox-arrow {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+  .lightbox-prev {
+    left: 8px;
+  }
+  .lightbox-next {
+    right: 8px;
+  }
+
+  /* ---- Hero / explore section ---- */
+  .hero-stats {
+    flex-wrap: nowrap;
+    padding: 12px 8px 20px;
+    gap: 0;
+    justify-content: center;
+  }
+  .hero-stat {
+    padding: 0 10px;
+    min-width: 0;
+  }
+  .hero-stat-num {
+    font-size: 17px;
+    min-width: 0;
+    letter-spacing: -0.5px;
+  }
+  .hero-stat-label {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    margin-top: 2px;
+  }
+  .explore-section {
+    padding: 56px 18px;
+  }
+  /* Hero text: reduce for mobile */
+  .hero-title {
+    font-size: clamp(1.8rem, 8vw, 2.8rem);
+    letter-spacing: -1px;
+  }
+  .hero-eyebrow {
+    font-size: 9px;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+  }
+  /* On mobile: hide the video entirely, show static poster */
+  .hero-video {
+    display: none;
+  }
+  .hero-mobile-poster {
+    display: block;
+  }
+
+  /* ---- Leaflet map controls ---- */
+  .leaflet-control-zoom {
+    display: none !important;
+  }
+
+  /* ---- Map bottom sheet (post preview on map) ---- */
   #nz-map {
     height: 300px;
     border-radius: 16px;
@@ -3894,9 +3939,8 @@ button {
     letter-spacing: 0.5px;
   }
   /* Leaflet popups show on mobile — tap a pin to open */
-}
 
-@media (max-width: 768px) {
+  /* ---- Nav, layout, blog grid, sticky mobile header, post detail, footer, about ---- */
   :root {
     --nav-h: 58px;
   }
@@ -4311,55 +4355,13 @@ button {
   .facts-fixed {
     display: none;
   }
-}
 
-@media (min-width: 769px) and (max-width: 1100px) {
-  .site-nav {
-    padding: 0 28px;
-  }
-  .blog-layout {
-    grid-template-columns: 200px 1fr;
-    gap: 32px;
-    padding: 48px 28px 80px;
-  }
-  .posts-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  #nz-map {
-    height: 460px;
-  }
-  .footer-grid {
-    gap: 24px;
-  }
-  .regions-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1440px) {
-  .site-nav {
-    padding: 0 60px;
-  }
-  #nz-map {
-    height: 660px;
-  }
-  .posts-grid {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  }
-  .regions-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-/* Hide audio row in mobile menu */
-@media (max-width: 768px) {
+  /* ---- Audio row ---- */
   .mob-audio-row {
     display: none;
   }
-}
 
-/* Mobile: always 2 columns, always 1:1 square ratio */
-@media (max-width: 768px) {
+  /* ---- Post image grid ---- */
   .post-img-grid.grid-cols-2,
   .post-img-grid.grid-cols-3 {
     grid-template-columns: repeat(2, 1fr);

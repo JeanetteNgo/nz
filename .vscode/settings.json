@@ -1,0 +1,55 @@
+{
+  // --- Formatting ---
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+
+  // Per-language formatter overrides (in case you ever add a different
+  // formatter for one language but want Prettier everywhere else)
+  "[html]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[css]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+
+  // --- Live Server ---
+  // Keeps the dev server from opening a fresh tab every single save
+  "liveServer.settings.NoBrowser": false,
+  "liveServer.settings.donotShowInfoMsg": true,
+  "liveServer.settings.port": 5500,
+
+  // --- Editor behavior ---
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "editor.rulers": [100],
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+
+  // --- File associations ---
+  // Make sure .js files in this project are treated as plain JS,
+  // not auto-detected as something else
+  "files.associations": {
+    "*.js": "javascript",
+    "*.css": "css"
+  },
+
+  // --- Exclude noisy folders from search/explorer ---
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/node_modules": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true
+  },
+
+  // --- CSS IntelliSense ---
+  // Stops VS Code from complaining about CSS custom properties
+  // (your --bg, --text3, etc. theme variables) as "unknown" properties
+  "css.lint.unknownProperties": "ignore",
+  "css.validate": true,
+
+  // --- Color Highlight ---
+  "colorHighlight.markRuler": false
+}
