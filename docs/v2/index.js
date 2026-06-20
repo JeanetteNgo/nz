@@ -402,7 +402,74 @@ function openPost(id) {
   window.location.href = `blog.html?post=${id}`;
 }
 
-/* ── 9. INIT ─────────────────────────────────────────────── */
+/* ── 9. HERO VIDEO FULLSCREEN PLAY ──────────────────────── */
+/*
+  Mobile "Play" pill (see .hero-play-btn). The hero <video> normally runs
+  muted/looping as ambient background. Tapping the pill is a deliberate
+  request to actually watch it, so this:
+    - unmutes + shows native controls
+    - hands off to the platform's real fullscreen video player
+      (iOS: webkitEnterFullscreen — the native player shown in the
+       reference screenshot; everyone else: standard Fullscreen API)
+    - restores the muted, controls-free, looping background state once
+      the person backs out of fullscreen
+*/
+function playHeroVideoFullscreen() {
+  const video = document.getElementById("hero-video");
+  if (!video) return;
+
+  video.muted = false;
+  video.controls = true;
+
+  const restoreBackgroundState = () => {
+    video.controls = false;
+    video.muted = true;
+    video.play().catch(() => {});
+  };
+
+  // iOS Safari: this is the only way to get the native fullscreen player
+  // (the play/pause, ±10s, scrubber UI from the reference screenshot).
+  if (typeof video.webkitEnterFullscreen === "function") {
+    video.addEventListener("webkitendfullscreen", restoreBackgroundState, {
+      once: true,
+    });
+    video.webkitEnterFullscreen();
+    video.play().catch(() => {});
+    return;
+  }
+
+  // Everyone else (Android Chrome, desktop): standard Fullscreen API.
+  const requestFs =
+    video.requestFullscreen ||
+    video.webkitRequestFullscreen ||
+    video.mozRequestFullScreen ||
+    video.msRequestFullscreen;
+
+  if (requestFs) {
+    requestFs.call(video);
+    video.play().catch(() => {});
+
+    const onFsChange = () => {
+      const stillFullscreen =
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.mozFullScreenElement ||
+        document.msFullscreenElement;
+      if (!stillFullscreen) {
+        restoreBackgroundState();
+        document.removeEventListener("fullscreenchange", onFsChange);
+        document.removeEventListener("webkitfullscreenchange", onFsChange);
+      }
+    };
+    document.addEventListener("fullscreenchange", onFsChange);
+    document.addEventListener("webkitfullscreenchange", onFsChange);
+  } else {
+    // No fullscreen API available — fall back to inline controls + sound.
+    video.play().catch(() => {});
+  }
+}
+
+/* ── 10. INIT ─────────────────────────────────────────────── */
 document.addEventListener("DOMContentLoaded", () => {
   initShared();
   initParticles();

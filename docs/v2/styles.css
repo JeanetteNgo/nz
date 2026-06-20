@@ -818,7 +818,7 @@ button {
   line-height: 1.1;
   color: var(--neutral-0);
   text-shadow:
-    1px 1px 3px var(--accent),
+    0px 1px 2px var(--accent),
     0 4px 32px rgba(0, 0, 0, 0.3);
   transition:
     font-size 0.5s ease,
@@ -835,6 +835,45 @@ button {
   font-size: clamp(2.2rem, 5vw, 3.6rem);
   letter-spacing: 2px;
   line-height: 1.25;
+}
+
+/* Mobile-only "Play" pill — opens the hero video fullscreen with native
+   controls on tap. Hidden on desktop; revealed in the mobile breakpoint. */
+.hero-play-btn {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  margin: 20px;
+  padding: 8px 16px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--text);
+  font-family: var(--font-primary);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.65s ease forwards;
+}
+.hero-play-btn:active {
+  background: rgba(255, 255, 255, 1);
+  border: 1px solid var(--accent);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+[data-theme="hobbit"] .hero-play-btn {
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--accent);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.hero-play-btn i {
+  font-size: 9px;
 }
 
 .hero-subtitle {
@@ -3785,6 +3824,12 @@ button {
     letter-spacing: 3px;
     margin-bottom: 24px;
   }
+
+  /* Reveal the fullscreen-video play pill on mobile only */
+  .hero-play-btn {
+    display: inline-flex;
+  }
+
   /* On mobile: the video keeps playing (vertical source via <source media>) —
      it's no longer swapped for the static poster. A touch more overlay here
      since the portrait crop sits closer to the subject than the desktop cut. */
