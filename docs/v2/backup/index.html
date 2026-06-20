@@ -12,7 +12,6 @@
       href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://cdn.jeanettengo.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Uncial+Antiqua&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap"
       rel="stylesheet"
@@ -159,17 +158,12 @@
       <video
         class="hero-video"
         id="hero-video"
-        poster="https://cdn.jeanettengo.com/hero/hero-poster.jpg"
-        preload="auto"
-        fetchpriority="high"
         autoplay
         loop
         muted
         playsinline
-        webkit-playsinline="true"
         disablepictureinpicture
-        controlslist="nodownload nofullscreen noremoteplayback noplaybackrate"
-        x-webkit-airplay="deny"
+        controlslist="nodownload nofullscreen noremoteplayback"
         oncanplay="this.classList.add('loaded')"
         onerror="
           this.style.display = 'none';

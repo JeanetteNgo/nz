@@ -13,7 +13,6 @@
    8.  Page init
    ============================================================ */
 
-
 /* ── 1. STATE ────────────────────────────────────────────────── */
 
 /* activeFilter controls which posts are shown.
@@ -26,14 +25,13 @@
 let activeFilter = { type: "all", value: null };
 
 /* currentView is either "grid" or "list" */
-let currentView  = "grid";
+let currentView = "grid";
 
 /* openPostId is the ID of the currently displayed post, or null */
-let openPostId   = null;
+let openPostId = null;
 
 /* postContent is a cache so we don't re-fetch the same post twice */
-let postContent  = {};
-
+let postContent = {};
 
 /* ── 2. CATEGORY SIDEBAR TREE ────────────────────────────────── */
 
@@ -64,37 +62,43 @@ function buildCategoryTree(targetEl) {
   }
 
   /* ── ALL ── */
-  const allItem     = document.createElement("div");
+  const allItem = document.createElement("div");
   allItem.className = "cat-section-header active";
-  allItem.id        = pfx + "cat-all";
+  allItem.id = pfx + "cat-all";
   allItem.innerHTML =
-    '<span>All</span>' +
-    '<span class="cat-count">' + countFor({ type: "all" }) + '</span>';
-  allItem.onclick   = function() {
+    "<span>All</span>" +
+    '<span class="cat-count">' +
+    countFor({ type: "all" }) +
+    "</span>";
+  allItem.onclick = function () {
     setFilter({ type: "all", value: null }, "All Posts");
   };
   tree.appendChild(allItem);
 
   /* ── GENERAL ── */
-  const generalItem     = document.createElement("div");
+  const generalItem = document.createElement("div");
   generalItem.className = "cat-section-header";
-  generalItem.id        = pfx + "cat-general";
+  generalItem.id = pfx + "cat-general";
   generalItem.innerHTML =
-    '<span>General</span>' +
-    '<span class="cat-count">' + countFor({ type: "general" }) + '</span>';
-  generalItem.onclick   = function() {
+    "<span>General</span>" +
+    '<span class="cat-count">' +
+    countFor({ type: "general" }) +
+    "</span>";
+  generalItem.onclick = function () {
     setFilter({ type: "general", value: null }, "General");
   };
   tree.appendChild(generalItem);
 
   /* ── SOUTH ISLAND + NORTH ISLAND with always-visible sub-regions ── */
-  ["south", "north"].forEach(function(island) {
+  ["south", "north"].forEach(function (island) {
     const islandLabel = island === "south" ? "South Island" : "North Island";
     const islandCount = countFor({ type: "island", value: island });
 
     /* Only show islands that have at least one post */
-    const regions = REGIONS.filter(function(r) {
-      return r.island === island && countFor({ type: "region", value: r.name }) > 0;
+    const regions = REGIONS.filter(function (r) {
+      return (
+        r.island === island && countFor({ type: "region", value: r.name }) > 0
+      );
     });
     if (regions.length === 0) return;
 
@@ -102,30 +106,38 @@ function buildCategoryTree(targetEl) {
     wrapper.className = "cat-island-group";
 
     /* Island header — clicking filters to this island */
-    const header     = document.createElement("div");
+    const header = document.createElement("div");
     header.className = "cat-section-header";
-    header.id        = pfx + "cat-" + island;
+    header.id = pfx + "cat-" + island;
     header.innerHTML =
-      '<span>' + islandLabel + '</span>' +
-      '<span class="cat-count">' + islandCount + '</span>';
-    header.onclick   = function() {
+      "<span>" +
+      islandLabel +
+      "</span>" +
+      '<span class="cat-count">' +
+      islandCount +
+      "</span>";
+    header.onclick = function () {
       setFilter({ type: "island", value: island }, islandLabel);
     };
     wrapper.appendChild(header);
 
     /* Sub-region items — always visible, no collapse */
-    regions.forEach(function(region) {
+    regions.forEach(function (region) {
       const count = countFor({ type: "region", value: region.name });
-      const row   = document.createElement("div");
+      const row = document.createElement("div");
       row.className = "sub-item";
-      row.id        = pfx + "sub-item-" + region.name.replace(/[\s\/]/g, "-");
+      row.id = pfx + "sub-item-" + region.name.replace(/[\s\/]/g, "-");
       row.innerHTML =
-        '<span>' + region.name + '</span>' +
-        '<span class="sub-count">' + count + '</span>';
-      row.onclick   = function() {
+        "<span>" +
+        region.name +
+        "</span>" +
+        '<span class="sub-count">' +
+        count +
+        "</span>";
+      row.onclick = function () {
         setFilter(
           { type: "region", value: region.name },
-          islandLabel + " › " + region.name
+          islandLabel + " › " + region.name,
         );
       };
       wrapper.appendChild(row);
@@ -133,9 +145,7 @@ function buildCategoryTree(targetEl) {
 
     tree.appendChild(wrapper);
   });
-
 }
-
 
 /* Changes the active filter, updates the sidebar highlight, and re-renders posts */
 function setFilter(filter, breadcrumbLabel) {
@@ -148,28 +158,43 @@ function setFilter(filter, breadcrumbLabel) {
   const isFiltered = filter.type !== "all";
   const filterLabel = document.getElementById("mob-browse-filter-label");
   const filterClear = document.getElementById("mob-browse-clear");
-  const filterBtn   = document.getElementById("mob-filter-btn");
-  if (filterLabel) filterLabel.textContent = isFiltered ? breadcrumbLabel : "All Posts";
+  const filterBtn = document.getElementById("mob-filter-btn");
+  if (filterLabel)
+    filterLabel.textContent = isFiltered ? breadcrumbLabel : "All Posts";
   if (filterClear) filterClear.style.display = isFiltered ? "flex" : "none";
-  if (filterBtn)   filterBtn.classList.toggle("has-filter", isFiltered);
+  if (filterBtn) filterBtn.classList.toggle("has-filter", isFiltered);
   /* mob-post-count is updated by renderPosts() below */
 
   /* Clear all active highlights in both trees */
-  document.querySelectorAll(".cat-all, .cat-island, .sub-item, .cat-simple, .cat-section-header")
-    .forEach(function(el) { el.classList.remove("active"); });
+  document
+    .querySelectorAll(
+      ".cat-all, .cat-island, .sub-item, .cat-simple, .cat-section-header",
+    )
+    .forEach(function (el) {
+      el.classList.remove("active");
+    });
 
   /* Apply the highlight to the correct item in BOTH desktop and mobile trees */
-  ["", "mob-"].forEach(function(pfx) {
-    if (filter.type === "all")      document.getElementById(pfx + "cat-all")?.classList.add("active");
-    if (filter.type === "general")  document.getElementById(pfx + "cat-general")?.classList.add("active");
-    if (filter.type === "island")   document.getElementById(pfx + "cat-" + filter.value)?.classList.add("active");
+  ["", "mob-"].forEach(function (pfx) {
+    if (filter.type === "all")
+      document.getElementById(pfx + "cat-all")?.classList.add("active");
+    if (filter.type === "general")
+      document.getElementById(pfx + "cat-general")?.classList.add("active");
+    if (filter.type === "island")
+      document
+        .getElementById(pfx + "cat-" + filter.value)
+        ?.classList.add("active");
 
     if (filter.type === "region") {
       const slug = filter.value.replace(/[\s\/]/g, "-");
-      document.getElementById(pfx + "sub-item-" + slug)?.classList.add("active");
+      document
+        .getElementById(pfx + "sub-item-" + slug)
+        ?.classList.add("active");
 
       /* Auto-expand the parent island drawer so the highlighted item is visible */
-      const region = REGIONS.find(function(r) { return r.name === filter.value; });
+      const region = REGIONS.find(function (r) {
+        return r.name === filter.value;
+      });
       if (region) {
         const drawer = document.getElementById(pfx + "sub-" + region.island);
         if (drawer && !drawer.classList.contains("open")) {
@@ -196,25 +221,30 @@ function buildBreadcrumbHTML(filter, label) {
 
   /* Single-part breadcrumb — just show the label */
   if (parts.length === 1) {
-    return '<span class="breadcrumb-active">' + label + '</span>';
+    return '<span class="breadcrumb-active">' + label + "</span>";
   }
 
   /* Multi-part breadcrumb — make each segment except the last clickable */
-  return parts.map(function(part, index) {
-    if (index < parts.length - 1) {
-      const islandKey = part.includes("South") ? "south" : "north";
-      return (
-        '<span style="cursor:pointer;color:var(--accent)" ' +
-          'onclick="setFilter({type:\'island\',value:\'' + islandKey + '\'},\'' + part + '\')">' +
+  return parts
+    .map(function (part, index) {
+      if (index < parts.length - 1) {
+        const islandKey = part.includes("South") ? "south" : "north";
+        return (
+          '<span style="cursor:pointer;color:var(--accent)" ' +
+          "onclick=\"setFilter({type:'island',value:'" +
+          islandKey +
+          "'},'" +
           part +
-        '</span>' +
-        '<span class="breadcrumb-sep"> › </span>'
-      );
-    }
-    return '<span class="breadcrumb-active">' + part + '</span>';
-  }).join("");
+          "')\">" +
+          part +
+          "</span>" +
+          '<span class="breadcrumb-sep"> › </span>'
+        );
+      }
+      return '<span class="breadcrumb-active">' + part + "</span>";
+    })
+    .join("");
 }
-
 
 /* ── 3. FILTER HELPERS ───────────────────────────────────────── */
 
@@ -224,14 +254,24 @@ function filterPosts(filter) {
   filter = filter || activeFilter;
 
   switch (filter.type) {
-    case "all":      return POSTS;
-    case "island":   return POSTS.filter(function(p) { return p.island   === filter.value; });
-    case "region":   return POSTS.filter(function(p) { return p.region   === filter.value; });
-    case "general":  return POSTS.filter(function(p) { return p.category === "general";    });
-    default:         return POSTS;
+    case "all":
+      return POSTS;
+    case "island":
+      return POSTS.filter(function (p) {
+        return p.island === filter.value;
+      });
+    case "region":
+      return POSTS.filter(function (p) {
+        return p.region === filter.value;
+      });
+    case "general":
+      return POSTS.filter(function (p) {
+        return p.category === "general";
+      });
+    default:
+      return POSTS;
   }
 }
-
 
 /* ── 4. RENDER POSTS ─────────────────────────────────────────── */
 
@@ -241,13 +281,15 @@ function renderPosts() {
 
   /* Update the "X posts" count above the grid — desktop and mobile */
   const countText = posts.length + " post" + (posts.length !== 1 ? "s" : "");
-  const countEl    = document.getElementById("blog-post-count");
+  const countEl = document.getElementById("blog-post-count");
   const mobCountEl = document.getElementById("mob-post-count");
-  if (countEl)    countEl.textContent    = countText;
-  if (mobCountEl) mobCountEl.textContent = "(" + posts.length + ")"; /* bracketed count */
+  if (countEl) countEl.textContent = countText;
+  if (mobCountEl)
+    mobCountEl.textContent = "(" + posts.length + ")"; /* bracketed count */
 
-  const emptyMessage = '<p style="color:var(--text3);font-style:italic;padding:20px 0">' +
-                       'No posts in this category yet.</p>';
+  const emptyMessage =
+    '<p style="color:var(--text3);font-style:italic;padding:20px 0">' +
+    "No posts in this category yet.</p>";
 
   /* ── Grid view ── */
   const grid = document.getElementById("posts-grid");
@@ -255,39 +297,67 @@ function renderPosts() {
     if (!posts.length) {
       grid.innerHTML = emptyMessage;
     } else {
-      grid.innerHTML = posts.map(function(post) {
-        const coverHTML = post.cover
-          ? '<img src="' + post.cover + '" alt="' + post.title + '" loading="lazy" ' +
-            'onerror="this.parentElement.innerHTML=\'<span style=font-size:52px>' + post.emoji + '</span>\'">'
-          : '<span style="font-size:52px">' + post.emoji + '</span>';
+      grid.innerHTML = posts
+        .map(function (post) {
+          const coverHTML = post.cover
+            ? '<img src="' +
+              post.cover +
+              '" alt="' +
+              post.title +
+              '" loading="lazy" ' +
+              "onerror=\"this.parentElement.innerHTML='<span style=font-size:52px>" +
+              post.emoji +
+              "</span>'\">"
+            : '<span style="font-size:52px">' + post.emoji + "</span>";
 
-        /* Location: emoji inline, no pill */
-        var locationHTML = post.location
-          ? '<span class="post-card-location">📍 ' + post.location + '</span>'
-          : post.region
-          ? '<span class="post-card-location">🗺 ' + post.region + '</span>'
-          : '';
+          /* Location: emoji inline, no pill */
+          var locationHTML = post.location
+            ? '<span class="post-card-location">📍 ' + post.location + "</span>"
+            : post.region
+              ? '<span class="post-card-location">🗺 ' + post.region + "</span>"
+              : "";
 
-        var tagHTML = post.tags.slice(0, 3).map(function(tag) {
-          return '<span class="post-tag-hash">#' + tag.toLowerCase().replace(/ /g,'_') + '</span>';
-        }).join('');
+          var tagHTML = post.tags
+            .slice(0, 3)
+            .map(function (tag) {
+              return (
+                '<span class="post-tag-hash">#' +
+                tag.toLowerCase().replace(/ /g, "_") +
+                "</span>"
+              );
+            })
+            .join("");
 
-
-        return (
-          '<div class="post-card" onclick="openPost(\'' + post.id + '\')">' +
-            '<div class="post-card-cover">' + coverHTML + '</div>' +
+          return (
+            '<div class="post-card" onclick="openPost(\'' +
+            post.id +
+            "')\">" +
+            '<div class="post-card-cover">' +
+            coverHTML +
+            "</div>" +
             '<div class="post-card-body">' +
-              '<div class="post-card-meta">' +
-                '<span class="post-card-date">📅 ' + formatDateShort(post.date) + '</span>' +
-                locationHTML +
-              '</div>' +
-              '<div class="post-card-title">' + post.title + '</div>' +
-              '<div class="post-card-excerpt" data-post-id="' + post.id + '">' + (post._extractedExcerpt || post.excerpt) + '</div>' +
-              '<div class="post-card-tags">' + tagHTML + '</div>' +
-            '</div>' +
-          '</div>'
-        );
-      }).join('');
+            '<div class="post-card-meta">' +
+            '<span class="post-card-date">📅 ' +
+            formatDateShort(post.date) +
+            "</span>" +
+            locationHTML +
+            "</div>" +
+            '<div class="post-card-title">' +
+            post.title +
+            "</div>" +
+            '<div class="post-card-excerpt" data-post-id="' +
+            post.id +
+            '">' +
+            (post._extractedExcerpt || post.excerpt) +
+            "</div>" +
+            '<div class="post-card-tags">' +
+            tagHTML +
+            "</div>" +
+            "</div>" +
+            "</div>"
+          );
+        })
+        .join("");
     }
   }
 
@@ -297,44 +367,71 @@ function renderPosts() {
     if (!posts.length) {
       list.innerHTML = emptyMessage;
     } else {
-      list.innerHTML = posts.map(function(post, index) {
-        const thumbHTML = post.cover
-          ? '<img src="' + post.cover + '" alt="' + post.title + '" loading="lazy" ' +
-            'onerror="this.parentElement.innerHTML=\'<span style=font-size:26px>' + post.emoji + '</span>\'">'
-          : '<span style="font-size:26px">' + post.emoji + '</span>';
+      list.innerHTML = posts
+        .map(function (post, index) {
+          const thumbHTML = post.cover
+            ? '<img src="' +
+              post.cover +
+              '" alt="' +
+              post.title +
+              '" loading="lazy" ' +
+              "onerror=\"this.parentElement.innerHTML='<span style=font-size:26px>" +
+              post.emoji +
+              "</span>'\">"
+            : '<span style="font-size:26px">' + post.emoji + "</span>";
 
-        /* Location with region fallback */
-        var listLocationHTML = post.location
-          ? '<span>📍 ' + post.location + '</span>'
-          : post.region
-          ? '<span>🗺 ' + post.region + '</span>'
-          : '';
+          /* Location with region fallback */
+          var listLocationHTML = post.location
+            ? "<span>📍 " + post.location + "</span>"
+            : post.region
+              ? "<span>🗺 " + post.region + "</span>"
+              : "";
 
-        /* Tags outside .post-list-meta so they stay lowercase */
-        var listTagHTML = post.tags.slice(0, 3).map(function(t) {
-          return '<span class="post-tag-hash">#' + t.toLowerCase().replace(/ /g,'_') + '</span>';
-        }).join('');
+          /* Tags outside .post-list-meta so they stay lowercase */
+          var listTagHTML = post.tags
+            .slice(0, 3)
+            .map(function (t) {
+              return (
+                '<span class="post-tag-hash">#' +
+                t.toLowerCase().replace(/ /g, "_") +
+                "</span>"
+              );
+            })
+            .join("");
 
-
-        return (
-          '<div class="post-list-item" onclick="openPost(\'' + post.id + '\')">' +
-            '<div class="post-list-thumb">' + thumbHTML + '</div>' +
+          return (
+            '<div class="post-list-item" onclick="openPost(\'' +
+            post.id +
+            "')\">" +
+            '<div class="post-list-thumb">' +
+            thumbHTML +
+            "</div>" +
             '<div class="post-list-content">' +
-              '<div class="post-list-meta">' +
-                '<span>📅 ' + formatDateShort(post.date) + '</span>' +
-                listLocationHTML +
-              '</div>' +
-              '<div class="post-list-title">' + post.title + '</div>' +
-              '<div class="post-list-excerpt" data-post-id="' + post.id + '">' + (post._extractedExcerpt || post.excerpt) + '</div>' +
-              '<div class="post-card-tags">' + listTagHTML + '</div>' +
-            '</div>' +
-          '</div>'
-        );
-      }).join('');
+            '<div class="post-list-meta">' +
+            "<span>📅 " +
+            formatDateShort(post.date) +
+            "</span>" +
+            listLocationHTML +
+            "</div>" +
+            '<div class="post-list-title">' +
+            post.title +
+            "</div>" +
+            '<div class="post-list-excerpt" data-post-id="' +
+            post.id +
+            '">' +
+            (post._extractedExcerpt || post.excerpt) +
+            "</div>" +
+            '<div class="post-card-tags">' +
+            listTagHTML +
+            "</div>" +
+            "</div>" +
+            "</div>"
+          );
+        })
+        .join("");
     }
   }
 }
-
 
 /* ── 5. VIEW TOGGLE ──────────────────────────────────────────── */
 
@@ -343,13 +440,13 @@ function setView(view, clickedBtn) {
   currentView = view;
 
   /* Hide all panels, then show the one matching the chosen view */
-  document.querySelectorAll(".view-panel").forEach(function(panel) {
+  document.querySelectorAll(".view-panel").forEach(function (panel) {
     panel.classList.remove("active");
   });
   document.getElementById("view-" + view)?.classList.add("active");
 
   /* Sync ALL view buttons (desktop + mobile bottom bar) */
-  document.querySelectorAll(".view-btn, .mob-view-btn").forEach(function(btn) {
+  document.querySelectorAll(".view-btn, .mob-view-btn").forEach(function (btn) {
     btn.classList.remove("active");
   });
   /* Mark the matching button in each set */
@@ -357,12 +454,13 @@ function setView(view, clickedBtn) {
   document.getElementById("mob-btn-" + view)?.classList.add("active");
 }
 
-
 /* ── 6. POST DETAIL ──────────────────────────────────────────── */
 
 /* Opens and displays a full post by its ID */
 async function openPost(id) {
-  const post = POSTS.find(function(p) { return p.id === id; });
+  const post = POSTS.find(function (p) {
+    return p.id === id;
+  });
   if (!post) return;
 
   openPostId = id;
@@ -370,7 +468,7 @@ async function openPost(id) {
 
   /* Hide the listing view, show the detail container */
   document.getElementById("blog-listing").style.display = "none";
-  document.getElementById("blog-header").style.display  = "none";
+  document.getElementById("blog-header").style.display = "none";
   const detailEl = document.getElementById("post-detail");
   detailEl.style.display = "block";
   window.scrollTo({ top: 0, behavior: "instant" });
@@ -379,7 +477,7 @@ async function openPost(id) {
   detailEl.innerHTML =
     '<div style="padding:120px 40px; text-align:center; color:var(--text3);' +
     ' font-family:var(--font-primary); letter-spacing:2px; text-transform:uppercase; font-size:12px">' +
-    'Loading…</div>';
+    "Loading…</div>";
 
   /* Fetch the post's HTML file (with caching so we don't re-fetch on back navigation) */
   let content = postContent[id];
@@ -387,14 +485,18 @@ async function openPost(id) {
     try {
       const response = await fetch(post.file);
       if (response.ok) {
-        const rawHTML  = await response.text();
-        const doc      = (new DOMParser()).parseFromString(rawHTML, "text/html");
-        const article  = doc.querySelector("article.post-article");
-        content        = article ? article.innerHTML : "<p>Post content not found.</p>";
+        const rawHTML = await response.text();
+        const doc = new DOMParser().parseFromString(rawHTML, "text/html");
+        const article = doc.querySelector("article.post-article");
+        content = article
+          ? article.innerHTML
+          : "<p>Post content not found.</p>";
         postContent[id] = content; /* cache for next time */
-
       } else {
-        content = '<p style="color:var(--text3)">Could not load post. (<code>' + post.file + '</code>)</p>';
+        content =
+          '<p style="color:var(--text3)">Could not load post. (<code>' +
+          post.file +
+          "</code>)</p>";
       }
     } catch (e) {
       content = '<p style="color:var(--text3)">Could not load post file.</p>';
@@ -402,32 +504,49 @@ async function openPost(id) {
   }
 
   /* Build prev / next links within the current filter */
-  const posts     = filterPosts();
-  const postIndex = posts.findIndex(function(p) { return p.id === id; });
-  const prevPost  = posts[postIndex - 1] || null;
-  const nextPost  = posts[postIndex + 1] || null;
+  const posts = filterPosts();
+  const postIndex = posts.findIndex(function (p) {
+    return p.id === id;
+  });
+  const prevPost = posts[postIndex - 1] || null;
+  const nextPost = posts[postIndex + 1] || null;
 
   /* Build breadcrumb: All › Island › Region › Location › Title */
-  const islandLabel = post.island === "south" ? "South Island"
-                    : post.island === "north" ? "North Island"
-                    : null;
+  const islandLabel =
+    post.island === "south"
+      ? "South Island"
+      : post.island === "north"
+        ? "North Island"
+        : null;
 
   const islandCrumb = islandLabel
     ? '<span class="breadcrumb-sep"> ›</span> ' +
-      '<span class="crumb-link" onclick="closePost();setFilter({type:\'island\',value:\'' +
-      post.island + '\'},\'' + islandLabel + '\');renderPosts()">' + islandLabel + '</span>'
+      "<span class=\"crumb-link\" onclick=\"closePost();setFilter({type:'island',value:'" +
+      post.island +
+      "'},'" +
+      islandLabel +
+      "');renderPosts()\">" +
+      islandLabel +
+      "</span>"
     : "";
 
   const regionCrumb = post.region
     ? '<span class="breadcrumb-sep"> ›</span> ' +
-      '<span class="crumb-link" onclick="closePost();setFilter({type:\'region\',value:\'' +
-      post.region + '\'},\'' + (islandLabel ? islandLabel + ' › ' : '') + post.region + '\');renderPosts()">' +
-      post.region + '</span>'
+      "<span class=\"crumb-link\" onclick=\"closePost();setFilter({type:'region',value:'" +
+      post.region +
+      "'},'" +
+      (islandLabel ? islandLabel + " › " : "") +
+      post.region +
+      "');renderPosts()\">" +
+      post.region +
+      "</span>"
     : "";
 
   const titleCrumb =
     '<span class="breadcrumb-sep"> ›</span> ' +
-    '<span class="crumb-title">' + post.title + '</span>';
+    '<span class="crumb-title">' +
+    post.title +
+    "</span>";
 
   const breadcrumbHTML =
     '<span class="crumb-link" onclick="closePost()">All</span>' +
@@ -437,44 +556,71 @@ async function openPost(id) {
 
   /* Cover image or emoji fallback for the hero banner */
   const heroImgHTML = post.cover
-    ? '<img src="' + post.cover + '" alt="' + post.title + '" ' +
-      'onerror="this.parentElement.innerHTML=\'<span style=font-size:80px;display:flex;' +
-      'align-items:center;justify-content:center;height:100%>' + post.emoji + '</span>\'">'
+    ? '<img src="' +
+      post.cover +
+      '" alt="' +
+      post.title +
+      '" ' +
+      "onerror=\"this.parentElement.innerHTML='<span style=font-size:80px;display:flex;" +
+      "align-items:center;justify-content:center;height:100%>" +
+      post.emoji +
+      "</span>'\">"
     : '<span style="font-size:80px;display:flex;align-items:center;justify-content:center;height:100%">' +
-      post.emoji + '</span>';
+      post.emoji +
+      "</span>";
 
   /* Tag hashtags — simple # prefix text, no pill */
-  const tagsHTML = post.tags.map(function(tag) {
-    return '<span class="post-tag-hash">#' + tag.toLowerCase().replace(/ /g,'_') + '</span>';
-  }).join("");
+  const tagsHTML = post.tags
+    .map(function (tag) {
+      return (
+        '<span class="post-tag-hash">#' +
+        tag.toLowerCase().replace(/ /g, "_") +
+        "</span>"
+      );
+    })
+    .join("");
 
   /* Meta line: date, location, region — goes ABOVE the title */
   const metaHTML =
-    '<span>📅 ' + formatDateShort(post.date) + '</span>' +
-    (post.location ? '<span>📍 ' + post.location + '</span>' : "");
+    "<span>📅 " +
+    formatDateShort(post.date) +
+    "</span>" +
+    (post.location ? "<span>📍 " + post.location + "</span>" : "");
 
   /* Prev / next navigation cards */
   const prevCard = prevPost
-    ? '<div class="post-nav-card" onclick="openPost(\'' + prevPost.id + '\')">' +
+    ? '<div class="post-nav-card" onclick="openPost(\'' +
+      prevPost.id +
+      "')\">" +
       '<div class="post-nav-dir">← Previous</div>' +
-      '<div class="post-nav-emoji">' + prevPost.emoji + '</div>' +
-      '<div class="post-nav-title">' + prevPost.title + '</div>' +
-      '</div>'
-    : '<div></div>';
+      '<div class="post-nav-emoji">' +
+      prevPost.emoji +
+      "</div>" +
+      '<div class="post-nav-title">' +
+      prevPost.title +
+      "</div>" +
+      "</div>"
+    : "<div></div>";
 
   const nextCard = nextPost
-    ? '<div class="post-nav-card post-nav-right" onclick="openPost(\'' + nextPost.id + '\')">' +
+    ? '<div class="post-nav-card post-nav-right" onclick="openPost(\'' +
+      nextPost.id +
+      "')\">" +
       '<div class="post-nav-dir">Next →</div>' +
-      '<div class="post-nav-emoji">' + nextPost.emoji + '</div>' +
-      '<div class="post-nav-title">' + nextPost.title + '</div>' +
-      '</div>'
-    : '<div></div>';
+      '<div class="post-nav-emoji">' +
+      nextPost.emoji +
+      "</div>" +
+      '<div class="post-nav-title">' +
+      nextPost.title +
+      "</div>" +
+      "</div>"
+    : "<div></div>";
 
   /* Populate the sticky breadcrumb bar */
-  var crumbBar   = document.getElementById("post-crumb-bar");
+  var crumbBar = document.getElementById("post-crumb-bar");
   var crumbInner = document.getElementById("post-crumb-inner");
   if (crumbInner) crumbInner.innerHTML = breadcrumbHTML;
-  if (crumbBar)   crumbBar.classList.add("visible");
+  if (crumbBar) crumbBar.classList.add("visible");
 
   /* Use auto-extracted excerpt from body if available, else fall back to registry */
   const displayExcerpt = post._extractedExcerpt || post.excerpt;
@@ -483,21 +629,33 @@ async function openPost(id) {
   detailEl.innerHTML =
     /* Hero banner — image only, no text overlay */
     '<div class="post-hero">' +
-      '<div class="post-hero-img">' + heroImgHTML + '</div>' +
-      '<div class="post-hero-overlay"></div>' +
-    '</div>' +
-
+    '<div class="post-hero-img">' +
+    heroImgHTML +
+    "</div>" +
+    '<div class="post-hero-overlay"></div>' +
+    "</div>" +
     /* Post body — back button, then post header (meta → title → tags), then content */
     '<div class="post-body">' +
-      '<button class="post-back" onclick="closePost()">← Back to posts</button>' +
-      '<div class="post-header">' +
-        '<div class="post-header-meta">' + metaHTML + '</div>' +
-        '<h1 class="post-header-title">' + post.title + '</h1>' +
-        '<div class="post-header-tags">' + tagsHTML + '</div>' +
-      '</div>' +
-      '<div class="post-content">' + content + '</div>' +
-      '<nav class="post-nav">' + prevCard + nextCard + '</nav>' +
-    '</div>';
+    '<button class="post-back" onclick="closePost()">← Back to posts</button>' +
+    '<div class="post-header">' +
+    '<div class="post-header-meta">' +
+    metaHTML +
+    "</div>" +
+    '<h1 class="post-header-title">' +
+    post.title +
+    "</h1>" +
+    '<div class="post-header-tags">' +
+    tagsHTML +
+    "</div>" +
+    "</div>" +
+    '<div class="post-content">' +
+    content +
+    "</div>" +
+    '<nav class="post-nav">' +
+    prevCard +
+    nextCard +
+    "</nav>" +
+    "</div>";
 
   document.getElementById("post-progress")?.classList.add("visible");
   /* Wrap images in figure containers and enable lightbox */
@@ -510,8 +668,8 @@ function closePost() {
   history.pushState({}, "", "blog.html");
 
   document.getElementById("blog-listing").style.display = "";
-  document.getElementById("blog-header").style.display  = "";
-  document.getElementById("post-detail").style.display  = "none";
+  document.getElementById("blog-header").style.display = "";
+  document.getElementById("post-detail").style.display = "none";
   document.getElementById("post-progress")?.classList.remove("visible");
 
   var crumbBar = document.getElementById("post-crumb-bar");
@@ -522,27 +680,31 @@ function closePost() {
 
 /* Updates the reading progress bar as the user scrolls through the post.
    Uses total page scroll range so 0% = top, 100% = can't scroll further. */
-window.addEventListener("scroll", function() {
-  const fillEl = document.getElementById("post-progress-fill");
-  if (!fillEl || !openPostId) return;
+window.addEventListener(
+  "scroll",
+  function () {
+    const fillEl = document.getElementById("post-progress-fill");
+    if (!fillEl || !openPostId) return;
 
-  const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-  const percent    = scrollable > 0 ? Math.min(100, (window.scrollY / scrollable) * 100) : 0;
-  fillEl.style.width = percent + "%";
-}, { passive: true });
-
+    const scrollable =
+      document.documentElement.scrollHeight - window.innerHeight;
+    const percent =
+      scrollable > 0 ? Math.min(100, (window.scrollY / scrollable) * 100) : 0;
+    fillEl.style.width = percent + "%";
+  },
+  { passive: true },
+);
 
 /* ── 7. BROWSER HISTORY ──────────────────────────────────────── */
 
 /* Handles the browser back/forward buttons so post URLs work correctly */
-window.addEventListener("popstate", function(event) {
+window.addEventListener("popstate", function (event) {
   if (event.state && event.state.postId) {
     openPost(event.state.postId);
   } else {
     closePost();
   }
 });
-
 
 /* ── 7c. POST IMAGE LIGHTBOX ──────────────────────────────────
    Runs after post content is injected into the DOM.
@@ -555,18 +717,22 @@ function initPostImages() {
   if (!content) return;
 
   /* ── 1. Image grids: auto-columns + aspect-ratio per image ── */
-  content.querySelectorAll(".post-img-grid").forEach(function(grid) {
+  content.querySelectorAll(".post-img-grid").forEach(function (grid) {
     /* Already initialised (e.g. openPost called twice) */
-    if (grid.classList.contains("grid-cols-2") || grid.classList.contains("grid-cols-3")) return;
+    if (
+      grid.classList.contains("grid-cols-2") ||
+      grid.classList.contains("grid-cols-3")
+    )
+      return;
 
-    var imgs   = Array.from(grid.querySelectorAll("img"));
-    var count  = imgs.length;
+    var imgs = Array.from(grid.querySelectorAll("img"));
+    var count = imgs.length;
 
     /* Column count: min 2, max 3; 4 images = 2×2 */
-    var cols = (count === 4) ? 2 : Math.min(Math.max(count, 2), 3);
+    var cols = count === 4 ? 2 : Math.min(Math.max(count, 2), 3);
     grid.classList.add("grid-cols-" + cols);
 
-    imgs.forEach(function(img) {
+    imgs.forEach(function (img) {
       var caption = (img.alt || "").trim();
 
       /* Cell wrapper: image container + caption */
@@ -583,7 +749,7 @@ function initPostImages() {
 
       /* Caption below the image */
       if (caption) {
-        var capEl = document.createElement("p");
+        var capEl = document.createElement("span");
         capEl.className = "post-grid-caption";
         capEl.textContent = caption;
         cell.appendChild(capEl);
@@ -603,11 +769,13 @@ function initPostImages() {
       }
 
       /* Lightbox on click — pass full gallery so arrows work */
-      (function(cellImg, cellCaption, cellIndex) {
-        cell.addEventListener("click", function() {
-          var gallery = Array.from(grid.querySelectorAll("img")).map(function(gi) {
-            return { src: gi.src, caption: (gi.alt || "").trim() };
-          });
+      (function (cellImg, cellCaption, cellIndex) {
+        cell.addEventListener("click", function () {
+          var gallery = Array.from(grid.querySelectorAll("img")).map(
+            function (gi) {
+              return { src: gi.src, caption: (gi.alt || "").trim() };
+            },
+          );
           openLightbox(cellImg.src, cellCaption, gallery, cellIndex);
         });
       })(img, caption, imgs.indexOf(img));
@@ -615,7 +783,7 @@ function initPostImages() {
   });
 
   /* ── 2. Standalone images: gradient overlay + caption ── */
-  content.querySelectorAll("img").forEach(function(img) {
+  content.querySelectorAll("img").forEach(function (img) {
     /* Skip images inside grids (already handled above) */
     if (img.closest(".post-img-grid")) return;
     /* Skip if already wrapped */
@@ -630,7 +798,7 @@ function initPostImages() {
     var overlay = document.createElement("div");
     overlay.className = "post-figure-overlay";
 
-    var capEl = document.createElement("p");
+    var capEl = document.createElement("span");
     capEl.className = "post-figure-caption";
     capEl.textContent = caption;
 
@@ -639,28 +807,29 @@ function initPostImages() {
     figure.appendChild(overlay);
     if (caption) figure.appendChild(capEl);
 
-    figure.addEventListener("click", function() {
+    figure.addEventListener("click", function () {
       openLightbox(img.src, caption);
     });
   });
 }
 
 /* ── Lightbox state ── */
-var _lbGallery = [];  /* [{src, caption}] for current grid; length 1 for standalone */
-var _lbIndex   = 0;
+var _lbGallery =
+  []; /* [{src, caption}] for current grid; length 1 for standalone */
+var _lbIndex = 0;
 
 function _lbShow(index) {
-  var item  = _lbGallery[index];
+  var item = _lbGallery[index];
   var imgEl = document.getElementById("lightbox-img");
   var capEl = document.getElementById("lightbox-caption");
-  var prev  = document.getElementById("lightbox-prev");
-  var next  = document.getElementById("lightbox-next");
+  var prev = document.getElementById("lightbox-prev");
+  var next = document.getElementById("lightbox-next");
   if (!item || !imgEl) return;
 
-  _lbIndex            = index;
-  imgEl.src           = item.src;
-  imgEl.alt           = item.caption;
-  capEl.textContent   = item.caption;
+  _lbIndex = index;
+  imgEl.src = item.src;
+  imgEl.alt = item.caption;
+  capEl.textContent = item.caption;
   capEl.style.display = item.caption ? "" : "none";
 
   /* Only show arrows when there are multiple images to navigate */
@@ -701,30 +870,42 @@ function lightboxNext() {
 }
 
 /* Wire all controls once DOM is ready */
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   var box = document.getElementById("lightbox");
   if (!box) return;
 
-  document.getElementById("lightbox-close").addEventListener("click", closeLightbox);
-  document.getElementById("lightbox-prev").addEventListener("click",  function(e) { e.stopPropagation(); lightboxPrev(); });
-  document.getElementById("lightbox-next").addEventListener("click",  function(e) { e.stopPropagation(); lightboxNext(); });
+  document
+    .getElementById("lightbox-close")
+    .addEventListener("click", closeLightbox);
+  document
+    .getElementById("lightbox-prev")
+    .addEventListener("click", function (e) {
+      e.stopPropagation();
+      lightboxPrev();
+    });
+  document
+    .getElementById("lightbox-next")
+    .addEventListener("click", function (e) {
+      e.stopPropagation();
+      lightboxNext();
+    });
 
-  box.addEventListener("click", function(e) {
+  box.addEventListener("click", function (e) {
     if (e.target === box) closeLightbox();
   });
 
-  document.addEventListener("keydown", function(e) {
+  document.addEventListener("keydown", function (e) {
     if (!box.classList.contains("open")) return;
-    if (e.key === "Escape")     closeLightbox();
-    if (e.key === "ArrowLeft")  lightboxPrev();
+    if (e.key === "Escape") closeLightbox();
+    if (e.key === "ArrowLeft") lightboxPrev();
     if (e.key === "ArrowRight") lightboxNext();
   });
 });
 
 /* ── 8. PAGE INIT ────────────────────────────────────────────── */
 
-document.addEventListener("DOMContentLoaded", function() {
-  initShared();        /* theme, clock, fade-in, visitor counter */
+document.addEventListener("DOMContentLoaded", function () {
+  initShared(); /* theme, clock, fade-in, visitor counter */
   buildCategoryTree(); /* desktop sidebar */
 
   /* Mirror the category tree into the mobile filter drawer */
@@ -732,25 +913,29 @@ document.addEventListener("DOMContentLoaded", function() {
   if (drawerBody) buildCategoryTree(drawerBody);
 
   /* Check URL params so direct links and region links work on page load */
-  const params      = new URLSearchParams(window.location.search);
-  const postParam   = params.get("post");
+  const params = new URLSearchParams(window.location.search);
+  const postParam = params.get("post");
   const regionParam = params.get("region");
 
   if (postParam) {
     /* Direct link to a specific post — render the listing first so prev/next work */
     renderPosts();
     openPost(postParam);
-
   } else if (regionParam) {
     /* Came from a region card on the homepage */
-    const region = REGIONS.find(function(r) { return r.name === regionParam; });
+    const region = REGIONS.find(function (r) {
+      return r.name === regionParam;
+    });
     if (region) {
-      const islandLabel = region.island === "south" ? "South Island" : "North Island";
-      setFilter({ type: "region", value: regionParam }, islandLabel + " › " + regionParam);
+      const islandLabel =
+        region.island === "south" ? "South Island" : "North Island";
+      setFilter(
+        { type: "region", value: regionParam },
+        islandLabel + " › " + regionParam,
+      );
     } else {
       renderPosts();
     }
-
   } else {
     renderPosts();
   }
@@ -758,7 +943,6 @@ document.addEventListener("DOMContentLoaded", function() {
   /* Background-fetch post files to auto-populate excerpts */
   prefetchExcerpts();
 });
-
 
 /* ── Mobile filter drawer ──────────────────────────────────── */
 
@@ -782,22 +966,24 @@ function clearMobFilter() {
 
 /* ── Mobile sticky header: pins below nav when banner scrolls out,
    returns to in-flow when banner comes back into view ── */
-(function() {
+(function () {
   var ticking = false;
 
   function updateStickyHeader() {
-    var header  = document.getElementById("mob-sticky-header");
-    var spacer  = document.getElementById("mob-sticky-spacer");
-    var banner  = document.getElementById("blog-header");
+    var header = document.getElementById("mob-sticky-header");
+    var spacer = document.getElementById("mob-sticky-spacer");
+    var banner = document.getElementById("blog-header");
     if (!header || !spacer || !banner) return;
 
     /* How far the bottom of the banner is from the top of the viewport.
        Negative = banner has scrolled fully above the viewport.
        We pin once the banner bottom passes behind the nav bar. */
-    var navH       = parseInt(getComputedStyle(document.documentElement)
-                       .getPropertyValue("--nav-h")) || 58;
+    var navH =
+      parseInt(
+        getComputedStyle(document.documentElement).getPropertyValue("--nav-h"),
+      ) || 58;
     var bannerBottom = banner.getBoundingClientRect().bottom;
-    var shouldStick  = bannerBottom <= navH;
+    var shouldStick = bannerBottom <= navH;
 
     if (shouldStick && !header.classList.contains("is-sticky")) {
       /* Pin: fix the header, show spacer with same height to avoid jump */
@@ -812,14 +998,18 @@ function clearMobFilter() {
     }
   }
 
-  window.addEventListener("scroll", function() {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(function() {
-      updateStickyHeader();
-      ticking = false;
-    });
-  }, { passive: true });
+  window.addEventListener(
+    "scroll",
+    function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        updateStickyHeader();
+        ticking = false;
+      });
+    },
+    { passive: true },
+  );
 
   /* Run once on load in case the page starts mid-scroll */
   updateStickyHeader();

@@ -677,9 +677,14 @@ button {
     linear-gradient(rgba(28, 94, 53, 0.3) 1px, transparent 1px),
     linear-gradient(90deg, rgba(28, 94, 53, 0.3) 1px, transparent 1px);
   background-size: 60px 60px;
-  transform: perspective(600px) rotateX(60deg) translateY(10%);
+  /* perf: animating `transform` (translateY) instead of `background-position`
+     keeps this on the compositor thread — background-position repaints every
+     frame, which was fighting the hero video for main-thread time and was
+     the biggest contributor to the stutter. transform-origin stays fixed so
+     the perspective/rotateX "floor" look is unchanged. */
   transform-origin: bottom center;
   animation: gridScroll 8s linear infinite;
+  will-change: transform;
   mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 50%);
 }
 [data-theme="hobbit"] .hero-grid {
@@ -687,10 +692,11 @@ button {
 }
 @keyframes gridScroll {
   from {
-    background-position: 0 0;
+    transform: perspective(600px) rotateX(60deg) translateY(10%) translateY(0);
   }
   to {
-    background-position: 0 60px;
+    transform: perspective(600px) rotateX(60deg) translateY(10%)
+      translateY(60px);
   }
 }
 
@@ -702,9 +708,27 @@ button {
   object-fit: cover;
   opacity: 0;
   transition: opacity 1s;
+  will-change: opacity;
 }
 .hero-video.loaded {
   opacity: 0.9;
+}
+
+/* On mobile, the browser's native "tap to play" UI (iOS Safari's
+   start-playback button / Chrome's overlay play button) can render
+   underneath the hero-vignette overlay — visible but untappable, so it's
+   just dead weight. Hide it only while the video has no `controls`
+   attribute. Once the custom .hero-play-btn pill is tapped and JS sets
+   video.controls = true, this selector no longer matches and the full
+   native control bar (play/pause, scrubber, volume, fullscreen) works
+   exactly as normal. */
+@media (max-width: 768px) {
+  .hero-video:not([controls])::-webkit-media-controls-start-playback-button,
+  .hero-video:not([controls])::-webkit-media-controls-overlay-play-button {
+    display: none !important;
+    -webkit-appearance: none !important;
+    pointer-events: none !important;
+  }
 }
 
 /* Fallback only — shown via JS if the video element fails to load any source. */
@@ -955,7 +979,7 @@ button {
 }
 .scroll-line {
   width: 2px;
-  height: 40px;
+  height: 32px;
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), transparent);
   animation: scrollPulse 3s ease-in-out infinite;
 }
@@ -2655,9 +2679,10 @@ button {
   background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: 99px;
-  padding: 8px 20px;
+  padding: 8px 12px;
   font-family: var(--font-primary);
-  font-size: 12px;
+  font-size: 10px;
+  font-weight: 400;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--text2);
@@ -2739,6 +2764,141 @@ button {
   line-height: 1.8;
 }
 
+.post-content h1 {
+  font-family: var(--font-primary);
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  color: var(--text);
+  margin: 3.2em 0 0.4em;
+}
+
+.post-content h2 {
+  font-family: var(--font-primary);
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text);
+  margin: 2.5em 0 0.2em;
+}
+
+.post-content h3 {
+  font-family: var(--font-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text2);
+  margin: 2em 0 0.2em;
+}
+
+[data-theme="hobbit"] .post-content h2 {
+  font-family: var(--font-hobbit);
+  color: var(--accent);
+}
+
+.post-content p {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--text2);
+  margin-bottom: 1.4em;
+}
+
+.post-content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.post-content blockquote {
+  border-left: 3px solid var(--accent);
+  padding: 16px;
+  margin: 2rem 0;
+  border-radius: 0px;
+  background: var(--surface2);
+  font-style: italic;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text2);
+}
+
+.post-content table {
+  width: 100%;
+  padding: 8px;
+  background: var(--surface2);
+  border: 1px dashed var(--border);
+  border-radius: 16px;
+  margin: 1.2em 0;
+  border-spacing: 0.6em;
+}
+
+.post-content th {
+  text-align: left;
+  vertical-align: text-top;
+  margin: 4px;
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.post-content td {
+  width: 80%;
+  text-align: left;
+  vertical-align: text-top;
+  margin: 4px;
+  font-size: 0.95rem;
+}
+
+[data-theme="hobbit"] .post-content blockquote {
+  border-color: var(--gold);
+  background: var(--surface3);
+}
+
+.post-content ul,
+.post-content ol {
+  font-family: var(--font-primary);
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--text2);
+  margin-bottom: 1.2em;
+  list-style-position: inside;
+  list-style-type: disc;
+}
+
+.post-content li {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--text2);
+  margin-left: 0.2em;
+}
+
+/* Links within post content */
+.post-content a {
+  font-style: italic;
+  color: var(--text2);
+  border-bottom: 1px dashed var(--accent);
+}
+
+.post-content a:hover {
+  font-weight: 700;
+  color: var(--accent);
+  border-color: var(--accent);
+  transition: ease 0.3s;
+}
+
+[data-theme="hobbit"] .post-content a {
+  border-color: var(--gold);
+  color: var(--text2);
+}
+
+[data-theme="hobbit"] .post-content a:hover {
+  font-weight: 700;
+  color: var(--gold);
+  border-color: var(--gold);
+  transition: all 0.2s;
+}
+
 /* ── Post image figures (JS-wrapped after content loads) ── */
 .post-figure {
   position: relative;
@@ -2787,7 +2947,7 @@ button {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 4px 20px;
+  padding: 4px 20px 16px;
   text-align: center;
   font-family: var(--font-body);
   font-size: 12px;
@@ -2987,141 +3147,6 @@ button {
   line-height: 1.5;
   max-width: 700px;
   margin: 0;
-}
-
-.post-content h1 {
-  font-family: var(--font-primary);
-  font-size: 2rem;
-  text-transform: uppercase;
-  color: var(--text);
-  margin: 3.2em 0 0.4em;
-}
-
-.post-content h2 {
-  font-family: var(--font-primary);
-  font-size: 1.4rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: var(--text);
-  margin: 2.5em 0 0.2em;
-}
-
-.post-content h3 {
-  font-family: var(--font-primary);
-  font-size: 1.2rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: var(--text2);
-  margin: 2em 0 0.2em;
-}
-
-[data-theme="hobbit"] .post-content h2 {
-  font-family: var(--font-hobbit);
-  color: var(--accent);
-}
-
-.post-content p {
-  font-family: var(--font-body);
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.75;
-  color: var(--text2);
-  margin-bottom: 1.4em;
-}
-
-.post-content strong {
-  color: var(--text);
-  font-weight: 600;
-}
-
-.post-content blockquote {
-  border-left: 3px solid var(--accent);
-  padding: 16px;
-  margin: 2rem 0;
-  border-radius: 0px;
-  background: var(--surface2);
-  font-style: italic;
-  font-size: 0.9rem;
-  line-height: 1.6;
-  color: var(--text2);
-}
-
-.post-content table {
-  width: 100%;
-  padding: 8px;
-  background: var(--surface2);
-  border: 1px dashed var(--border);
-  border-radius: 16px;
-  margin: 1.2em 0;
-  border-spacing: 0.6em;
-}
-
-.post-content th {
-  text-align: left;
-  vertical-align: text-top;
-  margin: 4px;
-  font-family: var(--font-primary);
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-.post-content td {
-  width: 80%;
-  text-align: left;
-  vertical-align: text-top;
-  margin: 4px;
-  font-size: 0.95rem;
-}
-
-[data-theme="hobbit"] .post-content blockquote {
-  border-color: var(--gold);
-  background: var(--surface3);
-}
-
-.post-content ul,
-.post-content ol {
-  font-family: var(--font-primary);
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: var(--text2);
-  margin-bottom: 1.2em;
-  list-style-position: inside;
-  list-style-type: disc;
-}
-
-.post-content li {
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  font-weight: 300;
-  line-height: 1.75;
-  color: var(--text2);
-  margin-left: 0.2em;
-}
-
-/* Links within post content */
-.post-content a {
-  font-style: italic;
-  color: var(--text2);
-  border-bottom: 1px dashed var(--accent);
-}
-
-.post-content a:hover {
-  font-weight: 700;
-  color: var(--accent);
-  border-color: var(--accent);
-  transition: ease 0.3s;
-}
-
-[data-theme="hobbit"] .post-content a {
-  border-color: var(--gold);
-  color: var(--text2);
-}
-
-[data-theme="hobbit"] .post-content a:hover {
-  font-weight: 700;
-  color: var(--gold);
-  border-color: var(--gold);
-  transition: all 0.2s;
 }
 
 .post-nav {
@@ -4285,9 +4310,9 @@ button {
   }
 
   .post-back {
-    margin-bottom: 28px;
-    font-size: 11px;
-    padding: 7px 16px;
+    margin-bottom: 24px;
+    font-size: 9px;
+    padding: 6px 12px;
   }
 
   .post-header {
@@ -4296,8 +4321,7 @@ button {
   }
 
   .post-header-title {
-    font-size: 1.55rem;
-    letter-spacing: -0.3px;
+    font-size: 1.5rem;
     margin-bottom: 12px;
   }
 
@@ -4313,7 +4337,7 @@ button {
   }
 
   .post-content p {
-    margin-bottom: 1.1em;
+    margin-bottom: 1.2em;
   }
 
   .post-content blockquote {
