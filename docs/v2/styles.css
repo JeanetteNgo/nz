@@ -352,8 +352,8 @@ button {
   pointer-events: none;
   background: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.25) 0%,
-    rgba(0, 0, 0, 0) 70%,
+    rgba(0, 0, 0, 0.5) 20%,
+    rgba(0, 0, 0, 0.1) 70%,
     transparent 100%
   );
 }
@@ -365,8 +365,9 @@ button {
   color: rgba(255, 255, 255, 0.95);
 }
 .site-nav.over-hero .nav-links a {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
-  font-weight: 600;
 }
 .site-nav.over-hero .nav-clock {
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
@@ -443,7 +444,7 @@ button {
 }
 .site-nav.over-hero .nav-links a:hover,
 .site-nav.over-hero .nav-links a.active {
-  color: #fff;
+  color: rgba(255, 255, 255, 0.7);
 }
 .nav-links a:hover::after,
 .nav-links a.active::after {
@@ -706,8 +707,7 @@ button {
   opacity: 0.9;
 }
 
-/* Fallback only — shown via JS if the video element fails to load any source.
-   Not the default mobile state any more; mobile now plays the vertical video. */
+/* Fallback only — shown via JS if the video element fails to load any source. */
 .hero-mobile-poster {
   display: none;
   position: absolute;
@@ -717,22 +717,19 @@ button {
   object-fit: cover;
   opacity: 0.8;
 }
-/* Darker overlay so text is always legible — heavier at top (nav) and
-   bottom (stats/scroll cue), lighter through the middle so the video still
-   reads. Mirrors the deeper, gradient-style darkening used on AJ Hackett's hero. */
+
 .hero-vignette {
   position: absolute;
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  /* background: linear-gradient(
+  background: linear-gradient(
     180deg,
-    rgba(0, 0, 0, 0.8) 0%,
-    rgba(0, 0, 0, 0.6) 28%,
-    rgba(0, 0, 0, 0.6) 65%,
-    rgba(0, 0, 0, 0.8) 100%
-  ); */
-  background: rgba(0, 0, 0, 0.4);
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.5) 30%,
+    rgba(0, 0, 0, 0.5) 65%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
 }
 
 .hero-particles {
@@ -789,12 +786,12 @@ button {
   align-items: center;
   gap: 12px;
   font-family: var(--font-primary);
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 10px;
+  font-weight: 600;
   letter-spacing: 5px;
   text-transform: uppercase;
-  color: var(--neutral-0);
-  margin-bottom: 40px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 40px 0;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
   opacity: 0;
   animation: fadeUp 0.7s 0.45s ease forwards;
@@ -806,15 +803,15 @@ button {
 .hero-eyebrow::before,
 .hero-eyebrow::after {
   content: "";
-  width: 32px;
+  width: 16px;
   height: 1px;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .hero-title {
   font-family: var(--font-primary);
   font-size: clamp(3.8rem, 6vw, 4.2rem);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.1;
   color: var(--neutral-0);
   text-shadow:
@@ -837,10 +834,8 @@ button {
   line-height: 1.25;
 }
 
-/* Mobile-only "Play" pill — opens the hero video fullscreen with native
-   controls on tap. Hidden on desktop; revealed in the mobile breakpoint. */
 .hero-play-btn {
-  display: none;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
   margin: 20px;
@@ -854,22 +849,25 @@ button {
   letter-spacing: 1.2px;
   text-transform: uppercase;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
+  transition: background 0.3s ease;
   opacity: 0;
   animation: fadeUp 0.8s 0.65s ease forwards;
+  -webkit-transition:;
+  -moz-transition:;
+  -ms-transition:;
+  -o-transition:;
+  -webkit-animation: fadeUp 0.8s 0.65s ease forwards;
 }
-.hero-play-btn:active {
+.hero-play-btn:hover {
   background: rgba(255, 255, 255, 1);
-  border: 1px solid var(--accent);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
 }
 [data-theme="hobbit"] .hero-play-btn {
-  font-size: 10px;
   background: rgba(255, 255, 255, 0.1);
+  border: 0.5px solid var(--accent);
+}
+[data-theme="hobbit"] .hero-play-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
   border: 1px solid var(--accent);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
 }
 
 .hero-play-btn i {
@@ -913,12 +911,12 @@ button {
 }
 .hero-stat-num {
   font-family: "Kanit", sans-serif !important;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
   color: var(--neutral-0);
   display: block;
   line-height: 1;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   /* Fixed width prevents layout shift during counter animation */
   min-width: 5ch;
   text-align: center;
@@ -927,6 +925,7 @@ button {
 .hero-stat-label {
   font-family: var(--font-primary);
   font-size: 10px;
+  font-weight: 500;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.75);
@@ -943,10 +942,10 @@ button {
   justify-content: center;
   align-items: center;
   gap: 8px;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.8);
   font-family: var(--font-primary);
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 10px;
+  font-weight: 400;
   letter-spacing: 4px;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
   text-transform: uppercase;
@@ -955,13 +954,9 @@ button {
   z-index: 2;
 }
 .scroll-line {
-  width: 3px;
+  width: 2px;
   height: 40px;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.75),
-    transparent
-  );
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), transparent);
   animation: scrollPulse 3s ease-in-out infinite;
 }
 @keyframes scrollPulse {
@@ -1610,12 +1605,12 @@ button {
 /* .facts-fixed is the standalone kiwi widget container */
 
 .facts-btn {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 50%;
-  font-size: 22px;
+  font-size: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3823,24 +3818,6 @@ button {
     font-size: 9px;
     letter-spacing: 3px;
     margin-bottom: 24px;
-  }
-
-  /* Reveal the fullscreen-video play pill on mobile only */
-  .hero-play-btn {
-    display: inline-flex;
-  }
-
-  /* On mobile: the video keeps playing (vertical source via <source media>) —
-     it's no longer swapped for the static poster. A touch more overlay here
-     since the portrait crop sits closer to the subject than the desktop cut. */
-  .hero-vignette {
-    background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.7) 0%,
-      rgba(0, 0, 0, 0.5) 30%,
-      rgba(0, 0, 0, 0.5) 65%,
-      rgba(0, 0, 0, 0.7) 100%
-    );
   }
 
   /* ---- Leaflet map controls ---- */
