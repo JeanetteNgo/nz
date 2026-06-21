@@ -168,11 +168,41 @@ body {
   cursor: default;
 }
 
-/* Hobbit mode — One Ring cursor */
 [data-theme="hobbit"] body {
   cursor:
     url("assets/hobbit-cursor.png") 8 8,
     auto;
+}
+
+.hobbit-bg {
+  display: none;
+}
+[data-theme="hobbit"] .hobbit-bg {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url("https://cdn.jeanettengo.com/hero/middle-earth-map.png")
+    center/cover no-repeat;
+}
+/* Vignette to frame the map */
+[data-theme="hobbit"] .hobbit-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 30%,
+    rgba(6, 18, 10, 0.75) 100%
+  );
+}
+/* Reduced overlay so map image shows through more clearly */
+[data-theme="hobbit"] .hobbit-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 28, 18, 0.15);
 }
 
 /* Webkit scrollbar (Chrome/Safari) */
@@ -1009,41 +1039,10 @@ button {
   padding: 100px 40px;
 }
 
-/* Middle-Earth map background in hobbit mode.
-   Applied to the full-width wrapper (.explore-wrap), not the max-width inner section. */
-[data-theme="hobbit"] .explore-wrap {
-  background: url("https://cdn.jeanettengo.com/hero/middle-earth-map.png")
-    center/cover no-repeat;
-  position: relative;
-  overflow: hidden;
-}
-/* (Fallback gradient removed — it was always matching and hiding the map image) */
-[data-theme="hobbit"] .explore-wrap::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  /* Reduced overlay so map image shows through more clearly */
-  background: rgba(10, 28, 18, 0.15);
-  pointer-events: none;
-  z-index: 0;
-}
-/* Vignette to frame the map without washing it out */
-[data-theme="hobbit"] .explore-wrap::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 30%,
-    rgba(6, 18, 10, 0.65) 100%
-  );
-  pointer-events: none;
-  z-index: 0;
-}
-[data-theme="hobbit"] .explore-wrap > .explore-section {
-  position: relative;
-  z-index: 1;
-}
+/* Middle-Earth map background in hobbit mode now lives on the shared,
+   site-wide .hobbit-bg layer (see section 1b, near the top of this file)
+   so the same backdrop shows on the home, blog, and about pages —
+   not just behind .explore-wrap. */
 
 .explore-header {
   text-align: center;

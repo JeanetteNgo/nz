@@ -2334,35 +2334,32 @@ button {
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+  text-transform: uppercase;
 }
 .post-card-date {
   font-family: var(--font-primary);
   font-size: 10px;
-  font-weight: 400;
+  font-weight: 300;
   color: var(--text3);
   letter-spacing: 0.8px;
 }
 .post-card-type {
-  display: none; /* replaced by .post-card-location */
+  display: none; /* type pill replaced by the date/location meta line */
 }
 
-.post-card-location {
-  font-family: var(--font-primary);
-  font-size: 10px;
-  font-weight: 400;
-  color: var(--text3);
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
 .post-card-title {
   font-family: var(--font-primary);
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 600;
   color: var(--text);
   line-height: 1.25;
   margin-top: 8px;
   margin-bottom: 4px;
   transition: color 0.2s;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 [data-theme="hobbit"] .post-card-title {
   font-family: var(--font-hobbit);
@@ -2375,7 +2372,7 @@ button {
   color: var(--accent2);
 }
 .post-card-excerpt {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text2);
   line-height: 1.5;
   margin-bottom: 12px;
@@ -2450,7 +2447,7 @@ button {
   font-size: 18px;
   font-weight: 600;
   color: var(--text);
-  line-height: 1.25;
+  line-height: 1.4;
   margin-top: 8px;
   margin-bottom: 2px;
   transition: color 0.2s;
@@ -2474,7 +2471,7 @@ button {
   gap: 12px;
   flex-wrap: wrap;
   font-size: 10px;
-  font-weight: 400;
+  font-weight: 300;
   color: var(--text3);
   font-family: var(--font-primary);
   letter-spacing: 0.8px;
@@ -2689,13 +2686,14 @@ button {
   color: var(--gold);
 }
 
-/* Meta: date / location / region — below title */
+/* Meta: date / location — below title */
 .post-header-meta {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
   font-family: var(--font-primary);
   font-size: 12px;
+  font-weight: 300;
   letter-spacing: 0.5px;
   text-transform: uppercase;
   color: var(--text3);
@@ -4065,9 +4063,6 @@ button {
   .post-card-date {
     font-size: 9px;
   }
-  .post-card-location {
-    font-size: 9px;
-  }
 
   /* ── Mobile: sticky header (two rows, hides on scroll-down) ── */
   .mob-sticky-header {
@@ -4256,6 +4251,17 @@ button {
     gap: 14px;
   }
 
+  .post-list-item:first-child {
+    border-top: none;
+  }
+
+  .post-list-title {
+    font-size: 16px;
+  }
+  .post-list-excerpt {
+    font-size: 13px;
+  }
+
   /* Post detail — mobile */
   .post-hero {
     height: clamp(150px, 38vw, 220px);
@@ -4294,6 +4300,10 @@ button {
     gap: 10px;
     font-size: 11px;
     margin-bottom: 10px;
+  }
+
+  .post-tag-hash {
+    font-size: 11px;
   }
 
   .post-content {
