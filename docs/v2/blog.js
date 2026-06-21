@@ -639,6 +639,8 @@ async function openPost(id) {
   document.getElementById("post-progress")?.classList.add("visible");
   /* Wrap images in figure containers and enable lightbox */
   initPostImages();
+  /* Wrap videos in grid cells and enable fullscreen expand */
+  initPostVideos();
 }
 
 /* Closes the post detail view and returns to the listing */
@@ -710,7 +712,31 @@ function initPostImages() {
     var cols = count === 4 ? 2 : Math.min(Math.max(count, 2), 3);
     grid.classList.add("grid-cols-" + cols);
 
-    imgs.forEach(function (img) {
+    /* Orientation is read per-image as each one loads. Once every image
+       has reported in, decide as a group: if the grid mixes portrait +
+       landscape, skip individual ratios and let CSS force 1:1 squares
+       (.post-img-grid--mixed) instead — keeps cells evenly sized.       */
+    var pending = count;
+    var isPortrait = new Array(count);
+
+    function finalizeAspectRatios() {
+      var hasPortrait = isPortrait.indexOf(true) !== -1;
+      var hasLandscape = isPortrait.indexOf(false) !== -1;
+      var mixed = hasPortrait && hasLandscape;
+
+      if (mixed) {
+        grid.classList.add("post-img-grid--mixed");
+        return; /* CSS handles the 1:1 ratio — no inline styles needed */
+      }
+
+      imgs.forEach(function (img, i) {
+        img.parentElement.style.aspectRatio = isPortrait[i]
+          ? "3 / 4"
+          : "4 / 3";
+      });
+    }
+
+    imgs.forEach(function (img, i) {
       var caption = (img.alt || "").trim();
 
       /* Cell wrapper: image container + caption */
@@ -733,17 +759,19 @@ function initPostImages() {
         cell.appendChild(capEl);
       }
 
-      /* Set aspect-ratio from natural dimensions once image is ready.
-         Landscape (w > h) → 4:3  |  Portrait (h >= w) → 3:4          */
-      function applyAspectRatio() {
-        var isPortrait = img.naturalHeight > img.naturalWidth;
-        wrap.style.aspectRatio = isPortrait ? "3 / 4" : "4 / 3";
+      /* Record orientation from natural dimensions once image is ready.
+         Landscape (w > h) → 4:3  |  Portrait (h >= w) → 3:4, unless the
+         grid turns out to be mixed (see finalizeAspectRatios above).    */
+      function recordOrientation() {
+        isPortrait[i] = img.naturalHeight > img.naturalWidth;
+        pending--;
+        if (pending === 0) finalizeAspectRatios();
       }
 
       if (img.complete && img.naturalWidth > 0) {
-        applyAspectRatio();
+        recordOrientation();
       } else {
-        img.addEventListener("load", applyAspectRatio);
+        img.addEventListener("load", recordOrientation);
       }
 
       /* Lightbox on click — pass full gallery so arrows work */
@@ -756,7 +784,7 @@ function initPostImages() {
           );
           openLightbox(cellImg.src, cellCaption, gallery, cellIndex);
         });
-      })(img, caption, imgs.indexOf(img));
+      })(img, caption, i);
     });
   });
 
@@ -787,6 +815,88 @@ function initPostImages() {
 
     figure.addEventListener("click", function () {
       openLightbox(img.src, caption);
+    });
+  });
+}
+
+/* ── 7d. POST VIDEO GRID ───────────────────────────────────────
+   Runs after post content is injected into the DOM.
+   Mirrors initPostImages: wraps each <video> inside .post-video-wrap
+   in a .post-video-cell, assigns a grid-cols-N column count from the
+   video count, and — if the videos mix portrait + landscape — forces
+   a uniform 1:1 square per cell instead of individual ratios.
+   Fullscreen is handled by each video's own native controls; a
+   :fullscreen CSS rule ensures the original, uncropped aspect ratio
+   shows even when the in-grid cell is cropped to a square.
+─────────────────────────────────────────────────────────────── */
+function initPostVideos() {
+  var content = document.querySelector("#post-detail .post-content");
+  if (!content) return;
+
+  content.querySelectorAll(".post-video-wrap").forEach(function (wrap) {
+    /* Already initialised (e.g. openPost called twice) */
+    if (
+      wrap.classList.contains("grid-cols-2") ||
+      wrap.classList.contains("grid-cols-3")
+    )
+      return;
+
+    var videos = Array.from(wrap.querySelectorAll("video"));
+    var count = videos.length;
+    if (count === 0) return;
+
+    /* Column count: same convention as the image grid —
+       min 2, max 3; 4 videos = 2×2                         */
+    var cols = count === 4 ? 2 : Math.min(Math.max(count, 2), 3);
+    wrap.classList.add("grid-cols-" + cols);
+
+    /* Orientation is read per-video once its metadata is available.
+       Once every video has reported in, decide as a group: mixed
+       orientations force a uniform square via the --mixed modifier;
+       otherwise each cell gets the same per-orientation treatment
+       used for images (4:3 landscape / 3:4 portrait).               */
+    var pending = count;
+    var isPortrait = new Array(count);
+
+    function finalizeAspectRatios() {
+      var hasPortrait = isPortrait.indexOf(true) !== -1;
+      var hasLandscape = isPortrait.indexOf(false) !== -1;
+      var mixed = hasPortrait && hasLandscape;
+
+      if (mixed) {
+        wrap.classList.add("post-video-wrap--mixed");
+        return; /* CSS handles the 1:1 ratio — no inline styles needed */
+      }
+
+      videos.forEach(function (vid, i) {
+        vid.parentElement.style.aspectRatio = isPortrait[i]
+          ? "3 / 4"
+          : "4 / 3";
+      });
+    }
+
+    videos.forEach(function (vid, i) {
+      /* Cell wrapper: holds the video. Fullscreen is handled by the
+         video's own native controls (which already expose a fullscreen
+         button on hover), so no custom button is added here.          */
+      var cell = document.createElement("div");
+      cell.className = "post-video-cell";
+
+      vid.parentNode.insertBefore(cell, vid);
+      cell.appendChild(vid);
+
+      /* Record orientation once video metadata is available */
+      function recordOrientation() {
+        isPortrait[i] = vid.videoHeight > vid.videoWidth;
+        pending--;
+        if (pending === 0) finalizeAspectRatios();
+      }
+
+      if (vid.readyState >= 1 && vid.videoWidth > 0) {
+        recordOrientation();
+      } else {
+        vid.addEventListener("loadedmetadata", recordOrientation);
+      }
     });
   });
 }

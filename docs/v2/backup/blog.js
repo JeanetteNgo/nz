@@ -310,13 +310,6 @@ function renderPosts() {
               "</span>'\">"
             : '<span style="font-size:52px">' + post.emoji + "</span>";
 
-          /* Location: emoji inline, no pill */
-          var locationHTML = post.location
-            ? '<span class="post-card-location">📍 ' + post.location + "</span>"
-            : post.region
-              ? '<span class="post-card-location">🗺 ' + post.region + "</span>"
-              : "";
-
           var tagHTML = post.tags
             .slice(0, 3)
             .map(function (tag) {
@@ -337,10 +330,9 @@ function renderPosts() {
             "</div>" +
             '<div class="post-card-body">' +
             '<div class="post-card-meta">' +
-            '<span class="post-card-date">📅 ' +
-            formatDateShort(post.date) +
+            '<span class="post-card-date">' +
+            formatPostMeta(post) +
             "</span>" +
-            locationHTML +
             "</div>" +
             '<div class="post-card-title">' +
             post.title +
@@ -380,13 +372,6 @@ function renderPosts() {
               "</span>'\">"
             : '<span style="font-size:26px">' + post.emoji + "</span>";
 
-          /* Location with region fallback */
-          var listLocationHTML = post.location
-            ? "<span>📍 " + post.location + "</span>"
-            : post.region
-              ? "<span>🗺 " + post.region + "</span>"
-              : "";
-
           /* Tags outside .post-list-meta so they stay lowercase */
           var listTagHTML = post.tags
             .slice(0, 3)
@@ -408,10 +393,9 @@ function renderPosts() {
             "</div>" +
             '<div class="post-list-content">' +
             '<div class="post-list-meta">' +
-            "<span>📅 " +
-            formatDateShort(post.date) +
+            "<span>" +
+            formatPostMeta(post) +
             "</span>" +
-            listLocationHTML +
             "</div>" +
             '<div class="post-list-title">' +
             post.title +
@@ -579,12 +563,8 @@ async function openPost(id) {
     })
     .join("");
 
-  /* Meta line: date, location, region — goes ABOVE the title */
-  const metaHTML =
-    "<span>📅 " +
-    formatDateShort(post.date) +
-    "</span>" +
-    (post.location ? "<span>📍 " + post.location + "</span>" : "");
+  /* Meta line: date • location — goes ABOVE the title */
+  const metaHTML = "<span>" + formatPostMeta(post) + "</span>";
 
   /* Prev / next navigation cards */
   const prevCard = prevPost

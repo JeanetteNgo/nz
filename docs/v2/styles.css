@@ -2731,7 +2731,8 @@ button {
 
 .post-content h1 {
   font-family: var(--font-primary);
-  font-size: 1.8rem;
+  font-size: 1.6rem;
+  font-weight: 600;
   text-transform: uppercase;
   color: var(--text);
   margin: 3.2em 0 0.4em;
@@ -2912,7 +2913,7 @@ button {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 4px 20px 16px;
+  padding: 4px 20px 20px;
   text-align: center;
   font-family: var(--font-body);
   font-size: 12px;
@@ -2933,7 +2934,7 @@ button {
 .post-img-grid {
   display: grid;
   gap: 16px;
-  margin: 1.4em auto;
+  margin: 2.4em auto;
   align-items: start;
 }
 
@@ -2957,6 +2958,14 @@ button {
 /* Image wrap: holds aspect-ratio so caption sits outside it */
 .post-grid-img-wrap {
   overflow: hidden;
+}
+
+/* When a grid mixes portrait + landscape images, JS adds this modifier
+   and skips setting individual aspect-ratios — every cell becomes a
+   uniform square instead. Original aspect ratio is preserved in the
+   lightbox since that's a fresh <img> unaffected by this rule. */
+.post-img-grid--mixed .post-grid-img-wrap {
+  aspect-ratio: 1 / 1;
 }
 
 .post-grid-img-wrap img {
@@ -2984,12 +2993,51 @@ button {
 }
 
 /* ── Post video wrapper ───────────────────────────────────────── */
+/* Mirrors .post-img-grid: JS assigns grid-cols-N based on video count,
+   and a --mixed modifier when videos have different orientations. */
 
-.post-video-wrap video {
+.post-video-wrap {
+  display: grid;
+  gap: 8px;
+  margin: 2.4em auto;
   width: 100%;
-  height: auto;
-  border: 2px solid var(--border);
+}
+
+.post-video-wrap.grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.post-video-wrap.grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Cell: receives aspect-ratio from JS (or 1:1 when mixed, below) */
+.post-video-cell {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
   border-radius: 12px;
+  background: var(--surface2);
+}
+
+.post-video-cell video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Mixed orientations: force uniform squares in the grid view */
+.post-video-wrap--mixed .post-video-cell {
+  aspect-ratio: 1 / 1;
+}
+
+/* When a video goes fullscreen (via its native controls), always show
+   its true frame — overrides the cropped object-fit: cover used in
+   mixed grids */
+.post-video-cell video:fullscreen,
+.post-video-cell video:-webkit-full-screen {
+  object-fit: contain;
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -4434,6 +4482,17 @@ button {
 
   /* Override inline aspect-ratio with 1:1 on mobile */
   .post-grid-img-wrap {
+    aspect-ratio: 1 / 1 !important;
+  }
+
+  /* ---- Post video grid ---- */
+  .post-video-wrap.grid-cols-2,
+  .post-video-wrap.grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Override inline aspect-ratio with 1:1 on mobile */
+  .post-video-cell {
     aspect-ratio: 1 / 1 !important;
   }
 }
