@@ -667,7 +667,8 @@ const NZ_FACTS = [
   "⛰ There are over 3,000 peaks above 2,000m in New Zealand.",
   "🦜 The kākāpō is the world's heaviest parrot — and it cannot fly.",
   "☁️ Lord of the Rings filmed across more than 150 locations in NZ.",
-  "🧙 Try: ↑↑↓↓←→←→BA for a secret…",
+  "🏘️ NZ is home to the world’s steepest residential street, Baldwin Street, located in Dunedin.",
+  "💧 Lake Taupo is about the same size as Singapore.",
 ];
 
 /* Fisher-Yates shuffle — returns a new randomly-ordered copy of the array */

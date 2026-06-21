@@ -346,13 +346,6 @@ function renderJournal() {
           "</span>'\">"
         : '<span style="font-size:26px">' + p.emoji + "</span>";
 
-      /* Location with region fallback */
-      const locationHTML = p.location
-        ? "<span>📍 " + p.location + "</span>"
-        : p.region
-          ? "<span>🗺 " + p.region + "</span>"
-          : "";
-
       /* Tags — lowercase with underscores, same as blog list */
       const tagHTML = p.tags
         .slice(0, 3)
@@ -374,10 +367,9 @@ function renderJournal() {
         "</div>" +
         '<div class="post-list-content">' +
         '<div class="post-list-meta">' +
-        "<span>📅 " +
-        formatDate(p.date) +
+        "<span>" +
+        formatPostMeta(p) +
         "</span>" +
-        locationHTML +
         "</div>" +
         '<div class="post-list-title">' +
         p.title +

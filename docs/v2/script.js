@@ -38,6 +38,16 @@ function formatDateShort(dateString) {
   return d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear();
 }
 
+/* Builds the "date • location" meta string used on post cards/lists and
+   the post detail header. No emojis — just date, and a middle-dot
+   separated location (falls back to region, omitted entirely if neither
+   is present). */
+function formatPostMeta(post, dateFn) {
+  var dateStr = (dateFn || formatDateShort)(post.date);
+  var place = post.location || post.region || "";
+  return place ? dateStr + " • " + place : dateStr;
+}
+
 
 /* ── 2. NZ CLOCK ────────────────────────────────────────────── */
 

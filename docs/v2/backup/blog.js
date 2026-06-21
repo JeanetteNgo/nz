@@ -468,7 +468,6 @@ async function openPost(id) {
 
   /* Hide the listing view, show the detail container */
   document.getElementById("blog-listing").style.display = "none";
-  document.getElementById("blog-header").style.display = "none";
   const detailEl = document.getElementById("post-detail");
   detailEl.style.display = "block";
   window.scrollTo({ top: 0, behavior: "instant" });
@@ -668,7 +667,6 @@ function closePost() {
   history.pushState({}, "", "blog.html");
 
   document.getElementById("blog-listing").style.display = "";
-  document.getElementById("blog-header").style.display = "";
   document.getElementById("post-detail").style.display = "none";
   document.getElementById("post-progress")?.classList.remove("visible");
 
@@ -964,53 +962,25 @@ function clearMobFilter() {
   setFilter({ type: "all", value: null }, "All Posts");
 }
 
-/* ── Mobile sticky header: pins below nav when banner scrolls out,
-   returns to in-flow when banner comes back into view ── */
+/* ── Mobile sticky header: pinned below nav from page load.
+   (Previously toggled based on the page-header banner scrolling out of
+   view; that banner has been removed, so the header is now fixed
+   immediately and the spacer reserves its height to avoid layout jump.) ── */
 (function () {
-  var ticking = false;
-
-  function updateStickyHeader() {
+  function pinStickyHeader() {
     var header = document.getElementById("mob-sticky-header");
     var spacer = document.getElementById("mob-sticky-spacer");
-    var banner = document.getElementById("blog-header");
-    if (!header || !spacer || !banner) return;
+    if (!header || !spacer) return;
 
-    /* How far the bottom of the banner is from the top of the viewport.
-       Negative = banner has scrolled fully above the viewport.
-       We pin once the banner bottom passes behind the nav bar. */
-    var navH =
-      parseInt(
-        getComputedStyle(document.documentElement).getPropertyValue("--nav-h"),
-      ) || 58;
-    var bannerBottom = banner.getBoundingClientRect().bottom;
-    var shouldStick = bannerBottom <= navH;
-
-    if (shouldStick && !header.classList.contains("is-sticky")) {
-      /* Pin: fix the header, show spacer with same height to avoid jump */
-      spacer.style.height = header.offsetHeight + "px";
-      spacer.classList.add("active");
-      header.classList.add("is-sticky");
-    } else if (!shouldStick && header.classList.contains("is-sticky")) {
-      /* Unpin: return header to normal flow, hide spacer */
-      header.classList.remove("is-sticky");
-      spacer.classList.remove("active");
-      spacer.style.height = "";
-    }
+    header.classList.add("is-sticky");
+    spacer.classList.add("active");
+    spacer.style.height = header.offsetHeight + "px";
   }
 
-  window.addEventListener(
-    "scroll",
-    function () {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function () {
-        updateStickyHeader();
-        ticking = false;
-      });
-    },
-    { passive: true },
-  );
+  /* Run once DOM is ready */
+  document.addEventListener("DOMContentLoaded", pinStickyHeader);
 
-  /* Run once on load in case the page starts mid-scroll */
-  updateStickyHeader();
+  /* Recalculate on resize/orientation change in case header height
+     changes (e.g. a long filter label wrapping to a new line) */
+  window.addEventListener("resize", pinStickyHeader, { passive: true });
 })();

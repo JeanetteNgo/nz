@@ -472,9 +472,6 @@ function playHeroVideoFullscreen() {
 /* ── 10. INIT ─────────────────────────────────────────────── */
 document.addEventListener("DOMContentLoaded", () => {
   initShared();
-  initParticles();
-  updateStatPlaces();
-  animateStatCounters();
   renderRegions();
   renderJournal();
   /* Only prefetch excerpts for posts visible on this page:
@@ -483,6 +480,26 @@ document.addEventListener("DOMContentLoaded", () => {
     return p.featured || (p.mapLat && p.mapLng);
   });
   prefetchExcerpts(visibleOnHomepage);
+
+  /* perf: particle creation + the stat-counter rAF loops both do per-frame
+     DOM writes. Kicking them off immediately on DOMContentLoaded means
+     they compete with the hero video for main-thread time right as it's
+     trying to buffer/decode its first frames — a likely contributor to the
+     reported stutter. requestIdleCallback pushes this work to a moment the
+     main thread is actually free; the setTimeout fallback covers Safari,
+     which doesn't support requestIdleCallback. The counters' own ramp-up
+     curve already stays flat for the first ~15% of its duration, so this
+     short delay is not visible to the user. */
+  const deferHeroExtras = () => {
+    initParticles();
+    updateStatPlaces();
+    animateStatCounters();
+  };
+  if ("requestIdleCallback" in window) {
+    requestIdleCallback(deferHeroExtras, { timeout: 500 });
+  } else {
+    setTimeout(deferHeroExtras, 50);
+  }
 
   // Restore the last explore tab the user had open (defaults to map)
   const savedTab = localStorage.getItem("nz-explore-tab") || "regions";
